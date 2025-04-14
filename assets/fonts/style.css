@@ -1,0 +1,10 @@
+@font-face {
+   font-family: 'FixelText-ExtraBold';
+   font-display: swap;
+   src: url('FixelText-ExtraBold/font.ttf');
+}
+@font-face {
+   font-family: 'FixelText-Bold';
+   font-display: swap;
+   src: url('FixelText-Bold/font.ttf');
+}
