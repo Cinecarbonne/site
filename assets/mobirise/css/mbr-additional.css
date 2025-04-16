@@ -755,112 +755,6 @@ a {
     padding-right: 16px;
   }
 }
-.cid-uIkC8crQxU {
-  padding-top: 9rem;
-  padding-bottom: 3rem;
-  background-color: #edefeb;
-}
-.cid-uIkC8crQxU .mbr-fallback-image.disabled {
-  display: none;
-}
-.cid-uIkC8crQxU .mbr-fallback-image {
-  display: block;
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-}
-.cid-uIkC8crQxU .card-wrapper {
-  background: #ffffff;
-}
-@media (max-width: 767px) {
-  .cid-uIkC8crQxU .card-wrapper {
-    padding: 2rem 1.5rem;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .cid-uIkC8crQxU .card-wrapper {
-    padding: 2.25rem;
-  }
-}
-@media (min-width: 992px) {
-  .cid-uIkC8crQxU .card-wrapper {
-    padding: 4rem;
-  }
-}
-.cid-uIkC8crQxU .mbr-text,
-.cid-uIkC8crQxU .mbr-section-btn {
-  color: #000000;
-  text-align: left;
-}
-.cid-uIkC8crQxU .card-title,
-.cid-uIkC8crQxU .card-box {
-  text-align: left;
-  color: #000000;
-}
-.cid-uInw119I4h {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background-color: #edefeb;
-}
-.cid-uInw119I4h .mbr-fallback-image.disabled {
-  display: none;
-}
-.cid-uInw119I4h .mbr-fallback-image {
-  display: block;
-  background-size: cover;
-  background-position: center center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-}
-.cid-uInw119I4h .card-wrapper {
-  border-radius: 4px;
-}
-@media (max-width: 767px) {
-  .cid-uInw119I4h .card-wrapper {
-    padding: 1.5rem;
-    padding-top: 13.5rem;
-    padding-bottom: 9rem;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .cid-uInw119I4h .card-wrapper {
-    padding: 2.25rem;
-    padding-top: 27rem;
-    padding-bottom: 18rem;
-  }
-}
-@media (min-width: 992px) {
-  .cid-uInw119I4h .card-wrapper {
-    padding: 4rem;
-    padding-top: 27rem;
-    padding-bottom: 18rem;
-  }
-}
-.cid-uInw119I4h .wrap {
-  background: url("../../../assets/images/cine-carbonne-d6346f22.webp");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-.cid-uInw119I4h .wrap .inner-wrap {
-  padding: 40px;
-}
-.cid-uInw119I4h .card-title {
-  color: #ffffff;
-  text-align: center;
-}
-.cid-uInw119I4h .mbr-text {
-  color: #000000;
-}
-.cid-uInw119I4h .mbr-text,
-.cid-uInw119I4h .mbr-section-btn {
-  color: #ffffff;
-}
 .cid-uIkxtUalAP {
   z-index: 1000;
   width: 100%;
@@ -1422,6 +1316,112 @@ a {
   .cid-uIkxtUalAP .navbar-collapse {
     padding: 1rem;
   }
+}
+.cid-uIkC8crQxU {
+  padding-top: 9rem;
+  padding-bottom: 3rem;
+  background-color: #edefeb;
+}
+.cid-uIkC8crQxU .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-uIkC8crQxU .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-uIkC8crQxU .card-wrapper {
+  background: #ffffff;
+}
+@media (max-width: 767px) {
+  .cid-uIkC8crQxU .card-wrapper {
+    padding: 2rem 1.5rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .cid-uIkC8crQxU .card-wrapper {
+    padding: 2.25rem;
+  }
+}
+@media (min-width: 992px) {
+  .cid-uIkC8crQxU .card-wrapper {
+    padding: 4rem;
+  }
+}
+.cid-uIkC8crQxU .mbr-text,
+.cid-uIkC8crQxU .mbr-section-btn {
+  color: #000000;
+  text-align: left;
+}
+.cid-uIkC8crQxU .card-title,
+.cid-uIkC8crQxU .card-box {
+  text-align: left;
+  color: #000000;
+}
+.cid-uInw119I4h {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #edefeb;
+}
+.cid-uInw119I4h .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-uInw119I4h .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-uInw119I4h .card-wrapper {
+  border-radius: 4px;
+}
+@media (max-width: 767px) {
+  .cid-uInw119I4h .card-wrapper {
+    padding: 1.5rem;
+    padding-top: 13.5rem;
+    padding-bottom: 9rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .cid-uInw119I4h .card-wrapper {
+    padding: 2.25rem;
+    padding-top: 27rem;
+    padding-bottom: 18rem;
+  }
+}
+@media (min-width: 992px) {
+  .cid-uInw119I4h .card-wrapper {
+    padding: 4rem;
+    padding-top: 27rem;
+    padding-bottom: 18rem;
+  }
+}
+.cid-uInw119I4h .wrap {
+  background: url("../../../assets/images/cine-carbonne-d6346f22.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.cid-uInw119I4h .wrap .inner-wrap {
+  padding: 40px;
+}
+.cid-uInw119I4h .card-title {
+  color: #ffffff;
+  text-align: center;
+}
+.cid-uInw119I4h .mbr-text {
+  color: #000000;
+}
+.cid-uInw119I4h .mbr-text,
+.cid-uInw119I4h .mbr-section-btn {
+  color: #ffffff;
 }
 .cid-uIkxtUalAP {
   z-index: 1000;
