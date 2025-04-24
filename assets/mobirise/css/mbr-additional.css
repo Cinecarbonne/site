@@ -2926,3 +2926,55 @@ a {
     text-align: center;
   }
 }
+.cid-uJiAk35F9I {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: #a20303;
+}
+.cid-uJiAk35F9I .justify-content-center {
+  align-items: center;
+}
+.cid-uJiAk35F9I .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-uJiAk35F9I .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-uJiAk35F9I .item-wrapper {
+  display: flex;
+  margin-left: auto;
+}
+@media (max-width: 767px) {
+  .cid-uJiAk35F9I .item-wrapper {
+    margin-bottom: 1rem;
+  }
+}
+.cid-uJiAk35F9I .mbr-section-btn {
+  padding-left: 1.5rem;
+  text-align: right;
+}
+@media (max-width: 767px) {
+  .cid-uJiAk35F9I .mbr-section-btn {
+    text-align: center;
+    padding-left: 0rem;
+  }
+}
+.cid-uJiAk35F9I .row {
+  align-items: center;
+}
+.cid-uJiAk35F9I .card-text {
+  color: #ffffff;
+  margin-bottom: 0px;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .cid-uJiAk35F9I .card-text {
+    text-align: center;
+  }
+}
