@@ -14,6 +14,8 @@
       font-style: normal;
       font-display: swap;
     }
+
+    /* Palette harmonisée + nouvelles consignes */
     :root{
       /* sizes (JS updates stripH/vignetteH/posterH/colW) */
       --stripH: 400px;
@@ -22,34 +24,40 @@
       --colW: 150px;
       --capH: 40px;
       --gap: 18px;
-      --vBias: 16px; /* positive => remonte les vignettes dans le strip */
+      --vBias: 18px; /* remonte un peu les vignettes */
 
       /* colors */
-      --brand:#b13231;
-      --bg:#f3f3f3;
-      --fg:#111213;
-      --stripBand:#e9ecef;
+      --brand:#b13231;            /* rouge Ciné Carbonne */
+      --pageBg:#5b5659;           /* NOUVEAU: gris sombre (même base que capBg), partout */
+      --fg:#f3f3f3;               /* texte global clair (car fond sombre) */
 
-      /* cap: plus sombre et très légèrement chaud */
-      --capBg:#6f6669;   /* gris chaud médian-foncé */
-      --capDate:#f3f3f3; /* date en blanc cassé */
-      --capTime:#111213; /* heure en noir doux */
+      --stripBand:#5b5659;        /* même fond que la page pour uniformiser */
 
-      --panelBg:#111213;
+      /* cap (bandeau date/heure) */
+      --capBg:#5b5659;            /* encore un peu plus foncé/chaud */
+      --capAbbr:#f3f3f3;          /* jour (LUN/MAR...) en blanc cassé */
+      --capDate:#b13231;          /* DATE (JJ/MM) en ROUGE */
+      --capTime:#111213;          /* heure en NOIR DOUX pour contraste */
+      --capTimeOnDark:#0e0f10;    /* léger renfort si besoin */
+
+      /* panel */
+      --panelBg:#16181c;          /* un peu plus clair que le noir précédent */
       --panelFg:#f3f3f3;
       --panelMuted:#c5c7ca;
       --panelLine:#2b2e33;
     }
 
-    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
+    html,body{margin:0;background:var(--pageBg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
     .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
 
-    .hero{background:var(--brand); color:var(--panelFg); padding:18px 16px; display:grid; place-items:center}
+    /* Titre en haut (garde le bandeau rouge pour l'identité) */
+    .hero{background:var(--brand); color:#fff; padding:18px 16px; display:grid; place-items:center}
     .siteTitle{margin:0; text-align:center; display:flex; align-items:baseline; justify-content:center; gap:.25em; line-height:1}
-    .siteTitle .brand{font-family:"KeedyBold"; color:var(--panelFg); font-size:clamp(34px,6vw,56px)}
-    .siteTitle .slash{color:var(--panelFg); font-size:clamp(28px,5vw,44px);}
-    .siteTitle .program{font-family:"KeedyBold"; color:var(--fg); font-style:italic; font-size:clamp(28px,5vw,44px)}
+    .siteTitle .brand{font-family:"KeedyBold"; color:#fff; font-size:clamp(34px,6vw,56px)}
+    .siteTitle .slash{color:#fff; font-size:clamp(28px,5vw,44px);}
+    .siteTitle .program{font-family:"KeedyBold"; color:#0e0f10; font-style:italic; font-size:clamp(28px,5vw,44px)}
 
+    /* Bande autour de la pellicule = même gris que la page */
     .stripBand{background:var(--stripBand); padding:14px 0 18px; margin-top:10px; border-radius:12px}
 
     .rail-wrap{position:relative;}
@@ -62,7 +70,7 @@
     }
     .railViewport{
       height: var(--vignetteH);
-      /* Biais vertical : réduit la marge en haut et augmente en bas pour remonter les vignettes */
+      /* Biais vertical : remonte les vignettes dans le strip */
       margin-top: calc((var(--stripH) - var(--vignetteH)) / 2 - var(--vBias));
       margin-bottom: calc((var(--stripH) - var(--vignetteH)) / 2 + var(--vBias));
       position: relative;
@@ -87,15 +95,16 @@
     .cap{
       height:var(--capH);
       background:var(--capBg);
-      color:var(--capDate);
+      color:var(--capAbbr);
       padding:0 10px;
       display:flex; justify-content:space-between; align-items:center;
       gap:8px;
     }
     .cap .day{display:flex; gap:6px; align-items:baseline}
-    .cap .day .abbr{font-weight:800; color:var(--capDate); font-size:14px; letter-spacing:.2px}
-    .cap .day .date{font-weight:900; color:var(--capDate); font-size:19px; line-height:1} /* un peu plus gros */
+    .cap .day .abbr{font-weight:800; color:var(--capAbbr); font-size:14px; letter-spacing:.2px}
+    .cap .day .date{font-weight:900; color:var(--capDate); font-size:19px; line-height:1} /* DATE en rouge */
     .cap .time{font-weight:900; font-size:18px; color:var(--capTime)}
+
     .strip .card:hover{transform:scale(1.045)}
     @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
 
@@ -105,6 +114,7 @@
     .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
     .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
 
+    /* Bouton Aujourd'hui (rouge avec flèche) */
     .todayBtn{
       position:absolute; left:12px; top:12px; z-index:6;
       background:rgba(177,50,49,.92); color:#fff; border:0;
@@ -120,28 +130,27 @@
     }
     .todayBtn:hover{filter:brightness(1.05)}
 
+    /* Panneau sombre (plus clair qu'avant) et LAYOUT côte à côte sur desktop */
     .panelBand{background:#000; margin-top:16px; border-radius:14px; padding:14px 0}
     .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
     .panel.visible{opacity:1}
 
-    /* Panel head: grille en 2 colonnes pour aligner l'image en haut à droite, au niveau du titre */
-    .panel-head{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px 16px 8px; align-items:start}
-    .panel-title{font-size:clamp(22px,3vw,34px); margin:0; color:var(--brand); font-family:"KeedyBold"}
-    .panel-head .media{display:block}
-    .backdropTop{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a}
-
-    /* Corps du panneau : texte détaillé en dessous */
-    .panel-body{display:grid; grid-template-columns:1fr; gap:10px; padding:2px 16px 16px}
+    /* grille 2 colonnes : à gauche Titre + infos + synopsis ; à droite l'image */
+    .panel-grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px}
+    .panel-left{min-width:0}
+    .panel-right{min-width:0}
+    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 8px; color:var(--brand); font-family:"KeedyBold"}
     .kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:2px}
     .k{color:var(--panelMuted); font-weight:800; line-height:1.15}
     .v{font-weight:700; line-height:1.2}
-    .infoLine{margin:4px 0 2px; color:var(--panelFg); font-weight:700}
-    .genresLine{margin:0 0 2px; color:var(--panelMuted); font-weight:700}
-    .synopsis{white-space:pre-wrap; margin-top:2px; color:var(--panelFg); font-weight:600; line-height:1.35}
+    .infoLine{margin:6px 0 2px; color:var(--panelFg); font-weight:700}
+    .genresLine{margin:0 0 4px; color:var(--panelMuted); font-weight:700}
+    .synopsis{white-space:pre-wrap; margin-top:4px; color:var(--panelFg); font-weight:600; line-height:1.35}
+    .backdropTop{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a}
     .trailer{margin:0 16px 18px}
 
     @media(max-width:860px){
-      .panel-head{grid-template-columns:1fr} /* image passe sous le titre sur mobile */
+      .panel-grid2{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -172,22 +181,20 @@
 
     <div class="panelBand">
       <section id="panel" class="panel" aria-live="polite" aria-label="Détails du film">
-        <div class="panel-head">
-          <div class="head-left">
+        <div class="panel-grid2">
+          <div class="panel-left">
             <h2 class="panel-title" id="p-title">&nbsp;</h2>
+            <div class="kv">
+              <div class="k">De :</div><div class="v" id="p-real"></div>
+              <div class="k">Avec :</div><div class="v" id="p-cast"></div>
+            </div>
+            <div class="infoLine" id="p-info"></div>
+            <div class="genresLine" id="p-genres"></div>
+            <div class="synopsis" id="p-synopsis"></div>
           </div>
-          <div class="media">
+          <div class="panel-right">
             <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
           </div>
-        </div>
-        <div class="panel-body">
-          <div class="kv">
-            <div class="k">De :</div><div class="v" id="p-real"></div>
-            <div class="k">Avec :</div><div class="v" id="p-cast"></div>
-          </div>
-          <div class="infoLine" id="p-info"></div>
-          <div class="genresLine" id="p-genres"></div>
-          <div class="synopsis" id="p-synopsis"></div>
         </div>
         <div class="trailer" id="p-trailer"></div>
       </section>
@@ -199,9 +206,9 @@
     function applySizing(){
       var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
       var baseStrip=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
-      var stripH=baseStrip-20; /* on réduit un peu plus le strip pour rapprocher en haut */
+      var stripH=baseStrip-20; /* resserre en haut */
       var capH=40;
-      var vignetteH=Math.round(baseStrip*23/35); /* conserve la taille de vignette */
+      var vignetteH=Math.round(baseStrip*23/35); /* conserve taille vignettes */
       var posterH=Math.max(120,vignetteH-capH);
       var colW=Math.round(posterH*2/3);
       var root=document.documentElement;
@@ -210,7 +217,6 @@
       root.style.setProperty('--posterH',posterH+'px');
       root.style.setProperty('--colW',colW+'px');
       root.style.setProperty('--capH',capH+'px');
-      /* vBias réglable : 16px par défaut. Tu peux passer à 20 si tu veux remonter davantage. */
     }
     applySizing();window.addEventListener('resize',applySizing);
 
