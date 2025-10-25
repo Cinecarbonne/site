@@ -133,7 +133,7 @@
       if(!dateStr)return'';
       var d=new Date(dateStr+'T00:00:00');
       if(isNaN(d.getTime())){
-        var m=/^(\\d{2})\\/(\\d{2})\\/(\\d{4})$/.exec(dateStr);
+        var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
         if(m){d=new Date(m[3]+'-'+m[2]+'-'+m[1]+'T00:00:00');}
       }
       if(isNaN(d.getTime()))return dateStr;
@@ -168,7 +168,7 @@
       pBackdrop.style.display=pBackdrop.src?'block':'none';
       var embed=(function(url){if(!url)return null;
         var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
-        var m2=/youtu\\.be\\/([a-zA-Z0-9_-]{6,})/.exec(url);
+        var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
         var k=(m1&&m1[1])||(m2&&m2[1]);if(!k)return null;
         return'https://www.youtube.com/embed/'+k;
       })(s.trailer_url);
