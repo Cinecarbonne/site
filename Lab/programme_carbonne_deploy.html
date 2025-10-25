@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <title>Ciné Carbonne — Programme (préprod)</title>
+  <title>Ciné Carbonne — Programme (préprod, fond plus foncé)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="data:," />
@@ -15,47 +15,51 @@
       font-display: swap;
     }
 
-    /* Palette harmonisée + nouvelles consignes */
+    /* Palette (fond + bandeaux plus foncés) */
     :root{
-      /* sizes (JS updates stripH/vignetteH/posterH/colW) */
+      --brand:#b13231;
+
+      /* >>> Fond global encore assombri (anthracite doux) */
+      --pageBg:#2f2d2e;       /* avant: ~#4a4648 -> plus profond */
+      --fg:#f0f0f0;
+
+      /* Autour du strip = même fond que la page */
+      --stripBand:#2f2d2e;
+
+      /* Bandeau date/heure (haut des vignettes) plus foncé */
+      --capBg:#3a3739;        /* avant: #4f4a4d -> plus sombre */
+      --capText:#e2a3a1;      /* jour+date en rouge très pâle (pas rose) */
+      --capTime:#0f1011;      /* heure en noir doux */
+
+      /* Panneau plus foncé aussi, mais lisible */
+      --panelBg:#141518;      /* avant: #1a1c20 -> un cran plus sombre */
+      --panelFg:#f3f3f3;
+      --panelMuted:#c5c7ca;
+      --panelLine:#2b2e33;
+
+      /* Tailles (ajustées côté JS) */
       --stripH: 400px;
       --vignetteH: 265px;
       --posterH: 225px;
       --colW: 150px;
       --capH: 40px;
       --gap: 18px;
-      --vBias: 6px; /* ↓ vignettes un peu plus basses (étaient trop hautes) */
 
-      /* colors */
-      --brand:#b13231;            /* rouge Ciné Carbonne */
-      --pageBg:#4a4648;           /* gris sombre global (plus foncé) */
-      --fg:#f0f0f0;               /* texte global clair */
-
-      --stripBand:#4a4648;        /* même fond que la page */
-
-      /* cap (bandeau date/heure) */
-      --capBg:#4f4a4d;            /* gris encore un poil plus foncé */
-      --capText:#e2a3a1;          /* rouge très pâle pour jour + date (évite effet rose) */
-      --capTime:#0f1011;          /* heure en noir doux */
-
-      /* panel */
-      --panelBg:#1a1c20;          /* gris très sombre, un peu plus clair que noir pur */
-      --panelFg:#f3f3f3;
-      --panelMuted:#c5c7ca;
-      --panelLine:#2b2e33;
+      /* Biais vertical (vignettes un peu plus basses qu’avant, tu peux jouer ±2px) */
+      --vBias: 6px;
     }
 
     html,body{margin:0;background:var(--pageBg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
     .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
 
-    /* Titre en haut */
+    /* Titre */
     .hero{background:var(--brand); color:#fff; padding:18px 16px; display:grid; place-items:center}
     .siteTitle{margin:0; text-align:center; display:flex; align-items:baseline; justify-content:center; gap:.25em; line-height:1}
     .siteTitle .brand{font-family:"KeedyBold"; color:#fff; font-size:clamp(34px,6vw,56px)}
     .siteTitle .slash{color:#fff; font-size:clamp(28px,5vw,44px);}
     .siteTitle .program{font-family:"KeedyBold"; color:#0e0f10; font-style:italic; font-size:clamp(28px,5vw,44px)}
 
-    /* Bande autour de la pellicule = même gris que la page */
+    /* Bande autour du strip */
     .stripBand{background:var(--stripBand); padding:14px 0 18px; margin-top:10px; border-radius:12px}
 
     .rail-wrap{position:relative;}
@@ -68,7 +72,7 @@
     }
     .railViewport{
       height: var(--vignetteH);
-      /* Biais vertical : abaisse légèrement les vignettes pour recentrer visuellement */
+      /* Biais vertical : abaisse/lève légèrement les vignettes pour recentrer visuellement */
       margin-top: calc((var(--stripH) - var(--vignetteH)) / 2 - var(--vBias));
       margin-bottom: calc((var(--stripH) - var(--vignetteH)) / 2 + var(--vBias));
       position: relative;
@@ -86,6 +90,7 @@
     .rail::-webkit-scrollbar{display:none}
     .strip{display:flex; gap:var(--gap); align-items:flex-start}
 
+    /* Vignettes */
     .col{appearance:none; border:0; background:transparent; padding:0; margin:0; flex:0 0 auto; width:var(--colW); position:relative;}
     .col:focus{outline:0}
     .card{border-radius:4px; overflow:hidden; display:block; transform-origin:center; transition:transform .2s ease; opacity:0; animation:fadeIn .2s ease forwards}
@@ -100,19 +105,19 @@
     }
     .cap .day{display:flex; gap:6px; align-items:baseline}
     .cap .day .abbr{font-weight:800; color:var(--capText); font-size:14px; letter-spacing:.2px}
-    .cap .day .date{font-weight:900; color:var(--capText); font-size:19px; line-height:1} /* DATE en rouge pâle */
+    .cap .day .date{font-weight:900; color:var(--capText); font-size:19px; line-height:1}
     .cap .time{font-weight:900; font-size:18px; color:var(--capTime)}
 
     .strip .card:hover{transform:scale(1.045)}
     @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
 
+    /* Flèches et bouton */
     .arrow{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; border:0; background:rgba(177,50,49,.85); display:grid; place-items:center; cursor:pointer; z-index:5}
     .arrow.left{left:8px}.arrow.right{right:8px}
     .arrow > span{display:block; width:0; height:0; border-style:solid}
     .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
     .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
 
-    /* Bouton Aujourd'hui (rouge avec flèche) */
     .todayBtn{
       position:absolute; left:12px; top:12px; z-index:6;
       background:rgba(177,50,49,.92); color:#fff; border:0;
@@ -128,12 +133,12 @@
     }
     .todayBtn:hover{filter:brightness(1.05)}
 
-    /* Panneau: enlever le liseré noir autour (plus de fond noir de conteneur) */
+    /* Panneau (sans liseré noir autour) */
     .panelBand{background:transparent; margin-top:16px; border-radius:14px; padding:0}
     .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
     .panel.visible{opacity:1}
 
-    /* grille 2 colonnes : à gauche Titre + infos + synopsis ; à droite l'image */
+    /* Layout panneau : gauche (texte) / droite (image) */
     .panel-grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px}
     .panel-left{min-width:0}
     .panel-right{min-width:0}
