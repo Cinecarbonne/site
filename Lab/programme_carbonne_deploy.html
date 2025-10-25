@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <title>Ciné Carbonne — Programme (préprod)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Empêcher l'indexation pendant la phase cachée -->
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="data:," />
   <style>
     @font-face{
       font-family: "KeedyBold";
@@ -16,8 +16,9 @@
     }
     :root{
       --stripH: 400px; --vignetteH: 265px; --posterH: 225px; --colW: 150px; --capH: 40px; --gap: 18px;
-      --brand:#b13231; --bg:#f3f3f3; --fg:#111213; --stripBand:#e9ecef; --capBg:#bfbfbf;
-      --capDate:#f3f3f3; --capTime:#111213; --panelBg:#111213; --panelFg:#f3f3f3; --panelMuted:#c5c7ca; --panelLine:#2b2e33;
+      --brand:#b13231; --bg:#f3f3f3; --fg:#111213; --stripBand:#e9ecef;
+      --capBg:#8a8d93; --capDate:#f3f3f3; --capTime:#111213;
+      --panelBg:#111213; --panelFg:#f3f3f3; --panelMuted:#c5c7ca; --panelLine:#2b2e33;
     }
     html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
     .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
@@ -37,8 +38,10 @@
     .col:focus{outline:0}
     .card{border-radius:4px; overflow:hidden; display:block; transform-origin:center; transition:transform .2s ease; opacity:0; animation:fadeIn .2s ease forwards}
     .poster{width:100%; height:var(--posterH); display:block; object-fit:cover; background:#000}
-    .cap{height:var(--capH); background:var(--capBg); color:var(--capDate); padding:0 10px; display:flex; justify-content:space-between; align-items:center;}
-    .cap .day{font-weight:800; color:var(--capDate)}
+    .cap{height:var(--capH); background:var(--capBg); color:var(--capDate); padding:0 10px; display:flex; justify-content:space-between; align-items:center; gap:8px;}
+    .cap .day{display:flex; gap:6px; align-items:baseline}
+    .cap .day .abbr{font-weight:800; color:var(--capDate); font-size:14px; letter-spacing:.2px}
+    .cap .day .date{font-weight:900; color:var(--capDate); font-size:18px; line-height:1}
     .cap .time{font-weight:900; font-size:18px; color:var(--capTime)}
     .strip .card:hover{transform:scale(1.045)}
     @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
@@ -47,13 +50,14 @@
     .arrow > span{display:block; width:0; height:0; border-style:solid}
     .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
     .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
-    .todayBtn{position:absolute; left:12px; top:12px; z-index:6; background:var(--fg); color:var(--panelFg); border:0; border-radius:999px; padding:7px 12px; font-weight:700; cursor:pointer; opacity:.85;}
-    .todayBtn:hover{opacity:1}
+    .todayBtn{position:absolute; left:12px; top:12px; z-index:6; background:rgba(177,50,49,.92); color:#fff; border:0; padding:10px 18px 10px 28px; font-weight:800; cursor:pointer; border-radius:999px; transition:filter .15s ease, transform .15s ease;}
+    .todayBtn::before{content:''; position:absolute; left:8px; top:50%; transform:translateY(-50%); width:0; height:0; border-style:solid; border-width:10px 12px 10px 0; border-color:transparent #fff transparent transparent;}
+    .todayBtn:hover{filter:brightness(1.05)}
     .panelBand{background:#000; margin-top:16px; border-radius:14px; padding:14px 0}
     .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
     .panel.visible{opacity:1}
     .panel-head{padding:16px 16px 0}
-    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 6px; color:var(--panelFg); font-family:"KeedyBold"}
+    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 6px; color:var(--brand); font-family:"KeedyBold"}
     .panel-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:10px 16px 18px}
     .kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:4px}
     .k{color:var(--panelMuted); font-weight:800; line-height:1.15}
@@ -115,8 +119,10 @@
   (function(){
     function applySizing(){
       var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
-      var stripH=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
-      var capH=40;var vignetteH=Math.round(stripH*23/35);
+      var baseStrip=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
+      var stripH=baseStrip-14; /* rétrécissement pour rapprocher en haut */
+      var capH=40;
+      var vignetteH=Math.round(baseStrip*23/35); /* garde taille vignette */
       var posterH=Math.max(120,vignetteH-capH);
       var colW=Math.round(posterH*2/3);
       var root=document.documentElement;
@@ -129,17 +135,16 @@
     applySizing();window.addEventListener('resize',applySizing);
 
     function pad2(n){n=parseInt(n,10);return(n<10?'0':'')+n;}
-    function formatDay(dateStr){
-      if(!dateStr)return'';
+    function formatDayParts(dateStr){
+      if(!dateStr)return{abbr:'',date:''};
       var d=new Date(dateStr+'T00:00:00');
       if(isNaN(d.getTime())){
-        var m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
+        var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
         if(m){d=new Date(m[3]+'-'+m[2]+'-'+m[1]+'T00:00:00');}
       }
-      if(isNaN(d.getTime()))return dateStr;
+      if(isNaN(d.getTime()))return{abbr:'',date:dateStr};
       var jours=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];
-      var j=jours[d.getDay()];
-      return j+' '+pad2(d.getDate())+'/'+pad2(d.getMonth()+1);
+      return { abbr: jours[d.getDay()], date: pad2(d.getDate())+'/'+pad2(d.getMonth()+1) };
     }
 
     var rail=document.getElementById('rail'),strip=document.getElementById('strip'),
@@ -168,7 +173,7 @@
       pBackdrop.style.display=pBackdrop.src?'block':'none';
       var embed=(function(url){if(!url)return null;
         var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
-        var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
+        var m2=/youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
         var k=(m1&&m1[1])||(m2&&m2[1]);if(!k)return null;
         return'https://www.youtube.com/embed/'+k;
       })(s.trailer_url);
@@ -180,10 +185,19 @@
       var col=document.createElement('button');
       col.type='button';col.className='col';col.setAttribute('aria-label',s.titre||'Séance');
       var card=document.createElement('span');card.className='card';
+
       var cap=document.createElement('div');cap.className='cap';
-      var day=document.createElement('div');day.className='day';day.textContent=formatDay(s.date);cap.appendChild(day);
+      var dayWrap=document.createElement('div');dayWrap.className='day';
+      var parts=formatDayParts(s.date);
+      var abbr=document.createElement('span'); abbr.className='abbr'; abbr.textContent=parts.abbr;
+      var date=document.createElement('span'); date.className='date'; date.textContent=parts.date;
+      dayWrap.appendChild(abbr); dayWrap.appendChild(date);
+      cap.appendChild(dayWrap);
+
       var time=document.createElement('div');time.className='time';time.textContent=s.heure||'';cap.appendChild(time);
+
       var poster=document.createElement('img');poster.className='poster';poster.src=s.affiche_url||'';poster.alt='Affiche — '+(s.titre||'');poster.loading='lazy';
+
       card.appendChild(cap);card.appendChild(poster);col.appendChild(card);
       col.addEventListener('click',function(){openPanel(s);});
       return col;
@@ -201,7 +215,6 @@
       if(appended>0){ openPanel(items[0]); }
     }
 
-    /* Chemin RELATIF : on suppose que programme_struct_enrichi.json est dans le même dossier que cette page */
     function loadJSON(){
       var url = './programme_struct_enrichi.json';
       fetch(url,{cache:'no-store'})
