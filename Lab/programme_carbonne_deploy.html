@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Ciné Carbonne — Programme (préprod)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Empêcher l'indexation pendant la phase cachée -->
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    @font-face{
+      font-family: "KeedyBold";
+      src: local("Keedy Bold"), url("Keedy Bold.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root{
+      --stripH: 400px; --vignetteH: 265px; --posterH: 225px; --colW: 150px; --capH: 40px; --gap: 18px;
+      --brand:#b13231; --bg:#f3f3f3; --fg:#111213; --stripBand:#e9ecef; --capBg:#bfbfbf;
+      --capDate:#f3f3f3; --capTime:#111213; --panelBg:#111213; --panelFg:#f3f3f3; --panelMuted:#c5c7ca; --panelLine:#2b2e33;
+    }
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
+    .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
+    .hero{background:var(--brand); color:var(--panelFg); padding:18px 16px; display:grid; place-items:center}
+    .siteTitle{margin:0; text-align:center; display:flex; align-items:baseline; justify-content:center; gap:.25em; line-height:1}
+    .siteTitle .brand{font-family:"KeedyBold"; color:var(--panelFg); font-size:clamp(34px,6vw,56px)}
+    .siteTitle .slash{color:var(--panelFg); font-size:clamp(28px,5vw,44px);}
+    .siteTitle .program{font-family:"KeedyBold"; color:var(--fg); font-style:italic; font-size:clamp(28px,5vw,44px)}
+    .stripBand{background:var(--stripBand); padding:14px 0 18px; margin-top:10px; border-radius:12px}
+    .rail-wrap{position:relative;}
+    .filmStrip{position: relative;height: var(--stripH);background:#000 url('strip2.jpg') no-repeat center/auto 100%;overflow:hidden;border-radius:8px;}
+    .railViewport{height: var(--vignetteH);margin: calc((var(--stripH) - var(--vignetteH)) / 2) 0;position: relative;}
+    .rail{display:block;overflow-x:auto; overflow-y:hidden;padding:8px 48px;user-select:none; cursor:grab;height:100%;scrollbar-width:none; -ms-overflow-style:none;-webkit-overflow-scrolling: touch;overscroll-behavior: contain;}
+    .rail::-webkit-scrollbar{display:none}
+    .strip{display:flex; gap:var(--gap); align-items:flex-start}
+    .col{appearance:none; border:0; background:transparent; padding:0; margin:0; flex:0 0 auto; width:var(--colW); position:relative;}
+    .col:focus{outline:0}
+    .card{border-radius:4px; overflow:hidden; display:block; transform-origin:center; transition:transform .2s ease; opacity:0; animation:fadeIn .2s ease forwards}
+    .poster{width:100%; height:var(--posterH); display:block; object-fit:cover; background:#000}
+    .cap{height:var(--capH); background:var(--capBg); color:var(--capDate); padding:0 10px; display:flex; justify-content:space-between; align-items:center;}
+    .cap .day{font-weight:800; color:var(--capDate)}
+    .cap .time{font-weight:900; font-size:18px; color:var(--capTime)}
+    .strip .card:hover{transform:scale(1.045)}
+    @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+    .arrow{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; border:0; background:rgba(177,50,49,.85); display:grid; place-items:center; cursor:pointer; z-index:5}
+    .arrow.left{left:8px}.arrow.right{right:8px}
+    .arrow > span{display:block; width:0; height:0; border-style:solid}
+    .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
+    .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
+    .todayBtn{position:absolute; left:12px; top:12px; z-index:6; background:var(--fg); color:var(--panelFg); border:0; border-radius:999px; padding:7px 12px; font-weight:700; cursor:pointer; opacity:.85;}
+    .todayBtn:hover{opacity:1}
+    .panelBand{background:#000; margin-top:16px; border-radius:14px; padding:14px 0}
+    .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
+    .panel.visible{opacity:1}
+    .panel-head{padding:16px 16px 0}
+    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 6px; color:var(--panelFg); font-family:"KeedyBold"}
+    .panel-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:10px 16px 18px}
+    .kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:4px}
+    .k{color:var(--panelMuted); font-weight:800; line-height:1.15}
+    .v{font-weight:700; line-height:1.2}
+    .infoLine{margin:6px 0 6px; color:var(--panelFg); font-weight:700}
+    .genresLine{margin:2px 0 6px; color:var(--panelMuted); font-weight:700}
+    .synopsis{white-space:pre-wrap; margin-top:4px; color:var(--panelFg); font-weight:600; line-height:1.35}
+    .backdropWide{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a; margin-top:-6px}
+    .trailer{margin:0 16px 18px}
+    @media(max-width:860px){.panel-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1 class="siteTitle">
+        <span class="brand">Ciné Carbonne</span>
+        <span class="slash">/</span>
+        <span class="program">Programme</span>
+      </h1>
+    </div>
+
+    <div class="stripBand">
+      <div class="rail-wrap">
+        <button class="todayBtn" id="todayBtn" type="button">Aujourd'hui</button>
+        <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
+        <div class="filmStrip">
+          <div class="railViewport">
+            <div id="rail" class="rail" aria-live="polite">
+              <div id="strip" class="strip"></div>
+            </div>
+          </div>
+        </div>
+        <button class="arrow right" id="rightBtn" aria-label="Défiler vers la droite"><span></span></button>
+      </div>
+    </div>
+
+    <div class="panelBand">
+      <section id="panel" class="panel" aria-live="polite" aria-label="Détails du film">
+        <div class="panel-head"><h2 class="panel-title" id="p-title">&nbsp;</h2></div>
+        <div class="panel-grid">
+          <div>
+            <div class="kv">
+              <div class="k">De :</div><div class="v" id="p-real"></div>
+              <div class="k">Avec :</div><div class="v" id="p-cast"></div>
+            </div>
+            <div class="infoLine" id="p-info"></div>
+            <div class="genresLine" id="p-genres"></div>
+            <div class="synopsis" id="p-synopsis"></div>
+          </div>
+          <div><img id="p-backdrop" class="backdropWide" alt="Image du film" /></div>
+        </div>
+        <div class="trailer" id="p-trailer"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    function applySizing(){
+      var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
+      var stripH=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
+      var capH=40;var vignetteH=Math.round(stripH*23/35);
+      var posterH=Math.max(120,vignetteH-capH);
+      var colW=Math.round(posterH*2/3);
+      var root=document.documentElement;
+      root.style.setProperty('--stripH',stripH+'px');
+      root.style.setProperty('--vignetteH',vignetteH+'px');
+      root.style.setProperty('--posterH',posterH+'px');
+      root.style.setProperty('--colW',colW+'px');
+      root.style.setProperty('--capH',capH+'px');
+    }
+    applySizing();window.addEventListener('resize',applySizing);
+
+    function pad2(n){n=parseInt(n,10);return(n<10?'0':'')+n;}
+    function formatDay(dateStr){
+      if(!dateStr)return'';
+      var d=new Date(dateStr+'T00:00:00');
+      if(isNaN(d.getTime())){
+        var m=/^(\\d{2})\\/(\\d{2})\\/(\\d{4})$/.exec(dateStr);
+        if(m){d=new Date(m[3]+'-'+m[2]+'-'+m[1]+'T00:00:00');}
+      }
+      if(isNaN(d.getTime()))return dateStr;
+      var jours=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];
+      var j=jours[d.getDay()];
+      return j+' '+pad2(d.getDate())+'/'+pad2(d.getMonth()+1);
+    }
+
+    var rail=document.getElementById('rail'),strip=document.getElementById('strip'),
+        panel=document.getElementById('panel'),pTitle=document.getElementById('p-title'),
+        pReal=document.getElementById('p-real'),pCast=document.getElementById('p-cast'),
+        pInfo=document.getElementById('p-info'),pGenres=document.getElementById('p-genres'),
+        pSynopsis=document.getElementById('p-synopsis'),pBackdrop=document.getElementById('p-backdrop'),
+        pTrailer=document.getElementById('p-trailer');
+
+    function hidePanel(){ panel.classList.remove('visible'); pTitle.textContent=''; pReal.textContent=''; pCast.textContent=''; pInfo.textContent=''; pGenres.textContent=''; pSynopsis.textContent=''; pBackdrop.removeAttribute('src'); }
+
+    function openPanel(s){
+      if(!s) return;
+      pTitle.textContent=s.titre||'Titre inconnu';
+      pReal.textContent=s.realisateur||'';
+      pCast.textContent=s.acteurs_principaux||'';
+      var infoParts=[];
+      if(s.duree_min)infoParts.push(s.duree_min+' mn');
+      if(s.annee)infoParts.push(s.annee);
+      if(s.pays)infoParts.push(s.pays);
+      if(s.version)infoParts.push(s.version);
+      pInfo.textContent=infoParts.join(' / ');
+      pGenres.textContent=s.genres||'';
+      pSynopsis.textContent=s.synopsis||'';
+      pBackdrop.src=(s.backdrop_url||s.affiche_url||'');
+      pBackdrop.style.display=pBackdrop.src?'block':'none';
+      var embed=(function(url){if(!url)return null;
+        var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
+        var m2=/youtu\\.be\\/([a-zA-Z0-9_-]{6,})/.exec(url);
+        var k=(m1&&m1[1])||(m2&&m2[1]);if(!k)return null;
+        return'https://www.youtube.com/embed/'+k;
+      })(s.trailer_url);
+      pTrailer.innerHTML=embed?'<iframe width="100%" height="420" src="'+embed+'" frameborder="0" allowfullscreen></iframe>':'';
+      requestAnimationFrame(function(){ panel.classList.add('visible'); });
+    }
+
+    function renderColumn(s){
+      var col=document.createElement('button');
+      col.type='button';col.className='col';col.setAttribute('aria-label',s.titre||'Séance');
+      var card=document.createElement('span');card.className='card';
+      var cap=document.createElement('div');cap.className='cap';
+      var day=document.createElement('div');day.className='day';day.textContent=formatDay(s.date);cap.appendChild(day);
+      var time=document.createElement('div');time.className='time';time.textContent=s.heure||'';cap.appendChild(time);
+      var poster=document.createElement('img');poster.className='poster';poster.src=s.affiche_url||'';poster.alt='Affiche — '+(s.titre||'');poster.loading='lazy';
+      card.appendChild(cap);card.appendChild(poster);col.appendChild(card);
+      col.addEventListener('click',function(){openPanel(s);});
+      return col;
+    }
+
+    function renderList(list){
+      var items=Array.isArray(list)?list:[];
+      strip.innerHTML=''; hidePanel();
+      var appended=0;
+      for(var i=0;i<items.length;i++){
+        var s=items[i]||{};
+        if(!(s.titre||s.affiche_url||s.date||s.heure))continue;
+        strip.appendChild(renderColumn(s));appended++;
+      }
+      if(appended>0){ openPanel(items[0]); }
+    }
+
+    /* Chemin RELATIF : on suppose que programme_struct_enrichi.json est dans le même dossier que cette page */
+    function loadJSON(){
+      var url = './programme_struct_enrichi.json';
+      fetch(url,{cache:'no-store'})
+        .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+        .then(function(t){ return JSON.parse(t); })
+        .then(renderList)
+        .catch(function(e){ console.warn('Échec chargement JSON:', e.message); });
+    }
+    window.addEventListener('load', loadJSON);
+
+    (function(){
+      var isDown=false,startX=0,startScroll=0;
+      var leftBtn=document.getElementById('leftBtn'),rightBtn=document.getElementById('rightBtn'),todayBtn;
+      rail.addEventListener('mousedown',function(e){isDown=true;startX=e.pageX;startScroll=rail.scrollLeft;e.preventDefault();});
+      window.addEventListener('mouseup',function(){isDown=false;});
+      window.addEventListener('mousemove',function(e){if(!isDown)return;rail.scrollLeft=startScroll-(e.pageX-startX);});
+      rail.addEventListener('touchstart',function(e){isDown=true;startX=e.touches[0].pageX;startScroll=rail.scrollLeft;},{passive:true});
+      rail.addEventListener('touchend',function(){isDown=false;});
+      rail.addEventListener('touchmove',function(e){if(!isDown)return;rail.scrollLeft=startScroll-(e.touches[0].pageX-startX);},{passive:true});
+      var step=function(){var colW=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'),10)||220;
+        var gap=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'),10)||12;return colW+gap;};
+      leftBtn.addEventListener('click',function(){rail.scrollBy({left:-step(),behavior:'smooth'});});
+      rightBtn.addEventListener('click',function(){rail.scrollBy({left:step(),behavior:'smooth'});});
+      todayBtn=document.getElementById('todayBtn'); todayBtn.addEventListener('click',function(){rail.scrollTo({left:0,behavior:'smooth'});});
+    })();
+  })();
+  </script>
+</body>
+</html>
