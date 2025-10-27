@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Ciné Carbonne — Programme (préprod)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="data:," />
+  <style>
+    @font-face{
+      font-family: "KeedyBold";
+      src: local("Keedy Bold"), url("Keedy Bold.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* Palette et variables */
+    :root{
+      --brandMuted:#d07a79;
+      --sienna:#c9a15a;
+      --offWhite:#e1dcd4;
+      --brand:#b13231;
+
+      /* Fond global sombre (anthracite doux) */
+      --pageBg:#2f2d2e;
+      --fg:#f0f0f0;
+
+      /* Autour du strip = même fond que la page */
+      --stripBand:#2f2d2e;
+
+      /* Bandeau date/heure (haut des vignettes) : un peu plus sombre */
+      --capBg:#3d2727;        /* était #3a3739 */
+      --capText:#d7bebd;      /* jour + date : rouge très pâle */
+      --capTime:#ab6966;      /* heure : encore plus pâle dans le même ton rouge */
+
+      /* Panneau */
+      --panelBg:#141518;
+      --panelFg:#e1d2d2;
+      --panelMuted:#89877b;
+      --panelLine:#141518;
+
+      /* Tailles (certaines mises à jour côté JS) */
+      --stripH: 400px;
+      --vignetteH: 265px;
+      --posterH: 225px;
+      --colW: 150px;
+      --capH: 40px;
+      --gap: 18px;
+      --vBias: 6px; /* léger abaissement pour centrage visuel */
+    }
+
+    html,body{margin:0;background:var(--pageBg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
+    .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
+
+    /* Titre (un peu plus petit) */
+    .hero{background:var(--brand); color:#fff; padding:18px 16px; display:grid; place-items:center}
+    .siteTitle{margin:0; text-align:center; display:flex; align-items:baseline; justify-content:center; gap:.25em; line-height:1}
+    .siteTitle .brand{font-family:"KeedyBold"; color:#fff; font-size:clamp(32px,5.5vw,52px)}   /* ↓ */
+    .siteTitle .slash{color:#fff; font-size:clamp(26px,4.8vw,42px)}                           /* ↓ */
+    .siteTitle .program{font-family:"KeedyBold"; color:#0e0f10; font-style:italic; font-size:clamp(26px,4.5vw,40px)} /* ↓ */
+
+    /* Bande autour de la pellicule */
+    .stripBand{background:var(--stripBand); padding:14px 0 18px; margin-top:10px; border-radius:12px}
+
+    .rail-wrap{position:relative;}
+    .filmStrip{
+      position: relative;
+      height: var(--stripH);
+      background:#000 url('strip.jpg') no-repeat center/auto 100%;
+      overflow:hidden;
+      border-radius:8px;
+    }
+    .railViewport{
+      height: var(--vignetteH);
+      margin-top: calc((var(--stripH) - var(--vignetteH)) / 2 - var(--vBias));
+      margin-bottom: calc((var(--stripH) - var(--vignetteH)) / 2 + var(--vBias));
+      position: relative;
+    }
+    .rail{
+      display:block;
+      overflow-x:auto; overflow-y:hidden;
+      padding:8px 48px;
+      user-select:none; cursor:grab;
+      height:100%;
+      scrollbar-width:none; -ms-overflow-style:none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .rail::-webkit-scrollbar{display:none}
+    .strip{display:flex; gap:var(--gap); align-items:flex-start}
+
+    /* Vignettes */
+    .col{appearance:none; border:0; background:transparent; padding:0; margin:0; flex:0 0 auto; width:var(--colW); position:relative;}
+    .col:focus{outline:0}
+    .card{border-radius:4px; overflow:hidden; display:block; transform-origin:center; transition:transform .2s ease; opacity:0; animation:fadeIn .2s ease forwards}
+    .poster{width:100%; height:var(--posterH); display:block; object-fit:cover; background:#000}
+    .cap{
+      height:var(--capH);
+      background:var(--capBg);
+      color:var(--capText);
+      padding:0 10px;
+      display:flex; justify-content:space-between; align-items:center;
+      gap:8px;
+    }
+    .cap .day{display:flex; gap:6px; align-items:baseline}
+    .cap .day .abbr{font-weight:800; color:var(--capText); font-size:16px; letter-spacing:.2px} /* ↑ plus grand */
+    .cap .day .date{font-weight:900; color:var(--capText); font-size:19px; line-height:1}       /* date OK */
+    .cap .time{font-weight:800; font-size:16px; color:var(--capTime)}                           /* ↓ plus petit + plus clair */
+
+    .strip .card:hover{transform:scale(1.045)}
+    @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+    /* Flèches carrousel */
+    .arrow{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; border:0; background:rgba(177,50,49,.85); display:grid; place-items:center; cursor:pointer; z-index:5}
+    .arrow.left{left:8px}.arrow.right{right:8px}
+    .arrow > span{display:block; width:0; height:0; border-style:solid}
+    .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
+    .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
+
+    /* Bouton "Début" (rouge plus transparent) */
+    .todayBtn{
+      position:absolute; left:12px; top:12px; z-index:6;
+      background:rgba(177,50,49,.55); /* transparence ↑ */
+      color:#fff; border:0;
+      padding:10px 18px 10px 28px; font-weight:800; cursor:pointer;
+      border-radius:999px;
+      transition:filter .15s ease, transform .15s ease;
+    }
+    .todayBtn::before{
+      content:''; position:absolute; left:8px; top:50%; transform:translateY(-50%);
+      width:0; height:0; border-style:solid;
+      border-width:10px 12px 10px 0;
+      border-color:transparent #fff transparent transparent;
+    }
+    .todayBtn:hover{filter:brightness(1.08)} /* léger éclaircissement au survol */
+
+    /* Panneau (sans liseré noir autour) */
+    .panelBand{background:transparent; margin-top:16px; border-radius:14px; padding:0}
+    .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
+    .panel.visible{opacity:1}
+
+    /* Layout panneau : gauche (texte) / droite (image) */
+    .panel-grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px}
+    .panel-left{min-width:0}
+    .panel-right{min-width:0}
+    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 8px; color:var(--brand); font-family:"KeedyBold"}
+    .kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:2px}
+    .k{color:var(--panelMuted); font-weight:800; line-height:1.15}
+    .v{font-weight:700; line-height:1.2}
+    .infoLine{margin:6px 0 2px; color:var(--panelFg); font-weight:700}
+    .genresLine{margin:0 0 4px; color:var(--panelMuted); font-weight:700}
+    .synopsis{white-space:pre-wrap; margin-top:4px; color:var(--panelFg); font-weight:600; line-height:1.35}
+    .backdropTop{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a}
+    .trailer{margin:0 16px 18px}
+
+    @media(max-width:860px){
+      .panel-grid2{grid-template-columns:1fr}
+    }
+  
+/* ---- Galerie miniatures sous l'image héros ---- */
+.thumb-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(72px,1fr);gap:.4rem;overflow-x:auto;padding:.2rem 0;scroll-snap-type:x mandatory;margin-top:.5rem}
+.thumb{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:2px solid transparent;cursor:pointer;scroll-snap-align:start;background:#0d0d0d}
+.thumb[aria-current="true"]{border-color:#58a}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Info line plus visible */
+    .infoLine{
+      margin:4px 0 8px;
+      color:var(--brandMuted);
+      font-weight:900;
+      font-size:clamp(16px,2.2vw,20px);
+      letter-spacing:.15px;
+    }
+    /* Prices line (après genres) */
+    .pricesLine{
+      margin:2px 0 10px;
+      color:var(--sienna);
+      font-style:italic;
+      font-weight:800;
+    }
+    /* Chips en haut du panneau (séances spéciales) */
+    .specialChips{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 6px; }
+    .chip{ display:inline-block; padding:.25rem .5rem; border-radius:999px; font-weight:900; font-size:.9rem; }
+    .specialChip{ background:var(--sienna); color:var(--pageBg); }
+    /* Chips sous synopsis */
+    .chipsRow{ display:flex; flex-wrap:wrap; gap:.5rem; margin:10px 16px 0 0; }
+    .commentChip{ background:var(--panelMuted); color:#111; }
+    .tarifChip{ background:var(--offWhite); color:#111; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1 class="siteTitle">
+        <span class="brand">Ciné Carbonne</span>
+        <span class="slash">/</span>
+        <span class="program">Programme</span>
+      </h1>
+    </div>
+
+    <div class="stripBand">
+      <div class="rail-wrap">
+        <button class="todayBtn" id="todayBtn" type="button">Début</button>
+        <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
+        <div class="filmStrip">
+          <div class="railViewport">
+            <div id="rail" class="rail" aria-live="polite">
+              <div id="strip" class="strip"></div>
+            </div>
+          </div>
+        </div>
+        <button class="arrow right" id="rightBtn" aria-label="Défiler vers la droite"><span></span></button>
+      </div>
+    </div>
+
+    <div class="panelBand">
+      <section id="panel" class="panel" aria-live="polite" aria-label="Détails du film">
+        <div class="panel-grid2">
+          <div class="panel-left">
+            <div class="specialChips" id="p-chipsTop" aria-label="Séances spéciales"></div>
+            <h2 class="panel-title" id="p-title">&nbsp;</h2>
+            <div class="infoLine" id="p-info"></div>
+            <div class="kv">
+              <div class="k">De :</div><div class="v" id="p-real"></div>
+              <div class="k">Avec :</div><div class="v" id="p-cast"></div>
+            </div>
+            <div class="infoLine" id="p-info"></div>
+            <div class="genresLine" id="p-genres"></div>
+            <div class="pricesLine" id="p-prix"></div>
+            <div class="synopsis" id="p-synopsis"></div>
+          </div>
+          <div class="panel-right">
+            <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
+            <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie d’images"></div>
+          </div>
+        </div>
+        <div class="chipsRow">
+          <div class="chip commentChip" id="p-comment" style="display:none"></div>
+          <div class="chip tarifChip" id="p-tarifs" style="display:none"></div>
+        </div>
+        <div class="trailer" id="p-trailer"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    function applySizing(){
+      var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
+      var baseStrip=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
+      var stripH=baseStrip-20;
+      var capH=40;
+      var vignetteH=Math.round(baseStrip*23/35);
+      var posterH=Math.max(120,vignetteH-capH);
+      var colW=Math.round(posterH*2/3);
+      var root=document.documentElement;
+      root.style.setProperty('--stripH',stripH+'px');
+      root.style.setProperty('--vignetteH',vignetteH+'px');
+      root.style.setProperty('--posterH',posterH+'px');
+      root.style.setProperty('--colW',colW+'px');
+      root.style.setProperty('--capH',capH+'px');
+    }
+    applySizing();window.addEventListener('resize',applySizing);
+
+    function pad2(n){n=parseInt(n,10);return(n<10?'0':'')+n;}
+    function formatDayParts(dateStr){
+      if(!dateStr)return{abbr:'',date:''};
+      var d=new Date(dateStr+'T00:00:00');
+      if(isNaN(d.getTime())){
+        var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
+        if(m){d=new Date(m[3]+'-'+m[2]+'-'+m[1]+'T00:00:00');}
+      }
+      if(isNaN(d.getTime()))return{abbr:'',date:dateStr};
+      var jours=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];
+      return { abbr: jours[d.getDay()], date: pad2(d.getDate())+'/'+pad2(d.getMonth()+1) };
+    }
+
+    var rail=document.getElementById('rail'),strip=document.getElementById('strip'),
+        panel=document.getElementById('panel'),pTitle=document.getElementById('p-title'),
+        pReal=document.getElementById('p-real'),pCast=document.getElementById('p-cast'),
+        pInfo=document.getElementById('p-info'),pGenres=document.getElementById('p-genres'),
+        pSynopsis=document.getElementById('p-synopsis'),pBackdropTop=document.getElementById('p-backdropTop'),
+        pTrailer=document.getElementById('p-trailer'),todayBtn=document.getElementById('todayBtn'),
+        thumbStrip=document.getElementById('thumb-strip'),
+        pChipsTop=document.getElementById('p-chipsTop'), pPrix=document.getElementById('p-prix'),
+        pComment=document.getElementById('p-comment'), pTarifs=document.getElementById('p-tarifs');
+
+    // ---- Tri chronologique ----
+    function filmTimestamp(s){
+      const dl = (s.datetime_local || '').trim();
+      if (dl) {
+        const t = Date.parse(dl);
+        if (!isNaN(t)) return t;
+      }
+      const d = (s.date || '').trim();
+      const h = (s.heure || '').trim();
+      if (!d) return Number.POSITIVE_INFINITY;
+      const m = d.split(/[\/\-]/);
+      if (m.length >= 3) {
+        const JJ = parseInt(m[0],10), MM = parseInt(m[1],10)-1, AAAA = parseInt(m[2],10);
+        const hhmm = (h || "00:00").split(':');
+        const HH = parseInt(hhmm[0]||'0',10), MI = parseInt(hhmm[1]||'0',10);
+        return new Date(AAAA, MM, JJ, HH||0, MI||0, 0, 0).getTime();
+      }
+      return Number.POSITIVE_INFINITY;
+    }
+    function sortFilmsChrono(arr){
+      arr.sort((a,b)=>{
+        const ta = filmTimestamp(a), tb = filmTimestamp(b);
+        if (ta!==tb) return ta - tb;
+        const at=(a.titre||'').toLowerCase(), bt=(b.titre||'').toLowerCase();
+        return at.localeCompare(bt);
+      });
+    }
+
+
+    function hidePanel(){
+      panel.classList.remove('visible');
+      pTitle.textContent=''; pReal.textContent=''; pCast.textContent='';
+      pInfo.textContent=''; pGenres.textContent=''; pSynopsis.textContent='';
+      pBackdropTop.removeAttribute('src');
+    }
+
+    
+    function backdropSrcset(u){
+      if(!u) return "";
+      var w300 = u.replace('/w780/','/w300/');
+      var w1280 = u.replace('/w780/','/w1280/');
+      return w300+' 300w, '+u+' 780w, '+w1280+' 1280w';
+    }
+    function backdropSizes(){
+      return '(max-width: 860px) 100vw, 480px';
+    }
+
+    function makeSpecialChips(s){
+      var labels=[];
+      var txt=((s.categorie||'')+' '+(s.commentaire||'')).toLowerCase();
+      var map=[
+        {k:'ciné goûter',label:'Ciné Goûter'},
+        {k:'cine gouter',label:'Ciné Goûter'},
+        {k:'ciné jeunes',label:'Ciné Jeunes'},
+        {k:'cine jeunes',label:'Ciné Jeunes'},
+        {k:'ephad',label:'Séance EPHAD HANDI'},
+        {k:'handi',label:'Séance EPHAD HANDI'},
+        {k:'ciné documentaire',label:'Ciné Documentaire'},
+        {k:'cine documentaire',label:'Ciné Documentaire'},
+        {k:'ciné club',label:'Ciné Club'},
+        {k:'cine club',label:'Ciné Club'},
+        {k:'ciné discussion',label:'Ciné Discussion'},
+        {k:'cine discussion',label:'Ciné Discussion'}
+      ];
+      map.forEach(function(m){ if(txt.indexOf(m.k)>=0 && labels.indexOf(m.label)===-1) labels.push(m.label); });
+      return labels;
+    }
+
+function openPanel(s){
+      if(!s) return;
+      pTitle.textContent=s.titre||'Titre inconnu';
+      pReal.textContent=s.realisateur||'';
+      pCast.textContent=s.acteurs_principaux||'';
+      var infoParts=[];
+      if(s.version) infoParts.push(s.version);
+      if(s.annee) infoParts.push(s.annee);
+      if(s.pays) infoParts.push(s.pays);
+      if(s.duree_min) infoParts.push(s.duree_min+' mn');
+      pInfo.textContent=infoParts.join(' / ');
+      pGenres.textContent=s.genres||'';
+      pSynopsis.textContent=s.synopsis||'';
+
+      var best=(s.backdrop_url||s.affiche_url||'');
+      pBackdropTop.src=best;
+      pBackdropTop.srcset=backdropSrcset(best);
+      pBackdropTop.sizes=backdropSizes();
+      pBackdropTop.loading='eager'; pBackdropTop.decoding='async';
+      pBackdropTop.style.display=pBackdropTop.src?'block':'none';
+
+      // Top special chips
+      if(pChipsTop){ pChipsTop.innerHTML=''; var labs=makeSpecialChips(s); labs.forEach(function(label){ var el=document.createElement('span'); el.className='chip specialChip'; el.textContent=label; pChipsTop.appendChild(el); }); }
+      // Prices line (après genres)
+      if(pPrix){ var pr=(s.prix||'').trim(); if(pr){ pPrix.textContent=pr; pPrix.style.display='block'; } else { pPrix.style.display='none'; } }
+      // Comment chip
+      if(pComment){ var com=(s.commentaire||'').trim(); if(com){ pComment.textContent=com; pComment.style.display='inline-block'; } else { pComment.style.display='none'; } }
+      // Tarifs chip
+      if(pTarifs){ var tar=(s.tarif||'').trim(); if(tar){ pTarifs.textContent=tar; pTarifs.style.display='inline-block'; } else { pTarifs.style.display='none'; } }
+      // Build gallery thumbnails
+      if(thumbStrip){
+        while(thumbStrip.firstChild) thumbStrip.removeChild(thumbStrip.firstChild);
+        var urls=[];
+        function pushU(u){ if(u && urls.indexOf(u)===-1) urls.push(u); }
+        pushU(s.backdrop_url); 
+        if(Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+        urls = urls.slice(0,5);
+        urls.forEach(function(u, i){
+          var btn=document.createElement('button');
+          btn.type='button'; btn.className='thumb'; btn.setAttribute('role','listitem');
+          btn.setAttribute('aria-label','Image '+(i+1)+'/'+urls.length);
+          var img=document.createElement('img');
+          img.src=u.replace('/w780/','/w300/');
+          img.loading='lazy'; img.decoding='async';
+          btn.appendChild(img);
+          btn.addEventListener('click', function(){
+            pBackdropTop.src=u;
+            pBackdropTop.srcset=backdropSrcset(u);
+            pBackdropTop.sizes=backdropSizes();
+            // update selected state
+            var kids=thumbStrip.querySelectorAll('.thumb');
+            kids.forEach(function(k,j){ k.setAttribute('aria-current', j===i ? 'true' : 'false'); });
+          });
+          if(i===0) btn.setAttribute('aria-current','true');
+          thumbStrip.appendChild(btn);
+        });
+      }
+
+      var embed=(function(url){if(!url)return null;
+        var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
+        var m2=/youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
+        var k=(m1&&m1[1])||(m2&&m2[1]);if(!k)return null;
+        return'https://www.youtube.com/embed/'+k;
+      })(s.trailer_url);
+      pTrailer.innerHTML=embed?'<iframe width="100%" height="420" src="'+embed+'" frameborder="0" allowfullscreen></iframe>':'';
+
+      requestAnimationFrame(function(){ panel.classList.add('visible'); });
+    }
+
+    function renderColumn(s){
+      var col=document.createElement('button');
+      col.type='button';col.className='col';col.setAttribute('aria-label',s.titre||'Séance');
+      var card=document.createElement('span');card.className='card';
+
+      var cap=document.createElement('div');cap.className='cap';
+      var dayWrap=document.createElement('div');dayWrap.className='day';
+      var parts=formatDayParts(s.date);
+      var abbr=document.createElement('span'); abbr.className='abbr'; abbr.textContent=parts.abbr;
+      var date=document.createElement('span'); date.className='date'; date.textContent=parts.date;
+      dayWrap.appendChild(abbr); dayWrap.appendChild(date);
+      cap.appendChild(dayWrap);
+
+      var time=document.createElement('div');time.className='time';time.textContent=s.heure||'';cap.appendChild(time);
+
+      var poster=document.createElement('img');poster.className='poster';poster.src=s.affiche_url||'';poster.alt='Affiche — '+(s.titre||'');poster.loading='lazy';
+
+      card.appendChild(cap);card.appendChild(poster);col.appendChild(card);
+      col.addEventListener('click',function(){openPanel(s);});
+      return col;
+    }
+
+    function renderList(list){
+      var items=Array.isArray(list)?list:[];
+      strip.innerHTML=''; hidePanel();
+      var appended=0;
+      for(var i=0;i<items.length;i++){
+        var s=items[i]||{};
+        if(!(s.titre||s.affiche_url||s.date||s.heure))continue;
+        strip.appendChild(renderColumn(s));appended++;
+      }
+      if(appended>0){ openPanel(items[0]); }
+    }
+
+    function loadJSON(){
+      var url = './programme_struct_enrichi.json';
+      fetch(url,{cache:'no-store'})
+        .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+        .then(function(t){ return JSON.parse(t); })
+        .then(function(list){ sortFilmsChrono(list); renderList(list); })
+        .catch(function(e){ console.warn('Échec chargement JSON:', e.message); });
+    }
+    window.addEventListener('load', loadJSON);
+
+    (function(){
+      var isDown=false,startX=0,startScroll=0;
+      var leftBtn=document.getElementById('leftBtn'),rightBtn=document.getElementById('rightBtn');
+      rail.addEventListener('mousedown',function(e){isDown=true;startX=e.pageX;startScroll=rail.scrollLeft;e.preventDefault();});
+      window.addEventListener('mouseup',function(){isDown=false;});
+      window.addEventListener('mousemove',function(e){if(!isDown)return;rail.scrollLeft=startScroll-(e.pageX-startX);});
+      rail.addEventListener('touchstart',function(e){isDown=true;startX=e.touches[0].pageX;startScroll=rail.scrollLeft;},{passive:true});
+      rail.addEventListener('touchend',function(){isDown=false;});
+      rail.addEventListener('touchmove',function(e){if(!isDown)return;rail.scrollLeft=startScroll-(e.touches[0].pageX-startX);},{passive:true});
+      var step=function(){var colW=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'),10)||220;
+        var gap=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'),10)||12;return colW+gap;};
+      leftBtn.addEventListener('click',function(){rail.scrollBy({left:-step(),behavior:'smooth'});});
+      rightBtn.addEventListener('click',function(){rail.scrollBy({left:step(),behavior:'smooth'});});
+      todayBtn.addEventListener('click',function(){rail.scrollTo({left:0,behavior:'smooth'});});
+    })();
+  })();
+  </script>
+</body>
+</html>
