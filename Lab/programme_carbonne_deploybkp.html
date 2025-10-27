@@ -154,13 +154,7 @@
     @media(max-width:860px){
       .panel-grid2{grid-template-columns:1fr}
     }
-  
-/* ---- Galerie miniatures sous l'image héros ---- */
-.thumb-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(72px,1fr);gap:.4rem;overflow-x:auto;padding:.2rem 0;scroll-snap-type:x mandatory;margin-top:.5rem}
-.thumb{position:relative;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:2px solid transparent;cursor:pointer;scroll-snap-align:start;background:#0d0d0d}
-.thumb[aria-current="true"]{border-color:#58a}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-</style>
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -202,7 +196,6 @@
           </div>
           <div class="panel-right">
             <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
-            <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie d’images"></div>
           </div>
         </div>
         <div class="trailer" id="p-trailer"></div>
@@ -247,8 +240,7 @@
         pReal=document.getElementById('p-real'),pCast=document.getElementById('p-cast'),
         pInfo=document.getElementById('p-info'),pGenres=document.getElementById('p-genres'),
         pSynopsis=document.getElementById('p-synopsis'),pBackdropTop=document.getElementById('p-backdropTop'),
-        pTrailer=document.getElementById('p-trailer'),todayBtn=document.getElementById('todayBtn'),
-        thumbStrip=document.getElementById('thumb-strip');
+        pTrailer=document.getElementById('p-trailer'),todayBtn=document.getElementById('todayBtn');
 
     function hidePanel(){
       panel.classList.remove('visible');
@@ -257,17 +249,7 @@
       pBackdropTop.removeAttribute('src');
     }
 
-    
-    function backdropSrcset(u){
-      if(!u) return "";
-      var w300 = u.replace('/w780/','/w300/');
-      var w1280 = u.replace('/w780/','/w1280/');
-      return w300+' 300w, '+u+' 780w, '+w1280+' 1280w';
-    }
-    function backdropSizes(){
-      return '(max-width: 860px) 100vw, 480px';
-    }
-function openPanel(s){
+    function openPanel(s){
       if(!s) return;
       pTitle.textContent=s.titre||'Titre inconnu';
       pReal.textContent=s.realisateur||'';
@@ -281,41 +263,8 @@ function openPanel(s){
       pGenres.textContent=s.genres||'';
       pSynopsis.textContent=s.synopsis||'';
 
-      var best=(s.backdrop_url||s.affiche_url||'');
-      pBackdropTop.src=best;
-      pBackdropTop.srcset=backdropSrcset(best);
-      pBackdropTop.sizes=backdropSizes();
-      pBackdropTop.loading='eager'; pBackdropTop.decoding='async';
+      pBackdropTop.src=(s.backdrop_url||s.affiche_url||'');
       pBackdropTop.style.display=pBackdropTop.src?'block':'none';
-
-      // Build gallery thumbnails
-      if(thumbStrip){
-        while(thumbStrip.firstChild) thumbStrip.removeChild(thumbStrip.firstChild);
-        var urls=[];
-        function pushU(u){ if(u && urls.indexOf(u)===-1) urls.push(u); }
-        pushU(s.backdrop_url); 
-        if(Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
-        urls = urls.slice(0,5);
-        urls.forEach(function(u, i){
-          var btn=document.createElement('button');
-          btn.type='button'; btn.className='thumb'; btn.setAttribute('role','listitem');
-          btn.setAttribute('aria-label','Image '+(i+1)+'/'+urls.length);
-          var img=document.createElement('img');
-          img.src=u.replace('/w780/','/w300/');
-          img.loading='lazy'; img.decoding='async';
-          btn.appendChild(img);
-          btn.addEventListener('click', function(){
-            pBackdropTop.src=u;
-            pBackdropTop.srcset=backdropSrcset(u);
-            pBackdropTop.sizes=backdropSizes();
-            // update selected state
-            var kids=thumbStrip.querySelectorAll('.thumb');
-            kids.forEach(function(k,j){ k.setAttribute('aria-current', j===i ? 'true' : 'false'); });
-          });
-          if(i===0) btn.setAttribute('aria-current','true');
-          thumbStrip.appendChild(btn);
-        });
-      }
 
       var embed=(function(url){if(!url)return null;
         var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
