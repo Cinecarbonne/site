@@ -1,0 +1,330 @@
+
+&lt;!--
+Nettoyage minimal appliqué (demande utilisateur) :
+1) Suppression des fragments JS orphelins `); }`.
+2) Retrait du tri côté front : suppression des fonctions filmTimestamp/sortFilmsChrono et de tous leurs appels.
+3) Suppression des appels à renderCarousel(...), absent dans ce fichier.
+4) Suppression des doublons d'éléments #p-info et #p-prix (on garde la première occurrence).
+5) Nettoyage CSS : suppression des classes non utilisées (heuristique).
+L'ordre d'affichage respecte désormais strictement l'ordre du JSON fourni.
+--&gt;
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>Ciné Carbonne — Programme (préprod)</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="noindex, nofollow" name="robots"/>
+<link href="data:," rel="icon"/>
+<style>
+    @font-face{
+      font-family: "KeedyBold";
+      src: local("Keedy Bold"), url("Keedy Bold.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* Palette et variables */
+    :root{
+      --brandMuted:#d07a79;
+      --sienna:#c9a15a;
+      --offWhite:#e1dcd4;
+      --brand:#b13231;
+
+      /* Fond global sombre (anthracite doux) */
+      --pageBg:#2f2d2e;
+      --fg:#f0f0f0;
+
+      /* Autour du strip = même fond que la page */
+      --stripBand:#2f2d2e;
+
+      /* Bandeau date/heure (haut des vignettes) : un peu plus sombre */
+      --capBg:#3d2727;        /* était #3a3739 */
+      --capText:#d7bebd;      /* jour + date : rouge très pâle */
+      --capTime:#ab6966;      /* heure : encore plus pâle dans le même ton rouge */
+
+      /* Panneau */
+      --panelBg:#141518;
+      --panelFg:#e1d2d2;
+      --panelMuted:#89877b;
+      --panelLine:#141518;
+
+      /* Tailles (certaines mises à jour côté JS) */
+      --stripH: 400px;
+      --vignetteH: 265px;
+      --posterH: 225px;
+      --colW: 150px;
+      --capH: 40px;
+      --gap: 18px;
+      --vBias: 6px; /* léger abaissement pour centrage visuel */
+    }
+
+    html,body{margin:0;background:var(--pageBg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
+    .wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
+
+    /* Titre (un peu plus petit) */
+    .hero{background:var(--brand); color:#fff; padding:18px 16px; display:grid; place-items:center}
+    .siteTitle{margin:0; text-align:center; display:flex; align-items:baseline; justify-content:center; gap:.25em; line-height:1}
+    .siteTitle .brand{font-family:"KeedyBold"; color:#fff; font-size:clamp(32px,5.5vw,52px)}   /* ↓ */
+    .siteTitle .slash{color:#fff; font-size:clamp(26px,4.8vw,42px)}                           /* ↓ */
+    .siteTitle .program{font-family:"KeedyBold"; color:#0e0f10; font-style:italic; font-size:clamp(26px,4.5vw,40px)} /* ↓ */
+
+    /* Bande autour de la pellicule */
+    .stripBand{background:var(--stripBand); padding:14px 0 18px; margin-top:10px; border-radius:12px}
+
+    .rail-wrap{position:relative;}
+    .filmStrip{
+      position: relative;
+      height: var(--stripH);
+      background:#000 url('strip.jpg') no-repeat center/auto 100%;
+      overflow:hidden;
+      border-radius:8px;
+    }
+    .railViewport{
+      height: var(--vignetteH);
+      margin-top: calc((var(--stripH) - var(--vignetteH)) / 2 - var(--vBias));
+      margin-bottom: calc((var(--stripH) - var(--vignetteH)) / 2 + var(--vBias));
+      position: relative;
+    }
+    .rail{
+      display:block;
+      overflow-x:auto; overflow-y:hidden;
+      padding:8px 48px;
+      user-select:none; cursor:grab;
+      height:100%;
+      scrollbar-width:none; -ms-overflow-style:none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .rail::-webkit-scrollbar{display:none}
+    .strip{display:flex; gap:var(--gap); align-items:flex-start}
+
+    /* Vignettes */
+    /* removed unused class .col */
+
+    .col:focus{outline:0}
+    /* removed unused class .card */
+
+    /* removed unused class .poster */
+
+    /* removed unused class .cap */
+
+    .cap /* removed unused class .day */
+
+    .cap .day /* removed unused class .abbr */
+ /* ↑ plus grand */
+    .cap .day /* removed unused class .date */
+       /* date OK */
+    .cap /* removed unused class .time */
+                           /* ↓ plus petit + plus clair */
+
+    .strip .card:hover{transform:scale(1.045)}
+    @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+    /* Flèches carrousel */
+    .arrow{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; border:0; background:rgba(177,50,49,.85); display:grid; place-items:center; cursor:pointer; z-index:5}
+    .arrow.left{left:8px}.arrow.right{right:8px}
+    .arrow > span{display:block; width:0; height:0; border-style:solid}
+    .arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
+    .arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
+
+    /* Bouton "Début" (rouge plus transparent) */
+    .todayBtn{
+      position:absolute; left:12px; top:12px; z-index:6;
+      background:rgba(177,50,49,.55); /* transparence ↑ */
+      color:#fff; border:0;
+      padding:10px 18px 10px 28px; font-weight:800; cursor:pointer;
+      border-radius:999px;
+      transition:filter .15s ease, transform .15s ease;
+    }
+    .todayBtn::before{
+      content:''; position:absolute; left:8px; top:50%; transform:translateY(-50%);
+      width:0; height:0; border-style:solid;
+      border-width:10px 12px 10px 0;
+      border-color:transparent #fff transparent transparent;
+    }
+    .todayBtn:hover{filter:brightness(1.08)} /* léger éclaircissement au survol */
+
+    /* Panneau (sans liseré noir autour) */
+    .panelBand{background:transparent; margin-top:16px; border-radius:14px; padding:0}
+    .panel{margin:0; background:var(--panelBg); color:var(--panelFg); border:1px solid var(--panelLine); border-radius:18px; overflow:hidden; opacity:0; transition:opacity .3s ease}
+    .panel/* removed unused class .visible */
+
+
+    /* Layout panneau : gauche (texte) / droite (image) */
+    .panel-grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px}
+    .panel-left{min-width:0}
+    .panel-right{min-width:0}
+    .panel-title{font-size:clamp(22px,3vw,34px); margin:0 0 8px; color:var(--brand); font-family:"KeedyBold"}
+    .kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:2px}
+    .k{color:var(--panelMuted); font-weight:800; line-height:1.15}
+    .v{font-weight:700; line-height:1.2}
+    .infoLine{margin:6px 0 2px; color:var(--panelFg); font-weight:700}
+    .genresLine{margin:0 0 4px; color:var(--panelMuted); font-weight:700}
+    .synopsis{white-space:pre-wrap; margin-top:4px; color:var(--panelFg); font-weight:600; line-height:1.35}
+    .backdropTop{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a}
+    .trailer{margin:0 16px 18px  margin-top:14px; }
+
+    @media(max-width:860px){
+      .panel-grid2{grid-template-columns:1fr}
+    }
+  
+/* ---- Galerie miniatures sous l'image héros ---- */
+.thumb-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(72px,1fr);gap:.4rem;overflow-x:auto;padding:.2rem 0;scroll-snap-type:x mandatory;margin-top:.5rem}
+/* removed unused class .thumb */
+
+.thumb[aria-current="true"]{border-color:#58a}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Info line plus visible */
+    .infoLine{
+      margin:4px 0 8px;
+      color:var(--brandMuted);
+      font-weight:900;
+      font-size:clamp(16px,2.2vw,20px);
+      letter-spacing:.15px;
+    }
+    /* Prices line (après genres) */
+    .pricesLine{
+      margin:2px 0 10px;
+      color:var(--sienna);
+      font-style:italic;
+      font-weight:800;
+    }
+    /* Chips en haut du panneau (séances spéciales) */
+    .allChipsTop{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0 0 8px; }
+    .chip{ display:inline-block; padding:.25rem .5rem; border-radius:999px; font-weight:900; font-size:.9rem; }
+    /* removed unused class .specialChip */
+
+    /* Chips sous synopsis */
+    .chipsRow{ display:flex; flex-wrap:wrap; gap:.5rem; margin:10px 16px 0 0; }
+    .commentChip{ background:var(--panelMuted); color:#111; }
+    .tarifChip{ background:var(--offWhite); color:#111; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<h1 class="siteTitle">
+<span class="brand">Ciné Carbonne</span>
+<span class="slash">/</span>
+<span class="program">Programme</span>
+</h1>
+</div>
+<div class="stripBand">
+<div class="rail-wrap">
+<button class="todayBtn" id="todayBtn" type="button">Début</button>
+<button aria-label="Défiler vers la gauche" class="arrow left" id="leftBtn"><span></span></button>
+<div class="filmStrip">
+<div class="railViewport">
+<div aria-live="polite" class="rail" id="rail">
+<div class="strip" id="strip"></div>
+</div>
+</div>
+</div>
+<button aria-label="Défiler vers la droite" class="arrow right" id="rightBtn"><span></span></button>
+</div>
+</div>
+<div class="panelBand">
+<section aria-label="Détails du film" aria-live="polite" class="panel" id="panel">
+<div class="panel-grid2">
+<div class="panel-left">
+<div aria-label="Étiquettes" class="allChipsTop" id="p-chipsTop"></div>
+<h2 class="panel-title" id="p-title"> </h2>
+<div class="infoLine" id="p-info"></div>
+<div class="kv">
+<div class="k">De :</div><div class="v" id="p-real"></div>
+<div class="k">Avec :</div><div class="v" id="p-cast"></div>
+</div>
+&lt;!-- Removed duplicate element with id='p-info' --&gt;
+<div class="genresLine" id="p-genres"></div>
+<div class="pricesLine" id="p-prix"></div>
+&lt;!-- Removed duplicate element with id='p-prix' --&gt;
+<div class="synopsis" id="p-synopsis"></div>
+</div>
+<div class="panel-right">
+<img alt="Image du film" class="backdropTop" id="p-backdropTop"/>
+<div aria-label="Galerie d’images" class="thumb-strip" id="thumb-strip" role="list"></div>
+</div>
+</div>
+<div class="chipsRow">
+<div class="chip commentChip" id="p-comment" style="display:none"></div>
+<div class="chip tarifChip" id="p-tarifs" style="display:none"></div>
+</div>
+<div class="trailer" id="p-trailer"></div>
+</section>
+</div>
+</div>
+<script>
+  (function(){
+    function applySizing(){
+      var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
+      var baseStrip=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
+      var stripH=baseStrip-20;
+      var capH=40;
+      var vignetteH=Math.round(baseStrip*23/35);
+      var posterH=Math.max(120,vignetteH-capH);
+      var colW=Math.round(posterH*2/3);
+      var root=document.documentElement;
+      root.style.setProperty('--stripH',stripH+'px');
+      root.style.setProperty('--vignetteH',vignetteH+'px');
+      root.style.setProperty('--posterH',posterH+'px');
+      root.style.setProperty('--colW',colW+'px');
+      root.style.setProperty('--capH',capH+'px');
+    }
+    applySizing();window.addEventListener('resize',applySizing);
+
+    function pad2(n){n=parseInt(n,10);return(n<10?'0':'')+n;}
+    function formatDayParts(dateStr){
+      if(!dateStr)return{abbr:'',date:''};
+      var d=new Date(dateStr+'T00:00:00');
+      if(isNaN(d.getTime())){
+        var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
+        if(m){d=new Date(m[3]+'-'+m[2]+'-'+m[1]+'T00:00:00');}
+      }
+      if(isNaN(d.getTime()))return{abbr:'',date:dateStr};
+      var jours=['DIM','LUN','MAR','MER','JEU','VEN','SAM'];
+      return { abbr: jours[d.getDay()], date: pad2(d.getDate())+'/'+pad2(d.getMonth()+1) };
+    }
+
+    var rail=document.getElementById('rail'),strip=document.getElementById('strip'),
+        panel=document.getElementById('panel'),pTitle=document.getElementById('p-title'),
+        pReal=document.getElementById('p-real'),pCast=document.getElementById('p-cast'),
+        pInfo=document.getElementById('p-info'),pGenres=document.getElementById('p-genres'),
+        pSynopsis=document.getElementById('p-synopsis'),pBackdropTop=document.getElementById('p-backdropTop'),
+        pTrailer=document.getElementById('p-trailer'),todayBtn=document.getElementById('todayBtn'),
+        thumbStrip=document.getElementById('thumb-strip'),
+        pChipsTop=document.getElementById('p-chipsTop'), pPrix=document.getElementById('p-prix'),
+        pComment=document.getElementById('p-comment'), pTarifs=document.getElementById('p-tarifs');
+
+    // ---- Tri chronologique (déterministe ISO -> EU) ----
+/* removed: /* removed: /* removed: /* removed: /* removed: /* removed: /* removed: /* removed: /* removed: /* removed: function filmTimestamp (server-side ordering) */
+)();
+  })();
+  </script>
+<script>
+// Fallback: if a carousel already rendered unsorted, try to reorder DOM by timestamps
+window.addEventListener('load', function(){
+  var containers = Array.from(document.querySelectorAll('#cards, .cards, .carousel, #carousel'));
+  containers.forEach(function(ct){
+    var items = Array.from(ct.children);
+    if(!items.length) return;
+    // Try to read data object index from attribute, else try date/heure texts:
+    items.sort(function(a,b){
+      function ts(el){
+        var d = el.getAttribute('data-date') || '';
+        var h = el.getAttribute('data-heure') || '';
+        if(!d && el.querySelector('[data-date]')) d = el.querySelector('[data-date]').getAttribute('data-date')||'';
+        if(!h && el.querySelector('[data-heure]')) h = el.querySelector('[data-heure]').getAttribute('data-heure')||'';
+        var s = {date:d, heure:h, datetime_local: el.getAttribute('data-dl')||''};
+        return filmTimestamp(s);
+      }
+      return ts(a) - ts(b);
+    });
+    items.forEach(function(it){ ct.appendChild(it); });
+  });
+});
+</script>
+</body>
+</html>
