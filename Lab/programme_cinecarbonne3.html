@@ -224,10 +224,10 @@
               <div class="k">De :</div><div class="v" id="p-real"></div>
               <div class="k">Avec :</div><div class="v" id="p-cast"></div>
             </div>
-            <div class="infoLine" id="p-info"></div>
+            <div class="infoLine" id="p-info-2"></div>
             <div class="genresLine" id="p-genres"></div>
             <div class="pricesLine" id="p-prix"></div>
-            <div class="pricesLine" id="p-prix"></div>
+            <div class="pricesLine" id="p-prix-2"></div>
             <div class="synopsis" id="p-synopsis"></div>
           </div>
           <div class="panel-right">
@@ -286,33 +286,53 @@
         pChipsTop=document.getElementById('p-chipsTop'), pPrix=document.getElementById('p-prix'),
         pComment=document.getElementById('p-comment'), pTarifs=document.getElementById('p-tarifs');
 
-    // ---- Tri chronologique ----
-    function filmTimestamp(s){
-      const dl = (s.datetime_local || '').trim();
-      if (dl) {
-        const t = Date.parse(dl);
-        if (!isNaN(t)) return t;
-      }
-      const d = (s.date || '').trim();
-      const h = (s.heure || '').trim();
-      if (!d) return Number.POSITIVE_INFINITY;
-      const m = d.split(/[\/\-]/);
-      if (m.length >= 3) {
-        const JJ = parseInt(m[0],10), MM = parseInt(m[1],10)-1, AAAA = parseInt(m[2],10);
-        const hhmm = (h || "00:00").split(':');
-        const HH = parseInt(hhmm[0]||'0',10), MI = parseInt(hhmm[1]||'0',10);
-        return new Date(AAAA, MM, JJ, HH||0, MI||0, 0, 0).getTime();
-      }
-      return Number.POSITIVE_INFINITY;
-    }
-    function sortFilmsChrono(arr){
-      arr.sort((a,b)=>{
-        const ta = filmTimestamp(a), tb = filmTimestamp(b);
-        if (ta!==tb) return ta - tb;
-        const at=(a.titre||'').toLowerCase(), bt=(b.titre||'').toLowerCase();
-        return at.localeCompare(bt);
-      });
-    }
+    // ---- Tri chronologique (déterministe ISO -> EU) ----
+function filmTimestamp(s){
+  const dl = (s.datetime_local || '').trim();
+  if (dl) {
+    const tISO = Date.parse(dl);
+    if (!isNaN(tISO)) return tISO;
+  }
+  const d = ((s.date || s.Date || '')+'').trim();
+  const h = ((s.heure || s.Heure || '')+'').trim() || '00:00';
+
+  if (!d) return Number.POSITIVE_INFINITY;
+
+  // ISO "YYYY-MM-DD"
+  var mISO = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+  if (mISO){
+    const AAAA = parseInt(mISO[1],10);
+    const MM   = parseInt(mISO[2],10)-1;
+    const JJ   = parseInt(mISO[3],10);
+    const hhmm = h.split(':');
+    const HH = parseInt(hhmm[0]||'0',10), MI = parseInt(hhmm[1]||'0',10);
+    return new Date(AAAA, MM, JJ, HH||0, MI||0, 0, 0).getTime();
+  }
+
+  // Européen "DD/MM/YYYY"
+  var mEU = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(d);
+  if (mEU){
+    const JJ = parseInt(mEU[1],10);
+    const MM = parseInt(mEU[2],10)-1;
+    const AAAA = parseInt(mEU[3],10);
+    const hhmm = h.split(':');
+    const HH = parseInt(hhmm[0]||'0',10), MI = parseInt(hhmm[1]||'0',10);
+    return new Date(AAAA, MM, JJ, HH||0, MI||0, 0, 0).getTime();
+  }
+
+  // Dernier recours (tolérant)
+  const t = Date.parse(d + ' ' + h);
+  return isNaN(t) ? Number.POSITIVE_INFINITY : t;
+}
+function sortFilmsChrono(arr){
+  arr.sort((a,b)=>{
+    const ta = filmTimestamp(a), tb = filmTimestamp(b);
+    if (ta!==tb) return ta - tb;
+    const at=(a.titre||'').toLowerCase(), bt=(b.titre||'').toLowerCase();
+    return at.localeCompare(bt);
+  });
+}
+
 
 
     function hidePanel(){
@@ -402,6 +422,10 @@ function openPanel(s){
         }
       }
 
+      // Prices line (après genres)
+      if(pPrix){ var pr=(s.prix||'').trim(); if(pr){ pPrix.textContent=pr; pPrix.style.display='block'; } else { pPrix.style.display='none'; } }
+      
+      if(pTarifs){ var tar=(s.tarif||'').trim(); if(tar){ pTarifs.textContent=tar; pTarifs.style.display='inline-block'; } else { pTarifs.style.display='none'; } }
       // Build gallery thumbnails
       if(thumbStrip){
         while(thumbStrip.firstChild) thumbStrip.removeChild(thumbStrip.firstChild);
