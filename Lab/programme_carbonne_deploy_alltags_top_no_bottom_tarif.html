@@ -400,13 +400,6 @@ function openPanel(s){
         }
       }
 
-      // Prices line (après genres)
-      if(pPrix){ var pr=(s.prix||'').trim(); if(pr){ pPrix.textContent=pr; pPrix.style.display='block'; } else { pPrix.style.display='none'; } }
-      
-      if(pTarifs){ var tar=(s.tarif||'').trim(); if(tar){ pTarifs.textContent=tar; pTarifs.style.display='inline-block'; } else { pTarifs.style.display='none'; } }
-      // Nettoyage : supprimer toute ancienne rangée de chips sous le synopsis
-      var oldRow = document.querySelector('.chipsRow');
-      if(oldRow){ try{ oldRow.remove(); }catch(e){} }
 
       // Build gallery thumbnails
       if(thumbStrip){
