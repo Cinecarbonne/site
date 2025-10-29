@@ -285,15 +285,46 @@
 .allocineBtn:hover{ filter: brightness(1.05); }
 
 
-/* Inline Allociné link under synopsis */
+/* === User color update: chips + labels === */
+.chip {
+  background: #c3b877 !important; /* pale muted yellow */
+  color: #1a1a1a !important;      /* dark grey text */
+}
+.chip.commentChip, .chip.tarifChip {
+  background: #c3b877 !important;
+  color: #1a1a1a !important;
+}
+/* Labels "De", "Avec" */
+.k {
+  color: #c3b877 !important;
+}
+/* Genres line text */
+.genresLine {
+  color: #c3b877 !important;
+  font-weight: 800;
+}
+/* Synopsis label */
+.synopsisLabel {
+  color: #c3b877 !important;
+  font-weight: 800;
+  font-size: 1.06rem;
+}
+/* Allociné button style aligns with chip color */
+.allocineBtn{
+  background: #c3b877 !important;
+  color: #1a1a1a !important;
+}
+
+/* --- Nouveau : lien Allociné à la fin du synopsis --- */
 .allocineLink {
   color: #c3b877;
-  font-weight: 700;
-  text-decoration: none;
+  font-weight: 900;
+  text-decoration: underline;
 }
-.allocineLink:hover { text-decoration: underline; }
-
-</style>
+.allocineLink:hover {
+  filter: brightness(1.08);
+}
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -337,7 +368,7 @@
             <div class="pricesLine" id="p-prix"></div>
             <div class="synopsisLabel" id="p-synopsis-label">Synopsis :</div>
             <div class="synopsis" id="p-synopsis"></div>
-            <div class="linksRow"><a id="link-allocine" class="allocineBtn" href="#" target="_blank" rel="noopener" style="display:none">La page du film sur AlloCiné</a></div>
+            <div class="linksRow"><a id="link-allocine" class="allocineBtn" href="#" target="_blank" rel="noopener" style="display:none"></a></div>
           </div>
           <div class="panel-right">
             <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
@@ -393,7 +424,7 @@
         pTrailer=document.getElementById('p-trailer'),todayBtn=document.getElementById('todayBtn'),
         thumbStrip=document.getElementById('thumb-strip'),
         pChipsTop=document.getElementById('p-chipsTop'), pPrix=document.getElementById('p-prix'),
-        pComment=document.getElementById('p-comment'), pTarifs=document.getElementById('p-tarifs');
+        pComment=document.getElementById('p-comment'), pTarifs=document.getElementById('p-tarifs'), linkAllocine=document.getElementById('link-allocine');
 
     // ---- Tri chronologique (déterministe ISO -> EU) ----
 function filmTimestamp(s){
@@ -480,6 +511,11 @@ function sortFilmsChrono(arr){
       return labels;
     }
 
+/* --- Helper pour récupérer l'URL Allociné quelle que soit la clé --- */
+function getAllocineURL(s){
+  return s.allocine_url || s.AllocineURL || s.allocine || s.url_allocine || s.AlloCine || s.allocineUrl || '';
+}
+
 function openPanel(s){
 
   if(!s) return;
@@ -496,15 +532,25 @@ function openPanel(s){
   pInfo.textContent = infoParts.join(' / ');
 
   pGenres.textContent = s.genres || '';
-  var syn = (s.synopsis || '').trim();
-var allo = (s.allocine_url || '').trim();
-var extra = '';
-if (allo) {
-  var titre = (s.titre || 'Le film').trim();
-  extra = '<br><br><a class="allocineLink" href="'+allo+'" target="_blank" rel="noopener">' + titre + ' sur Allociné</a>';
-}
-pSynopsis.innerHTML = syn.replace(/
-/g,'<br>') + extra;
+
+  // Synopsis de base
+  pSynopsis.textContent = s.synopsis || '';
+
+  // Ajout "Titre sur Allociné" si URL présente
+  var aUrl = getAllocineURL(s);
+  if (aUrl && typeof aUrl === 'string' && aUrl.trim() !== '') {
+    // Deux sauts de ligne (une ligne vide) puis un lien cliquable
+    pSynopsis.appendChild(document.createElement('br'));
+    pSynopsis.appendChild(document.createElement('br'));
+    var a = document.createElement('a');
+    var titre = (s.titre || 'Fiche');
+    a.textContent = '"' + titre + '" sur Allociné';
+    a.href = aUrl;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.className = 'allocineLink';
+    pSynopsis.appendChild(a);
+  }
 
   if (pChipsTop) {
     pChipsTop.innerHTML = '';
