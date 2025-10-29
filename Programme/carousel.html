@@ -341,11 +341,51 @@
   text-transform: uppercase !important;
 }
 
+
+.hero {
+  background: var(--brand);
+  color: #fff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.hero .logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  margin: 6px 0 6px 10px;
+}
+
+
+.hero {
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 80px; /* fixe pour cadrer le logo */
+  position: relative;
+}
+.hero .logo {
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  bottom: 4px;
+  height: calc(100% - 3mm);
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
+      <img class="logo" src="./cinecarbonne-1.png" alt="Ciné Carbonne" />
       <h1 class="siteTitle">
         <span class="brand">Ciné Carbonne</span>
         <span class="slash">/</span>
