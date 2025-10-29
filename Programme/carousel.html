@@ -380,14 +380,22 @@
   object-fit: contain;
 }
 
+
+.hero a.home-link, .hero a.brand-link {
+  text-decoration: none;
+}
+.hero a.brand-link:hover .brand {
+  text-decoration: underline;
+}
+
 </style>
 </head>
 <body>
   <div class="wrap">
     <div class="hero">
-      <img class="logo" src="./cinecarbonne-1.png" alt="Ciné Carbonne" />
+      <a href="https://cinecarbonne.fr" class="home-link"><img class="logo" src="./cinecarbonne-1.png" alt="Ciné Carbonne" /></a>
       <h1 class="siteTitle">
-        <span class="brand">Ciné Carbonne</span>
+        <a href="https://cinecarbonne.fr" class="brand-link"><span class="brand">Ciné Carbonne</span></a>
         <span class="slash">/</span>
         <span class="program">Programme</span>
       </h1>
