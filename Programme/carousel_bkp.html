@@ -656,12 +656,7 @@
     }
     window.addEventListener('load', loadJSON);
 
-    
-// Rafraîchissement automatique du programme toutes les 30 minutes
-setInterval(function(){
-  loadJSON();
-}, 30 * 60 * 1000);
-// drag scroll
+    // drag scroll
     (function(){
       var isDown=false,startX=0,startScroll=0;
       var leftBtn=document.getElementById('leftBtn'),rightBtn=document.getElementById('rightBtn');
