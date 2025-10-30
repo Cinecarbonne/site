@@ -295,6 +295,47 @@
     .allocineLink:hover {
       filter: brightness(1.08);
     }
+    /* ===== Ajustements mobiles pour l'entête des vignettes ===== */
+
+  /* 1er palier : tablettes / grands téléphones */
+  @media (max-width: 720px) {
+    .cap {
+      padding: 0 6px;
+      gap: 4px;
+    }
+    .cap .day .abbr {
+      font-size: 14px;
+    }
+    .cap .day .date {
+      font-size: 16px;
+    }
+    .cap .time {
+      font-size: 14px;
+      white-space: nowrap;
+    }
+  }
+
+  /* 2e palier : petits téléphones */
+  @media (max-width: 460px) {
+    .cap {
+      height: 34px;              /* un peu moins haut */
+      padding: 0 4px;
+    }
+    .cap .day {
+      gap: 4px;
+    }
+    .cap .day .abbr {
+      font-size: 12px;
+    }
+    .cap .day .date {
+      font-size: 14px;
+    }
+    .cap .time {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+
   </style>
 </head>
 <body>
