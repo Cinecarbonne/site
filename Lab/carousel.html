@@ -335,6 +335,31 @@
       white-space: nowrap;
     }
   }
+  /* ===== Galerie responsive (sous l'image principale) ===== */
+  @media (max-width: 720px) {
+    .thumb-strip {
+      gap: .35rem;
+    }
+    .thumb-strip .thumb {
+      width: 70px;         /* au lieu de "auto" */
+      flex: 0 0 70px;      /* force la largeur */
+      aspect-ratio: 16/9;
+    }
+    .thumb-strip .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /* encore un peu plus petit */
+  @media (max-width: 460px) {
+    .thumb-strip .thumb {
+      width: 58px;
+      flex: 0 0 58px;
+    }
+  }
+
 
   </style>
 </head>
