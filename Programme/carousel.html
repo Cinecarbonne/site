@@ -18,7 +18,7 @@
     /* Police titre film (panneau) */
     @font-face {
       font-family: "FixelExtraBold";
-      src: url("./FixelText-ExtraBold.ttf") format("truetype");
+      src: url("./fonts/FixelText-ExtraBold.ttf") format("truetype");
       font-weight: 800;
       font-style: normal;
       font-display: swap;
@@ -35,9 +35,9 @@
 
       --stripBand:#2f2d2e;
 
-      --capBg:#4d2222;
+      --capBg:#3d2727;
       --capText:#d7bebd;
-      --capTime:#b57f7d;
+      --capTime:#ab6966;
 
       --panelBg:#141518;
       --panelFg:#e1d2d2;
@@ -118,7 +118,6 @@
       font-size:clamp(26px,4.5vw,40px);
     }
 
-    /* Bande autour de la pellicule */
     .stripBand{
       background:var(--stripBand);
       padding:14px 0 18px;
@@ -153,7 +152,6 @@
     .rail::-webkit-scrollbar{display:none}
     .strip{display:flex; gap:var(--gap); align-items:flex-start}
 
-    /* Vignettes */
     .col{
       appearance:none;
       border:0;
@@ -225,7 +223,6 @@
     }
     .todayBtn:hover{filter:brightness(1.08)}
 
-    /* Panneau */
     .panelBand{background:transparent; margin-top:16px; border-radius:14px; padding:0}
     .panel{
       margin:0;
@@ -263,7 +260,7 @@
       .panel-grid2{grid-template-columns:1fr}
     }
 
-    /* Tags / chips (version finale seulement) */
+    /* Tags / chips (version finale) */
     .allChipsTop {
       display: flex;
       flex-wrap: wrap;
@@ -277,8 +274,8 @@
       height: 28px;
       padding: 0 10px;
       border-radius: 999px;
-      background: #661c1b !important;  /* rouge sombre final */
-      color: #e78b8b !important;        /* rouge clair final */
+      background: #661c1b !important;
+      color: #e78b8b !important;
       font-size: 0.9rem;
       font-weight: 600;
       letter-spacing: 0.1px;
@@ -295,46 +292,117 @@
     .allocineLink:hover {
       filter: brightness(1.08);
     }
+
     /* ===== Ajustements mobiles pour l'entête des vignettes ===== */
+    @media (max-width: 720px) {
+      .cap {
+        padding: 0 6px;
+        gap: 4px;
+      }
+      .cap .day .abbr {
+        font-size: 14px;
+      }
+      .cap .day .date {
+        font-size: 16px;
+      }
+      .cap .time {
+        font-size: 14px;
+        white-space: nowrap;
+      }
+    }
+    @media (max-width: 460px) {
+      .cap {
+        height: 34px;
+        padding: 0 4px;
+      }
+      .cap .day {
+        gap: 4px;
+      }
+      .cap .day .abbr {
+        font-size: 12px;
+      }
+      .cap .day .date {
+        font-size: 14px;
+      }
+      .cap .time {
+        font-size: 12px;
+        white-space: nowrap;
+      }
+    }
 
-  /* 1er palier : tablettes / grands téléphones */
-  @media (max-width: 720px) {
-    .cap {
-      padding: 0 6px;
-      gap: 4px;
+    /* === Galerie d’images intelligente (1,2,3,4-5) === */
+    .panel-right .thumb-strip {
+      margin-top: 10px;
+      max-height: 130px;   /* limite visuelle pour éviter les gros blocs quand peu d’images */
+      overflow: hidden;
     }
-    .cap .day .abbr {
-      font-size: 14px;
+    .thumb-strip {
+      display: grid;
+      gap: 8px;
     }
-    .cap .day .date {
-      font-size: 16px;
+    /* 2 images : deux rectangles bas */
+    .thumb-strip--2 {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .cap .time {
-      font-size: 14px;
-      white-space: nowrap;
+    .thumb-strip--2 .thumb {
+      aspect-ratio: 16 / 9;
     }
-  }
+    /* 3 images : 3 rectangles un peu aplatis */
+    .thumb-strip--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .thumb-strip--3 .thumb {
+      aspect-ratio: 4 / 3;
+    }
+    /* 4 et 5 images : on repasse en carré */
+    .thumb-strip--4,
+    .thumb-strip--5 {
+      grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
+    }
+    .thumb-strip--4 .thumb,
+    .thumb-strip--5 .thumb {
+      aspect-ratio: 1 / 1;
+    }
 
-  /* 2e palier : petits téléphones */
-  @media (max-width: 460px) {
-    .cap {
-      height: 34px;              /* un peu moins haut */
-      padding: 0 4px;
+    .thumb-strip .thumb {
+      position: relative;
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: transform .12s ease-out, box-shadow .12s ease-out;
     }
-    .cap .day {
-      gap: 4px;
+    .thumb-strip .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .cap .day .abbr {
-      font-size: 12px;
+    .thumb-strip .thumb:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
     }
-    .cap .day .date {
-      font-size: 14px;
+    .thumb-strip .thumb[aria-current="true"] {
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
+      transform: translateY(-1px);
     }
-    .cap .time {
-      font-size: 12px;
-      white-space: nowrap;
+
+    @media (max-width: 720px) {
+      .thumb-strip {
+        gap: 6px;
+      }
+      .thumb-strip--2 .thumb {
+        aspect-ratio: 16 / 9;
+      }
+      .thumb-strip--3 .thumb {
+        aspect-ratio: 16 / 10;
+      }
+      .panel-right .thumb-strip {
+        max-height: 110px;
+      }
     }
-  }
 
   </style>
 </head>
@@ -380,18 +448,11 @@
             <div class="genresLine" id="p-genres"></div>
             <div class="pricesLine" id="p-prix" style="display:none"></div>
             <div class="synopsis" id="p-synopsis"></div>
-            <div class="linksRow">
-              <a id="link-allocine" class="allocineBtn" href="#" target="_blank" rel="noopener" style="display:none"></a>
-            </div>
           </div>
           <div class="panel-right">
             <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
             <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie d’images"></div>
           </div>
-        </div>
-        <div class="chipsRow">
-          <div class="chip commentChip" id="p-comment" style="display:none"></div>
-          <div class="chip tarifChip" id="p-tarifs" style="display:none"></div>
         </div>
         <div class="trailer" id="p-trailer"></div>
       </section>
@@ -400,7 +461,7 @@
 
   <script>
   (function(){
-    // -- sizing pour le carrousel
+    // sizing
     function applySizing(){
       var w=Math.max(document.documentElement.clientWidth,window.innerWidth||0);
       var baseStrip=Math.max(290,Math.min(460,Math.round(230+0.19*w)));
@@ -419,7 +480,6 @@
     applySizing();
     window.addEventListener('resize',applySizing);
 
-    // util petit affichage jour/date
     function pad2(n){n=parseInt(n,10);return(n<10?'0':'')+n;}
     function formatDayParts(dateStr){
       if(!dateStr)return{abbr:'',date:''};
@@ -443,19 +503,19 @@
         todayBtn=document.getElementById('todayBtn'),
         thumbStrip=document.getElementById('thumb-strip'),
         pChipsTop=document.getElementById('p-chipsTop'),
-        pPrix=document.getElementById('p-prix'),
-        pComment=document.getElementById('p-comment'),
-        pTarifs=document.getElementById('p-tarifs'),
-        linkAllocine=document.getElementById('link-allocine');
+        pPrix=document.getElementById('p-prix');
 
     function hidePanel(){
       panel.classList.remove('visible');
-      pTitle.textContent=''; pReal.textContent=''; pCast.textContent='';
-      pInfo.textContent=''; pGenres.textContent=''; pSynopsis.textContent='';
+      pTitle.textContent='';
+      pReal.textContent='';
+      pCast.textContent='';
+      pInfo.textContent='';
+      pGenres.textContent='';
+      pSynopsis.textContent='';
       pBackdropTop.removeAttribute('src');
     }
 
-    // -- helper URL Allociné
     function getAllocineURL(s){
       return s.allocine_url || s.AllocineURL || s.allocine || s.url_allocine || s.AlloCine || s.allocineUrl || '';
     }
@@ -491,11 +551,11 @@
       return labels;
     }
 
-    // === convertit date+heure (format JSON uniforme) en timestamp local
+    // convertit date+heure (format JSON uniforme) en timestamp local
     function seanceTimestamp(s) {
       if (!s || !s.date || !s.heure) return NaN;
-      var datePart = s.date.trim();      // "2025-10-30"
-      var timePart = s.heure.trim();     // "17:00"
+      var datePart = s.date.trim();
+      var timePart = s.heure.trim();
       var y = parseInt(datePart.slice(0, 4), 10);
       var m = parseInt(datePart.slice(5, 7), 10) - 1;
       var d = parseInt(datePart.slice(8, 10), 10);
@@ -506,7 +566,6 @@
 
     function openPanel(s){
       if(!s) return;
-
       pTitle.textContent = s.titre || 'Titre inconnu';
       pReal.textContent = s.realisateur || '';
       pCast.textContent = s.acteurs_principaux || '';
@@ -523,7 +582,7 @@
       // synopsis
       pSynopsis.textContent = s.synopsis || '';
 
-      // Lien Allociné en bas du synopsis
+      // lien Allociné
       var aUrl = getAllocineURL(s);
       if (aUrl && typeof aUrl === 'string' && aUrl.trim() !== '') {
         pSynopsis.appendChild(document.createElement('br'));
@@ -571,7 +630,7 @@
         else { pPrix.style.display = 'none'; }
       }
 
-      // image
+      // image principale
       var best = (s.backdrop_url || s.affiche_url || '');
       pBackdropTop.src = best;
       pBackdropTop.style.display = best ? 'block' : 'none';
@@ -580,24 +639,36 @@
         pBackdropTop.sizes = backdropSizes();
       }
 
-      // miniatures
+      // GALERIE — affichage adapté au nombre d’images
       if (thumbStrip) {
         while (thumbStrip.firstChild) thumbStrip.removeChild(thumbStrip.firstChild);
+
         var urls = [];
         function pushU(u){ if(u && urls.indexOf(u)===-1) urls.push(u); }
+
+        // image principale d'abord
         pushU(s.backdrop_url);
+        // puis les autres
         if (Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+
+        // max 5
         urls = urls.slice(0,5);
 
-        if (urls.length < 2) {
+        // 0 ou 1 -> pas de galerie
+        if (urls.length <= 1) {
           thumbStrip.style.display = 'none';
+          thumbStrip.className = 'thumb-strip';
         } else {
-          thumbStrip.style.display = 'flex';
+          thumbStrip.style.display = 'grid';
+          // on remet la classe de base puis on ajoute le modificateur
+          thumbStrip.className = 'thumb-strip thumb-strip--' + urls.length;
+
           urls.forEach(function(u, i){
             var btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'thumb';
             btn.setAttribute('role','listitem');
+            btn.setAttribute('aria-label','Image '+(i+1)+'/'+urls.length);
             var img = document.createElement('img');
             img.src = String(u).replace('/w780/','/w300/');
             img.loading = 'lazy';
@@ -610,7 +681,7 @@
               var kids = thumbStrip.querySelectorAll('.thumb');
               kids.forEach(function(k,j){ k.setAttribute('aria-current', j===i ? 'true' : 'false'); });
             });
-            if(i===0) btn.setAttribute('aria-current','true');
+            if (i === 0) btn.setAttribute('aria-current','true');
             thumbStrip.appendChild(btn);
           });
         }
@@ -652,13 +723,12 @@
       return col;
     }
 
-    // ======== RENDER LIST filtré + trié
+    // RENDER LIST filtré + trié
     function renderList(list){
       var items = Array.isArray(list) ? list : [];
       var now = Date.now();
       var margeMs = 2 * 60 * 60 * 1000; // 2h
 
-      // garder : a une heure + pas fini depuis plus de 2h
       var futurs = items.filter(function(s){
         if (!s.heure || String(s.heure).trim() === "") return false;
         var ts = seanceTimestamp(s);
@@ -666,7 +736,6 @@
         return ts >= (now - margeMs);
       });
 
-      // trier
       futurs.sort(function(a,b){
         return seanceTimestamp(a) - seanceTimestamp(b);
       });
@@ -683,7 +752,6 @@
       }
     }
 
-    // chargement JSON
     function loadJSON(){
       var url = './programme.json';
       fetch(url,{cache:'no-store'})
@@ -696,13 +764,12 @@
         .catch(function(e){ console.warn('Échec chargement JSON:', e.message); });
     }
     window.addEventListener('load', loadJSON);
+    // auto-refresh toutes les 30 minutes
+    setInterval(function(){
+      loadJSON();
+    }, 30 * 60 * 1000);
 
-    
-// Rafraîchissement automatique du programme toutes les 30 minutes
-setInterval(function(){
-  loadJSON();
-}, 30 * 60 * 1000);
-// drag scroll
+    // drag scroll + flèches
     (function(){
       var isDown=false,startX=0,startScroll=0;
       var leftBtn=document.getElementById('leftBtn'),rightBtn=document.getElementById('rightBtn');
