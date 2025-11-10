@@ -659,7 +659,7 @@
     "imdb_id": "tt31923069",
     "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000000149.html"
   },
-  {
+    {
     "datetime_local": "",
     "date": "2025-11-27",
     "heure": "21:00",
@@ -870,7 +870,7 @@
     "imdb_id": "",
     "allocine_url": ""
   },
-  {
+    {
     "datetime_local": "",
     "date": "2025-11-30",
     "heure": "15:00",
@@ -894,7 +894,7 @@
       "https://fr.web.img6.acsta.net/r_1920_1080/img/be/6c/be6cd2cfff2a763be10f85b48fc3e8b7.jpg",
       "https://fr.web.img3.acsta.net/r_1920_1080/img/6c/2a/6c2aeae92aee21162659f6a76a192244.jpg",
       "https://fr.web.img6.acsta.net/r_1920_1080/img/c2/68/c2689cb953eafbcfa9712efba06bb0e7.jpg",
-      "https://fr.web.img3.acsta.net/r_1920_1080/img/0e/ba/0eba91fbc8eb7498b69ea274b6aff232.jpg"
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/0e/ba/0eba91fbc8eb7498b69ea274b6aff232.jpg" 
     ],
     "trailer_url": "https://www.youtube.com/watch?v=eYiToUiy4nE",
     "tmdb_id": "",
@@ -1206,7 +1206,7 @@
       "https://fr.web.img6.acsta.net/r_1920_1080/img/d3/4a/d34a32753886417b44188d6a4129cece.jpg",
       "https://fr.web.img3.acsta.net/r_1920_1080/img/cd/b7/cdb7a07a8db736d55c54644b400ed32a.jpg",
       "https://fr.web.img3.acsta.net/r_1920_1080/img/0d/87/0d87d6d0ed98d5d36d07ebe38ef0af79.jpg",
-      "https://fr.web.img3.acsta.net/r_1920_1080/img/0a/ab/0aab06f4b998866de08dbcc4d91dfa0b.jpg"
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/0a/ab/0aab06f4b998866de08dbcc4d91dfa0b.jpg",
     ],
     "trailer_url": "https://www.youtube.com/watch?v=eqKElzPl0kI",
     "tmdb_id": "",
@@ -1333,7 +1333,7 @@
       "https://fr.web.img6.acsta.net/r_1920_1080/img/88/26/8826c944b8bac04666565d1c6920f978.jpg",
       "https://fr.web.img4.acsta.net/r_1920_1080/img/a5/76/a576671baa8150a37fe454af620936af.jpg",
       "https://fr.web.img3.acsta.net/r_1920_1080/img/31/f2/31f220eebc270fc559f3b6396a9c6192.jpg",
-      "https://fr.web.img3.acsta.net/r_1920_1080/img/d4/3c/d43ce6b0334ed550914e4cb4acf51059.jpg"
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/d4/3c/d43ce6b0334ed550914e4cb4acf51059.jpg",
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Noi6CH47kd0",
     "tmdb_id": "",
@@ -1579,7 +1579,7 @@
       "https://media.themoviedb.org/t/p/w500_and_h282_face/1tBeqmocwPvgPvEg2UisXuWnESt.jpg",
       "https://media.themoviedb.org/t/p/w500_and_h282_face/zbi0Ib6FSUHlUu3nC0t3Mzkm5D4.jpg",
       "https://media.themoviedb.org/t/p/w500_and_h282_face/eo9MdHeHEJ5e9abFFe9SCosueI1.jpg",
-      "https://media.themoviedb.org/t/p/w500_and_h282_face/1jfRYrOdDDnSI3e6SUhjEYeeKej.jpg"
+      "https://media.themoviedb.org/t/p/w500_and_h282_face/1jfRYrOdDDnSI3e6SUhjEYeeKej.jpg",
     ],
     "trailer_url": "https://www.youtube.com/watch?v=HvMRz0_PZk0",
     "tmdb_id": "",
