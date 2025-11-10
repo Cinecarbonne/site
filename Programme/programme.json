@@ -735,13 +735,14 @@
     "commentaire": "",
     "synopsis": "Les Dieux sont en colère contre Arthur ! Après la destruction de Kaamelott, son refus obstiné de tuer Lancelot précipite le Royaume de Logres à sa perte. Il réunit ses Chevaliers, novices téméraires et vétérans désabusés, autour de la Nouvelle Table Ronde et les envoie prouver leur valeur aux quatre coins du Monde, des Marais Orcaniens aux terres glacées du Dragon Opalescent.",
     "affiche_url": "https://fr.web.img6.acsta.net/r_1920_1080/img/d8/e0/d8e085c8ca751d1d55db75efcc1358e9.jpg",
-    "backdrop_url": "https://fr.web.img5.acsta.net/r_1920_1080/img/31/dd/31dd7081933c4771350a797420af60ea.jpg",
+    "backdrop_url": "https://fr.web.img6.acsta.net/r_1920_1080/img/74/af/74afea8b608fcf49d3cb9f45cb20e91a.jpg",
     "backdrops": [
       "https://fr.web.img6.acsta.net/r_1920_1080/img/74/af/74afea8b608fcf49d3cb9f45cb20e91a.jpg",
       "https://image.tmdb.org/t/p/original/A2p2U0oBfmZ8zDwxjgDEDC9KfxH.jpg",
       "https://i.ytimg.com/vi/iHMBbOEXv_w/hq720.jpg",
       "https://assets.diverto.tv/media/kaamelott-deuxieme-volet-partie-1.jpg",
-      "https://www.boxofficepro.fr/wp-content/uploads/sites/2/2025/10/Kaamelott-Deuxieme-Volet-partie-1-dAlexandre-Astier-%C2%A9SND-scaled.jpg"
+      "https://www.boxofficepro.fr/wp-content/uploads/sites/2/2025/10/Kaamelott-Deuxieme-Volet-partie-1-dAlexandre-Astier-%C2%A9SND-scaled.jpg",
+      "https://www.avcesar.com/source/critique/00/00/1B/73/kaamelott-deuxieme-volet-partie-1_4_7234.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Q6xiS0nNLQY",
     "tmdb_id": "",
@@ -768,7 +769,11 @@
     "synopsis": "",
     "affiche_url": "https://fr.web.img2.acsta.net/r_1920_1080/img/b1/be/b1be563abab3edecd3e1bc98e69af54f.jpg",
     "backdrop_url": "",
-    "backdrops": [],
+    "backdrops": [
+      "https://focus.telerama.fr/2025/10/13/0/0/1920/1080/1200/0/60/0/0c7c1a1_upload-1-edklfsh1dz45-telerama-019977-041.jpg",
+      "https://media.pathe.fr/movie/id/48027/backdrop/248616/lg/1/fsam16-06-ima-epi-20-699px.jpg",
+      "https://images.cinefil.com/movies/1255178.webp"
+    ],
     "trailer_url": "https://www.youtube.com/watch?v=DLmOD72oOKg",
     "tmdb_id": "",
     "imdb_id": "",
@@ -829,7 +834,7 @@
       "https://image.tmdb.org/t/p/w780/sGBTulujyLiPSfzTovHnNxJkubp.jpg",
       "https://image.tmdb.org/t/p/w780/fwgmYSex0dMkmDr79LXHTEKus0.jpg",
       "https://image.tmdb.org/t/p/w780/3mykUaardjQ2jlH5NZaZ4zR54EI.jpg",
-      "https://image.tmdb.org/t/p/w780/b1oJ5K2cVXMCC7p33YdhDYhhU0F.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/86/9e/869e7c140de8bb5b270eae21820a5e56.JPG",
       "https://image.tmdb.org/t/p/w780/i7Ne6Jon0BWYFmViw3SM0RxL56l.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=PJANslPWsh0",
@@ -981,9 +986,13 @@
     "commentaire": "",
     "synopsis": "Suite à la disparition d’un de leur camarade de classe, quatre anciens lycéens décident, 30 ans après le bac, de réunir toute leur promo à l’occasion d’une fête.  Véritable déclaration d’amour aux années 90, \"T’as pas changé\" dresse le portrait drôle et doux-amer de ces presque quinquas que des retrouvailles vont bouleverser à jamais…",
     "affiche_url": "https://image.tmdb.org/t/p/w500/w0pByvtYNKTlOxsHC6PdrPlG0ju.jpg",
-    "backdrop_url": "https://image.tmdb.org/t/p/w780/5Bv769BOiMIpLiMwGfX9VD8qqmT.jpg",
+    "backdrop_url": "https://fr.web.img6.acsta.net/r_1920_1080/img/5e/7d/5e7da97053ca4ee686891517cc5c160b.jpg",
     "backdrops": [
-      "https://image.tmdb.org/t/p/w780/5Bv769BOiMIpLiMwGfX9VD8qqmT.jpg"
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/5e/7d/5e7da97053ca4ee686891517cc5c160b.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/a3/7b/a37beabd2e56a1ee25e59b2768704bb8.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/e8/68/e868b4d4a6b02b7bcc93f64d34a9be13.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/27/78/277844afb6aea8b13cc92676f1353337.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/04/3b/043b9ef8e37cfe2fc5a86746f34dd165.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jJBSQ5EperU",
     "tmdb_id": "1302848",
@@ -1042,10 +1051,10 @@
     "backdrop_url": "https://image.tmdb.org/t/p/w780/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
-      "https://image.tmdb.org/t/p/w780/nIX9kqNNe4ERx3wg3TuzRa2deAM.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/b0/71/b071b5492843cc924ecb64a2461df574.jpg",
       "https://image.tmdb.org/t/p/w780/k6Z6q3lQ2lb2LukgEzlmZXLvc3q.jpg",
       "https://image.tmdb.org/t/p/w780/hd0vCY2mloUVqcJ1NtoajeuYpRF.jpg",
-      "https://image.tmdb.org/t/p/w780/bg68ukcSn5HcMSX48NwcdNM8wNk.jpg"
+      "https://fr.web.img2.acsta.net/r_1920_1080/img/a3/6d/a36dc195cd946cb7e804ce90191d642d.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Zdb-AieBwHg",
     "tmdb_id": "1054867",
@@ -1074,10 +1083,9 @@
     "backdrop_url": "https://image.tmdb.org/t/p/w780/t9jGgUvyqs727IBoHrLuqr26l1M.jpg",
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/t9jGgUvyqs727IBoHrLuqr26l1M.jpg",
-      "https://image.tmdb.org/t/p/w780/u7zLaV1RzIg4P30bEhrmakbAJN1.jpg",
-      "https://image.tmdb.org/t/p/w780/x6FzgabvG0x9lg0uLxq7IVkFxbv.jpg",
       "https://image.tmdb.org/t/p/w780/bsHgNmipnyRnn9OuAxGK0xqCofv.jpg",
-      "https://image.tmdb.org/t/p/w780/2MfKsrH1anWlPkhDDTyjQ7rJsTT.jpg"
+      "https://fr.web.img4.acsta.net/r_1920_1080/img/7c/02/7c02ce0ac46c772a1324ce024cf11cfe.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/d1/db/d1db5a42fd14e192fbe4a8723322bf50.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=DSjh-MrQrA8",
     "tmdb_id": "1358491",
@@ -1139,9 +1147,7 @@
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/kjKxmpuPIvXjDP4reWCkMaeK2Es.jpg",
       "https://image.tmdb.org/t/p/w780/hhXn8mmcVklvL9qh1ZBUa6MlhZq.jpg",
-      "https://image.tmdb.org/t/p/w780/b1ScPSPPCoeaSwpm6qOwfWlPDNW.jpg",
-      "https://image.tmdb.org/t/p/w780/8GIBU46wljSS5jazAqbXXDkwtm9.jpg",
-      "https://image.tmdb.org/t/p/w780/5Ha0PkYO2NfGkTNgpudcrkbaIEt.jpg"
+      "https://image.tmdb.org/t/p/w780/8GIBU46wljSS5jazAqbXXDkwtm9.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=SOI1ysTMvcA",
     "tmdb_id": "1294698",
@@ -1170,7 +1176,6 @@
     "backdrop_url": "https://image.tmdb.org/t/p/w780/tF0tJiaIBupQXV67mn5YPBxRkpL.jpg",
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/tF0tJiaIBupQXV67mn5YPBxRkpL.jpg",
-      "https://image.tmdb.org/t/p/w780/1dDV1tV59XBCNqUxoKcNfjU5nzy.jpg",
       "https://image.tmdb.org/t/p/w780/xm9pVaPJg8d994Z7qTo1zZZftcS.jpg",
       "https://image.tmdb.org/t/p/w780/d7CEnerKVfW4b7ETft46hDq07So.jpg",
       "https://image.tmdb.org/t/p/w780/l71NGBrP5pRElykgkPqBbpW2SkM.jpg"
@@ -1235,7 +1240,6 @@
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/mQwD7GtPTkv6WF5m8AJWGrO5XOE.jpg",
       "https://image.tmdb.org/t/p/w780/tythOQk2aXCKZUIu0bg0KIqyiLH.jpg",
-      "https://image.tmdb.org/t/p/w780/pTgi0YC992aadhi8Ag8SaKuHMHr.jpg",
       "https://image.tmdb.org/t/p/w780/3TEkM1CMcewhjsm5F2b62fHUdXK.jpg",
       "https://image.tmdb.org/t/p/w780/2htdkWxIuZAQyO6hd9eKR4N6ZsB.jpg"
     ],
@@ -1266,9 +1270,8 @@
     "backdrop_url": "https://image.tmdb.org/t/p/w780/5qKiUPDrGOSmRKBlcpmY7OwPR0a.jpg",
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/5qKiUPDrGOSmRKBlcpmY7OwPR0a.jpg",
-      "https://image.tmdb.org/t/p/w780/8Po8X7AIDeO5fpCYz7YFKFAB0VB.jpg",
-      "https://image.tmdb.org/t/p/w780/fl36Z9J81DMOcmTW26UCmzr5LkY.jpg",
-      "https://image.tmdb.org/t/p/w780/p81dNPWTnwNyglLmn7CcPN76dXB.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/8f/49/8f49274617051d8afa3e781ae1dc60a8.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/c3/49/c3490c08359c3baa378be137ba1bc45e.jpg",
       "https://image.tmdb.org/t/p/w780/isAlsOYzGqVQ2co6lvv9F87ioNQ.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Cbvff_TBVfo",
@@ -1362,8 +1365,6 @@
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/4218cv3nH0RrrfMdwaTnenguqOQ.jpg",
       "https://image.tmdb.org/t/p/w780/uApLc1aWuzPW6g0J6jWdmHyewHM.jpg",
-      "https://image.tmdb.org/t/p/w780/4xJYB7gtQdIY5gmsNELfdMgV1PF.jpg",
-      "https://image.tmdb.org/t/p/w780/6vCc1WMCf26A17VwvsaQjs5Qpd4.jpg",
       "https://image.tmdb.org/t/p/w780/232gtjfBRtWZZD5XlwG3vdtAHuS.jpg"
     ],
     "trailer_url": "",
@@ -1422,8 +1423,7 @@
     "backdrop_url": "https://image.tmdb.org/t/p/w780/3il3iK1GqDwtv6UzkvnTMfr0Kip.jpg",
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/3il3iK1GqDwtv6UzkvnTMfr0Kip.jpg",
-      "https://image.tmdb.org/t/p/w780/pxkFCwywtVrIY63M7JpT1M5RyDG.jpg",
-      "https://image.tmdb.org/t/p/w780/eKtQugAUVEQi2XQFT8iEhcmgZaN.jpg"
+      "https://image.tmdb.org/t/p/w780/pxkFCwywtVrIY63M7JpT1M5RyDG.jpg"
     ],
     "trailer_url": "",
     "tmdb_id": "1221719",
@@ -1454,7 +1454,6 @@
       "https://image.tmdb.org/t/p/w780/f7hQAYL6HQ6P2H37di3ZxdrzCe3.jpg",
       "https://image.tmdb.org/t/p/w780/ztvFY1fw55BJ9Wmj05Z35ZA9tLj.jpg",
       "https://image.tmdb.org/t/p/w780/YK18OQW3Xl8PBhYQxFIyIp5uKw.jpg",
-      "https://image.tmdb.org/t/p/w780/aY6mZHUAcL2YjnRmp0tRyYtmN9l.jpg",
       "https://image.tmdb.org/t/p/w780/aU6wCChW9RT3wfNaQ4Q0kCuN5kQ.jpg"
     ],
     "trailer_url": "",
@@ -1481,9 +1480,13 @@
     "commentaire": "",
     "synopsis": "Suite à la disparition d’un de leur camarade de classe, quatre anciens lycéens décident, 30 ans après le bac, de réunir toute leur promo à l’occasion d’une fête.  Véritable déclaration d’amour aux années 90, \"T’as pas changé\" dresse le portrait drôle et doux-amer de ces presque quinquas que des retrouvailles vont bouleverser à jamais…",
     "affiche_url": "https://image.tmdb.org/t/p/w500/w0pByvtYNKTlOxsHC6PdrPlG0ju.jpg",
-    "backdrop_url": "https://image.tmdb.org/t/p/w780/5Bv769BOiMIpLiMwGfX9VD8qqmT.jpg",
+    "backdrop_url": "https://fr.web.img6.acsta.net/r_1920_1080/img/5e/7d/5e7da97053ca4ee686891517cc5c160b.jpg",
     "backdrops": [
-      "https://image.tmdb.org/t/p/w780/5Bv769BOiMIpLiMwGfX9VD8qqmT.jpg"
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/5e/7d/5e7da97053ca4ee686891517cc5c160b.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/a3/7b/a37beabd2e56a1ee25e59b2768704bb8.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/e8/68/e868b4d4a6b02b7bcc93f64d34a9be13.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/27/78/277844afb6aea8b13cc92676f1353337.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/04/3b/043b9ef8e37cfe2fc5a86746f34dd165.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jJBSQ5EperU",
     "tmdb_id": "1302848",
@@ -1606,7 +1609,11 @@
     "affiche_url": "https://image.tmdb.org/t/p/w500/v9xNYxNxh3Dj3nWLTp40sUz6vKQ.jpg",
     "backdrop_url": "https://image.tmdb.org/t/p/w780/oT0hoo5V933lWktpE9VdRS0Jxei.jpg",
     "backdrops": [
-      "https://image.tmdb.org/t/p/w780/oT0hoo5V933lWktpE9VdRS0Jxei.jpg"
+      "https://image.tmdb.org/t/p/w780/oT0hoo5V933lWktpE9VdRS0Jxei.jpg",
+      "https://fr.web.img2.acsta.net/r_1920_1080/img/a1/14/a114fafaf8e383c0583b3e0419ac6470.jpg",
+      "https://fr.web.img3.acsta.net/r_1920_1080/img/7c/b3/7cb3713eeece67ebcc32f3a2c17e9c0c.jpg",
+      "https://fr.web.img4.acsta.net/r_1920_1080/img/4b/ea/4beae131be06f80c9985373e8a4d5d00.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/71/d2/71d28328f1c4cdc27408b968f9e28f32.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=2JItttYeVFk",
     "tmdb_id": "1221724",
@@ -1695,9 +1702,9 @@
     "backdrops": [
       "https://image.tmdb.org/t/p/w780/l8pwO23MCvqYumzozpxynCNfck1.jpg",
       "https://image.tmdb.org/t/p/w780/hA7JD8JUhCadREOw83CgWOZXbWC.jpg",
-      "https://image.tmdb.org/t/p/w780/jEFZ3fPcmFEKG7iTRpBz49dJE6S.jpg",
-      "https://image.tmdb.org/t/p/w780/cGbPBHKSFO7hSIjxkb3KOaGdOep.jpg",
-      "https://image.tmdb.org/t/p/w780/7xaqes1BhiRLFkIjtsqZUDDd3oI.jpg"
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/71/9b/719b41d4f0337f8d75966deda3a1f982.jpg",
+      "https://fr.web.img2.acsta.net/r_1920_1080/img/aa/1d/aa1db1711fb8de30d74ab58564b64e6b.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/e1/f6/e1f6416350ea4838a973fc8dba324cf7.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=kEXOAsdIRPg",
     "tmdb_id": "967941",
@@ -1709,31 +1716,30 @@
     "date": "2025-12-23",
     "heure": "21:00",
     "titre": "La Vague",
-    "titre_original": "Die Welle",
-    "realisateur": "Dennis Gansel",
-    "acteurs_principaux": "Jürgen Vogel, Frederick Lau, Max Riemelt, Jennifer Ulrich, Christiane Paul, Elyas M'Barek",
-    "genres": "Drame, Thriller",
-    "duree_min": "108",
-    "annee": "2008",
-    "pays": "Germany",
+    "titre_original": "La Ola",
+    "realisateur": "Sebastián Lelio",
+    "acteurs_principaux": "Daniela López, Lola Bravo, Avril Aurora",
+    "genres": "Comédie dramatique, Comédie musicale",
+    "duree_min": "129",
+    "annee": "2025",
+    "pays": "Espagne",
     "version": "VO",
     "tarif": "",
     "prix": "",
     "categorie": "",
     "commentaire": "Découverte",
-    "synopsis": "En Allemagne, aujourd'hui. Dans le cadre d'un atelier, un professeur de lycée propose à ses élèves une expérience visant à leur expliquer le fonctionnement d'un régime totalitaire. Commence alors un jeu de rôle grandeur nature, dont les conséquences vont s'avérer tragiques.",
-    "affiche_url": "https://image.tmdb.org/t/p/w500/6TNbHlj8FIdvrhVN7xEsI5kacpz.jpg",
-    "backdrop_url": "https://image.tmdb.org/t/p/w780/bxQT6xCjejpGtgKl0QH8WUtrs33.jpg",
+    "synopsis": "Printemps 2018, une vague de manifestations déferle sur le Chili. Julia, une étudiante en musique rejoint le mouvement de son université pour dénoncer le harcèlement et les abus subis par les élèves depuis trop longtemps. Alors qu'elle trouve le courage de partager avec les étudiantes un souvenir qui la hante, elle devient de manière inattendue une figure centrale du mouvement. Son témoignage, intime et complexe, devient une vague qui secoue, perturbe et désarme une société polarisée.",
+    "affiche_url": "https://fr.web.img4.acsta.net/r_1920_1080/img/9d/b6/9db6a7199a34ba848409aff0143ebfac.jpg",
+    "backdrop_url": "https://fr.web.img4.acsta.net/r_1920_1080/img/94/43/944378c0ec6066a06e1143fd6d7fa954.jpg",
     "backdrops": [
-      "https://image.tmdb.org/t/p/w780/bxQT6xCjejpGtgKl0QH8WUtrs33.jpg",
-      "https://image.tmdb.org/t/p/w780/60IShZ5cu5g1mEz7wsM1WUL2jq8.jpg",
-      "https://image.tmdb.org/t/p/w780/8fPkBJxkBHyBm82OtgFtm9jNqEP.jpg",
-      "https://image.tmdb.org/t/p/w780/59ZtjU5FfggxT6fgr1rm0a2JVaM.jpg",
-      "https://image.tmdb.org/t/p/w780/eGPMcCPf6GKnqCGAThOubdqAcAy.jpg"
+      "https://fr.web.img4.acsta.net/r_1920_1080/img/94/43/944378c0ec6066a06e1143fd6d7fa954.jpg",
+      "https://fr.web.img2.acsta.net/r_1920_1080/img/18/7a/187ab50f1e532e31c2b263ec24d60146.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/6c/c9/6cc9d50efddfa54f760a14ef2db86b10.jpg",
+      "https://fr.web.img6.acsta.net/r_1920_1080/img/87/8e/878e391ede54f27eb1609ded92e51246.jpg"
     ],
-    "trailer_url": "https://www.youtube.com/watch?v=xYF232vStQ4",
-    "tmdb_id": "7735",
-    "imdb_id": "tt1063669",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=134390.html"
+    "trailer_url": "https://www.youtube.com/watch?v=mB-xp67Y9Vo",
+    "tmdb_id": "",
+    "imdb_id": "",
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022817.html"
   }
 ]
