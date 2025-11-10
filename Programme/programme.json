@@ -794,7 +794,7 @@
     "annee": "2025",
     "pays": "France",
     "version": "VF",
-    "tarif": "ADH 4 € - Autres 5 €",
+    "tarif": "Adhérents 4 € - Autres 5 €",
     "prix": "",
     "categorie": "Ciné Documentaire du samedi 18h",
     "commentaire": "DOC - partenariat paroisse",
@@ -802,12 +802,15 @@
     "affiche_url": "https://image.tmdb.org/t/p/w500/uzahVJlWRx7h5VYakR1LXJ2fNGv.jpg",
     "backdrop_url": "https://image.tmdb.org/t/p/w780/cUXZTgv0u7g1hsGtz1aCGyq5LUe.jpg",
     "backdrops": [
-      "https://image.tmdb.org/t/p/w780/cUXZTgv0u7g1hsGtz1aCGyq5LUe.jpg"
+      "https://image.tmdb.org/t/p/w780/cUXZTgv0u7g1hsGtz1aCGyq5LUe.jpg",
+      "https://wp.fr.aleteia.org/wp-content/uploads/sites/6/2025/09/Sacre-Coeur-film.jpg",
+      "https://fr.web.img6.acsta.net/c_640_360/img/bb/7b/bb7b32a4186457014578f77d49d20b9a.jpg",
+      "https://www.leparisien.fr/resizer/hT3lToYm0CSknOrAB3P3sSVdGWA=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/B4VT36FQ6VE5HL56MSMKUQ2PHM.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=4WVBkg00s64",
     "tmdb_id": "1536053",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000026320.html"
   },
   {
     "datetime_local": "",
