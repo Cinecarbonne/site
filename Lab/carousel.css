@@ -1,0 +1,396 @@
+/* Police titre site */
+@font-face{
+  font-family: "KeedyBold";
+  src: local("Keedy Bold"), url("./fonts/Keedy Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/* Police titre film (panneau) */
+@font-face {
+  font-family: "FixelExtraBold";
+  src: url("./fonts/FixelText-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root{
+  --brandMuted:#d07a79;
+  --sienna:#c9a15a;
+  --offWhite:#e1dcd4;
+  --brand:#b13231;
+
+  --pageBg:#2f2d2e;
+  --fg:#f0f0f0;
+
+  --stripBand:#2f2d2e;
+
+  --capBg:#3d2727;
+  --capText:#d7bebd;
+  --capTime:#ab6966;
+
+  --panelBg:#141518;
+  --panelFg:#e1d2d2;
+  --panelMuted:#89877b;
+  --panelLine:#141518;
+
+  --stripH: 400px;
+  --vignetteH: 265px;
+  --posterH: 225px;
+  --colW: 150px;
+  --capH: 40px;
+  --gap: 18px;
+  --vBias: 6px;
+}
+
+html,body{
+  margin:0;
+  background:var(--pageBg);
+  color:var(--fg);
+  font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell;
+}
+.wrap{max-width:1150px;margin:auto;padding:0 16px 24px}
+
+/* Bandeau haut avec logo */
+.hero {
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 80px;
+  position: relative;
+}
+.hero a.home-link {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.hero .logo {
+  height: calc(100% - 6px);
+  width: auto;
+  border-radius: 6px;
+  object-fit: contain;
+}
+.siteTitle{
+  margin:0;
+  text-align:center;
+  display:flex;
+  align-items:baseline;
+  justify-content:center;
+  gap:.25em;
+  line-height:1;
+}
+.siteTitle a.brand-link{
+  text-decoration:none;
+  color:inherit;
+}
+.siteTitle a.brand-link:hover .brand{
+  text-decoration:underline;
+}
+.siteTitle .brand{
+  font-family:"KeedyBold";
+  color:#fff;
+  font-size:clamp(32px,5.5vw,52px);
+}
+.siteTitle .slash{
+  color:#fff;
+  font-size:clamp(26px,4.8vw,42px);
+}
+.siteTitle .program{
+  font-family:"KeedyBold";
+  color:#0e0f10;
+  font-style:italic;
+  font-size:clamp(26px,4.5vw,40px);
+}
+
+.stripBand{
+  background:var(--stripBand);
+  padding:14px 0 18px;
+  margin-top:10px;
+  border-radius:12px
+}
+
+.rail-wrap{position:relative;}
+.filmStrip{
+  position: relative;
+  height: var(--stripH);
+  background:#000 url('strip.jpg') no-repeat center/auto 100%;
+  overflow:hidden;
+  border-radius:8px;
+}
+.railViewport{
+  height: var(--vignetteH);
+  margin-top: calc((var(--stripH) - var(--vignetteH)) / 2 - var(--vBias));
+  margin-bottom: calc((var(--stripH) - var(--vignetteH)) / 2 + var(--vBias));
+  position: relative;
+}
+.rail{
+  display:block;
+  overflow-x:auto; overflow-y:hidden;
+  padding:8px 48px;
+  user-select:none; cursor:grab;
+  height:100%;
+  scrollbar-width:none; -ms-overflow-style:none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.rail::-webkit-scrollbar{display:none}
+.strip{display:flex; gap:var(--gap); align-items:flex-start}
+
+.col{
+  appearance:none;
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  flex:0 0 auto;
+  width:var(--colW);
+  position:relative;
+}
+.col:focus{outline:0}
+.card{
+  border-radius:4px;
+  overflow:hidden;
+  display:block;
+  transform-origin:center;
+  transition:transform .2s ease;
+  opacity:0;
+  animation:fadeIn .2s ease forwards
+}
+.poster{
+  width:100%;
+  height:var(--posterH);
+  display:block;
+  object-fit:cover;
+  background:#000
+}
+.cap{
+  height:var(--capH);
+  background:var(--capBg);
+  color:var(--capText);
+  padding:0 10px;
+  display:flex; justify-content:space-between; align-items:center;
+  gap:8px;
+}
+.cap .day{display:flex; gap:6px; align-items:baseline}
+.cap .day .abbr{font-weight:800; color:var(--capText); font-size:16px; letter-spacing:.2px}
+.cap .day .date{font-weight:900; color:var(--capText); font-size:19px; line-height:1}
+.cap .time{font-weight:800; font-size:16px; color:var(--capTime)}
+.strip .card:hover{transform:scale(1.045)}
+@keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+
+/* Flèches carrousel */
+.arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%; border:0;
+  background:rgba(177,50,49,.85);
+  display:grid; place-items:center; cursor:pointer; z-index:5
+}
+.arrow.left{left:8px}
+.arrow.right{right:8px}
+.arrow > span{display:block; width:0; height:0; border-style:solid}
+.arrow.left > span{border-width:10px 14px 10px 0; border-color:transparent #fff transparent transparent}
+.arrow.right > span{border-width:10px 0 10px 14px; border-color:transparent transparent transparent #fff}
+
+.todayBtn{
+  position:absolute; left:12px; top:12px; z-index:6;
+  background:rgba(177,50,49,.55);
+  color:#fff; border:0;
+  padding:10px 18px 10px 28px; font-weight:800; cursor:pointer;
+  border-radius:999px;
+  transition:filter .15s ease, transform .15s ease;
+}
+.todayBtn::before{
+  content:''; position:absolute; left:8px; top:50%; transform:translateY(-50%);
+  width:0; height:0; border-style:solid;
+  border-width:10px 12px 10px 0;
+  border-color:transparent #fff transparent transparent;
+}
+.todayBtn:hover{filter:brightness(1.08)}
+
+.panelBand{background:transparent; margin-top:16px; border-radius:14px; padding:0}
+.panel{
+  margin:0;
+  background:var(--panelBg);
+  color:var(--panelFg);
+  border:1px solid var(--panelLine);
+  border-radius:18px;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity .3s ease
+}
+.panel.visible{opacity:1}
+
+.panel-grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px; padding:16px}
+.panel-left{min-width:0}
+.panel-right{min-width:0}
+.panel-title{
+  font-size:clamp(22px,3vw,34px);
+  margin:0 0 8px;
+  color:var(--brand);
+  font-family:"FixelExtraBold" !important;
+  text-transform:uppercase;
+}
+.kv{display:grid; grid-template-columns:48px 1fr; gap:2px 8px; margin-bottom:2px}
+.k{color:#c3b877; font-weight:800; line-height:1.15}
+.v{font-weight:700; line-height:1.2}
+.infoLine{margin:6px 0 2px; color:var(--panelFg); font-weight:700}
+.genresLine{margin:0 0 4px; color:#c3b877; font-weight:800}
+.pricesLine{margin:2px 0 10px; color:var(--sienna); font-style:italic; font-weight:800}
+.synopsis{white-space:pre-wrap; margin-top:4px; color:var(--panelFg); font-weight:600; line-height:1.35}
+.backdropTop{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; background:#0a0a0a}
+.trailer{margin:0 16px 18px; margin-top:14px;}
+
+@media(max-width:860px){
+  .panel-grid2{grid-template-columns:1fr}
+}
+
+/* Tags / chips (version finale) */
+.allChipsTop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0 10px 0;
+}
+.allChipsTop .chip {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #661c1b !important;
+  color: #e78b8b !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  line-height: 1;
+  box-shadow: none;
+}
+
+/* Lien Allociné dans le synopsis */
+.allocineLink {
+  color: #c3b877;
+  font-weight: 900;
+  text-decoration: underline;
+}
+.allocineLink:hover {
+  filter: brightness(1.08);
+}
+
+/* ===== Ajustements mobiles pour l'entête des vignettes ===== */
+@media (max-width: 720px) {
+  .cap {
+    padding: 0 6px;
+    gap: 4px;
+  }
+  .cap .day .abbr {
+    font-size: 14px;
+  }
+  .cap .day .date {
+    font-size: 16px;
+  }
+  .cap .time {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 460px) {
+  .cap {
+    height: 34px;
+    padding: 0 4px;
+  }
+  .cap .day {
+    gap: 4px;
+  }
+  .cap .day .abbr {
+    font-size: 12px;
+  }
+  .cap .day .date {
+    font-size: 14px;
+  }
+  .cap .time {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
+
+/* === Galerie d’images intelligente (1,2,3,4-5) === */
+.panel-right .thumb-strip {
+  margin-top: 10px;
+  max-height: 130px;   /* limite visuelle pour éviter les gros blocs quand peu d’images */
+  overflow: hidden;
+}
+.thumb-strip {
+  display: grid;
+  gap: 8px;
+}
+/* 2 images : deux rectangles bas */
+.thumb-strip--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.thumb-strip--2 .thumb {
+  aspect-ratio: 16 / 9;
+}
+/* 3 images : 3 rectangles un peu aplatis */
+.thumb-strip--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.thumb-strip--3 .thumb {
+  aspect-ratio: 4 / 3;
+}
+/* 4 et 5 images : on repasse en carré */
+.thumb-strip--4,
+.thumb-strip--5 {
+  grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
+}
+.thumb-strip--4 .thumb,
+.thumb-strip--5 .thumb {
+  aspect-ratio: 1 / 1;
+}
+
+.thumb-strip .thumb {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0d0d0d;
+  border: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: transform .12s ease-out, box-shadow .12s ease-out;
+}
+.thumb-strip .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.thumb-strip .thumb:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+.thumb-strip .thumb[aria-current="true"] {
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .thumb-strip {
+    gap: 6px;
+  }
+  .thumb-strip--2 .thumb {
+    aspect-ratio: 16 / 9;
+  }
+  .thumb-strip--3 .thumb {
+    aspect-ratio: 16 / 10;
+  }
+  .panel-right .thumb-strip {
+    max-height: 110px;
+  }
+}
