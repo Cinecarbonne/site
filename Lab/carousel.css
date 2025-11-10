@@ -322,47 +322,28 @@
       }
     }
 
-    /* === Galerie d’images intelligente (1,2,3,4-5) === */
+    
+    /* === Galerie d’images (hauteur fixe, largeur qui se répartit) === */
+    :root { --thumbH: 0px; }
+
     .panel-right .thumb-strip {
       margin-top: 10px;
-      max-height: 130px;   /* limite visuelle pour éviter les gros blocs quand peu d’images */
       overflow: hidden;
+      display: none; /* cachée par défaut, JS l’affiche si >= 2 */
     }
     .thumb-strip {
       display: grid;
       gap: 8px;
+      grid-template-columns: repeat(var(--thumbCols, 3), 1fr);
     }
-    /* 2 images : deux rectangles bas */
-    .thumb-strip--2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .thumb-strip--2 .thumb {
-      aspect-ratio: 16 / 9;
-    }
-    /* 3 images : 3 rectangles un peu aplatis */
-    .thumb-strip--3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .thumb-strip--3 .thumb {
-      aspect-ratio: 4 / 3;
-    }
-    /* 4 et 5 images : on repasse en carré */
-    .thumb-strip--4,
-    .thumb-strip--5 {
-      grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
-    }
-    .thumb-strip--4 .thumb,
-    .thumb-strip--5 .thumb {
-      aspect-ratio: 1 / 1;
-    }
-
     .thumb-strip .thumb {
       position: relative;
       width: 100%;
+      height: var(--thumbH);
       border-radius: 6px;
       overflow: hidden;
       background: #0d0d0d;
-      border: 1px solid rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       cursor: pointer;
       transition: transform .12s ease-out, box-shadow .12s ease-out;
     }
@@ -381,17 +362,7 @@
       transform: translateY(-1px);
     }
 
+    /* mobile */
     @media (max-width: 720px) {
-      .thumb-strip {
-        gap: 6px;
-      }
-      .thumb-strip--2 .thumb {
-        aspect-ratio: 16 / 9;
-      }
-      .thumb-strip--3 .thumb {
-        aspect-ratio: 16 / 10;
-      }
-      .panel-right .thumb-strip {
-        max-height: 110px;
-      }
+      .thumb-strip { gap: 6px; }
     }

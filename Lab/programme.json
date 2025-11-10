@@ -853,7 +853,7 @@
     "realisateur": "Gérard Quintana",
     "acteurs_principaux": "",
     "genres": "Documentaire",
-    "duree_min": "",
+    "duree_min": "90",
     "annee": "2025",
     "pays": "France",
     "version": "VF",
@@ -863,10 +863,13 @@
     "commentaire": "DOC + réalisateur invité et échange",
     "synopsis": "Comme un puzzle patiemment assemblé, Invisibles mais infiniment précieux nous invite à découvrir un territoire à travers ceux qui le font vivre. Chaque séquence révèle une pièce du tableau : un élan collectif qui redonne souffle à un patrimoine oublié, un éleveur et ses patous en lien intime avec la montagne, des familles qui transmettent leurs rêves à leurs enfants, des volontaires qui veillent, discrètement, sur les vies et les villages. À mesure que le puzzle se complète, se révèle ce qui ne se voit pas toujours : la richesse invisible — mais infiniment précieuse — de nos vallées. Nous dédions ce film à la famille Ibos avec tout notre soutien et notre affection.",
     "affiche_url": "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/Invisibles%20mais.jpg",
-    "backdrop_url": "https://images.ladepeche.fr/api/v1/images/view/6910161160c354e7ec04fe1b/large/image.jpg?v=1",
+    "backdrop_url": "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/1.jpg",
     "backdrops": [
-      "https://www.tourisme-stgaudens.com/wp-content/uploads/wpetourisme/Invisible-mais-infiniment-precieux.jpg",
-      "https://images.ladepeche.fr/api/v1/images/view/68eb1ea7e7658b40520239f3/large/image.jpg?v=1"
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/2.jpg",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/3.jpg",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/4.jpg",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/5.jpg",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/Programme/images/6.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=eYiToUiy4nE",
     "tmdb_id": "",

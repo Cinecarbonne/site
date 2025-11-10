@@ -182,51 +182,85 @@
       if (thumbStrip) {
         while (thumbStrip.firstChild) thumbStrip.removeChild(thumbStrip.firstChild);
 
-        var urls = [];
-        function pushU(u){ if(u && urls.indexOf(u)===-1) urls.push(u); }
+        // helpers (scopés ici pour rester local à l'openPanel)
+        function setThumbHeightFromMain() {
+          var main = pBackdropTop;
+          var root = document.documentElement;
+          if (!main) return;
+          var h = Math.max(48, Math.round((main.clientHeight || 0) * 0.5));
+          root.style.setProperty('--thumbH', h + 'px');
+        }
 
-        // image principale d'abord
-        pushU(s.backdrop_url);
-        // puis les autres
-        if (Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+        function renderThumbs(backdrops, currentUrl) {
+          var strip = thumbStrip;
+          var main  = pBackdropTop;
+          if (!strip || !main) return;
 
-        // max 5
-        urls = urls.slice(0,5);
+          var list = Array.isArray(backdrops) ? backdrops.slice(0, 6) : [];
 
-        // 0 ou 1 -> pas de galerie
-        if (urls.length <= 1) {
-          thumbStrip.style.display = 'none';
-          thumbStrip.className = 'thumb-strip';
-        } else {
-          thumbStrip.style.display = 'grid';
-          // on remet la classe de base puis on ajoute le modificateur
-          thumbStrip.className = 'thumb-strip thumb-strip--' + urls.length;
+          if (list.length < 2) {
+            strip.style.display = 'none';
+            strip.className = 'thumb-strip';
+            strip.innerHTML = '';
+            return;
+          }
 
-          urls.forEach(function(u, i){
+          strip.style.display = 'grid';
+          var cols = Math.min(6, Math.max(2, list.length));
+          document.documentElement.style.setProperty('--thumbCols', cols);
+
+          strip.className = 'thumb-strip';
+          strip.innerHTML = '';
+
+          list.forEach(function(url, idx){
             var btn = document.createElement('button');
-            btn.type = 'button';
             btn.className = 'thumb';
+            btn.type = 'button';
             btn.setAttribute('role','listitem');
-            btn.setAttribute('aria-label','Image '+(i+1)+'/'+urls.length);
+
             var img = document.createElement('img');
-            img.src = String(u).replace('/w780/','/w300/');
             img.loading = 'lazy';
             img.decoding = 'async';
+            img.alt = 'Aperçu ' + (idx + 1);
+            img.src = String(url).replace('/w780/','/w300/');
             btn.appendChild(img);
+
+            if ((currentUrl && url === currentUrl) || (!currentUrl && idx === 0)) {
+              btn.setAttribute('aria-current','true');
+            }
+
             btn.addEventListener('click', function(){
-              pBackdropTop.src = u;
-              pBackdropTop.srcset = backdropSrcset(u);
-              pBackdropTop.sizes = backdropSizes();
-              var kids = thumbStrip.querySelectorAll('.thumb');
-              kids.forEach(function(k,j){ k.setAttribute('aria-current', j===i ? 'true' : 'false'); });
+              main.src = url;
+              main.srcset = backdropSrcset(url);
+              main.sizes = backdropSizes();
+              // reset aria-current
+              var kids = strip.querySelectorAll('.thumb[aria-current="true"]');
+              kids.forEach(function(k){ k.removeAttribute('aria-current'); });
+              btn.setAttribute('aria-current','true');
+              setTimeout(setThumbHeightFromMain, 50);
             });
-            if (i === 0) btn.setAttribute('aria-current','true');
-            thumbStrip.appendChild(btn);
+
+            strip.appendChild(btn);
           });
+
+          setTimeout(setThumbHeightFromMain, 0);
+        }
+
+        // construire la liste d'URLs à partir des données
+        var urls = [];
+        function pushU(u){ if(u && urls.indexOf(u)===-1) urls.push(u); }
+        pushU(s.backdrop_url);
+        if (Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+
+        renderThumbs(urls, pBackdropTop && pBackdropTop.src);
+
+        // recalcule quand l'image principale se charge
+        if (pBackdropTop) {
+          pBackdropTop.onload = function(){ setThumbHeightFromMain(); };
         }
       }
 
-      // trailer
+// trailer
       var embed=(function(url){
         if(!url) return null;
         var m1=/v=([a-zA-Z0-9_-]{6,})/.exec(url);
@@ -323,6 +357,22 @@
       leftBtn.addEventListener('click',function(){rail.scrollBy({left:-step(),behavior:'smooth'});});
       rightBtn.addEventListener('click',function(){rail.scrollBy({left:step(),behavior:'smooth'});});
       todayBtn.addEventListener('click',function(){rail.scrollTo({left:0,behavior:'smooth'});});
-    })();
+    
+  // Ajuster la hauteur des vignettes au redimensionnement (galerie)
+  (function(){
+    var did=false;
+    function setThumbHeightFromMain(){
+      var main=document.getElementById('p-backdropTop');
+      var root=document.documentElement;
+      if(!main)return;
+      var h=Math.max(48,Math.round((main.clientHeight||0)*0.5));
+      root.style.setProperty('--thumbH',h+'px');
+    }
+    if(!did){
+      window.addEventListener('resize', setThumbHeightFromMain);
+      did=true;
+    }
+  })();
+})();
 
   })();
