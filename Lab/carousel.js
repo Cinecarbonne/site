@@ -113,7 +113,19 @@
       if (s.version) infoParts.push(s.version);
       if (s.annee) infoParts.push(s.annee);
       if (s.pays) infoParts.push(s.pays);
-      if (s.duree_min) infoParts.push(String(s.duree_min) + ' mn');
+      if (s.duree_min) {
+              var d = parseInt(s.duree_min, 10);
+              if (!isNaN(d)) {
+                if (d >= 60) {
+                  var h = Math.floor(d / 60);
+                  var m = d % 60;
+                  var txt = h + 'h' + (m > 0 ? String(m).padStart(2, '0') : '00');
+                  infoParts.push(txt);
+                } else {
+                  infoParts.push(d + ' min');
+                }
+              }
+            };
       pInfo.textContent = infoParts.join(' / ');
 
       pGenres.textContent = s.genres || '';
