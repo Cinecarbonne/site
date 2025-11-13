@@ -395,3 +395,65 @@
         max-height: 110px;
       }
     }
+
+
+/* ==== Responsivité du bandeau titre (logo + texte) ==== */
+
+@media (max-width: 720px) {
+  .hero {
+    height: 64px;
+    justify-content: flex-start;
+    /* On réserve de la place à gauche pour le logo,
+       pour que le texte ne passe jamais dessous */
+    padding-left: 72px;
+    padding-right: 12px;
+  }
+
+  .hero .logo {
+    /* Logo plus petit sur mobile */
+    height: 48px;
+  }
+
+  .siteTitle {
+    /* Texte aligné à gauche, empilé sur 2 lignes */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    gap: 2px;
+  }
+
+  .siteTitle .brand {
+    /* Titre principal plus petit */
+    font-size: clamp(20px, 6vw, 26px);
+  }
+
+  .siteTitle .slash {
+    /* On enlève le "/" pour gagner de la place */
+    display: none;
+  }
+
+  .siteTitle .program {
+    /* "Programme" en dessous, un peu plus petit */
+    font-size: clamp(16px, 4.5vw, 20px);
+  }
+}
+
+@media (max-width: 420px) {
+  .hero {
+    height: 56px;
+    padding-left: 64px; /* encore un peu plus compact */
+  }
+
+  .hero .logo {
+    height: 40px;
+  }
+
+  .siteTitle .brand {
+    font-size: clamp(18px, 5.5vw, 22px);
+  }
+
+  .siteTitle .program {
+    font-size: clamp(14px, 4.5vw, 18px);
+  }
+}
