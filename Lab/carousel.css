@@ -405,7 +405,7 @@
     justify-content: flex-start;
     /* On réserve de la place à gauche pour le logo,
        pour que le texte ne passe jamais dessous */
-    padding-left: 72px;
+    padding-left: 90px;
     padding-right: 12px;
   }
 
@@ -425,7 +425,7 @@
 
   .siteTitle .brand {
     /* Titre principal plus petit */
-    font-size: clamp(22px, 7vw, 28px);
+    font-size: clamp(25px, 7vw, 30px);
   }
 
   .siteTitle .slash {
@@ -435,25 +435,25 @@
 
   .siteTitle .program {
     /* "Programme" en dessous, un peu plus petit */
-    font-size: clamp(18px, 5vw, 22px);
+    font-size: clamp(20px, 5vw, 24px);
   }
 }
 
 @media (max-width: 420px) {
   .hero {
     height: 58px;
-    padding-left: 64px; /* encore un peu plus compact */
+    padding-left: 75px; /* encore un peu plus compact */
   }
 
   .hero .logo {
-    height: 42px;
+    height: 45px;
   }
 
   .siteTitle .brand {
-    font-size: clamp(18px, 5.5vw, 22px);
+    font-size: clamp(22px, 6vw, 26px);
   }
 
   .siteTitle .program {
-    font-size: clamp(14px, 4.5vw, 18px);
+    font-size: clamp(16px, 5vw, 20px);
   }
 }
