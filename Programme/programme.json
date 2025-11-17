@@ -1398,6 +1398,38 @@
     "imdb_id": "tt35522328",
     "allocine_url": ""
   },
+    {
+    "datetime_local": "",
+    "date": "2025-12-17",
+    "heure": "14:30",
+    "titre": "Hopper et le secret de la marmotte",
+    "titre_original":"",
+    "realisateur": "Benjamin Mousquet",
+    "acteurs_principaux": "",
+    "genres": "Animation, Aventure, Comédie, Famille",
+    "duree_min": "89",
+    "annee": "2025",
+    "pays": "Belgique, France",
+    "version": "VF",
+    "tarif": "3.5€",
+    "prix": "",
+    "categorie": "Jeune Public",
+    "commentaire": "Noël du personnel municipal",
+    "synopsis": "La légende raconte qu’une mystérieuse marmotte, cachée dans une montagne secrète, aurait le pouvoir de remonter le temps. Quand il apprend qu’elle serait la seule à pouvoir sauver son espèce, Hopper, aventurier intrépide, est prêt à tout pour retrouver la trace de cette marmotte ! Mais le voyage sera semé d’embûches... Il semblerait qu’il ne soit pas le seul à vouloir mettre la main sur le secret de la marmotte !",
+    "affiche_url": "https://fr.web.img4.acsta.net/r_1920_1080/img/18/7b/187b37579786f1c6f77cc08dc9171060.jpg",
+    "backdrop_url": "https://fr.web.img3.acsta.net/r_1920_1080/img/60/a5/60a59e2171590814a7042b19f950a58b.jpg",
+    "backdrops": [
+      "https://image.tmdb.org/t/p/w780/ceqbmvAKRmVq3CCjeTLUU7IBZl9.jpg",
+      "https://image.tmdb.org/t/p/w780/fyhUpZZmSymQwWO8Ht0dV0z6Sqw.jpg",
+      "https://image.tmdb.org/t/p/w780/zKEIlRCi8XBcRoth4OC7N8BI3FP.jpg",
+      "https://image.tmdb.org/t/p/w780/8yOTqF7AwAP9DGRVjOZk7CaRfEG.jpg",
+      "https://image.tmdb.org/t/p/w780/Hd4KAnhAcdwOLl4X69fifXgHDS.jpg"
+    ],
+    "trailer_url": "https://www.youtube.com/watch?v=Zqo26C13zyM",
+    "tmdb_id": "",
+    "imdb_id": "",
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000008466.html"
+  },
   {
     "datetime_local": "",
     "date": "2025-12-17",
