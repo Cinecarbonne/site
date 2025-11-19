@@ -20,6 +20,7 @@
   
   
   <title>Ciné</title>
+  <link rel="stylesheet" href="cinecarbonne.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
@@ -37,7 +38,18 @@
 <body>
   
   <section data-bs-version="5.1" class="menu menu5 cid-uIkxtUalAP" once="menu" id="menu05-0">
-	
+
+	<div id="overlay" class="overlay">
+  		<div class="overlay-content">
+    		<a href="#" class="close">&times;</a>
+    		<h2>APPEL Ā BÉNÉVOLAT</h2>
+    		<p> Votre cinéma de Carbonne recherche:</p>
+			<ul> <li>une personne pour tenir la caisse </li>
+			<li>deux projectionnistes/préparateurs des films à projeter </li></ul>
+			<p>Si vous souhaitez donner du temps en vous investissant dans une association dynamique, nous vous invitons à nous contacter pour avoir tous les renseignements concernant ces postes, par courriel ou directement au cinéma lors d’une séance.
+</p><p>Mail : cinecarbonne@gmail.com</p>
+  		</div>
+	</div>
 
 	<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
 		<div class="container">
@@ -71,6 +83,13 @@
 			</div>
 		</div>
 	</nav>
+
+	<script>
+		document.querySelector('.close').addEventListener('click', function(e) {
+  			e.preventDefault();
+  			document.getElementById('overlay').style.display = 'none';
+		});
+	</script>
 </section>
 
 <section data-bs-version="5.1" class="article07 cid-uIkC8crQxU" id="article07-1">
