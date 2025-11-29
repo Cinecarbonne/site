@@ -2057,8 +2057,8 @@ a {
   }
 }
 .cid-uWTSXbIko5 {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 5rem;
+  padding-bottom: 0rem;
   background-color: #edefeb;
 }
 .cid-uWTSXbIko5 .mbr-fallback-image.disabled {
@@ -2103,5 +2103,97 @@ a {
   margin: 0;
 }
 .cid-uWTSXbIko5 .content-head {
+  max-width: 800px;
+}
+.cid-uWTSXbIko5 .mbr-section-title {
+  text-align: center;
+}
+.cid-v3YBrv6YUO {
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  background-color: #ffffff;
+}
+.cid-v3YBrv6YUO .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-v3YBrv6YUO .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-v3YBrv6YUO .card-wrapper {
+  background: #ffffff;
+}
+@media (max-width: 767px) {
+  .cid-v3YBrv6YUO .card-wrapper {
+    padding: 2rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .cid-v3YBrv6YUO .card-wrapper {
+    padding: 2.25rem;
+  }
+}
+@media (min-width: 992px) {
+  .cid-v3YBrv6YUO .card-wrapper {
+    padding: 4rem;
+  }
+}
+.cid-v3YBrv6YUO .mbr-text,
+.cid-v3YBrv6YUO .mbr-section-btn {
+  text-align: left;
+}
+.cid-v3YFN8v3J3 {
+  padding-top: 0rem;
+  padding-bottom: 6rem;
+  background-color: #ffffff;
+}
+.cid-v3YFN8v3J3 .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-v3YFN8v3J3 .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-v3YFN8v3J3 .image-wrap img {
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .cid-v3YFN8v3J3 .image-wrap img {
+    display: block;
+    margin: auto;
+    width: 80%;
+  }
+}
+.cid-v3YFN8v3J3 .row-links {
+  width: 100%;
+  justify-content: center;
+}
+.cid-v3YFN8v3J3 .header-menu {
+  margin-top: 2rem;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-bottom: 0;
+}
+.cid-v3YFN8v3J3 .header-menu li {
+  padding: 0 1rem 1rem 1rem;
+}
+.cid-v3YFN8v3J3 .header-menu li p {
+  margin: 0;
+}
+.cid-v3YFN8v3J3 .content-head {
   max-width: 800px;
 }
