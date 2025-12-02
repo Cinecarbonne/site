@@ -964,6 +964,33 @@
     "imdb_id": "tt33253688",
     "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009876.html"
   },
+    {
+    "datetime_local": "",
+    "date": "2025-12-05",
+    "heure": "18:00",
+    "titre": "Le monde d'après",
+    "titre_original": "",
+    "realisateur": "Collectif",
+    "acteurs_principaux": "",
+    "genres": "",
+    "duree_min": "",
+    "annee": "2025",
+    "pays": "Carbonne",
+    "version": "VF",
+    "tarif": "",
+    "prix": "",
+    "categorie": "",
+    "commentaire": "Gratuit",
+    "synopsis": "Ce film documentaire est la restitution du travail d'un groupe de jeunes, atelier organisé par La Mission Locale de Carbonne, appuyée par l'association Fil Rouge. Ce film aborde les questions du passage de l'adolescence à la vie adulte, de santé mentale et de rapport au travail, en mêlant interviews de Carbonnais et témoignages personnels",
+    "affiche_url": "https://image.tmdb.org/t/p/w500/yirK6p8rQsV6wwsefBIZTf4ifGL.jpg",
+    "backdrop_url": "",
+    "backdrops": [
+    ],
+    "trailer_url": "",
+    "tmdb_id": "",
+    "imdb_id": "",
+    "allocine_url": ""
+  },
   {
     "datetime_local": "",
     "date": "2025-12-05",
