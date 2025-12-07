@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="fr">
+
 <head>
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="stylesheet" href="carousel.css">
@@ -7,7 +8,7 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-17YJ4RMKLY"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-17YJ4RMKLY');
@@ -17,8 +18,9 @@
   <meta charset="utf-8" />
   <title>Ciné Carbonne — Programme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
+
 </head>
+
 <body>
   <div class="wrap">
     <div class="hero">
@@ -31,49 +33,76 @@
         <span class="program">Programme</span>
       </h1>
     </div>
-
-    <div class="stripBand">
-      <div class="rail-wrap">
-        <button class="todayBtn" id="todayBtn" type="button">Début</button>
-        <button class="downloadBtn" id="download" type="button" onclick="window.location.href='PDFs/cineCarbonne.pdf'">Télécharger le programme</button>
-        <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
-        <div class="filmStrip">
-          <div class="railViewport">
-            <div id="rail" class="rail" aria-live="polite">
-              <div id="strip" class="strip"></div>
-            </div>
-          </div>
-        </div>
-        <button class="arrow right" id="rightBtn" aria-label="Défiler vers la droite"><span></span></button>
-      </div>
+    <div id="tabs">
+      <ul style="padding-left: 0px; margin-bottom: 0px;">
+        <li id="li_prog" class="selected">Programme</li>
+        <li id="li_arch">Archive</li>
+      </ul>
     </div>
-
-    <div class="panelBand">
-      <section id="panel" class="panel" aria-live="polite" aria-label="Détails du film">
-        <div class="panel-grid2">
-          <div class="panel-left">
-            <div class="allChipsTop" id="p-chipsTop" aria-label="Étiquettes"></div>
-            <h2 class="panel-title" id="p-title">&nbsp;</h2>
-            <div class="infoLine" id="p-info"></div>
-            <div class="kv">
-              <div class="k">De :</div><div class="v" id="p-real"></div>
-              <div class="k">Avec :</div><div class="v" id="p-cast"></div>
+    <div id="tabcontent">
+      <div class="tabpanel" id="program_panel" style="display:inline">
+        <div class="stripBand">
+          <div class="rail-wrap">
+            <button class="todayBtn" id="todayBtn" type="button">Début</button>
+            <button class="downloadBtn" id="download" type="button"
+              onclick="window.location.href='PDFs/cineCarbonne.pdf'">Télécharger le programme</button>
+            <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
+            <div class="filmStrip">
+              <div class="railViewport">
+                <div id="rail" class="rail" aria-live="polite">
+                  <div id="strip" class="strip"></div>
+                </div>
+              </div>
             </div>
-            <div class="genresLine" id="p-genres"></div>
-            <div class="pricesLine" id="p-prix" style="display:none"></div>
-            <div class="synopsis" id="p-synopsis"></div>
-          </div>
-          <div class="panel-right">
-            <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
-            <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie d’images"></div>
+            <button class="arrow right" id="rightBtn" aria-label="Défiler vers la droite"><span></span></button>
           </div>
         </div>
-        <div class="trailer" id="p-trailer"></div>
-      </section>
+
+        <div class="panelBand">
+          <section id="panel" class="panel" aria-live="polite" aria-label="Détails du film">
+            <div class="panel-grid2">
+              <div class="panel-left">
+                <div class="allChipsTop" id="p-chipsTop" aria-label="Étiquettes"></div>
+                <h2 class="panel-title" id="p-title">&nbsp;</h2>
+                <div class="infoLine" id="p-info"></div>
+                <div class="kv">
+                  <div class="k">De :</div>
+                  <div class="v" id="p-real"></div>
+                  <div class="k">Avec :</div>
+                  <div class="v" id="p-cast"></div>
+                </div>
+                <div class="genresLine" id="p-genres"></div>
+                <div class="pricesLine" id="p-prix" style="display:none"></div>
+                <div class="synopsis" id="p-synopsis"></div>
+              </div>
+              <div class="panel-right">
+                <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
+                <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie d’images"></div>
+              </div>
+            </div>
+            <div class="trailer" id="p-trailer"></div>
+          </section>
+        </div>
+      </div>
+      <div class="tabpanel" id="PDFs_panel" style="display:none">
+        <form style="display: inline-block;"> <iframe class=" pdf_ifr" src="PDFs/Abonnés 349.pdf"></iframe>
+          <a href="PDFs/Abonnés 349.pdf" style="display: block;">Décembre</a>
+        </form>
+        <form style="display: inline-block;"> <iframe class="pdf_ifr" src="PDFs/Abonnés 348.pdf"></iframe>
+          <a href="PDFs/Abonnés 348.pdf" style="display: block; color: aqua;">Novembre</a>
+        </form>
+        <form style="display: inline-block;"><iframe class="pdf_ifr" src="PDFs/Abonnés 347.pdf"></iframe>
+          <a href="PDFs/Abonnés 347.pdf" style="display: block;">Octobre</a>
+        </form>
+        <form style="display: inline-block;"><iframe class="pdf_ifr" src="PDFs/Abonnés 346.pdf" ></iframe>
+          <a href="PDFs/Abonnés 346.pdf" style="display: block;">Septembre</a>
+        </form>
+      </div>
     </div>
   </div>
 
   <script src="carousel.js"></script>
 
 </body>
+
 </html>
