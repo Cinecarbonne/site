@@ -33,19 +33,24 @@
         <span class="program">Programme</span>
       </h1>
     </div>
+
+    <!-- NAVIGATION : 4 ONGLETS -->
     <div id="tabs">
       <ul style="padding-left: 0px; margin-bottom: 0px;">
         <li id="li_prog" class="selected">Programme</li>
-        <li id="li_arch">Archive</li>
+        <li id="li_pdf">PDF</li>
+        <li id="li_proch">Prochainement</li>
+        <li id="li_arch">Archives</li>
       </ul>
     </div>
+
     <div id="tabcontent">
+
+      <!-- ONGLET 1 : PROGRAMME (Carrousel) -->
       <div class="tabpanel" id="program_panel" style="display:inline">
         <div class="stripBand">
           <div class="rail-wrap">
             <button class="todayBtn" id="todayBtn" type="button">Début</button>
-            <button class="downloadBtn" id="download" type="button"
-              onclick="window.location.href='PDFs/cineCarbonne.pdf'">Télécharger le programme</button>
             <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
             <div class="filmStrip">
               <div class="railViewport">
@@ -84,7 +89,9 @@
           </section>
         </div>
       </div>
-      <div class="tabpanel" id="PDFs_panel" style="display:none">
+
+      <!-- ONGLET 2 : PDF ACTUEL -->
+      <div class="tabpanel" id="archives_panel" style="display:none">
         <form style="display: inline-block;"> <iframe class=" pdf_ifr" src="PDFs/Abonnés 349.pdf"></iframe>
           <a href="PDFs/Abonnés 349.pdf" style="display: block;">Décembre</a>
         </form>
