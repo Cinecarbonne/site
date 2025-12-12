@@ -391,7 +391,7 @@
             '</a>' +
           '</div>' +
           '<div class="pdf-viewer">' +
-            '<iframe class="pdf-frame" src="PDFs/' + encodeURIComponent(p.fichier) + '#page=4"></iframe>' +
+            '<iframe class="pdf-frame" src="PDFs/' + encodeURIComponent(p.fichier) + '#page=8"></iframe>' +
           '</div>' +
           '<p class="pdf-caption">' + label + '</p>' +
         '</section>'
@@ -452,7 +452,7 @@
     }
 
     document.getElementById("program_panel").style.display = PrgView;
-    document.getElementById("pdf_panel").style.display = archView; // IMPORTANT : remplacer "PDFs_panel" par "pdf_panel"
+    document.getElementById("pdf_panel").style.display = archView;
     var tabs = document.getElementById("tabs");
     var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
     ca.map(function (elem) {
