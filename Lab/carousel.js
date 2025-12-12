@@ -322,55 +322,75 @@
 
 
   function selView(n, litag) {
-    var PrgView = "none";
-    var archView = "none";
-    console.log("selView: " + n)
-    switch (n) {
-      case 1:
-        PrgView = "inline";
-        break;
-      case 2:
-        archView = "inline";
-        break;
-      // add how many cases you need
-      default:
-        break;
+    console.log("selView: " + n);
+
+    // correspondance numéro -> id du panneau
+    var panelByIndex = {
+      1: 'program_panel',
+      2: 'pdf_panel',
+      3: 'proch_panel',
+      4: 'archives_panel'
+    };
+
+    // Masquer tous les panneaux
+    var allPanels = document.querySelectorAll('.tabpanel');
+    Array.prototype.forEach.call(allPanels, function (p) {
+      p.style.display = 'none';
+    });
+
+    // Afficher le panneau cible
+    var targetId = panelByIndex[n];
+    if (targetId) {
+      var target = document.getElementById(targetId);
+      if (target) {
+        target.style.display = 'block';
+      }
     }
 
-    document.getElementById("program_panel").style.display = PrgView;
-    document.getElementById("archives_panel").style.display = archView;
+    // Mettre à jour la classe "selected" sur les onglets
     var tabs = document.getElementById("tabs");
     var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
-    ca.map(function (elem) {
-      elem.className = "none"
+    ca.forEach(function (elem) {
+      elem.className = "";
     });
-    litag.className = "selected"
+    litag.className = "selected";
   }
 
-  // drag scroll + flèches
+  // drag scroll + flèches + gestion des onglets
   (function () {
-    console.log("main functiion")
+    console.log("main functiion");
     var isDown = false, startX = 0, startScroll = 0;
     var leftBtn = document.getElementById('leftBtn'), rightBtn = document.getElementById('rightBtn');
-    var li_prog = document.getElementById("li_prog"), li_arch = document.getElementById("li_arch");
+    var li_prog  = document.getElementById("li_prog"),
+        li_pdf   = document.getElementById("li_pdf"),
+        li_proch = document.getElementById("li_proch"),
+        li_arch  = document.getElementById("li_arch");
+
     rail.addEventListener('mousedown', function (e) { isDown = true; startX = e.pageX; startScroll = rail.scrollLeft; e.preventDefault(); });
     window.addEventListener('mouseup', function () { isDown = false; });
     window.addEventListener('mousemove', function (e) { if (!isDown) return; rail.scrollLeft = startScroll - (e.pageX - startX); });
     rail.addEventListener('touchstart', function (e) { isDown = true; startX = e.touches[0].pageX; startScroll = rail.scrollLeft; }, { passive: true });
     rail.addEventListener('touchend', function () { isDown = false; });
     rail.addEventListener('touchmove', function (e) { if (!isDown) return; rail.scrollLeft = startScroll - (e.touches[0].pageX - startX); }, { passive: true });
+
     var step = function () {
       var colW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'), 10) || 220;
-      var gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'), 10) || 12; return colW + gap;
+      var gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'), 10) || 12;
+      return colW + gap;
     };
+
     leftBtn.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
     rightBtn.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
     todayBtn.addEventListener('click', function () { rail.scrollTo({ left: 0, behavior: 'smooth' }); });
 
-    li_prog.addEventListener("click", function () { selView(1, li_prog) })
-    li_arch.addEventListener("click", function () { selView(2, li_arch) })
+    // Onglets
+    li_prog.addEventListener("click",  function () { selView(1, li_prog); });
+    li_pdf.addEventListener("click",   function () { selView(2, li_pdf); });
+    li_proch.addEventListener("click", function () { selView(3, li_proch); });
+    li_arch.addEventListener("click",  function () { selView(4, li_arch); });
 
-    document.getElementById("archives_panel").style.display = 'none'
+    // État initial : on force l'onglet Programme
+    selView(1, li_prog);
   })();
 
 })();

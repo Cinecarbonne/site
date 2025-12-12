@@ -741,29 +741,56 @@ margin: 5px 10px 0px 0px;}
   margin-bottom: 0;
 }
 
-#program_panel {
-  display: inline;
-}
-
-#archives_panel {
+/* Tous les panneaux d’onglets sont masqués par défaut */
+.tabpanel {
   display: none;
 }
 
-#archives_panel form {
-  display: inline-block;
-}
-
-#archives_panel a {
+/* Panneau du programme visible au chargement */
+#program_panel {
   display: block;
 }
 
-#archives_panel a.color-aqua {
-  color: aqua;
+
+/* Conteneur de l’onglet PDF */
+.pdf-tab {
+  padding: 16px 0 24px;
 }
 
-.pdf_ifr {
-  display: inline-block;
-  width: 40;
-  height: 30%;
-  margin: 5px 10px 0 0;
+/* Ligne avec le bouton centré */
+.pdf-download {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* Bouton "Télécharger le PDF" */
+.pdf-download a {
+  background: rgba(177, 50, 49, .55); /* rouge transparent comme les autres */
+  color: #fff;
+  border: 0;
+  padding: 10px 22px;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: filter .15s ease, transform .15s ease;
+}
+
+.pdf-download a:hover {
+  filter: brightness(1.08);
+}
+
+/* Zone d’affichage de l’image PDF */
+.pdf-viewer {
+  overflow-x: auto;          /* scroll horizontal sur petit écran */
+}
+
+/* Image : pleine largeur sur ordi, min 480px pour rester lisible sur mobile */
+.pdf-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  min-width: 480px;          /* en dessous de 480px de viewport, on garde 480px et on scrolle */
+  margin: 0 auto;
 }

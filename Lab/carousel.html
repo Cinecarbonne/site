@@ -44,7 +44,7 @@
       </ul>
     </div>
 
-    <div id="tabcontent">
+        <div id="tabcontent">
 
       <!-- ONGLET 1 : PROGRAMME (Carrousel) -->
       <div class="tabpanel" id="program_panel">
@@ -90,23 +90,37 @@
         </div>
       </div>
 
-      <!-- ONGLET 2 : PDF ACTUEL -->
+      <!-- ONGLET 2 : PDF (panneau pour le programme en cours / suivant, à implémenter ensuite) -->
+      <div class="tabpanel" id="pdf_panel">
+        <!-- Contenu PDF à implémenter à l’étape suivante -->
+      </div>
+
+      <!-- ONGLET 3 : Prochainement (mosaïque d’affiches) -->
+      <div class="tabpanel" id="proch_panel">
+        <!-- Contenu "Prochainement" à implémenter plus tard -->
+      </div>
+
+      <!-- ONGLET 4 : Archives (contenu actuel avec plusieurs PDFs) -->
       <div class="tabpanel" id="archives_panel">
-        <form> <iframe class=" pdf_ifr" src="PDFs/Abonnés 349.pdf"></iframe>
+        <form> 
+          <iframe class="pdf_ifr" src="PDFs/Abonnés 349.pdf"></iframe>
           <a href="PDFs/Abonnés 349.pdf">Décembre</a>
         </form>
-        <form> <iframe class="pdf_ifr" src="PDFs/Abonnés 348.pdf"></iframe>
+        <form> 
+          <iframe class="pdf_ifr" src="PDFs/Abonnés 348.pdf"></iframe>
           <a href="PDFs/Abonnés 348.pdf" class="color-aqua">Novembre</a>
         </form>
-        <form><iframe class="pdf_ifr" src="PDFs/Abonnés 347.pdf"></iframe>
+        <form>
+          <iframe class="pdf_ifr" src="PDFs/Abonnés 347.pdf"></iframe>
           <a href="PDFs/Abonnés 347.pdf">Octobre</a>
         </form>
-        <form><iframe class="pdf_ifr" src="PDFs/Abonnés 346.pdf" ></iframe>
+        <form>
+          <iframe class="pdf_ifr" src="PDFs/Abonnés 346.pdf"></iframe>
           <a href="PDFs/Abonnés 346.pdf">Septembre</a>
         </form>
       </div>
+
     </div>
-  </div>
 
   <script src="carousel.js"></script>
 
