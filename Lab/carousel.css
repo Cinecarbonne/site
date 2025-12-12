@@ -801,3 +801,60 @@ a.clicked {
     height: 70vh;
   }
 }
+
+/* === Onglet PROCHAINEMENT : mosaïque d'affiches === */
+
+.coming-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+.coming-poster-wrap {
+  background: #0b0b0b;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.coming-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .coming-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+}
+
+/* === Onglet ARCHIVES : liste des anciens programmes === */
+
+.archives-list {
+  padding: 16px;
+}
+
+.archives-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archives-ul li + li {
+  margin-top: 6px;
+}
+
+.archives-ul a {
+  color: #e3e0d5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.archives-ul a:hover {
+  text-decoration: underline;
+}

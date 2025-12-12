@@ -95,29 +95,14 @@
         <!-- Contenu PDF à implémenter à l’étape suivante -->
       </div>
 
-      <!-- ONGLET 3 : Prochainement (mosaïque d’affiches) -->
-      <div class="tabpanel" id="proch_panel">
-        <!-- Contenu "Prochainement" à implémenter plus tard -->
+      <!-- ONGLET 3 : PROCHAINEMENT -->
+      <div class="tabpanel" id="proch_panel" style="display:none">
+        <div class="coming-grid" id="coming_grid" aria-label="Films à venir"></div>
       </div>
 
-      <!-- ONGLET 4 : Archives (contenu actuel avec plusieurs PDFs) -->
-      <div class="tabpanel" id="archives_panel">
-        <form> 
-          <iframe class="pdf_ifr" src="PDFs/Abonnés 349.pdf"></iframe>
-          <a href="PDFs/Abonnés 349.pdf">Décembre</a>
-        </form>
-        <form> 
-          <iframe class="pdf_ifr" src="PDFs/Abonnés 348.pdf"></iframe>
-          <a href="PDFs/Abonnés 348.pdf" class="color-aqua">Novembre</a>
-        </form>
-        <form>
-          <iframe class="pdf_ifr" src="PDFs/Abonnés 347.pdf"></iframe>
-          <a href="PDFs/Abonnés 347.pdf">Octobre</a>
-        </form>
-        <form>
-          <iframe class="pdf_ifr" src="PDFs/Abonnés 346.pdf"></iframe>
-          <a href="PDFs/Abonnés 346.pdf">Septembre</a>
-        </form>
+      <!-- ONGLET 4 : ARCHIVES -->
+      <div class="tabpanel" id="archives_panel" style="display:none">
+        <div class="archives-list" id="archives_list"></div>
       </div>
 
     </div>
