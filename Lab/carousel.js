@@ -320,41 +320,147 @@
     loadJSON();
   }, 30 * 60 * 1000);
 
+  // ===================== ONGLET PDF : helpers =====================
 
-  function selView(n, litag) {
-    console.log("selView: " + n);
+  function todayISO() {
+    var d = new Date();
+    var y = d.getFullYear();
+    var m = d.getMonth() + 1;
+    var day = d.getDate();
+    var mm = (m < 10 ? '0' + m : '' + m);
+    var dd = (day < 10 ? '0' + day : '' + day);
+    return y + '-' + mm + '-' + dd;
+  }
 
-    // correspondance numéro -> id du panneau
-    var panelByIndex = {
-      1: 'program_panel',
-      2: 'pdf_panel',
-      3: 'proch_panel',
-      4: 'archives_panel'
-    };
+  function formatDateFR(iso) {
+    if (!iso || iso.length < 10) return iso || '';
+    return iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4);
+  }
 
-    // Masquer tous les panneaux
-    var allPanels = document.querySelectorAll('.tabpanel');
-    Array.prototype.forEach.call(allPanels, function (p) {
-      p.style.display = 'none';
+  // À partir de la liste complète, choisit le programme courant et le suivant
+  function pickProgrammesPDF(liste) {
+    var today = todayISO();
+    var actuels = [];
+    var futurs = [];
+
+    (Array.isArray(liste) ? liste : []).forEach(function (p) {
+      if (!p || !p.debut || !p.fin || !p.fichier) return;
+      if (p.debut <= today && today <= p.fin) {
+        actuels.push(p);
+      } else if (p.debut > today) {
+        futurs.push(p);
+      }
     });
 
-    // Afficher le panneau cible
-    var targetId = panelByIndex[n];
-    if (targetId) {
-      var target = document.getElementById(targetId);
-      if (target) {
-        target.style.display = 'block';
-      }
+    actuels.sort(function (a, b) {
+      // le plus récent d'abord
+      return b.debut.localeCompare(a.debut);
+    });
+
+    futurs.sort(function (a, b) {
+      // le prochain qui arrive
+      return a.debut.localeCompare(b.debut);
+    });
+
+    return {
+      courant: actuels.length ? actuels[0] : null,
+      suivant: futurs.length ? futurs[0] : null
+    };
+  }
+
+  function renderPdfTab(courant, suivant) {
+    var panel = document.getElementById('pdf_panel');
+    if (!panel) return;
+
+    if (!courant && !suivant) {
+      panel.innerHTML = '<p style="padding:16px;">Aucun programme PDF disponible pour le moment.</p>';
+      return;
     }
 
-    // Mettre à jour la classe "selected" sur les onglets
+    function bloc(p, titre) {
+      if (!p) return '';
+      var label = 'Programme n°' + (p.numero || '') +
+        (p.debut && p.fin ? ' — du ' + formatDateFR(p.debut) + ' au ' + formatDateFR(p.fin) : '');
+
+      return (
+        '<section class="pdf-tab-section">' +
+          (titre ? '<h2 class="pdf-section-title">' + titre + '</h2>' : '') +
+          '<div class="pdf-download">' +
+            '<a class="btn-pdf" href="PDFs/' + encodeURIComponent(p.fichier) + '" target="_blank" rel="noopener">' +
+              'Télécharger le PDF' + (p.numero ? ' n°' + p.numero : '') +
+            '</a>' +
+          '</div>' +
+          '<div class="pdf-viewer">' +
+            '<iframe class="pdf-frame" src="PDFs/' + encodeURIComponent(p.fichier) + '#page=4"></iframe>' +
+          '</div>' +
+          '<p class="pdf-caption">' + label + '</p>' +
+        '</section>'
+      );
+    }
+
+    var html = '';
+    html += bloc(courant, '');
+    if (suivant) {
+      html += bloc(suivant, 'Programme suivant');
+    }
+    panel.innerHTML = html;
+  }
+
+  function ensurePdfTabLoaded() {
+    if (window._pdfTabLoaded) return;
+    window._pdfTabLoaded = true;
+
+    fetch('./PDFs.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (liste) {
+        var pick = pickProgrammesPDF(liste);
+        renderPdfTab(pick.courant, pick.suivant);
+      })
+      .catch(function (e) {
+        console.warn('Erreur chargement PDFs.json:', e);
+        var panel = document.getElementById('pdf_panel');
+        if (panel) {
+          panel.innerHTML = '<p style="padding:16px;">Impossible de charger le PDF pour le moment.</p>';
+        }
+      });
+  }
+
+
+
+    function selView(n, litag) {
+    var PrgView = "none";
+    var archView = "none";
+    console.log("selView: " + n);
+
+    if (n === 2) {
+      // onglet PDF
+      ensurePdfTabLoaded();
+    }
+
+    switch (n) {
+      case 1:
+        PrgView = "inline";
+        break;
+      case 2:
+        archView = "inline";
+        break;
+      default:
+        break;
+    }
+
+    document.getElementById("program_panel").style.display = PrgView;
+    document.getElementById("pdf_panel").style.display = archView; // IMPORTANT : remplacer "PDFs_panel" par "pdf_panel"
     var tabs = document.getElementById("tabs");
     var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
-    ca.forEach(function (elem) {
-      elem.className = "";
+    ca.map(function (elem) {
+      elem.className = "none";
     });
     litag.className = "selected";
   }
+
 
   // drag scroll + flèches + gestion des onglets
   (function () {

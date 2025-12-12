@@ -485,23 +485,11 @@ a.clicked {
   background-color: #7b5d5d;
 }
 
-/* Onglet sélectionné : même rouge sombre que les flèches */
 #tabs ul li.selected {
   background: #6b5454;
   color: #fff;
 }
 
-.pdf_ifr {
-display: inline-block;
-width : 40;
-height : 30%;
-margin: 5px 10px 0px 0px;}
-
-@media(max-width:860px) {
-  .panel-grid2 {
-    grid-template-columns: 1fr
-  }
-}
 
 /* Tags / chips (version finale) */
 .allChipsTop {
@@ -751,46 +739,65 @@ margin: 5px 10px 0px 0px;}
   display: block;
 }
 
+/* === Onglet PDF === */
 
-/* Conteneur de l’onglet PDF */
-.pdf-tab {
-  padding: 16px 0 24px;
+.pdf-tab-section {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Ligne avec le bouton centré */
+.pdf-section-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .pdf-download {
   display: flex;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
-/* Bouton "Télécharger le PDF" */
-.pdf-download a {
-  background: rgba(177, 50, 49, .55); /* rouge transparent comme les autres */
-  color: #fff;
-  border: 0;
+.btn-pdf {
+  display: inline-block;
   padding: 10px 22px;
-  font-weight: 800;
-  cursor: pointer;
   border-radius: 999px;
+  background: rgba(177, 50, 49, .55); /* même logique que les autres boutons rouges */
+  color: #fff;
+  font-weight: 800;
   text-decoration: none;
+  border: 0;
+  cursor: pointer;
   transition: filter .15s ease, transform .15s ease;
 }
 
-.pdf-download a:hover {
+.btn-pdf:hover {
   filter: brightness(1.08);
 }
 
-/* Zone d’affichage de l’image PDF */
 .pdf-viewer {
-  overflow-x: auto;          /* scroll horizontal sur petit écran */
+  width: 100%;
+  overflow-x: auto; /* pour pouvoir glisser horizontalement sur mobile */
 }
 
-/* Image : pleine largeur sur ordi, min 480px pour rester lisible sur mobile */
-.pdf-image {
+.pdf-frame {
   display: block;
-  max-width: 100%;
-  height: auto;
-  min-width: 480px;          /* en dessous de 480px de viewport, on garde 480px et on scrolle */
-  margin: 0 auto;
+  width: 100%;
+  min-width: 600px;  /* ta largeur mini demandée */
+  height: 80vh;
+  border: none;
+  background: #111;
+}
+
+.pdf-caption {
+  margin-top: 6px;
+  font-size: 14px;
+  text-align: center;
+  opacity: .85;
+}
+
+@media (max-width: 720px) {
+  .pdf-frame {
+    height: 70vh;
+  }
 }
