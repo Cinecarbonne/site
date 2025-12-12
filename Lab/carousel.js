@@ -338,7 +338,7 @@
     }
 
     document.getElementById("program_panel").style.display = PrgView;
-    document.getElementById("PDFs_panel").style.display = archView;
+    document.getElementById("archives_panel").style.display = archView;
     var tabs = document.getElementById("tabs");
     var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
     ca.map(function (elem) {
@@ -370,7 +370,7 @@
     li_prog.addEventListener("click", function () { selView(1, li_prog) })
     li_arch.addEventListener("click", function () { selView(2, li_arch) })
 
-    document.getElementById("PDFs_panel").style.display = 'none'
+    document.getElementById("archives_panel").style.display = 'none'
   })();
 
 })();
