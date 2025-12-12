@@ -324,35 +324,42 @@
   function selView(n, litag) {
     var PrgView = "none";
     var archView = "none";
-    console.log("selView: " + n)
+    console.log("selView: " + n);
+
     switch (n) {
-      case 1:
+      case 1: // Programme
         PrgView = "inline";
         break;
-      case 2:
+      case 2: // PDF
+      case 3: // Prochainement (pour l'instant même panel)
+      case 4: // Archives (idem)
         archView = "inline";
         break;
-      // add how many cases you need
       default:
         break;
     }
 
     document.getElementById("program_panel").style.display = PrgView;
-    document.getElementById("PDFs_panel").style.display = archView;
+    document.getElementById("archives_panel").style.display = archView;
+
     var tabs = document.getElementById("tabs");
     var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
-    ca.map(function (elem) {
-      elem.className = "none"
+    ca.forEach(function (elem) {
+      elem.className = "";
     });
-    litag.className = "selected"
+    litag.className = "selected";
   }
 
   // drag scroll + flèches
   (function () {
-    console.log("main functiion")
+    console.log("main functiion");
     var isDown = false, startX = 0, startScroll = 0;
     var leftBtn = document.getElementById('leftBtn'), rightBtn = document.getElementById('rightBtn');
-    var li_prog = document.getElementById("li_prog"), li_arch = document.getElementById("li_arch");
+    var li_prog  = document.getElementById("li_prog"),
+        li_pdf   = document.getElementById("li_pdf"),
+        li_proch = document.getElementById("li_proch"),
+        li_arch  = document.getElementById("li_arch");
+
     rail.addEventListener('mousedown', function (e) { isDown = true; startX = e.pageX; startScroll = rail.scrollLeft; e.preventDefault(); });
     window.addEventListener('mouseup', function () { isDown = false; });
     window.addEventListener('mousemove', function (e) { if (!isDown) return; rail.scrollLeft = startScroll - (e.pageX - startX); });
@@ -367,10 +374,13 @@
     rightBtn.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
     todayBtn.addEventListener('click', function () { rail.scrollTo({ left: 0, behavior: 'smooth' }); });
 
-    li_prog.addEventListener("click", function () { selView(1, li_prog) })
-    li_arch.addEventListener("click", function () { selView(2, li_arch) })
+    // Onglets
+    li_prog.addEventListener("click",  function () { selView(1, li_prog);  });
+    li_pdf.addEventListener("click",   function () { selView(2, li_pdf);   });
+    li_proch.addEventListener("click", function () { selView(3, li_proch); });
+    li_arch.addEventListener("click",  function () { selView(4, li_arch);  });
 
-    document.getElementById("PDFs_panel").style.display = 'none'
+    // Au chargement : on masque le panel PDF/archives
+    document.getElementById("archives_panel").style.display = 'none';
   })();
-
-})();
+  
