@@ -466,7 +466,7 @@ a.clicked {
 
 ul li {
   display: inline-block;
-  background: rgba(177, 50, 49, .55);
+  background: #6b5454;
   color:#000;
   height: 24px;
   min-width: 80px;
@@ -474,17 +474,18 @@ ul li {
   line-height: 22px;
   padding: 0 8px 0 8px;
   margin: 1px 0px 0px 0px;
-  border: 1px solid gray;
+  border: none;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   cursor: pointer;
 }
 
 li:hover {
-  background-color: rgba(177, 49, 49, 0.674);
+  background-color: #7b5d5d;
 }
 
 .selected {
+  background: #b13231; Sous-titrage FR ? 
   color: #fff;
 }
 
@@ -756,4 +757,11 @@ margin: 5px 10px 0px 0px;}
 
 #archives_panel a.color-aqua {
   color: aqua;
+}
+
+.pdf_ifr {
+  display: inline-block;
+  width: 40;
+  height: 30%;
+  margin: 5px 10px 0 0;
 }
