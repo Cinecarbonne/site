@@ -732,3 +732,28 @@ margin: 5px 10px 0px 0px;}
     font-size: clamp(16px, 5vw, 20px);
   }
 }
+
+#tabs ul {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+#program_panel {
+  display: inline;
+}
+
+#archives_panel {
+  display: none;
+}
+
+#archives_panel form {
+  display: inline-block;
+}
+
+#archives_panel a {
+  display: block;
+}
+
+#archives_panel a.color-aqua {
+  color: aqua;
+}
