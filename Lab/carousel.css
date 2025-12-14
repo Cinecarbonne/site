@@ -820,7 +820,7 @@ a.clicked {
 /* Mobile : on force une largeur lisible => scroll horizontal */
 @media (max-width: 720px) {
   .pdf-img {
-    width: 800px;            /* <-- largeur “lecture” sur téléphone */
+    width: 600px;            /* <-- largeur “lecture” sur téléphone */
     max-width: none;
   }
 }
