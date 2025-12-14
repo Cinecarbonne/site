@@ -490,7 +490,7 @@ a.clicked {
   cursor: pointer;
 
   white-space: nowrap;     /* pas de coupure interne du mot */
-  font-size: 15px;
+  font-size: 16px;
   line-height: 22px;
 }
 
@@ -880,15 +880,15 @@ a.clicked {
 @media (max-width: 520px) {
   #tabs { margin-top: 12px; } /* un peu plus d’air sur mobile si tu veux */
   #tabs ul { gap: 5px; }
-  #tabs ul li { padding: 0 8px; font-size: 14px; }
+  #tabs ul li { padding: 0 8px; font-size: 15px; }
 }
 
 @media (max-width: 420px) {
   #tabs ul { gap: 4px; }
-  #tabs ul li { padding: 0 7px; font-size: 13px; }
+  #tabs ul li { padding: 0 7px; font-size: 14px; }
 }
 
 @media (max-width: 360px) {
   #tabs ul { gap: 3px; }
-  #tabs ul li { padding: 0 6px; font-size: 12px; }
+  #tabs ul li { padding: 0 6px; font-size: 13px; }
 }
