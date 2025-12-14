@@ -792,30 +792,42 @@ a.clicked {
 
 .pdf-viewer {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto;          /* permet le scroll horizontal sur mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
-.pdf-frame {
+.pdf-img-link {
   display: block;
-  width: 100%;
-  min-width: 600px;
-  height: 80vh;
-  border: none;
+  text-decoration: none;
+}
+
+.pdf-img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 10px;
   background: #111;
 }
 
-.pdf-caption {
-  margin-top: 6px;
-  font-size: 14px;
-  text-align: center;
-  opacity: .85;
-}
-
-@media (max-width: 720px) {
-  .pdf-frame {
-    height: 70vh;
+/* Desktop : limiter la taille (lisible sans être énorme) */
+@media (min-width: 721px) {
+  .pdf-img {
+    width: 100%;
+    max-width: 980px;        /* <-- ajuste si tu veux (900–1100) */
   }
 }
+
+/* Mobile : on force une largeur lisible => scroll horizontal */
+@media (max-width: 720px) {
+  .pdf-img {
+    width: 980px;            /* <-- largeur “lecture” sur téléphone */
+    max-width: none;
+  }
+}
+
+
+
+
 
 /* === Onglet PROCHAINEMENT : mosaïque d'affiches === */
 

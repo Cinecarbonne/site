@@ -391,7 +391,9 @@
             '</a>' +
           '</div>' +
           '<div class="pdf-viewer">' +
-            '<iframe class="pdf-frame" src="PDFs/' + encodeURIComponent(p.fichier) + '#page=8"></iframe>' +
+            '<a class="pdf-img-link" href="PDFs/programme_page8.jpg" target="_blank" rel="noopener">' +
+              '<img class="pdf-img" src="PDFs/programme_page8.jpg" alt="Dernière page du programme (image)" loading="lazy" decoding="async">' +
+            '</a>' +
           '</div>' +
           '<p class="pdf-caption">' + label + '</p>' +
         '</section>'
