@@ -907,21 +907,21 @@ a.clicked {
   .panel-title { margin-bottom: 6px; }
 }
 
-/* Groupe flèche gauche + retour au début */
-.left-controls {
+/* Flèche gauche : inchangée, au milieu */
+#leftBtn {
   position: absolute;
   left: 8px;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
   z-index: 6;
 }
 
-/* Bouton retour au début (⏮) */
-.arrow.jump-start {
+/* Bouton aller au début : même X, mais plus bas */
+#jumpStartBtn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(12px); /* <-- PLUS BAS QUE LE CENTRE */
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -929,24 +929,12 @@ a.clicked {
   color: #fff;
   font-size: 16px;
   font-weight: 700;
-  line-height: 1;
   display: grid;
   place-items: center;
   cursor: pointer;
+  z-index: 6;
 }
 
-.arrow.jump-start:hover {
+#jumpStartBtn:hover {
   filter: brightness(1.1);
-}
-
-.left-controls .arrow.left {
-  position: static;
-  transform: none;
-}
-
-.left-controls .arrow.jump-start {
-  position: static;
-  top: auto;
-  transform: none;
-  margin-top: 10px;
 }
