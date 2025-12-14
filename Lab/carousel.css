@@ -702,12 +702,10 @@ a.clicked {
   }
 
   .siteTitle .brand {
-    /* Titre principal plus petit */
     font-size: clamp(25px, 7vw, 30px);
   }
 
   .siteTitle .slash {
-    /* On enlève le "/" pour gagner de la place */
     display: none;
   }
 
@@ -721,7 +719,6 @@ a.clicked {
   .hero {
     height: 58px;
     padding-left: 75px;
-    /* encore un peu plus compact */
   }
 
   .hero .logo {
@@ -739,7 +736,7 @@ a.clicked {
 
 /* Espace entre le bandeau haut (hero) et les onglets */
 #tabs {
-  margin-top: 10px;  /* augmente si tu veux plus bas */
+  margin-top: 10px;
 }
 
 #tabs ul {
@@ -780,7 +777,7 @@ a.clicked {
   display: inline-block;
   padding: 10px 22px;
   border-radius: 999px;
-  background: rgba(177, 50, 49, .55); /* même logique que les autres boutons rouges */
+  background: rgba(177, 50, 49, .55);
   color: #fff;
   font-weight: 800;
   text-decoration: none;
@@ -795,13 +792,13 @@ a.clicked {
 
 .pdf-viewer {
   width: 100%;
-  overflow-x: auto; /* pour pouvoir glisser horizontalement sur mobile */
+  overflow-x: auto;
 }
 
 .pdf-frame {
   display: block;
   width: 100%;
-  min-width: 600px;  /* ta largeur mini demandée */
+  min-width: 600px;
   height: 80vh;
   border: none;
   background: #111;
@@ -878,7 +875,7 @@ a.clicked {
 }
 
 @media (max-width: 520px) {
-  #tabs { margin-top: 12px; } /* un peu plus d’air sur mobile si tu veux */
+  #tabs { margin-top: 12px; }
   #tabs ul { gap: 5px; }
   #tabs ul li { padding: 0 8px; font-size: 15px; }
 }
@@ -896,7 +893,7 @@ a.clicked {
 /* ===== Panneau film : 1 colonne sur mobile ===== */
 @media (max-width: 860px) {
   .panel-grid2 {
-    grid-template-columns: 1fr; /* au lieu de 1.4fr 1fr */
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
@@ -945,4 +942,11 @@ a.clicked {
 .left-controls .arrow.left {
   position: static;
   transform: none;
+}
+
+.left-controls .arrow.jump-start {
+  position: static;
+  top: auto;
+  transform: none;
+  margin-top: 10px;
 }
