@@ -320,57 +320,322 @@
     loadJSON();
   }, 30 * 60 * 1000);
 
+  // ===================== ONGLET PDF : helpers =====================
 
-  function selView(n, litag) {
-    var PrgView = "none";
-    var archView = "none";
-    console.log("selView: " + n)
-    switch (n) {
-      case 1:
-        PrgView = "inline";
-        break;
-      case 2:
-        archView = "inline";
-        break;
-      // add how many cases you need
-      default:
-        break;
-    }
-
-    document.getElementById("program_panel").style.display = PrgView;
-    document.getElementById("PDFs_panel").style.display = archView;
-    var tabs = document.getElementById("tabs");
-    var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
-    ca.map(function (elem) {
-      elem.className = "none"
-    });
-    litag.className = "selected"
+  function todayISO() {
+    var d = new Date();
+    var y = d.getFullYear();
+    var m = d.getMonth() + 1;
+    var day = d.getDate();
+    var mm = (m < 10 ? '0' + m : '' + m);
+    var dd = (day < 10 ? '0' + day : '' + day);
+    return y + '-' + mm + '-' + dd;
   }
 
-  // drag scroll + flèches
+  function formatDateFR(iso) {
+    if (!iso || iso.length < 10) return iso || '';
+    return iso.slice(8, 10) + '/' + iso.slice(5, 7) + '/' + iso.slice(0, 4);
+  }
+
+  // À partir de la liste complète, choisit le programme courant et le suivant
+  function pickProgrammesPDF(liste) {
+    var today = todayISO();
+    var actuels = [];
+    var futurs = [];
+
+    (Array.isArray(liste) ? liste : []).forEach(function (p) {
+      if (!p || !p.debut || !p.fin || !p.fichier) return;
+      if (p.debut <= today && today <= p.fin) {
+        actuels.push(p);
+      } else if (p.debut > today) {
+        futurs.push(p);
+      }
+    });
+
+    actuels.sort(function (a, b) {
+      // le plus récent d'abord
+      return b.debut.localeCompare(a.debut);
+    });
+
+    futurs.sort(function (a, b) {
+      // le prochain qui arrive
+      return a.debut.localeCompare(b.debut);
+    });
+
+    return {
+      courant: actuels.length ? actuels[0] : null,
+      suivant: futurs.length ? futurs[0] : null
+    };
+  }
+
+  function renderPdfTab(courant, suivant) {
+    var panel = document.getElementById('pdf_panel');
+    if (!panel) return;
+
+    if (!courant && !suivant) {
+      panel.innerHTML = '<p style="padding:16px;">Aucun programme PDF disponible pour le moment.</p>';
+      return;
+    }
+
+    function bloc(p, titre) {
+      if (!p) return '';
+      var label = 'Programme n°' + (p.numero || '') +
+        (p.debut && p.fin ? ' — du ' + formatDateFR(p.debut) + ' au ' + formatDateFR(p.fin) : '');
+
+      return (
+        '<section class="pdf-tab-section">' +
+          (titre ? '<h2 class="pdf-section-title">' + titre + '</h2>' : '') +
+          '<div class="pdf-download">' +
+            '<a class="btn-pdf" href="PDFs/' + encodeURIComponent(p.fichier) + '" target="_blank" rel="noopener">' +
+              'Télécharger le PDF' + (p.numero ? ' n°' + p.numero : '') +
+            '</a>' +
+          '</div>' +
+          '<div class="pdf-viewer">' +
+            '<a class="pdf-img-link" href="PDFs/programme_page8.jpg" target="_blank" rel="noopener">' +
+              '<img class="pdf-img" src="PDFs/programme_page8.jpg" alt="Dernière page du programme (image)" loading="lazy" decoding="async">' +
+            '</a>' +
+          '</div>' +
+          '<p class="pdf-caption">' + label + '</p>' +
+        '</section>'
+      );
+    }
+
+    var html = '';
+    html += bloc(courant, '');
+    if (suivant) {
+      html += bloc(suivant, 'Programme suivant');
+    }
+    panel.innerHTML = html;
+  }
+
+    function ensurePdfTabLoaded() {
+    if (window._pdfTabLoaded && window._pdfList) {
+      var pick = pickProgrammesPDF(window._pdfList);
+      renderPdfTab(pick.courant, pick.suivant);
+      return;
+    }
+    window._pdfTabLoaded = true;
+
+    fetch('./PDFs.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (liste) {
+        window._pdfList = Array.isArray(liste) ? liste : [];
+        var pick = pickProgrammesPDF(window._pdfList);
+        renderPdfTab(pick.courant, pick.suivant);
+      })
+      .catch(function (e) {
+        console.warn('Erreur chargement PDFs.json:', e);
+        var panel = document.getElementById('pdf_panel');
+        if (panel) {
+          panel.innerHTML = '<p style="padding:16px;">Impossible de charger le PDF pour le moment.</p>';
+        }
+      });
+  }
+
+  // ===================== ONGLET PROCHAINEMENT =====================
+
+  function renderProchTab(list) {
+    var cont = document.getElementById('coming_grid');
+    if (!cont) return;
+
+    if (!Array.isArray(list) || list.length === 0) {
+      cont.innerHTML = '<p>Aucune affiche « prochainement » pour le moment.</p>';
+      return;
+    }
+
+    cont.innerHTML = list.map(function (item) {
+      if (!item || !item.poster) return '';
+      var alt = item.alt || 'Affiche de film';
+      return (
+        '<div class="coming-poster-wrap">' +
+          '<img class="coming-poster" src="' + item.poster + '" alt="' +
+          alt.replace(/"/g, '&quot;') + '">' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  function ensureProchTabLoaded() {
+    if (window._prochLoaded) return;
+    window._prochLoaded = true;
+
+    fetch('./prochainement.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (list) {
+        renderProchTab(list);
+      })
+      .catch(function (e) {
+        console.warn('Erreur chargement prochainement.json:', e);
+        var cont = document.getElementById('coming_grid');
+        if (cont) {
+          cont.innerHTML = '<p>Impossible de charger les films « prochainement ».</p>';
+        }
+      });
+  }
+
+  // ===================== ONGLET ARCHIVES =====================
+
+  function renderArchivesTab(list) {
+    var cont = document.getElementById('archives_list');
+    if (!cont) return;
+
+    if (!Array.isArray(list) || list.length === 0) {
+      cont.innerHTML = '<p style="padding:16px;">Aucune archive disponible pour le moment.</p>';
+      return;
+    }
+
+    var sorted = list.slice().sort(function (a, b) {
+      return (b.debut || '').localeCompare(a.debut || '');
+    });
+
+    var html = '<ul class="archives-ul">';
+    sorted.forEach(function (p) {
+      if (!p || !p.fichier) return;
+      var label = '';
+      if (p.numero) {
+        label += 'Programme n°' + p.numero + ' — ';
+      }
+      if (p.debut && p.fin) {
+        label += 'du ' + formatDateFR(p.debut) + ' au ' + formatDateFR(p.fin);
+      } else {
+        label += p.fichier;
+      }
+      html += '<li><a href="PDFs/' + encodeURIComponent(p.fichier) +
+              '" target="_blank" rel="noopener">' + label + '</a></li>';
+    });
+    html += '</ul>';
+
+    cont.innerHTML = html;
+  }
+
+  function ensureArchivesTabLoaded() {
+    if (window._archivesLoaded && window._pdfList) {
+      renderArchivesTab(window._pdfList);
+      return;
+    }
+    window._archivesLoaded = true;
+
+    if (window._pdfList) {
+      renderArchivesTab(window._pdfList);
+      return;
+    }
+
+    fetch('./PDFs.json', { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (liste) {
+        window._pdfList = Array.isArray(liste) ? liste : [];
+        renderArchivesTab(window._pdfList);
+      })
+      .catch(function (e) {
+        console.warn('Erreur chargement PDFs.json (archives):', e);
+        var cont = document.getElementById('archives_list');
+        if (cont) {
+          cont.innerHTML = '<p style="padding:16px;">Impossible de charger les archives.</p>';
+        }
+      });
+  }
+
+
+
+      function selView(n, litag) {
+    var ids = ['program_panel', 'pdf_panel', 'proch_panel', 'archives_panel'];
+
+    ids.forEach(function (id, idx) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = (idx === (n - 1) ? 'block' : 'none');
+    });
+
+    if (n === 2) {
+      ensurePdfTabLoaded();
+    } else if (n === 3) {
+      ensureProchTabLoaded();
+    } else if (n === 4) {
+      ensureArchivesTabLoaded();
+    }
+
+    var tabs = document.getElementById("tabs");
+    var ca = Array.prototype.slice.call(tabs.querySelectorAll("li"));
+    ca.forEach(function (elem) {
+      elem.className = "";
+    });
+    if (litag) {
+      litag.className = "selected";
+    }
+  }
+
+
+
+    // drag scroll + flèches + onglets
   (function () {
-    console.log("main functiion")
+    console.log("main functiion");
     var isDown = false, startX = 0, startScroll = 0;
-    var leftBtn = document.getElementById('leftBtn'), rightBtn = document.getElementById('rightBtn');
-    var li_prog = document.getElementById("li_prog"), li_arch = document.getElementById("li_arch");
-    rail.addEventListener('mousedown', function (e) { isDown = true; startX = e.pageX; startScroll = rail.scrollLeft; e.preventDefault(); });
+    var leftBtn = document.getElementById('leftBtn'),
+        rightBtn = document.getElementById('rightBtn'),
+        jumpStartBtn = document.getElementById('jumpStartBtn');
+    var li_prog  = document.getElementById("li_prog"),
+        li_pdf   = document.getElementById("li_pdf"),
+        li_proch = document.getElementById("li_proch"),
+        li_arch  = document.getElementById("li_arch");
+
+    rail.addEventListener('mousedown', function (e) {
+      isDown = true;
+      startX = e.pageX;
+      startScroll = rail.scrollLeft;
+      e.preventDefault();
+    });
     window.addEventListener('mouseup', function () { isDown = false; });
-    window.addEventListener('mousemove', function (e) { if (!isDown) return; rail.scrollLeft = startScroll - (e.pageX - startX); });
-    rail.addEventListener('touchstart', function (e) { isDown = true; startX = e.touches[0].pageX; startScroll = rail.scrollLeft; }, { passive: true });
+    window.addEventListener('mousemove', function (e) {
+      if (!isDown) return;
+      rail.scrollLeft = startScroll - (e.pageX - startX);
+    });
+    rail.addEventListener('touchstart', function (e) {
+      isDown = true;
+      startX = e.touches[0].pageX;
+      startScroll = rail.scrollLeft;
+    }, { passive: true });
     rail.addEventListener('touchend', function () { isDown = false; });
-    rail.addEventListener('touchmove', function (e) { if (!isDown) return; rail.scrollLeft = startScroll - (e.touches[0].pageX - startX); }, { passive: true });
+    rail.addEventListener('touchmove', function (e) {
+      if (!isDown) return;
+      rail.scrollLeft = startScroll - (e.touches[0].pageX - startX);
+    }, { passive: true });
+
     var step = function () {
       var colW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'), 10) || 220;
-      var gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'), 10) || 12; return colW + gap;
+      var gap  = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'), 10) || 12;
+      return colW + gap;
     };
-    leftBtn.addEventListener('click', function () { rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
-    rightBtn.addEventListener('click', function () { rail.scrollBy({ left: step(), behavior: 'smooth' }); });
-    todayBtn.addEventListener('click', function () { rail.scrollTo({ left: 0, behavior: 'smooth' }); });
 
-    li_prog.addEventListener("click", function () { selView(1, li_prog) })
-    li_arch.addEventListener("click", function () { selView(2, li_arch) })
+    leftBtn.addEventListener('click', function () {
+      rail.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    rightBtn.addEventListener('click', function () {
+      rail.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+    if (jumpStartBtn) {
+      jumpStartBtn.addEventListener('click', function () {
+        rail.scrollTo({ left: 0, behavior: 'smooth' });
+      });
+    }
 
-    document.getElementById("PDFs_panel").style.display = 'none'
+
+    // Onglets
+    if (li_prog)  li_prog.addEventListener("click", function () { selView(1, li_prog); });
+    if (li_pdf)   li_pdf.addEventListener("click", function () { selView(2, li_pdf); });
+    if (li_proch) li_proch.addEventListener("click", function () { selView(3, li_proch); });
+    if (li_arch)  li_arch.addEventListener("click", function () { selView(4, li_arch); });
+
+    // État initial : programme
+    selView(1, li_prog);
   })();
 
 })();

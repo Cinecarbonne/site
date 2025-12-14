@@ -464,41 +464,45 @@ a.clicked {
 }
 
 
-ul li {
-  display: inline-block;
-  background: rgba(177, 50, 49, .55);
-  color:#000;
+/* Onglets de navigation */
+#tabs ul {
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;     /* retour à la ligne autorisé */
+  gap: 6px;
+}
+
+#tabs ul li {
+  display: inline-flex;    /* largeur = contenu réel */
+  align-items: center;
+  justify-content: center;
+
+  background: #6b5454;
+  color: #000;
   height: 24px;
-  min-width: 80px;
-  text-align: center;
-  line-height: 22px;
-  padding: 0 8px 0 8px;
-  margin: 1px 0px 0px 0px;
-  border: 1px solid gray;
+
+  min-width: 0;
+  padding: 0 8px;
+  border: none;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   cursor: pointer;
+
+  white-space: nowrap;     /* pas de coupure interne du mot */
+  font-size: 16px;
+  line-height: 22px;
 }
 
-li:hover {
-  background-color: rgba(177, 49, 49, 0.674);
+#tabs ul li:hover {
+  background-color: #7b5d5d;
 }
 
-.selected {
+#tabs ul li.selected {
+  background: #6b5454;
   color: #fff;
 }
 
-.pdf_ifr {
-display: inline-block;
-width : 40;
-height : 30%;
-margin: 5px 10px 0px 0px;}
-
-@media(max-width:860px) {
-  .panel-grid2 {
-    grid-template-columns: 1fr
-  }
-}
 
 /* Tags / chips (version finale) */
 .allChipsTop {
@@ -698,12 +702,10 @@ margin: 5px 10px 0px 0px;}
   }
 
   .siteTitle .brand {
-    /* Titre principal plus petit */
     font-size: clamp(25px, 7vw, 30px);
   }
 
   .siteTitle .slash {
-    /* On enlève le "/" pour gagner de la place */
     display: none;
   }
 
@@ -717,7 +719,6 @@ margin: 5px 10px 0px 0px;}
   .hero {
     height: 58px;
     padding-left: 75px;
-    /* encore un peu plus compact */
   }
 
   .hero .logo {
@@ -733,3 +734,234 @@ margin: 5px 10px 0px 0px;}
   }
 }
 
+/* Espace entre le bandeau haut (hero) et les onglets */
+#tabs {
+  margin-top: 10px;
+}
+
+#tabs ul {
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* Tous les panneaux d’onglets sont masqués par défaut */
+.tabpanel {
+  display: none;
+}
+
+/* Panneau du programme visible au chargement */
+#program_panel {
+  display: block;
+}
+
+/* === Onglet PDF === */
+
+.pdf-tab-section {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pdf-section-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pdf-download {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.btn-pdf {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(177, 50, 49, .55);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  transition: filter .15s ease, transform .15s ease;
+}
+
+.btn-pdf:hover {
+  filter: brightness(1.08);
+}
+
+.pdf-viewer {
+  width: 100%;
+  overflow-x: auto;          /* permet le scroll horizontal sur mobile */
+  -webkit-overflow-scrolling: touch;
+}
+
+.pdf-img-link {
+  display: block;
+  text-decoration: none;
+}
+
+.pdf-img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #111;
+}
+
+/* Desktop : limiter la taille (lisible sans être énorme) */
+@media (min-width: 721px) {
+  .pdf-img {
+    width: 100%;
+    max-width: 980px;
+  }
+}
+
+/* Mobile : on force une largeur lisible => scroll horizontal */
+@media (max-width: 720px) {
+  .pdf-img {
+    width: 600px;            /* <-- largeur “lecture” sur téléphone */
+    max-width: none;
+  }
+}
+
+
+
+
+
+/* === Onglet PROCHAINEMENT : mosaïque d'affiches === */
+
+.coming-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+.coming-poster-wrap {
+  background: #0b0b0b;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.coming-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .coming-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    padding: 12px;
+  }
+}
+
+/* === Onglet ARCHIVES : liste des anciens programmes === */
+
+.archives-list {
+  padding: 16px;
+}
+
+.archives-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archives-ul li + li {
+  margin-top: 6px;
+}
+
+.archives-ul a {
+  color: #e3e0d5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.archives-ul a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  #tabs { margin-top: 12px; }
+  #tabs ul { gap: 5px; }
+  #tabs ul li { padding: 0 8px; font-size: 15px; }
+}
+
+@media (max-width: 420px) {
+  #tabs ul { gap: 4px; }
+  #tabs ul li { padding: 0 7px; font-size: 14px; }
+}
+
+@media (max-width: 360px) {
+  #tabs ul { gap: 3px; }
+  #tabs ul li { padding: 0 6px; font-size: 13px; }
+}
+
+/* ===== Panneau film : 1 colonne sur mobile ===== */
+@media (max-width: 860px) {
+  .panel-grid2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Optionnel : garantir l’ordre synopsis puis image */
+  .panel-left  { order: 1; }
+  .panel-right { order: 2; }
+
+  /* Confort mobile */
+  .panelBand { margin-top: 12px; }
+  .panel { border-radius: 14px; }
+  .panel-title { margin-bottom: 6px; }
+}
+
+/* Flèche gauche : inchangée, au milieu */
+#leftBtn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+}
+
+/* Bouton aller au début : même X, mais plus bas */
+#jumpStartBtn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(24px); /* <-- PLUS BAS QUE LE CENTRE */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(177, 50, 49, .65);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 6;
+  border: 0;
+  padding: 0;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+
+  -webkit-tap-highlight-color: transparent; /* supprime le halo gris Android */
+  background-clip: padding-box;
+}
+
+#jumpStartBtn:focus,
+#jumpStartBtn:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+#jumpStartBtn:hover {
+  filter: brightness(1.1);
+}
