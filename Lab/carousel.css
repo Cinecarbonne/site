@@ -921,9 +921,9 @@ a.clicked {
   position: absolute;
   left: 8px;
   top: 50%;
-  transform: translateY(12px); /* <-- PLUS BAS QUE LE CENTRE */
-  width: 34px;
-  height: 34px;
+  transform: translateY(20px); /* <-- PLUS BAS QUE LE CENTRE */
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: rgba(177, 50, 49, .65);
   color: #fff;
