@@ -921,7 +921,7 @@ a.clicked {
   position: absolute;
   left: 8px;
   top: 50%;
-  transform: translateY(20px); /* <-- PLUS BAS QUE LE CENTRE */
+  transform: translateY(24px); /* <-- PLUS BAS QUE LE CENTRE */
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -933,6 +933,21 @@ a.clicked {
   place-items: center;
   cursor: pointer;
   z-index: 6;
+  border: 0;
+  padding: 0;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+
+  -webkit-tap-highlight-color: transparent; /* supprime le halo gris Android */
+  background-clip: padding-box;
+}
+
+#jumpStartBtn:focus,
+#jumpStartBtn:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 #jumpStartBtn:hover {
