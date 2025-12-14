@@ -482,15 +482,16 @@ a.clicked {
   color: #000;
   height: 24px;
 
-  min-width: 0;            /* CLÉ : autorise le vrai rétrécissement */
+  min-width: 0;
   padding: 0 8px;
-
   border: none;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   cursor: pointer;
 
   white-space: nowrap;     /* pas de coupure interne du mot */
+  font-size: 15px;
+  line-height: 22px;
 }
 
 #tabs ul li:hover {
@@ -736,6 +737,11 @@ a.clicked {
   }
 }
 
+/* Espace entre le bandeau haut (hero) et les onglets */
+#tabs {
+  margin-top: 10px;  /* augmente si tu veux plus bas */
+}
+
 #tabs ul {
   padding-left: 0;
   margin-bottom: 0;
@@ -869,4 +875,20 @@ a.clicked {
 
 .archives-ul a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+  #tabs { margin-top: 12px; } /* un peu plus d’air sur mobile si tu veux */
+  #tabs ul { gap: 5px; }
+  #tabs ul li { padding: 0 8px; font-size: 14px; }
+}
+
+@media (max-width: 420px) {
+  #tabs ul { gap: 4px; }
+  #tabs ul li { padding: 0 7px; font-size: 13px; }
+}
+
+@media (max-width: 360px) {
+  #tabs ul { gap: 3px; }
+  #tabs ul li { padding: 0 6px; font-size: 12px; }
 }
