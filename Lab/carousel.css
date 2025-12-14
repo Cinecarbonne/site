@@ -941,3 +941,8 @@ a.clicked {
 .arrow.jump-start:hover {
   filter: brightness(1.1);
 }
+
+.left-controls .arrow.left {
+  position: static;
+  transform: none;
+}
