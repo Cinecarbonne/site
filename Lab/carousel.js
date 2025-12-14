@@ -578,7 +578,8 @@
     console.log("main functiion");
     var isDown = false, startX = 0, startScroll = 0;
     var leftBtn = document.getElementById('leftBtn'),
-        rightBtn = document.getElementById('rightBtn');
+        rightBtn = document.getElementById('rightBtn'),
+        jumpStartBtn = document.getElementById('jumpStartBtn');
     var li_prog  = document.getElementById("li_prog"),
         li_pdf   = document.getElementById("li_pdf"),
         li_proch = document.getElementById("li_proch"),
@@ -618,9 +619,12 @@
     rightBtn.addEventListener('click', function () {
       rail.scrollBy({ left: step(), behavior: 'smooth' });
     });
-    todayBtn.addEventListener('click', function () {
-      rail.scrollTo({ left: 0, behavior: 'smooth' });
-    });
+    if (jumpStartBtn) {
+      jumpStartBtn.addEventListener('click', function () {
+        rail.scrollTo({ left: 0, behavior: 'smooth' });
+      });
+    }
+
 
     // Onglets
     if (li_prog)  li_prog.addEventListener("click", function () { selView(1, li_prog); });

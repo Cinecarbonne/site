@@ -733,19 +733,3 @@ margin: 5px 10px 0px 0px;}
   }
 }
 
-/* ===== Panneau film : 1 colonne sur mobile ===== */
-@media (max-width: 860px) {
-  .panel-grid2 {
-    grid-template-columns: 1fr; /* au lieu de 1.4fr 1fr */
-    gap: 12px;
-  }
-
-  /* Optionnel : garantir l’ordre synopsis puis image */
-  .panel-left  { order: 1; }
-  .panel-right { order: 2; }
-
-  /* Confort mobile */
-  .panelBand { margin-top: 12px; }
-  .panel { border-radius: 14px; }
-  .panel-title { margin-bottom: 6px; }
-}

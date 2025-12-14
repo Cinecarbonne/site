@@ -50,8 +50,15 @@
       <div class="tabpanel" id="program_panel">
         <div class="stripBand">
           <div class="rail-wrap">
-            <button class="todayBtn" id="todayBtn" type="button">Début</button>
-            <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche"><span></span></button>
+            <div class="left-controls">
+                <button class="arrow left" id="leftBtn" aria-label="Défiler vers la gauche">
+                  <span></span>
+                </button>
+
+                <button class="arrow jump-start" id="jumpStartBtn" aria-label="Aller au début">
+                  ⏮
+                </button>
+              </div>
             <div class="filmStrip">
               <div class="railViewport">
                 <div id="rail" class="rail" aria-live="polite">
