@@ -813,14 +813,14 @@ a.clicked {
 @media (min-width: 721px) {
   .pdf-img {
     width: 100%;
-    max-width: 980px;        /* <-- ajuste si tu veux (900–1100) */
+    max-width: 980px;
   }
 }
 
 /* Mobile : on force une largeur lisible => scroll horizontal */
 @media (max-width: 720px) {
   .pdf-img {
-    width: 980px;            /* <-- largeur “lecture” sur téléphone */
+    width: 800px;            /* <-- largeur “lecture” sur téléphone */
     max-width: none;
   }
 }
