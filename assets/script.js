@@ -1,5 +1,5 @@
-// assets/script.js
-// Un seul JS pour toutes vos pages : menu mobile (hamburger)
+// assets/script.js — v2
+// Menu burger (mobile) pour le bandeau
 
 (function () {
   const toggle = document.querySelector('.nav__toggle');
@@ -16,19 +16,15 @@
     setExpanded(!expanded);
   });
 
-  // Ferme le menu si on clique un lien (mobile)
-  menu.addEventListener('click', (e) => {
-    const a = e.target.closest('a');
-    if (!a) return;
-    if (window.matchMedia('(max-width: 900px)').matches) {
-      setExpanded(false);
-    }
-  });
-
-  // Ferme si on clique hors menu (mobile)
   document.addEventListener('click', (e) => {
     if (!window.matchMedia('(max-width: 900px)').matches) return;
     if (e.target.closest('.nav__inner')) return;
     setExpanded(false);
+  });
+
+  menu.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    if (window.matchMedia('(max-width: 900px)').matches) setExpanded(false);
   });
 })();
