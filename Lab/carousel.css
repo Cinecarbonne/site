@@ -1014,11 +1014,11 @@ a.clicked {
 }
 
 .calendar-modal {
-  width: min(360px, 90vw);
+  width: min(320px, 86vw);
   background: rgba(104, 54, 54, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 12px 14px 14px;
+  padding: 10px 10px 12px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
 }
@@ -1074,12 +1074,12 @@ a.clicked {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  padding: 6px 2px;
+  gap: 4px;
+  padding: 4px 1px;
 }
 
 .cal-dow {
-  height: 24px;
+  height: 22px;
   border-radius: 6px;
   display: grid;
   place-items: center;
@@ -1091,14 +1091,14 @@ a.clicked {
 }
 
 .cal-day {
-  height: 28px;
+  height: 26px;
   border-radius: 6px;
   display: grid;
   place-items: center;
   font-weight: 700;
   font-size: 14px;
   color: #e8e8e8;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
