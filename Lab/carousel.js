@@ -356,6 +356,14 @@
     calendarGrid.innerHTML = '';
     var frag = document.createDocumentFragment();
 
+    var week = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+    week.forEach(function (label) {
+      var head = document.createElement('span');
+      head.className = 'cal-dow';
+      head.textContent = label;
+      frag.appendChild(head);
+    });
+
     for (var i = 0; i < startOffset; i++) {
       var empty = document.createElement('span');
       empty.className = 'cal-day cal-empty';

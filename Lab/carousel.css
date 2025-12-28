@@ -972,8 +972,8 @@ a.clicked {
   left: 8px;
   top: 50%;
   transform: translateY(72px);
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: rgba(177, 50, 49, .65);
   color: #fff;
@@ -988,8 +988,8 @@ a.clicked {
 }
 
 #calendarBtn svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   stroke: #fff;
   fill: none;
   stroke-width: 1.7;
@@ -1014,8 +1014,8 @@ a.clicked {
 }
 
 .calendar-modal {
-  width: min(420px, 92vw);
-  background: rgba(55, 55, 55, 0.92);
+  width: min(360px, 90vw);
+  background: rgba(104, 54, 54, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   padding: 12px 14px 14px;
@@ -1036,7 +1036,7 @@ a.clicked {
   text-align: center;
   font-weight: 800;
   letter-spacing: 0.4px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .cal-nav {
@@ -1074,19 +1074,31 @@ a.clicked {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 5px;
   padding: 6px 2px;
 }
 
+.cal-dow {
+  height: 24px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  color: #f2d9d9;
+  background: rgba(161, 72, 72, 0.65);
+}
+
 .cal-day {
-  height: 34px;
-  border-radius: 8px;
+  height: 28px;
+  border-radius: 6px;
   display: grid;
   place-items: center;
   font-weight: 700;
   font-size: 14px;
   color: #e8e8e8;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
