@@ -415,8 +415,22 @@
   function openCalendar() {
     if (!calendarOverlay) return;
     var now = new Date();
-    calState.year = now.getFullYear();
-    calState.month = now.getMonth();
+    var year = now.getFullYear();
+    var month = now.getMonth();
+    var today = startOfDay(now);
+    var available = window._availableDates || new Set();
+    var remaining = 0;
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (var day = today.getDate(); day <= daysInMonth; day++) {
+      var iso = toISODate(year, month + 1, day);
+      if (available.has(iso)) remaining++;
+    }
+    if (remaining <= 2) {
+      month += 1;
+      if (month > 11) { month = 0; year += 1; }
+    }
+    calState.year = year;
+    calState.month = month;
     calendarOverlay.classList.add('open');
     calendarOverlay.setAttribute('aria-hidden', 'false');
     renderCalendar();
