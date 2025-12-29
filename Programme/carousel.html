@@ -58,6 +58,18 @@
                 <button class="jumpStartBtn" id="jumpStartBtn" aria-label="Aller au début">
                     ⏮
                   </button>
+
+                <button class="calendarBtn" id="calendarBtn" aria-label="Ouvrir le calendrier">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <rect x="3" y="4.5" width="18" height="16" rx="2.2" ry="2.2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                    <rect x="7" y="11" width="3" height="3" rx="0.6"></rect>
+                    <rect x="12" y="11" width="3" height="3" rx="0.6"></rect>
+                    <rect x="7" y="16" width="3" height="3" rx="0.6"></rect>
+                  </svg>
+                </button>
               </div>
             <div class="filmStrip">
               <div class="railViewport">
@@ -114,7 +126,25 @@
 
     </div>
 
+  <div id="calendarOverlay" class="calendar-overlay" aria-hidden="true">
+    <div class="calendar-modal" role="dialog" aria-modal="true" aria-label="Calendrier">
+      <div class="calendar-header">
+        <button class="cal-nav cal-prev" id="calPrev" type="button" aria-label="Mois precedent">
+          <span></span>
+        </button>
+        <div class="cal-title" id="calTitle"></div>
+        <button class="cal-nav cal-next" id="calNext" type="button" aria-label="Mois suivant">
+          <span></span>
+        </button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </div>
+
   <script src="carousel.js"></script>
+
+
+
 
 </body>
 

@@ -42,7 +42,13 @@
     todayBtn = document.getElementById('todayBtn'),
     thumbStrip = document.getElementById('thumb-strip'),
     pChipsTop = document.getElementById('p-chipsTop'),
-    pPrix = document.getElementById('p-prix');
+    pPrix = document.getElementById('p-prix'),
+    calendarBtn = document.getElementById('calendarBtn'),
+    calendarOverlay = document.getElementById('calendarOverlay'),
+    calendarGrid = document.getElementById('calendarGrid'),
+    calTitle = document.getElementById('calTitle'),
+    calPrev = document.getElementById('calPrev'),
+    calNext = document.getElementById('calNext');
 
   function hidePanel() {
     panel.classList.remove('visible');
@@ -101,6 +107,26 @@
     var hh = parseInt(timePart.slice(0, 2), 10) || 0;
     var mm = parseInt(timePart.slice(3, 5), 10) || 0;
     return new Date(y, m, d, hh, mm, 0, 0).getTime();
+  }
+
+  function startOfDay(d) {
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+
+  function toISODate(y, m, d) {
+    var mm = (m < 10 ? '0' + m : '' + m);
+    var dd = (d < 10 ? '0' + d : '' + d);
+    return y + '-' + mm + '-' + dd;
+  }
+
+  function buildDateIndexMap(list) {
+    var map = {};
+    (Array.isArray(list) ? list : []).forEach(function (item, idx) {
+      if (item && item.date && map[item.date] === undefined) {
+        map[item.date] = idx;
+      }
+    });
+    return map;
   }
 
   function openPanel(s) {
@@ -274,6 +300,133 @@
     return col;
   }
 
+
+
+  function updateCalendarData(list) {
+    var map = buildDateIndexMap(list);
+    window._futursList = list;
+    window._dateIndexMap = map;
+    window._availableDates = new Set(Object.keys(map));
+  }
+
+  function findIndexForDateOrNext(dateStr) {
+    var map = window._dateIndexMap || {};
+    if (map[dateStr] !== undefined) return map[dateStr];
+    var list = window._futursList || [];
+    for (var i = 0; i < list.length; i++) {
+      if (list[i] && list[i].date && list[i].date >= dateStr) return i;
+    }
+    return -1;
+  }
+
+  function scrollToFilmIndex(idx) {
+    var list = window._futursList || [];
+    if (idx < 0 || idx >= list.length) return;
+    var colW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'), 10) || 220;
+    var gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gap'), 10) || 12;
+    rail.scrollTo({ left: idx * (colW + gap), behavior: 'smooth' });
+    openPanel(list[idx]);
+  }
+
+  var calState = { year: null, month: null };
+
+  function renderCalendar() {
+    if (!calendarGrid || !calTitle) return;
+    var today = startOfDay(new Date());
+    var year = calState.year;
+    var month = calState.month;
+    if (year === null || month === null) {
+      year = today.getFullYear();
+      month = today.getMonth();
+      calState.year = year;
+      calState.month = month;
+    }
+
+    var monthNames = [
+      'janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin',
+      'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre'
+    ];
+    calTitle.textContent = monthNames[month] + ' ' + year;
+
+    var first = new Date(year, month, 1);
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var startOffset = (first.getDay() + 6) % 7;
+    var available = window._availableDates || new Set();
+
+    calendarGrid.innerHTML = '';
+    var frag = document.createDocumentFragment();
+
+    var week = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+    week.forEach(function (label) {
+      var head = document.createElement('span');
+      head.className = 'cal-dow';
+      head.textContent = label;
+      frag.appendChild(head);
+    });
+
+    for (var i = 0; i < startOffset; i++) {
+      var empty = document.createElement('span');
+      empty.className = 'cal-day cal-empty';
+      frag.appendChild(empty);
+    }
+
+    for (var day = 1; day <= daysInMonth; day++) {
+      var dateStr = toISODate(year, month + 1, day);
+      var dateObj = new Date(year, month, day);
+      var isPast = dateObj < today;
+      var hasFilm = available.has(dateStr);
+      var isActive = !isPast && hasFilm;
+
+      var cell = document.createElement(isActive ? 'button' : 'span');
+      cell.className = 'cal-day ' + (isActive ? 'is-active' : 'is-disabled');
+      cell.textContent = String(day);
+      if (isActive) {
+        cell.type = 'button';
+        (function (iso) {
+          cell.addEventListener('click', function () {
+            var idx = findIndexForDateOrNext(iso);
+            scrollToFilmIndex(idx);
+            closeCalendar();
+          });
+        })(dateStr);
+      }
+      frag.appendChild(cell);
+    }
+
+    calendarGrid.appendChild(frag);
+  }
+
+  function shiftCalendarMonth(delta) {
+    var year = calState.year;
+    var month = calState.month;
+    if (year === null || month === null) {
+      var now = new Date();
+      year = now.getFullYear();
+      month = now.getMonth();
+    }
+    month += delta;
+    if (month < 0) { month = 11; year -= 1; }
+    if (month > 11) { month = 0; year += 1; }
+    calState.year = year;
+    calState.month = month;
+    renderCalendar();
+  }
+
+  function openCalendar() {
+    if (!calendarOverlay) return;
+    var now = new Date();
+    calState.year = now.getFullYear();
+    calState.month = now.getMonth();
+    calendarOverlay.classList.add('open');
+    calendarOverlay.setAttribute('aria-hidden', 'false');
+    renderCalendar();
+  }
+
+  function closeCalendar() {
+    if (!calendarOverlay) return;
+    calendarOverlay.classList.remove('open');
+    calendarOverlay.setAttribute('aria-hidden', 'true');
+  }
   // RENDER LIST filtré + trié
   function renderList(list) {
     var items = Array.isArray(list) ? list : [];
@@ -290,6 +443,11 @@
     futurs.sort(function (a, b) {
       return seanceTimestamp(a) - seanceTimestamp(b);
     });
+
+    updateCalendarData(futurs);
+    if (calendarOverlay && calendarOverlay.classList.contains('open')) {
+      renderCalendar();
+    }
 
     strip.innerHTML = '';
     hidePanel();
@@ -626,6 +784,32 @@
         rail.scrollTo({ left: 0, behavior: 'smooth' });
       });
     }
+
+    if (calendarBtn) {
+      calendarBtn.addEventListener('click', function () {
+        openCalendar();
+      });
+    }
+    if (calendarOverlay) {
+      calendarOverlay.addEventListener('click', function (e) {
+        if (e.target === calendarOverlay) closeCalendar();
+      });
+    }
+    if (calPrev) {
+      calPrev.addEventListener('click', function () {
+        shiftCalendarMonth(-1);
+      });
+    }
+    if (calNext) {
+      calNext.addEventListener('click', function () {
+        shiftCalendarMonth(1);
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && calendarOverlay && calendarOverlay.classList.contains('open')) {
+        closeCalendar();
+      }
+    });
 
 
     // Onglets
