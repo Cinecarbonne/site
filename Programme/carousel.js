@@ -269,26 +269,26 @@
       if (!url) return '';
       // MP4 direct
       if (/\.mp4(\?|$)/i.test(url)) {
-        return '<video width="100%" height="420" controls preload="none">' +
+        return '<div class="trailer-frame"><video controls preload="none">' +
                '<source src="' + url + '" type="video/mp4">' +
-               '</video>';
+               '</video></div>';
       }
       // Allocine player
       if (/player\.allocine\.fr/i.test(url)) {
-        return '<iframe width="100%" height="420" src="' + url + '" frameborder="0" allowfullscreen></iframe>';
+        return '<div class="trailer-frame"><iframe src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
       }
       // Dailymotion (watch or embed)
       var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
                /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
       if (dm && dm[1]) {
-        return '<iframe width="100%" height="420" src="https://www.dailymotion.com/embed/video/' + dm[1] + '" frameborder="0" allowfullscreen></iframe>';
+        return '<div class="trailer-frame"><iframe src="https://www.dailymotion.com/embed/video/' + dm[1] + '" frameborder="0" allowfullscreen></iframe></div>';
       }
       // YouTube (watch or short)
       var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
       var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
       var k = (m1 && m1[1]) || (m2 && m2[1]);
       if (!k) return '';
-      return '<iframe width="100%" height="420" src="https://www.youtube.com/embed/' + k + '" frameborder="0" allowfullscreen></iframe>';
+      return '<div class="trailer-frame"><iframe src="https://www.youtube.com/embed/' + k + '" frameborder="0" allowfullscreen></iframe></div>';
     })(s.trailer_url);
     pTrailer.innerHTML = trailerHtml || '';
 

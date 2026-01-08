@@ -463,6 +463,22 @@ a.clicked {
   margin-top: 14px;
 }
 
+.trailer .trailer-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.trailer .trailer-frame iframe,
+.trailer .trailer-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
 
 /* Onglets de navigation */
 #tabs ul {
