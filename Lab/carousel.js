@@ -231,7 +231,8 @@
     }
 
     // image principale
-    var best = (s.backdrop_url || s.affiche_url || '');
+    var backdrops = Array.isArray(s.backdrops) ? s.backdrops : [];
+    var best = (backdrops[0] || s.affiche_url || '');
     pBackdropTop.src = best;
     pBackdropTop.style.display = best ? 'block' : 'none';
     if (best) {
@@ -257,10 +258,8 @@
         if (urls.indexOf(u) === -1) urls.push(u);
       }
 
-      // image principale d'abord
-      pushU(s.backdrop_url);
-      // puis les autres
-      if (Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+      // images du JSON (premiere = image principale)
+      backdrops.forEach(pushU);
 
       // max 5
       urls = urls.slice(0, 5);
