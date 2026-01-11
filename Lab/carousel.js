@@ -133,6 +133,24 @@
     return '<div class="trailer-frame">' + inner + '</div>';
   }
 
+  function wireTrailerDeferred(container) {
+    if (!container) return;
+    var btn = container.querySelector('.trailer-play[data-src]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var src = btn.getAttribute('data-src') || '';
+      if (!src) return;
+      var frame = btn.parentNode;
+      if (!frame) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', 'true');
+      frame.innerHTML = '';
+      frame.appendChild(iframe);
+    }, { once: true });
+  }
+
   function setQueryParams(url, params) {
     if (!url) return url;
     var hash = '';
@@ -318,10 +336,10 @@
                '<source src="' + url + '" type="video/mp4">' +
                '</video>');
       }
-      // Allocine player
-      if (/player\.allocine\.fr/i.test(url)) {
-        var aSrc = setQueryParams(url, { autoplay: 0 });
-        return wrapTrailer('<iframe src="' + aSrc + '" frameborder="0" allowfullscreen></iframe>');
+      // Allocine player (deferred to avoid autoplay)
+      if (/player\.allocine\.fr/i.test(url) || /allocine\.fr\/video\/player_gen_cmedia/i.test(url)) {
+        var aSrc = setQueryParams(url, { autoplay: 0, autostart: 0, autoStart: 0 });
+        return wrapTrailer('<button class="trailer-play" data-src="' + aSrc + '" type="button">Lire la bande-annonce</button>');
       }
       // Dailymotion (watch or embed)
       var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
@@ -335,7 +353,7 @@
           'queue-autoplay': 0,
           'ui-start-screen-info': 1
         });
-        return wrapTrailer('<iframe src="' + dSrc + '" frameborder="0" allowfullscreen></iframe>');
+        return wrapTrailer('<button class="trailer-play" data-src="' + dSrc + '" type="button">Lire la bande-annonce</button>');
       }
       // YouTube (watch or short)
       var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
@@ -346,6 +364,7 @@
       return wrapTrailer('<iframe src="' + ySrc + '" frameborder="0" allowfullscreen></iframe>');
     })(s.trailer_url);
     pTrailer.innerHTML = trailerHtml || '';
+    wireTrailerDeferred(pTrailer);
 
     requestAnimationFrame(function () { panel.classList.add('visible'); });
   }
