@@ -38,7 +38,6 @@
     pGenres = document.getElementById('p-genres'),
     pSynopsis = document.getElementById('p-synopsis'),
     pBackdropTop = document.getElementById('p-backdropTop'),
-    pTrailer = document.getElementById('p-trailer'),
     todayBtn = document.getElementById('todayBtn'),
     thumbStrip = document.getElementById('thumb-strip'),
     pChipsTop = document.getElementById('p-chipsTop'),
@@ -127,92 +126,6 @@
       }
     });
     return map;
-  }
-
-  function wrapTrailer(inner) {
-    return '<div class="trailer-frame">' + inner + '</div>';
-  }
-
-  function trailerButtonHtml(src, thumbUrl, player) {
-    var style = '';
-    if (thumbUrl) {
-      var safe = String(thumbUrl).replace(/'/g, '%27');
-      style = ' style="background-image:url(\'' + safe + '\')"';
-    }
-    var playerAttr = player ? ' data-player="' + player + '"' : '';
-    return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '"' + playerAttr + ' type="button" aria-label="Lire la bande-annonce">' +
-      '<span class="trailer-play-icon" aria-hidden="true"></span>' +
-      '<span class="trailer-play-label">Lire la bande-annonce</span>' +
-      '</button>');
-  }
-
-  function wireTrailerDeferred(container) {
-    if (!container) return;
-    var btn = container.querySelector('.trailer-play[data-src]');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      var src = btn.getAttribute('data-src') || '';
-      if (!src) return;
-      var frame = btn.parentNode;
-      if (!frame) return;
-      var player = btn.getAttribute('data-player') || '';
-      var iframe = document.createElement('iframe');
-      iframe.src = src;
-      iframe.setAttribute('frameborder', '0');
-      iframe.setAttribute('allowfullscreen', 'true');
-      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
-      frame.innerHTML = '';
-      frame.appendChild(iframe);
-      if (player === 'dailymotion') {
-        var send = function (payload) {
-          try {
-            iframe.contentWindow.postMessage(payload, '*');
-          } catch (e) { }
-        };
-        iframe.addEventListener('load', function () {
-          var playMsg = JSON.stringify({ command: 'play' });
-          var unmuteMsg = JSON.stringify({ command: 'unmute' });
-          var volumeMsg = JSON.stringify({ command: 'volume', parameters: [1] });
-          send(playMsg);
-          send(unmuteMsg);
-          send(volumeMsg);
-          send('play');
-          send('unmute');
-          send('volume=1');
-        });
-      }
-    }, { once: true });
-  }
-
-  function setQueryParams(url, params) {
-    if (!url) return url;
-    var hash = '';
-    var base = url;
-    var hashIndex = url.indexOf('#');
-    if (hashIndex >= 0) {
-      hash = url.slice(hashIndex);
-      base = url.slice(0, hashIndex);
-    }
-    var parts = base.split('?');
-    var path = parts[0];
-    var query = parts[1] || '';
-    var map = {};
-    if (query) {
-      query.split('&').forEach(function (pair) {
-        if (!pair) return;
-        var kv = pair.split('=');
-        var key = decodeURIComponent(kv[0] || '').trim();
-        if (!key) return;
-        map[key] = decodeURIComponent(kv[1] || '');
-      });
-    }
-    Object.keys(params || {}).forEach(function (key) {
-      map[key] = String(params[key]);
-    });
-    var qs = Object.keys(map).map(function (key) {
-      return encodeURIComponent(key) + '=' + encodeURIComponent(map[key]);
-    }).join('&');
-    return path + (qs ? '?' + qs : '') + hash;
   }
 
   function openPanel(s) {
@@ -305,7 +218,6 @@
     // image principale
     var backdrops = Array.isArray(s.backdrops) ? s.backdrops : [];
     var best = (backdrops[0] || s.affiche_url || '');
-    var trailerFallback = best || '';
     pBackdropTop.src = best;
     pBackdropTop.style.display = best ? 'block' : 'none';
     if (best) {
@@ -369,49 +281,6 @@
         });
       }
     }
-
-    // trailer
-    var trailerHtml = (function (url) {
-      if (!url) return '';
-      // MP4 direct
-      if (/\.mp4(\?|$)/i.test(url)) {
-        return wrapTrailer('<video controls preload="none">' +
-               '<source src="' + url + '" type="video/mp4">' +
-               '</video>');
-      }
-      // Allocine player (deferred to avoid autoplay)
-      if (/player\.allocine\.fr/i.test(url) || /allocine\.fr\/video\/player_gen_cmedia/i.test(url)) {
-        var aSrc = setQueryParams(url, { autoplay: 0, autostart: 0, autoStart: 0 });
-        return trailerButtonHtml(aSrc, trailerFallback);
-      }
-      // Dailymotion (watch or embed)
-      var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
-               /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
-      if (dm && dm[1]) {
-        var dSrc = setQueryParams('https://www.dailymotion.com/embed/video/' + dm[1], {
-          autoplay: 0,
-          mute: 0,
-          muted: 0,
-          api: 'postMessage',
-          origin: window.location.origin || '',
-          start: 0,
-          'queue-enable': 0,
-          'queue-autoplay': 0,
-          'ui-start-screen-info': 0
-        });
-        var dThumb = 'https://www.dailymotion.com/thumbnail/video/' + dm[1];
-        return trailerButtonHtml(dSrc, dThumb, 'dailymotion');
-      }
-      // YouTube (watch or short)
-      var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
-      var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
-      var k = (m1 && m1[1]) || (m2 && m2[1]);
-      if (!k) return '';
-      var ySrc = setQueryParams('https://www.youtube.com/embed/' + k, { autoplay: 0, mute: 0 });
-      return wrapTrailer('<iframe src="' + ySrc + '" frameborder="0" allowfullscreen></iframe>');
-    })(s.trailer_url);
-    pTrailer.innerHTML = trailerHtml || '';
-    wireTrailerDeferred(pTrailer);
 
     requestAnimationFrame(function () { panel.classList.add('visible'); });
   }
