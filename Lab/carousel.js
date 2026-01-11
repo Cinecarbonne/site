@@ -140,6 +140,7 @@
       style = ' style="background-image:url(\'' + safe + '\')"';
     }
     return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '" type="button" aria-label="Lire la bande-annonce">' +
+      '<span class="trailer-play-icon" aria-hidden="true"></span>' +
       '<span class="trailer-play-label">Lire la bande-annonce</span>' +
       '</button>');
   }
@@ -157,6 +158,7 @@
       iframe.src = src;
       iframe.setAttribute('frameborder', '0');
       iframe.setAttribute('allowfullscreen', 'true');
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
       frame.innerHTML = '';
       frame.appendChild(iframe);
     }, { once: true });
@@ -358,7 +360,7 @@
                /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
       if (dm && dm[1]) {
         var dSrc = setQueryParams('https://www.dailymotion.com/embed/video/' + dm[1], {
-          autoplay: 0,
+          autoplay: 1,
           mute: 0,
           start: 0,
           'queue-enable': 0,
