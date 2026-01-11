@@ -228,7 +228,7 @@ a.clicked {
   color: var(--capText);
   padding: 0 var(--capPadX);
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   gap: var(--capGap);
 }
