@@ -480,39 +480,6 @@ a.clicked {
   border: 0;
 }
 
-.trailer .trailer-frame.is-loading iframe,
-.trailer .trailer-frame.is-loading video {
-  opacity: 0;
-}
-
-.trailer .trailer-loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #e6e6e6;
-  font-weight: 700;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  pointer-events: none;
-}
-
-.trailer .trailer-spinner {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #ffffff;
-  animation: trailer-spin 1s linear infinite;
-}
-
-@keyframes trailer-spin {
-  to { transform: rotate(360deg); }
-}
 
 
 /* Onglets de navigation */

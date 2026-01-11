@@ -130,38 +130,19 @@
   }
 
   function wrapTrailer(inner) {
-    return '<div class="trailer-frame is-loading">' +
-           '<div class="trailer-loading">' +
-           '<span class="trailer-spinner"></span>' +
-           '<span class="trailer-label">Chargement de la video...</span>' +
-           '</div>' + inner + '</div>';
+    return '<div class="trailer-frame">' + inner + '</div>';
   }
 
-  function wireTrailerLoading(container) {
-    if (!container) return;
-    var frame = container.querySelector('.trailer-frame');
-    if (!frame) return;
-    var media = frame.querySelector('iframe, video');
-    if (!media) return;
-    var cleared = false;
-    var fallback = null;
-    var done = function () {
-      if (cleared) return;
-      cleared = true;
-      if (fallback) clearTimeout(fallback);
-      frame.classList.remove('is-loading');
-    };
-    fallback = setTimeout(done, 1500);
-    if (media.tagName === 'IFRAME') {
-      media.addEventListener('load', done, { once: true });
-      media.addEventListener('error', done, { once: true });
-    } else {
-      media.addEventListener('loadeddata', done, { once: true });
-      media.addEventListener('canplay', done, { once: true });
-      media.addEventListener('loadedmetadata', done, { once: true });
-      media.addEventListener('play', done, { once: true });
-      media.addEventListener('error', done, { once: true });
+  function addQuery(url, query) {
+    if (!url) return url;
+    var hash = '';
+    var base = url;
+    var hashIndex = url.indexOf('#');
+    if (hashIndex >= 0) {
+      hash = url.slice(hashIndex);
+      base = url.slice(0, hashIndex);
     }
+    return base + (base.indexOf('?') >= 0 ? '&' : '?') + query + hash;
   }
 
   function openPanel(s) {
@@ -320,23 +301,25 @@
       }
       // Allocine player
       if (/player\.allocine\.fr/i.test(url)) {
-        return wrapTrailer('<iframe src="' + url + '" frameborder="0" allowfullscreen></iframe>');
+        var aSrc = addQuery(url, 'autoplay=0');
+        return wrapTrailer('<iframe src="' + aSrc + '" frameborder="0" allowfullscreen></iframe>');
       }
       // Dailymotion (watch or embed)
       var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
                /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
       if (dm && dm[1]) {
-        return wrapTrailer('<iframe src="https://www.dailymotion.com/embed/video/' + dm[1] + '" frameborder="0" allowfullscreen></iframe>');
+        var dSrc = 'https://www.dailymotion.com/embed/video/' + dm[1] + '?autoplay=0';
+        return wrapTrailer('<iframe src="' + dSrc + '" frameborder="0" allowfullscreen></iframe>');
       }
       // YouTube (watch or short)
       var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
       var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
       var k = (m1 && m1[1]) || (m2 && m2[1]);
       if (!k) return '';
-      return wrapTrailer('<iframe src="https://www.youtube.com/embed/' + k + '" frameborder="0" allowfullscreen></iframe>');
+      var ySrc = 'https://www.youtube.com/embed/' + k + '?autoplay=0&mute=0';
+      return wrapTrailer('<iframe src="' + ySrc + '" frameborder="0" allowfullscreen></iframe>');
     })(s.trailer_url);
     pTrailer.innerHTML = trailerHtml || '';
-    wireTrailerLoading(pTrailer);
 
     requestAnimationFrame(function () { panel.classList.add('visible'); });
   }
