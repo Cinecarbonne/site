@@ -42,7 +42,7 @@
     todayBtn = document.getElementById('todayBtn'),
     thumbStrip = document.getElementById('thumb-strip'),
     pChipsTop = document.getElementById('p-chipsTop'),
-    pPrix = document.getElementById('p-prix'),
+    pRecomp = document.getElementById('p-recompenses'),
     calendarBtn = document.getElementById('calendarBtn'),
     calendarOverlay = document.getElementById('calendarOverlay'),
     calendarGrid = document.getElementById('calendarGrid'),
@@ -133,7 +133,7 @@
     return '<div class="trailer-frame">' + inner + '</div>';
   }
 
-  function addQuery(url, query) {
+  function setQueryParams(url, params) {
     if (!url) return url;
     var hash = '';
     var base = url;
@@ -142,7 +142,26 @@
       hash = url.slice(hashIndex);
       base = url.slice(0, hashIndex);
     }
-    return base + (base.indexOf('?') >= 0 ? '&' : '?') + query + hash;
+    var parts = base.split('?');
+    var path = parts[0];
+    var query = parts[1] || '';
+    var map = {};
+    if (query) {
+      query.split('&').forEach(function (pair) {
+        if (!pair) return;
+        var kv = pair.split('=');
+        var key = decodeURIComponent(kv[0] || '').trim();
+        if (!key) return;
+        map[key] = decodeURIComponent(kv[1] || '');
+      });
+    }
+    Object.keys(params || {}).forEach(function (key) {
+      map[key] = String(params[key]);
+    });
+    var qs = Object.keys(map).map(function (key) {
+      return encodeURIComponent(key) + '=' + encodeURIComponent(map[key]);
+    }).join('&');
+    return path + (qs ? '?' + qs : '') + hash;
   }
 
   function openPanel(s) {
@@ -216,11 +235,11 @@
       }
     }
 
-    // prix
-    if (pPrix) {
-      var pr = (s.prix || '').trim();
-      if (pr) { pPrix.textContent = pr; pPrix.style.display = 'block'; }
-      else { pPrix.style.display = 'none'; }
+    // recompenses
+    if (pRecomp) {
+      var rc = (s.recompenses || '').trim();
+      if (rc) { pRecomp.textContent = rc; pRecomp.style.display = 'block'; }
+      else { pRecomp.style.display = 'none'; }
     }
 
     // image principale
@@ -301,14 +320,19 @@
       }
       // Allocine player
       if (/player\.allocine\.fr/i.test(url)) {
-        var aSrc = addQuery(url, 'autoplay=0');
+        var aSrc = setQueryParams(url, { autoplay: 0 });
         return wrapTrailer('<iframe src="' + aSrc + '" frameborder="0" allowfullscreen></iframe>');
       }
       // Dailymotion (watch or embed)
       var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
                /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
       if (dm && dm[1]) {
-        var dSrc = 'https://www.dailymotion.com/embed/video/' + dm[1] + '?autoplay=0';
+        var dSrc = setQueryParams('https://www.dailymotion.com/embed/video/' + dm[1], {
+          autoplay: 0,
+          mute: 0,
+          'queue-enable': 'false',
+          'queue-autoplay': 0
+        });
         return wrapTrailer('<iframe src="' + dSrc + '" frameborder="0" allowfullscreen></iframe>');
       }
       // YouTube (watch or short)
@@ -316,7 +340,7 @@
       var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
       var k = (m1 && m1[1]) || (m2 && m2[1]);
       if (!k) return '';
-      var ySrc = 'https://www.youtube.com/embed/' + k + '?autoplay=0&mute=0';
+      var ySrc = setQueryParams('https://www.youtube.com/embed/' + k, { autoplay: 0, mute: 0 });
       return wrapTrailer('<iframe src="' + ySrc + '" frameborder="0" allowfullscreen></iframe>');
     })(s.trailer_url);
     pTrailer.innerHTML = trailerHtml || '';
