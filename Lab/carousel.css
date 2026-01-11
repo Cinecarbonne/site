@@ -30,6 +30,12 @@
   --capBg: #3d2727;
   --capText: #d7bebd;
   --capTime: #ab6966;
+  --capPadX: 10px;
+  --capGap: 8px;
+  --capDayGap: 6px;
+  --capFontAbbr: 16px;
+  --capFontDate: 19px;
+  --capFontTime: 16px;
 
   --panelBg: #141518;
   --panelFg: #e1d2d2;
@@ -220,37 +226,38 @@ a.clicked {
   height: var(--capH);
   background: var(--capBg);
   color: var(--capText);
-  padding: 0 10px;
+  padding: 0 var(--capPadX);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: var(--capGap);
 }
 
 .cap .day {
   display: flex;
-  gap: 6px;
+  gap: var(--capDayGap);
   align-items: baseline
 }
 
 .cap .day .abbr {
   font-weight: 800;
   color: var(--capText);
-  font-size: 16px;
+  font-size: var(--capFontAbbr);
   letter-spacing: .2px
 }
 
 .cap .day .date {
   font-weight: 900;
   color: var(--capText);
-  font-size: 19px;
+  font-size: var(--capFontDate);
   line-height: 1
 }
 
 .cap .time {
   font-weight: 800;
-  font-size: 16px;
-  color: var(--capTime)
+  font-size: var(--capFontTime);
+  color: var(--capTime);
+  white-space: nowrap;
 }
 
 .strip .card:hover {
@@ -561,51 +568,6 @@ a.clicked {
 
 .allocineLink:hover {
   filter: brightness(1.08);
-}
-
-/* ===== Ajustements mobiles pour l'entête des vignettes ===== */
-@media (max-width: 720px) {
-  .cap {
-    padding: 0 6px;
-    gap: 4px;
-  }
-
-  .cap .day .abbr {
-    font-size: 14px;
-  }
-
-  .cap .day .date {
-    font-size: 16px;
-  }
-
-  .cap .time {
-    font-size: 14px;
-    white-space: nowrap;
-  }
-}
-
-@media (max-width: 460px) {
-  .cap {
-    height: 34px;
-    padding: 0 4px;
-  }
-
-  .cap .day {
-    gap: 4px;
-  }
-
-  .cap .day .abbr {
-    font-size: 12px;
-  }
-
-  .cap .day .date {
-    font-size: 14px;
-  }
-
-  .cap .time {
-    font-size: 12px;
-    white-space: nowrap;
-  }
 }
 
 /* === Galerie d’images intelligente (1,2,3,4-5) === */
