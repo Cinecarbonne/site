@@ -42,7 +42,7 @@
     todayBtn = document.getElementById('todayBtn'),
     thumbStrip = document.getElementById('thumb-strip'),
     pChipsTop = document.getElementById('p-chipsTop'),
-    pPrix = document.getElementById('p-prix'),
+    pRecomp = document.getElementById('p-recompenses'),
     calendarBtn = document.getElementById('calendarBtn'),
     calendarOverlay = document.getElementById('calendarOverlay'),
     calendarGrid = document.getElementById('calendarGrid'),
@@ -59,6 +59,7 @@
     pGenres.textContent = '';
     pSynopsis.textContent = '';
     pBackdropTop.removeAttribute('src');
+    if (pTrailer) pTrailer.innerHTML = '';
   }
 
   function getAllocineURL(s) {
@@ -130,26 +131,42 @@
   }
 
   function wrapTrailer(inner) {
-    return '<div class="trailer-frame is-loading">' +
-           '<div class="trailer-loading">' +
-           '<span class="trailer-spinner"></span>' +
-           '<span class="trailer-label">Chargement de la video...</span>' +
-           '</div>' + inner + '</div>';
+    return '<div class="trailer-frame">' + inner + '</div>';
   }
 
-  function wireTrailerLoading(container) {
-    if (!container) return;
-    var frame = container.querySelector('.trailer-frame');
-    if (!frame) return;
-    var media = frame.querySelector('iframe, video');
-    if (!media) return;
-    var done = function () { frame.classList.remove('is-loading'); };
-    if (media.tagName === 'IFRAME') {
-      media.addEventListener('load', done, { once: true });
-    } else {
-      media.addEventListener('loadeddata', done, { once: true });
-      media.addEventListener('canplay', done, { once: true });
+  function _matchYouTubeId(url) {
+    if (!url) return '';
+    var m = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/.exec(url);
+    return (m && m[1]) ? m[1] : '';
+  }
+
+  function _matchVimeoId(url) {
+    if (!url) return '';
+    var m = /vimeo\.com\/([0-9]+)/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /player\.vimeo\.com\/video\/([0-9]+)/.exec(url);
+    return (m && m[1]) ? m[1] : '';
+  }
+
+  function buildTrailerHtml(url, title) {
+    if (!url) return '';
+    var yt = _matchYouTubeId(url);
+    if (yt) {
+      var ySrc = 'https://www.youtube.com/embed/' + yt + '?autoplay=0&rel=0';
+      var yTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
+      return wrapTrailer('<iframe src="' + ySrc + '" title="' + yTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
     }
+    var vm = _matchVimeoId(url);
+    if (vm) {
+      var vSrc = 'https://player.vimeo.com/video/' + vm + '?autoplay=0';
+      var vTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
+      return wrapTrailer('<iframe src="' + vSrc + '" title="' + vTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
+    }
+    return '';
   }
 
   function openPanel(s) {
@@ -223,15 +240,25 @@
       }
     }
 
-    // prix
-    if (pPrix) {
-      var pr = (s.prix || '').trim();
-      if (pr) { pPrix.textContent = pr; pPrix.style.display = 'block'; }
-      else { pPrix.style.display = 'none'; }
+    // recompenses
+    if (pRecomp) {
+      var rc = (s.recompenses || '').trim();
+      if (rc) {
+        pRecomp.textContent = rc;
+        pRecomp.style.display = 'block';
+        pRecomp.classList.remove('is-empty');
+        pRecomp.removeAttribute('aria-hidden');
+      } else {
+        pRecomp.textContent = '';
+        pRecomp.style.display = 'block';
+        pRecomp.classList.add('is-empty');
+        pRecomp.setAttribute('aria-hidden', 'true');
+      }
     }
 
     // image principale
-    var best = (s.backdrop_url || s.affiche_url || '');
+    var backdrops = Array.isArray(s.backdrops) ? s.backdrops : [];
+    var best = (backdrops[0] || s.affiche_url || '');
     pBackdropTop.src = best;
     pBackdropTop.style.display = best ? 'block' : 'none';
     if (best) {
@@ -257,10 +284,8 @@
         if (urls.indexOf(u) === -1) urls.push(u);
       }
 
-      // image principale d'abord
-      pushU(s.backdrop_url);
-      // puis les autres
-      if (Array.isArray(s.backdrops)) s.backdrops.forEach(pushU);
+      // images du JSON (premiere = image principale)
+      backdrops.forEach(pushU);
 
       // max 5
       urls = urls.slice(0, 5);
@@ -298,34 +323,10 @@
       }
     }
 
-    // trailer
-    var trailerHtml = (function (url) {
-      if (!url) return '';
-      // MP4 direct
-      if (/\.mp4(\?|$)/i.test(url)) {
-        return wrapTrailer('<video controls preload="none">' +
-               '<source src="' + url + '" type="video/mp4">' +
-               '</video>');
-      }
-      // Allocine player
-      if (/player\.allocine\.fr/i.test(url)) {
-        return wrapTrailer('<iframe src="' + url + '" frameborder="0" allowfullscreen></iframe>');
-      }
-      // Dailymotion (watch or embed)
-      var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
-               /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
-      if (dm && dm[1]) {
-        return wrapTrailer('<iframe src="https://www.dailymotion.com/embed/video/' + dm[1] + '" frameborder="0" allowfullscreen></iframe>');
-      }
-      // YouTube (watch or short)
-      var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
-      var m2 = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
-      var k = (m1 && m1[1]) || (m2 && m2[1]);
-      if (!k) return '';
-      return wrapTrailer('<iframe src="https://www.youtube.com/embed/' + k + '" frameborder="0" allowfullscreen></iframe>');
-    })(s.trailer_url);
-    pTrailer.innerHTML = trailerHtml || '';
-    wireTrailerLoading(pTrailer);
+    if (pTrailer) {
+      var trailerHtml = buildTrailerHtml(s.trailer_url, s.titre);
+      pTrailer.innerHTML = trailerHtml || '';
+    }
 
     requestAnimationFrame(function () { panel.classList.add('visible'); });
   }
