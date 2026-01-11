@@ -133,6 +133,17 @@
     return '<div class="trailer-frame">' + inner + '</div>';
   }
 
+  function trailerButtonHtml(src, thumbUrl) {
+    var style = '';
+    if (thumbUrl) {
+      var safe = String(thumbUrl).replace(/'/g, '%27');
+      style = ' style="background-image:url(\'' + safe + '\')"';
+    }
+    return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '" type="button" aria-label="Lire la bande-annonce">' +
+      '<span class="trailer-play-label">Lire la bande-annonce</span>' +
+      '</button>');
+  }
+
   function wireTrailerDeferred(container) {
     if (!container) return;
     var btn = container.querySelector('.trailer-play[data-src]');
@@ -263,6 +274,7 @@
     // image principale
     var backdrops = Array.isArray(s.backdrops) ? s.backdrops : [];
     var best = (backdrops[0] || s.affiche_url || '');
+    var trailerFallback = best || '';
     pBackdropTop.src = best;
     pBackdropTop.style.display = best ? 'block' : 'none';
     if (best) {
@@ -339,7 +351,7 @@
       // Allocine player (deferred to avoid autoplay)
       if (/player\.allocine\.fr/i.test(url) || /allocine\.fr\/video\/player_gen_cmedia/i.test(url)) {
         var aSrc = setQueryParams(url, { autoplay: 0, autostart: 0, autoStart: 0 });
-        return wrapTrailer('<button class="trailer-play" data-src="' + aSrc + '" type="button">Lire la bande-annonce</button>');
+        return trailerButtonHtml(aSrc, trailerFallback);
       }
       // Dailymotion (watch or embed)
       var dm = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url) ||
@@ -353,7 +365,8 @@
           'queue-autoplay': 0,
           'ui-start-screen-info': 1
         });
-        return wrapTrailer('<button class="trailer-play" data-src="' + dSrc + '" type="button">Lire la bande-annonce</button>');
+        var dThumb = 'https://www.dailymotion.com/thumbnail/video/' + dm[1];
+        return trailerButtonHtml(dSrc, dThumb);
       }
       // YouTube (watch or short)
       var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);

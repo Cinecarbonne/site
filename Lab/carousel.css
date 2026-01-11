@@ -486,7 +486,9 @@ a.clicked {
   border: 0;
   border-radius: 10px;
   background: #111;
-  color: #f0f0f0;
+  background-size: cover;
+  background-position: center;
+  color: transparent;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -495,6 +497,8 @@ a.clicked {
   align-items: center;
   justify-content: center;
   transition: filter 0.15s ease;
+  position: relative;
+  text-indent: -9999px;
 }
 
 .trailer .trailer-play:hover {
@@ -504,6 +508,37 @@ a.clicked {
 .trailer .trailer-play:focus {
   outline: 2px solid #c3b877;
   outline-offset: 2px;
+}
+
+.trailer .trailer-play::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55));
+}
+
+.trailer .trailer-play::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 18px 0 18px 30px;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.92);
+  transform: translate(-35%, -50%);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+}
+
+.trailer .trailer-play-label {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 
