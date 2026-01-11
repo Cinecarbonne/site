@@ -237,8 +237,6 @@ a.clicked {
   display: flex;
   gap: var(--capDayGap);
   align-items: baseline;
-  transform: scaleX(0.9);
-  transform-origin: left center;
 }
 
 .cap .day .abbr {
@@ -260,9 +258,6 @@ a.clicked {
   font-size: var(--capFontTime);
   color: var(--capTime);
   white-space: nowrap;
-  transform: scaleX(0.9);
-  transform-origin: right center;
-  text-align: right;
 }
 
 .strip .card:hover {

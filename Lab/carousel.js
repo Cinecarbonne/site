@@ -9,8 +9,9 @@
     var vignetteH = Math.round(baseStrip * 23 / 35);
     var posterH = Math.max(120, vignetteH - capH);
     var colW = Math.round(posterH * 2 / 3);
-    var capFontAbbr = Math.max(11, Math.min(18, colW * 0.106));
-    var capFontDate = Math.max(13, Math.min(21, colW * 0.127));
+    var capTextScale = 0.9;
+    var capFontAbbr = Math.max(11, Math.min(18, colW * 0.106)) * capTextScale;
+    var capFontDate = Math.max(13, Math.min(21, colW * 0.127)) * capTextScale;
     var capFontTime = capFontAbbr;
     var capPadX = Math.max(4, Math.min(10, colW * 0.06));
     var capGap = Math.max(4, Math.min(8, colW * 0.05));
