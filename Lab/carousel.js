@@ -9,13 +9,18 @@
     var vignetteH = Math.round(baseStrip * 23 / 35);
     var posterH = Math.max(120, vignetteH - capH);
     var colW = Math.round(posterH * 2 / 3);
-    var capTextScale = 0.9;
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+    var scaleT = clamp((colW - 90) / 60, 0, 1);
+    var capTextScale = 0.82 + (0.9 - 0.82) * scaleT;
+    var padScale = 0.86 + 0.14 * scaleT;
+    var gapScale = 0.84 + 0.16 * scaleT;
+    var dayGapScale = 0.88 + 0.12 * scaleT;
     var capFontAbbr = Math.max(11, Math.min(18, colW * 0.106)) * capTextScale;
     var capFontDate = Math.max(13, Math.min(21, colW * 0.127)) * capTextScale;
     var capFontTime = capFontAbbr;
-    var capPadX = Math.max(4, Math.min(10, colW * 0.06));
-    var capGap = Math.max(4, Math.min(8, colW * 0.05));
-    var capDayGap = Math.max(3, Math.min(6, colW * 0.04));
+    var capPadX = Math.max(4, Math.min(10, colW * 0.06)) * padScale;
+    var capGap = Math.max(4, Math.min(8, colW * 0.05)) * gapScale;
+    var capDayGap = Math.max(3, Math.min(6, colW * 0.04)) * dayGapScale;
     var root = document.documentElement;
     root.style.setProperty('--stripH', stripH + 'px');
     root.style.setProperty('--vignetteH', vignetteH + 'px');
