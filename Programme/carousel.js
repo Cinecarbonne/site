@@ -9,12 +9,30 @@
     var vignetteH = Math.round(baseStrip * 23 / 35);
     var posterH = Math.max(120, vignetteH - capH);
     var colW = Math.round(posterH * 2 / 3);
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+    var scaleT = clamp((colW - 90) / 60, 0, 1);
+    var capTextScale = 0.82 + (0.9 - 0.82) * scaleT;
+    var padScale = 0.86 + 0.14 * scaleT;
+    var gapScale = 0.84 + 0.16 * scaleT;
+    var dayGapScale = 0.88 + 0.12 * scaleT;
+    var capFontAbbr = Math.max(11, Math.min(18, colW * 0.106)) * capTextScale;
+    var capFontDate = Math.max(13, Math.min(21, colW * 0.127)) * capTextScale;
+    var capFontTime = capFontAbbr;
+    var capPadX = Math.max(4, Math.min(10, colW * 0.06)) * padScale;
+    var capGap = Math.max(4, Math.min(8, colW * 0.05)) * gapScale;
+    var capDayGap = Math.max(3, Math.min(6, colW * 0.04)) * dayGapScale;
     var root = document.documentElement;
     root.style.setProperty('--stripH', stripH + 'px');
     root.style.setProperty('--vignetteH', vignetteH + 'px');
     root.style.setProperty('--posterH', posterH + 'px');
     root.style.setProperty('--colW', colW + 'px');
     root.style.setProperty('--capH', capH + 'px');
+    root.style.setProperty('--capFontAbbr', capFontAbbr.toFixed(2) + 'px');
+    root.style.setProperty('--capFontDate', capFontDate.toFixed(2) + 'px');
+    root.style.setProperty('--capFontTime', capFontTime.toFixed(2) + 'px');
+    root.style.setProperty('--capPadX', capPadX.toFixed(2) + 'px');
+    root.style.setProperty('--capGap', capGap.toFixed(2) + 'px');
+    root.style.setProperty('--capDayGap', capDayGap.toFixed(2) + 'px');
   }
   applySizing();
   window.addEventListener('resize', applySizing);
