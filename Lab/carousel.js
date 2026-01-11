@@ -38,6 +38,7 @@
     pGenres = document.getElementById('p-genres'),
     pSynopsis = document.getElementById('p-synopsis'),
     pBackdropTop = document.getElementById('p-backdropTop'),
+    pTrailer = document.getElementById('p-trailer'),
     todayBtn = document.getElementById('todayBtn'),
     thumbStrip = document.getElementById('thumb-strip'),
     pChipsTop = document.getElementById('p-chipsTop'),
@@ -58,6 +59,7 @@
     pGenres.textContent = '';
     pSynopsis.textContent = '';
     pBackdropTop.removeAttribute('src');
+    if (pTrailer) pTrailer.innerHTML = '';
   }
 
   function getAllocineURL(s) {
@@ -126,6 +128,72 @@
       }
     });
     return map;
+  }
+
+  function wrapTrailer(inner) {
+    return '<div class="trailer-frame">' + inner + '</div>';
+  }
+
+  function trailerButtonHtml(src, thumbUrl) {
+    var style = '';
+    if (thumbUrl) {
+      var safe = String(thumbUrl).replace(/'/g, '%27');
+      style = ' style="background-image:url(\'' + safe + '\')"';
+    }
+    return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '" type="button" aria-label="Lire la bande-annonce">' +
+      '<span class="trailer-play-icon" aria-hidden="true"></span>' +
+      '<span class="trailer-play-label">Lire la bande-annonce</span>' +
+      '</button>');
+  }
+
+  function _matchYouTubeId(url) {
+    if (!url) return '';
+    var m = /v=([a-zA-Z0-9_-]{6,})/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /youtu\.be\/([a-zA-Z0-9_-]{6,})/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/.exec(url);
+    return (m && m[1]) ? m[1] : '';
+  }
+
+  function _matchVimeoId(url) {
+    if (!url) return '';
+    var m = /vimeo\.com\/([0-9]+)/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /player\.vimeo\.com\/video\/([0-9]+)/.exec(url);
+    return (m && m[1]) ? m[1] : '';
+  }
+
+  function buildTrailerHtml(url, fallbackThumb) {
+    if (!url) return '';
+    var yt = _matchYouTubeId(url);
+    if (yt) {
+      return trailerButtonHtml('https://www.youtube.com/embed/' + yt + '?autoplay=1', fallbackThumb);
+    }
+    var vm = _matchVimeoId(url);
+    if (vm) {
+      return trailerButtonHtml('https://player.vimeo.com/video/' + vm + '?autoplay=1', fallbackThumb);
+    }
+    return '';
+  }
+
+  function wireTrailerDeferred(container) {
+    if (!container) return;
+    var btn = container.querySelector('.trailer-play[data-src]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var src = btn.getAttribute('data-src') || '';
+      if (!src) return;
+      var frame = btn.parentNode;
+      if (!frame) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allowfullscreen', 'true');
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+      frame.innerHTML = '';
+      frame.appendChild(iframe);
+    }, { once: true });
   }
 
   function openPanel(s) {
@@ -218,6 +286,7 @@
     // image principale
     var backdrops = Array.isArray(s.backdrops) ? s.backdrops : [];
     var best = (backdrops[0] || s.affiche_url || '');
+    var trailerFallback = best || '';
     pBackdropTop.src = best;
     pBackdropTop.style.display = best ? 'block' : 'none';
     if (best) {
@@ -279,6 +348,14 @@
           if (i === 0) btn.setAttribute('aria-current', 'true');
           thumbStrip.appendChild(btn);
         });
+      }
+    }
+
+    if (pTrailer) {
+      var trailerHtml = buildTrailerHtml(s.trailer_url, trailerFallback);
+      pTrailer.innerHTML = trailerHtml || '';
+      if (trailerHtml) {
+        wireTrailerDeferred(pTrailer);
       }
     }
 
