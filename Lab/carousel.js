@@ -330,8 +330,10 @@
         var dSrc = setQueryParams('https://www.dailymotion.com/embed/video/' + dm[1], {
           autoplay: 0,
           mute: 0,
-          'queue-enable': 'false',
-          'queue-autoplay': 0
+          start: 0,
+          'queue-enable': 0,
+          'queue-autoplay': 0,
+          'ui-start-screen-info': 1
         });
         return wrapTrailer('<iframe src="' + dSrc + '" frameborder="0" allowfullscreen></iframe>');
       }
