@@ -406,11 +406,11 @@
     "titre": "Le temps des moissons",
     "titre_original": "",
     "realisateur": "Huo Meng",
-    "acteurs_principaux": "['Wang Shang', 'Zhang Yanrong', 'Zhang Caixia', 'Cao Lingzhi', 'Zhou Haotian', 'Jiang Yien', 'Kaidong Yang']",
+    "acteurs_principaux": "Wang Shang, Zhang Yanrong, Zhang Caixia, Cao Lingzhi, Zhou Haotian, Jiang Yien, Kaidong Yang",
     "genres": "Drame, Comédie",
     "duree_min": "135",
     "annee": "",
-    "pays": "['China']",
+    "pays": "China",
     "version": "VO",
     "tarif": "",
     "prix": "Ours d'argent meilleure réalisation Berlin 2025",
@@ -438,10 +438,10 @@
       "https://fr.web.img6.acsta.net/img/df/fd/dffd964e364f4101fb778d2805e09b7d.jpg",
       "https://fr.web.img5.acsta.net/img/09/9c/099cf115defcc05015c255be0366ebf3.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20628237.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000018564.html"
   },
   {
     "datetime_local": "",
@@ -469,10 +469,10 @@
       "https://fr.web.img3.acsta.net/img/e7/ca/e7ca5d2af12192044bd09a671482a6b6.jpg",
       "https://fr.web.img6.acsta.net/img/34/47/3447f48c4438cc923df9e2a3a8e98fa2.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20629784.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325967.html"
   },
   {
     "datetime_local": "",
@@ -503,10 +503,10 @@
       "https://fr.web.img6.acsta.net/img/c7/45/c745fd872d79b6df40df37ced783fdd1.jpg",
       "https://fr.web.img6.acsta.net/img/83/8d/838d299f3116d20809b3a5a396cef2af.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=FmuU8I6aFG8",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012569.html"
   },
   {
     "datetime_local": "",
@@ -531,10 +531,10 @@
       "https://fr.web.img6.acsta.net/img/8e/91/8e91480981bb0b222065082f48fd1bf8.jpg",
       "https://fr.web.img2.acsta.net/img/9c/26/9c260bd73b97baf501804471498d3c7d.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=rvBYxv8GurE",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325261.html"
   },
   {
     "datetime_local": "",
@@ -562,10 +562,10 @@
       "https://fr.web.img3.acsta.net/img/ca/5a/ca5ae1439ccab66efa2a95a349f76c5b.jpg",
       "https://fr.web.img3.acsta.net/img/e4/81/e481242c0f8602779063a887414e6a0d.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20627147.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317102.html"
   },
   {
     "datetime_local": "",
@@ -621,10 +621,10 @@
       "https://fr.web.img6.acsta.net/img/36/93/3693a5b82d83cb2683c8640a2f1b466e.jpg",
       "https://fr.web.img6.acsta.net/img/9b/11/9b111376eaf9777d335ffbbfb7110816.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20625297.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000025677.html"
   },
   {
     "datetime_local": "",
@@ -654,10 +654,10 @@
       "https://fr.web.img6.acsta.net/img/7c/8a/7c8ab3088aaaf0112ef2f7840a34b1f8.jpg",
       "https://fr.web.img5.acsta.net/img/7a/ed/7aedee13fafebdca46ef845a4d07ec80.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=dBcjVDZL6Kc",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=325059.html"
   },
   {
     "datetime_local": "",
@@ -682,7 +682,7 @@
     "trailer_url": "",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000030494.html"
   },
   {
     "datetime_local": "",
@@ -706,10 +706,10 @@
     "backdrops": [
       "https://fr.web.img6.acsta.net/img/c9/0c/c90cebd070bd9bd29fa4567f2be3e28e.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=eF_RPx6CXFw",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022228.html"
   },
   {
     "datetime_local": "",
@@ -735,10 +735,10 @@
       "https://fr.web.img6.acsta.net/img/c1/c5/c1c563573e879fe9ee0a00355a136b3d.jpg",
       "https://fr.web.img5.acsta.net/img/02/4c/024cc7daa15d58e40a29c4aa0ef452be.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=9UfrzDKrhEc",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009761.html"
   },
   {
     "datetime_local": "",
@@ -766,10 +766,10 @@
       "https://fr.web.img4.acsta.net/img/14/f2/14f2871c8e4c521588b7b90a3c02ae5e.jpg",
       "https://fr.web.img2.acsta.net/img/96/5a/965a3f620b6953ebf0b27678b3b42e02.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20629228.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=295609.html"
   },
   {
     "datetime_local": "",
@@ -802,10 +802,10 @@
       "https://fr.web.img2.acsta.net/img/a5/06/a506e0414a2370a0aac6f2a5d4309217.jpg",
       "https://fr.web.img6.acsta.net/pictures/24/02/08/10/01/5798849.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20630156.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=292718.html"
   },
   {
     "datetime_local": "",
@@ -831,10 +831,10 @@
       "https://fr.web.img6.acsta.net/img/66/ec/66ece5f954c6eb15009a387ce9864732.jpg",
       "https://fr.web.img4.acsta.net/img/e7/7c/e77cba675f6327f1873b572ba02f0202.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=PA07EmbZ0b0",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326117.html"
   },
   {
     "datetime_local": "",
@@ -869,10 +869,10 @@
       "https://fr.web.img4.acsta.net/img/b7/b0/b7b0748d96a509101b6c6e2b0d9749c6.jpg",
       "https://fr.web.img6.acsta.net/img/6c/78/6c7894999ba2fdb52a7faca437aa8c17.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=BqWH0KDqm3U",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317403.html"
   },
   {
     "datetime_local": "",
@@ -928,10 +928,10 @@
       "https://fr.web.img6.acsta.net/img/86/8c/868c52cbdd7b829a8dda0242c5b035bc.jpg",
       "https://fr.web.img6.acsta.net/img/80/99/8099b3ae5d7e42cee546c232f1d2d07a.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=Ma1x7ikpid8",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=187247.html"
   },
   {
     "datetime_local": "",
@@ -958,10 +958,10 @@
       "https://fr.web.img3.acsta.net/img/f3/44/f3441deced7205918b66a70ac7572744.jpg",
       "https://fr.web.img6.acsta.net/img/5f/c5/5fc5e56649395c638772287faf819871.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=mhb1oAHk_20",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004748.html"
   },
   {
     "datetime_local": "",
@@ -1001,10 +1001,10 @@
       "https://fr.web.img2.acsta.net/img/c5/6c/c56c7f470fc89e634f8c8b8c04da0510.jpg",
       "https://fr.web.img5.acsta.net/img/b4/13/b4133a66dc6e338546c3df28d75ccf78.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20630332.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279638.html"
   },
   {
     "datetime_local": "",
@@ -1013,11 +1013,11 @@
     "titre": "La fabrique des monstres",
     "titre_original": "",
     "realisateur": "Steve Hudson",
-    "acteurs_principaux": "['Asa Butterfield', 'Joel Fry', 'Alison Steadman', 'Rob Brydon', 'Seth Usdenov', 'Fern Brady', 'Tia Bannon', 'Jamali Maddix']",
+    "acteurs_principaux": "Asa Butterfield, Joel Fry, Alison Steadman, Rob Brydon, Seth Usdenov, Fern Brady, Tia Bannon, Jamali Maddix",
     "genres": "Aventure, Animation, Famille, Comédie, Familial",
     "duree_min": "92",
     "annee": "",
-    "pays": "['Germany', 'Luxembourg', 'India', 'United States of America', 'United Kingdom']",
+    "pays": "Germany, Luxembourg, India, United States of America, United Kingdom",
     "version": "VF",
     "tarif": "Tarif Unique 4,50 €",
     "prix": "",
@@ -1036,10 +1036,10 @@
       "https://fr.web.img6.acsta.net/img/95/ac/95ac149ab36d5374c5475c997e44eaac.jpg",
       "https://fr.web.img2.acsta.net/img/8f/8c/8f8c2968a692b9bfa895227fcb43b85f.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://www.youtube.com/watch?v=SlHrSRmobKQ",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=295622.html"
   },
   {
     "datetime_local": "",
@@ -1068,9 +1068,9 @@
       "https://fr.web.img5.acsta.net/img/68/e8/68e81c3b46a38c56529f7861ac540b8d.jpg",
       "https://fr.web.img2.acsta.net/img/3b/b7/3bb7dd37c6af3ac447d0bda849149607.jpg"
     ],
-    "trailer_url": "",
+    "trailer_url": "https://player.allocine.fr/20630384.html",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": ""
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012015.html"
   }
 ]

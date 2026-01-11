@@ -143,12 +143,24 @@
     if (!frame) return;
     var media = frame.querySelector('iframe, video');
     if (!media) return;
-    var done = function () { frame.classList.remove('is-loading'); };
+    var cleared = false;
+    var fallback = null;
+    var done = function () {
+      if (cleared) return;
+      cleared = true;
+      if (fallback) clearTimeout(fallback);
+      frame.classList.remove('is-loading');
+    };
+    fallback = setTimeout(done, 1500);
     if (media.tagName === 'IFRAME') {
       media.addEventListener('load', done, { once: true });
+      media.addEventListener('error', done, { once: true });
     } else {
       media.addEventListener('loadeddata', done, { once: true });
       media.addEventListener('canplay', done, { once: true });
+      media.addEventListener('loadedmetadata', done, { once: true });
+      media.addEventListener('play', done, { once: true });
+      media.addEventListener('error', done, { once: true });
     }
   }
 
