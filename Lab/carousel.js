@@ -133,13 +133,14 @@
     return '<div class="trailer-frame">' + inner + '</div>';
   }
 
-  function trailerButtonHtml(src, thumbUrl) {
+  function trailerButtonHtml(src, thumbUrl, player) {
     var style = '';
     if (thumbUrl) {
       var safe = String(thumbUrl).replace(/'/g, '%27');
       style = ' style="background-image:url(\'' + safe + '\')"';
     }
-    return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '" type="button" aria-label="Lire la bande-annonce">' +
+    var playerAttr = player ? ' data-player="' + player + '"' : '';
+    return wrapTrailer('<button class="trailer-play"' + style + ' data-src="' + src + '"' + playerAttr + ' type="button" aria-label="Lire la bande-annonce">' +
       '<span class="trailer-play-icon" aria-hidden="true"></span>' +
       '<span class="trailer-play-label">Lire la bande-annonce</span>' +
       '</button>');
@@ -154,6 +155,7 @@
       if (!src) return;
       var frame = btn.parentNode;
       if (!frame) return;
+      var player = btn.getAttribute('data-player') || '';
       var iframe = document.createElement('iframe');
       iframe.src = src;
       iframe.setAttribute('frameborder', '0');
@@ -161,6 +163,21 @@
       iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
       frame.innerHTML = '';
       frame.appendChild(iframe);
+      if (player === 'dailymotion') {
+        var tryStart = function () {
+          try {
+            iframe.contentWindow.postMessage('play', '*');
+            iframe.contentWindow.postMessage('unmute', '*');
+            iframe.contentWindow.postMessage('volume=1', '*');
+          } catch (e) {
+            return;
+          }
+        };
+        iframe.addEventListener('load', function () {
+          tryStart();
+          setTimeout(tryStart, 400);
+        });
+      }
     }, { once: true });
   }
 
@@ -269,8 +286,17 @@
     // recompenses
     if (pRecomp) {
       var rc = (s.recompenses || '').trim();
-      if (rc) { pRecomp.textContent = rc; pRecomp.style.display = 'block'; }
-      else { pRecomp.style.display = 'none'; }
+      if (rc) {
+        pRecomp.textContent = rc;
+        pRecomp.style.display = 'block';
+        pRecomp.classList.remove('is-empty');
+        pRecomp.removeAttribute('aria-hidden');
+      } else {
+        pRecomp.textContent = '';
+        pRecomp.style.display = 'block';
+        pRecomp.classList.add('is-empty');
+        pRecomp.setAttribute('aria-hidden', 'true');
+      }
     }
 
     // image principale
@@ -360,15 +386,16 @@
                /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
       if (dm && dm[1]) {
         var dSrc = setQueryParams('https://www.dailymotion.com/embed/video/' + dm[1], {
-          autoplay: 1,
+          autoplay: 0,
           mute: 0,
+          muted: 0,
           start: 0,
           'queue-enable': 0,
           'queue-autoplay': 0,
           'ui-start-screen-info': 1
         });
         var dThumb = 'https://www.dailymotion.com/thumbnail/video/' + dm[1];
-        return trailerButtonHtml(dSrc, dThumb);
+        return trailerButtonHtml(dSrc, dThumb, 'dailymotion');
       }
       // YouTube (watch or short)
       var m1 = /v=([a-zA-Z0-9_-]{6,})/.exec(url);

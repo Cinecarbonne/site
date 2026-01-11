@@ -442,6 +442,10 @@ a.clicked {
   font-weight: 400
 }
 
+.recompensesLine.is-empty {
+  min-height: 14px;
+}
+
 .synopsis {
   white-space: pre-wrap;
   margin-top: 4px;
