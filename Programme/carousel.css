@@ -16,6 +16,15 @@
   font-display: swap;
 }
 
+/* Police chapeau date/heure */
+@font-face {
+  font-family: "TonduBeta";
+  src: url("./fonts/Tondu-Beta.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --brandMuted: #d07a79;
   --sienna: #c9a15a;
@@ -29,7 +38,7 @@
 
   --capBg: #3d2727;
   --capText: #d7bebd;
-  --capTime: #ab6966;
+  --capTime: #b67774;
   --capPadX: 10px;
   --capGap: 8px;
   --capDayGap: 6px;
@@ -228,36 +237,50 @@ a.clicked {
   color: var(--capText);
   padding: 0 var(--capPadX);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: var(--capGap);
+  font-family: "TonduBeta", "FixelExtraBold", system-ui, sans-serif;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 0;
+  letter-spacing: -0.2px;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .cap .day {
   display: flex;
   gap: var(--capDayGap);
   align-items: baseline;
+  white-space: nowrap;
 }
 
 .cap .day .abbr {
-  font-weight: 800;
+  font-weight: inherit;
   color: var(--capText);
   font-size: var(--capFontAbbr);
-  letter-spacing: .2px
+  letter-spacing: 0;
 }
 
 .cap .day .date {
-  font-weight: 900;
+  font-weight: inherit;
   color: var(--capText);
   font-size: var(--capFontDate);
   line-height: 1
 }
 
 .cap .time {
-  font-weight: 800;
+  font-weight: inherit;
   font-size: var(--capFontTime);
   color: var(--capTime);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .strip .card:hover {
