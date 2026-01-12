@@ -13,13 +13,13 @@
     var colW = Math.round(posterH * 2 / 3);
     function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
     var scaleT = clamp((colW - 90) / 60, 0, 1);
-    var capTextScale = 0.88 + 0.06 * scaleT;
+    var capTextScale = 0.94 + 0.08 * scaleT;
     var padScale = 0.9 + 0.1 * scaleT;
     var gapScale = 0.85 + 0.15 * scaleT;
     var dayGapScale = 0.85 + 0.15 * scaleT;
-    var capFontAbbr = Math.max(11, Math.min(18, colW * 0.11)) * capTextScale;
-    var capFontDate = Math.max(13, Math.min(21, colW * 0.125)) * capTextScale;
-    var capFontTime = capFontAbbr;
+    var capFontAbbr = Math.max(12, Math.min(20, colW * 0.125)) * capTextScale;
+    var capFontDate = Math.max(14, Math.min(23, colW * 0.145)) * capTextScale;
+    var capFontTime = capFontAbbr * 0.9;
     var capPadX = Math.max(2, Math.min(8, colW * 0.045)) * padScale;
     var capGap = Math.max(2, Math.min(6, colW * 0.032)) * gapScale;
     var capDayGap = Math.max(1, Math.min(5, colW * 0.022)) * dayGapScale;
@@ -75,7 +75,7 @@
     var target = available * 0.98;
     var scale = 1;
 
-    var maxScale = 1.2;
+    var maxScale = 1.28;
     var minScale = 0.7;
 
     function applySize(s) {
