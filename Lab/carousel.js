@@ -17,9 +17,9 @@
     var padScale = 0.9 + 0.1 * scaleT;
     var gapScale = 0.85 + 0.15 * scaleT;
     var dayGapScale = 0.85 + 0.15 * scaleT;
-    var capFontAbbr = Math.max(12, Math.min(20, colW * 0.125)) * capTextScale;
-    var capFontDate = Math.max(14, Math.min(23, colW * 0.145)) * capTextScale;
-    var capFontTime = capFontAbbr * 0.9;
+    var capFontAbbr = Math.max(12, Math.min(19, colW * 0.12)) * capTextScale;
+    var capFontDate = Math.max(14, Math.min(22, colW * 0.14)) * capTextScale;
+    var capFontTime = capFontAbbr * 1.05;
     var capPadX = Math.max(2, Math.min(8, colW * 0.045)) * padScale;
     var capGap = Math.max(2, Math.min(6, colW * 0.032)) * gapScale;
     var capDayGap = Math.max(1, Math.min(5, colW * 0.022)) * dayGapScale;
