@@ -16,6 +16,15 @@
   font-display: swap;
 }
 
+/* Police chapeau date/heure */
+@font-face {
+  font-family: "TonduBeta";
+  src: url("./fonts/Tondu-Beta.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --brandMuted: #d07a79;
   --sienna: #c9a15a;
@@ -231,11 +240,11 @@ a.clicked {
   justify-content: space-between;
   align-items: center;
   gap: var(--capGap);
-  font-family: "FixelExtraBold", system-ui, sans-serif;
-  font-weight: 800;
+  font-family: "TonduBeta", "FixelExtraBold", system-ui, sans-serif;
+  font-weight: 700;
   font-stretch: 87.5%;
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
+  font-feature-settings: "tnum" 1, "zero" 0;
   letter-spacing: -0.2px;
   line-height: 1;
   white-space: nowrap;
