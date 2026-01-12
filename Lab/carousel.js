@@ -65,10 +65,6 @@
     var baseDate = getRootVarPx('--capFontDate', 16);
     var baseTime = getRootVarPx('--capFontTime', baseAbbr);
 
-    abbr.style.fontSize = baseAbbr + 'px';
-    date.style.fontSize = baseDate + 'px';
-    time.style.fontSize = baseTime + 'px';
-
     var capStyles = getComputedStyle(cap);
     var padL = parseFloat(capStyles.paddingLeft) || 0;
     var padR = parseFloat(capStyles.paddingRight) || 0;
@@ -76,30 +72,43 @@
     var available = cap.clientWidth - padL - padR;
     if (available <= 0) return;
 
+    var target = available * 0.98;
+    var scale = 1;
+
+    var maxScale = 1.2;
+    var minScale = 0.7;
+
+    function applySize(s) {
+      var a = Math.max(8, Math.round(baseAbbr * s));
+      var d = Math.max(9, Math.round(baseDate * s));
+      var t = Math.max(8, Math.round(baseTime * s));
+      abbr.style.fontSize = a + 'px';
+      date.style.fontSize = d + 'px';
+      time.style.fontSize = t + 'px';
+      return { a: a, d: d, t: t };
+    }
+
+    applySize(scale);
     var dayWidth = day.getBoundingClientRect().width;
     var timeWidth = time.getBoundingClientRect().width;
     var total = dayWidth + gap + timeWidth;
     if (total <= 0) return;
 
-    var target = available * 0.98;
-    var scale = target / total;
-
-    var maxScale = 1.2;
-    var minScale = 0.7;
-    if (scale > maxScale) scale = maxScale;
-    if (scale < minScale) scale = minScale;
-
     var capH = cap.clientHeight;
     var currentH = Math.max(day.getBoundingClientRect().height, time.getBoundingClientRect().height);
     if (currentH > 0) {
       var heightScale = (capH - 4) / currentH;
-      if (heightScale < scale) scale = Math.max(heightScale, minScale);
+      if (heightScale < scale) scale = heightScale;
     }
+    scale = Math.min(maxScale, Math.max(minScale, scale * (target / total)));
+    applySize(scale);
 
-    if (Math.abs(scale - 1) > 0.01) {
-      abbr.style.fontSize = (baseAbbr * scale).toFixed(2) + 'px';
-      date.style.fontSize = (baseDate * scale).toFixed(2) + 'px';
-      time.style.fontSize = (baseTime * scale).toFixed(2) + 'px';
+    dayWidth = day.getBoundingClientRect().width;
+    timeWidth = time.getBoundingClientRect().width;
+    total = dayWidth + gap + timeWidth;
+    if (total > target && scale > minScale) {
+      scale = Math.max(minScale, scale * (target / total));
+      applySize(scale);
     }
   }
 

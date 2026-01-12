@@ -243,6 +243,9 @@ a.clicked {
   font-family: "TonduBeta", "FixelExtraBold", system-ui, sans-serif;
   font-weight: 400;
   font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "zero" 0;
   letter-spacing: -0.2px;
@@ -258,21 +261,21 @@ a.clicked {
 }
 
 .cap .day .abbr {
-  font-weight: 800;
+  font-weight: inherit;
   color: var(--capText);
   font-size: var(--capFontAbbr);
   letter-spacing: 0;
 }
 
 .cap .day .date {
-  font-weight: 800;
+  font-weight: inherit;
   color: var(--capText);
   font-size: var(--capFontDate);
   line-height: 1
 }
 
 .cap .time {
-  font-weight: 800;
+  font-weight: inherit;
   font-size: var(--capFontTime);
   color: var(--capTime);
   white-space: nowrap;
