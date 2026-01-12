@@ -36,6 +36,7 @@
     root.style.setProperty('--capGap', capGap.toFixed(2) + 'px');
     root.style.setProperty('--capDayGap', capDayGap.toFixed(2) + 'px');
     requestFitCaps();
+    requestFitCapsAfterFonts();
   }
   applySizing();
   window.addEventListener('resize', applySizing);
@@ -65,11 +66,9 @@
     var baseDate = getRootVarPx('--capFontDate', 16);
     var baseTime = getRootVarPx('--capFontTime', baseAbbr);
 
-    var capStyles = getComputedStyle(cap);
-    var padL = parseFloat(capStyles.paddingLeft) || 0;
-    var padR = parseFloat(capStyles.paddingRight) || 0;
-    var gap = parseFloat(capStyles.columnGap || capStyles.gap || 0);
-    var available = cap.clientWidth - padL - padR;
+    var padX = getRootVarPx('--capPadX', 4);
+    var gap = getRootVarPx('--capGap', 4);
+    var available = cap.clientWidth - (padX * 2);
     if (available <= 0) return;
 
     var target = available * 0.98;
@@ -117,6 +116,16 @@
     for (var i = 0; i < caps.length; i++) {
       fitCapText(caps[i]);
     }
+  }
+
+  function requestFitCapsAfterFonts() {
+    if (!document.fonts || !document.fonts.load) return;
+    Promise.all([
+      document.fonts.load('16px "TonduBeta"'),
+      document.fonts.load('16px "FixelExtraBold"')
+    ]).then(function () {
+      requestFitCaps();
+    });
   }
 
   function pad2(n) { n = parseInt(n, 10); return (n < 10 ? '0' : '') + n; }
@@ -641,9 +650,7 @@
       .catch(function (e) { console.warn('Échec chargement JSON:', e.message); });
   }
   window.addEventListener('load', loadJSON);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(function () { requestFitCaps(); });
-  }
+  requestFitCapsAfterFonts();
   // auto-refresh toutes les 30 minutes
   setInterval(function () {
     loadJSON();
