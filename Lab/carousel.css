@@ -16,15 +16,6 @@
   font-display: swap;
 }
 
-/* Police condensed pour chapeau date/heure */
-@font-face {
-  font-family: "InterTight";
-  src: url("../fonts/Inter Tight/800.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --brandMuted: #d07a79;
   --sienna: #c9a15a;
@@ -237,13 +228,17 @@ a.clicked {
   color: var(--capText);
   padding: 0 var(--capPadX);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: var(--capGap);
-  font-family: "InterTight", "FixelExtraBold", system-ui, sans-serif;
+  font-family: "FixelExtraBold", system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 87.5%;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
-  letter-spacing: 0;
+  letter-spacing: -0.2px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .cap .day {
@@ -272,6 +267,7 @@ a.clicked {
   font-size: var(--capFontTime);
   color: var(--capTime);
   white-space: nowrap;
+  line-height: 1;
 }
 
 .strip .card:hover {

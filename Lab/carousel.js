@@ -1,5 +1,7 @@
 
 (function () {
+  var fitCapsRaf = 0;
+
   // sizing
   function applySizing() {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -11,16 +13,16 @@
     var colW = Math.round(posterH * 2 / 3);
     function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
     var scaleT = clamp((colW - 90) / 60, 0, 1);
-    var capTextScale = 0.95 + 0.05 * scaleT;
-    var padScale = 0.85 + 0.15 * scaleT;
-    var gapScale = 0.8 + 0.2 * scaleT;
-    var dayGapScale = 0.8 + 0.2 * scaleT;
-    var capFontAbbr = Math.max(12, Math.min(20, colW * 0.118 * capTextScale));
-    var capFontDate = Math.max(13, Math.min(22, colW * 0.135 * capTextScale));
+    var capTextScale = 0.88 + 0.06 * scaleT;
+    var padScale = 0.9 + 0.1 * scaleT;
+    var gapScale = 0.85 + 0.15 * scaleT;
+    var dayGapScale = 0.85 + 0.15 * scaleT;
+    var capFontAbbr = Math.max(11, Math.min(18, colW * 0.11)) * capTextScale;
+    var capFontDate = Math.max(13, Math.min(21, colW * 0.125)) * capTextScale;
     var capFontTime = capFontAbbr;
-    var capPadX = Math.max(3, Math.min(8, colW * 0.045 * padScale));
-    var capGap = Math.max(2, Math.min(6, colW * 0.035 * gapScale));
-    var capDayGap = Math.max(2, Math.min(5, colW * 0.03 * dayGapScale));
+    var capPadX = Math.max(2, Math.min(8, colW * 0.045)) * padScale;
+    var capGap = Math.max(2, Math.min(6, colW * 0.032)) * gapScale;
+    var capDayGap = Math.max(1, Math.min(5, colW * 0.022)) * dayGapScale;
     var root = document.documentElement;
     root.style.setProperty('--stripH', stripH + 'px');
     root.style.setProperty('--vignetteH', vignetteH + 'px');
@@ -33,9 +35,80 @@
     root.style.setProperty('--capPadX', capPadX.toFixed(2) + 'px');
     root.style.setProperty('--capGap', capGap.toFixed(2) + 'px');
     root.style.setProperty('--capDayGap', capDayGap.toFixed(2) + 'px');
+    requestFitCaps();
   }
   applySizing();
   window.addEventListener('resize', applySizing);
+
+  function requestFitCaps() {
+    if (fitCapsRaf) cancelAnimationFrame(fitCapsRaf);
+    fitCapsRaf = requestAnimationFrame(function () {
+      fitCapsRaf = 0;
+      fitAllCaps();
+    });
+  }
+
+  function getRootVarPx(name, fallback) {
+    var v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return isNaN(v) ? fallback : v;
+  }
+
+  function fitCapText(cap) {
+    var day = cap.querySelector('.day');
+    var time = cap.querySelector('.time');
+    if (!day || !time) return;
+    var abbr = day.querySelector('.abbr');
+    var date = day.querySelector('.date');
+    if (!abbr || !date) return;
+
+    var baseAbbr = getRootVarPx('--capFontAbbr', 14);
+    var baseDate = getRootVarPx('--capFontDate', 16);
+    var baseTime = getRootVarPx('--capFontTime', baseAbbr);
+
+    abbr.style.fontSize = baseAbbr + 'px';
+    date.style.fontSize = baseDate + 'px';
+    time.style.fontSize = baseTime + 'px';
+
+    var capStyles = getComputedStyle(cap);
+    var padL = parseFloat(capStyles.paddingLeft) || 0;
+    var padR = parseFloat(capStyles.paddingRight) || 0;
+    var gap = parseFloat(capStyles.columnGap || capStyles.gap || 0);
+    var available = cap.clientWidth - padL - padR;
+    if (available <= 0) return;
+
+    var dayWidth = day.getBoundingClientRect().width;
+    var timeWidth = time.getBoundingClientRect().width;
+    var total = dayWidth + gap + timeWidth;
+    if (total <= 0) return;
+
+    var target = available * 0.98;
+    var scale = target / total;
+
+    var maxScale = 1.2;
+    var minScale = 0.7;
+    if (scale > maxScale) scale = maxScale;
+    if (scale < minScale) scale = minScale;
+
+    var capH = cap.clientHeight;
+    var currentH = Math.max(day.getBoundingClientRect().height, time.getBoundingClientRect().height);
+    if (currentH > 0) {
+      var heightScale = (capH - 4) / currentH;
+      if (heightScale < scale) scale = Math.max(heightScale, minScale);
+    }
+
+    if (Math.abs(scale - 1) > 0.01) {
+      abbr.style.fontSize = (baseAbbr * scale).toFixed(2) + 'px';
+      date.style.fontSize = (baseDate * scale).toFixed(2) + 'px';
+      time.style.fontSize = (baseTime * scale).toFixed(2) + 'px';
+    }
+  }
+
+  function fitAllCaps() {
+    var caps = document.querySelectorAll('.cap');
+    for (var i = 0; i < caps.length; i++) {
+      fitCapText(caps[i]);
+    }
+  }
 
   function pad2(n) { n = parseInt(n, 10); return (n < 10 ? '0' : '') + n; }
   function formatDayParts(dateStr) {
@@ -540,6 +613,7 @@
     futurs.forEach(function (s) {
       strip.appendChild(renderColumn(s));
     });
+    requestFitCaps();
 
     if (futurs.length > 0) {
       openPanel(futurs[0]);
@@ -558,6 +632,9 @@
       .catch(function (e) { console.warn('Échec chargement JSON:', e.message); });
   }
   window.addEventListener('load', loadJSON);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { requestFitCaps(); });
+  }
   // auto-refresh toutes les 30 minutes
   setInterval(function () {
     loadJSON();
