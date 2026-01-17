@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime as dt
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -23,6 +24,8 @@ DOW_MAP = {
     6: "DI",
 }
 
+_ISO_DATE_RE = re.compile(r"^\d{4}([-\/])\d{2}\1\d{2}$")
+
 
 def _to_date(value):
     if value is None or (isinstance(value, float) and pd.isna(value)):
@@ -33,7 +36,19 @@ def _to_date(value):
         return value.date()
     if isinstance(value, dt.date):
         return value
-    parsed = pd.to_datetime(value, dayfirst=True, errors="coerce")
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        match = _ISO_DATE_RE.match(text)
+        if match:
+            sep = match.group(1)
+            fmt = "%Y-%m-%d" if sep == "-" else "%Y/%m/%d"
+            parsed = pd.to_datetime(text, format=fmt, errors="coerce")
+        else:
+            parsed = pd.to_datetime(text, dayfirst=True, errors="coerce")
+    else:
+        parsed = pd.to_datetime(value, dayfirst=True, errors="coerce")
     if pd.isna(parsed):
         return None
     return parsed.date()
