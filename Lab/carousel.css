@@ -1455,7 +1455,7 @@ body.cinema-page .cinema-grid {
 
 @media (max-width: 860px) {
   body.cinema-page .cinema-block {
-    padding: 16px 18px;
+    padding: 12px 14px;
   }
 
   body.cinema-page .cinema-block p {
