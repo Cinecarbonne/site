@@ -1,10 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!doctype html>
+<html lang="fr">
+
 <head>
-    <meta http-equiv="refresh" content="0,url=https://cinecarbonne.fr/programme/carousel.html" charset="UTF-8">
-<title>Redirection</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="carousel.css?v=20260125-31">
+  <style>
+    @font-face {
+      font-family: "KeedyBold";
+      src: local("Keedy Bold"), url("./fonts/Keedy Bold.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "TonduBeta";
+      src: url("./fonts/Tondu-Beta.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "BarlowSemiCondensedSemiBold";
+      src: url("./fonts/BarlowSemiCondensed-SemiBold.ttf") format("truetype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    .hero-nav a,
+    .hero-nav a:visited {
+      color: #0e0f10 !important;
+      text-decoration: none !important;
+      font-family: "BarlowSemiCondensedSemiBold" !important;
+    }
+    .hero-nav a:hover,
+    .hero-nav a:focus-visible {
+      color: #bdbdbd !important;
+      text-decoration: none !important;
+    }
+    .hero .logo {
+      height: 64px !important;
+      width: auto !important;
+      border-radius: 6px !important;
+      object-fit: contain;
+    }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-17YJ4RMKLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-17YJ4RMKLY');
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/CC-32.png">
+  <meta charset="utf-8" />
+  <title>Cin&eacute; Carbonne &mdash; Programme</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 </head>
+
 <body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-left">
+        <a href="index.html" class="home-link">
+          <img class="logo" height="64" src="./cinecarbonne-1.png" alt="Cine Carbonne" />
+        </a>
+        <h1 class="siteTitle">
+          <a href="index.html" class="brand-link">Cin&eacute; Carbonne</a>
+        </h1>
+      </div>
+      <nav class="hero-nav" aria-label="Navigation principale">
+        <a href="index.html" class="hero-link is-active" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Programme</a>
+        <span class="hero-sep">&middot;</span>
+        <a href="evenement.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">&Eacute;v&eacute;nements</a>
+        <span class="hero-sep">&middot;</span>
+        <a href="cinema.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Le cin&eacute;ma</a>
+      </nav>
+    </div>
+<!-- NAVIGATION : 4 ONGLETS -->
+    <div id="tabs">
+      <ul>
+        <li id="li_prog" class="selected">Programme</li>
+        <li id="li_pdf">PDF</li>
+        <li id="li_proch">Prochainement</li>
+        <li id="li_arch">Archives</li>
+      </ul>
+    </div>
+
+        <div id="tabcontent">
+
+      <!-- ONGLET 1 : PROGRAMME (Carrousel) -->
+      <div class="tabpanel" id="program_panel">
+        <div class="stripBand">
+          <div class="rail-wrap">
+            <div class="left-controls">
+                <button class="arrow left" id="leftBtn" aria-label="DÃ©filer vers la gauche">
+                  <span></span>
+                </button>
+
+                <button class="jumpStartBtn" id="jumpStartBtn" aria-label="Aller au dÃ©but">
+                    â®
+                  </button>
+
+                <button class="calendarBtn" id="calendarBtn" aria-label="Ouvrir le calendrier">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <rect x="3" y="4.5" width="18" height="16" rx="2.2" ry="2.2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="8" y1="3" x2="8" y2="7"></line>
+                    <line x1="16" y1="3" x2="16" y2="7"></line>
+                    <rect x="7" y="11" width="3" height="3" rx="0.6"></rect>
+                    <rect x="12" y="11" width="3" height="3" rx="0.6"></rect>
+                    <rect x="7" y="16" width="3" height="3" rx="0.6"></rect>
+                  </svg>
+                </button>
+              </div>
+            <div class="filmStrip">
+              <div class="railViewport">
+                <div id="rail" class="rail" aria-live="polite">
+                  <div id="strip" class="strip"></div>
+                </div>
+              </div>
+            </div>
+            <button class="arrow right" id="rightBtn" aria-label="DÃ©filer vers la droite"><span></span></button>
+          </div>
+        </div>
+
+        <div class="panelBand">
+          <section id="panel" class="panel" aria-live="polite" aria-label="DÃ©tails du film">
+            <div class="panel-grid2">
+              <div class="panel-left">
+                <div class="allChipsTop" id="p-chipsTop" aria-label="Ã‰tiquettes"></div>
+                <h2 class="panel-title" id="p-title">&nbsp;</h2>
+                <div class="infoLine" id="p-info"></div>
+                <div class="genresLine" id="p-genres"></div>
+                <div class="kv">
+                  <div class="k">De :</div>
+                  <div class="v" id="p-real"></div>
+                  <div class="k">Avec :</div>
+                  <div class="v" id="p-cast"></div>
+                </div>
+                <div class="recompensesLine" id="p-recompenses" style="display:none"></div>
+                <div class="synopsis" id="p-synopsis"></div>
+              </div>
+              <div class="panel-right">
+                <img id="p-backdropTop" class="backdropTop" alt="Image du film" />
+                <div class="thumb-strip" id="thumb-strip" role="list" aria-label="Galerie dâ€™images"></div>
+              </div>
+            </div>
+            <div class="trailer" id="p-trailer"></div>
+          </section>
+        </div>
+      </div>
+
+      <!-- ONGLET 2 : PDF (panneau pour le programme en cours / suivant, Ã  implÃ©menter ensuite) -->
+      <div class="tabpanel" id="pdf_panel">
+        <!-- Contenu PDF Ã  implÃ©menter Ã  lâ€™Ã©tape suivante -->
+      </div>
+
+      <!-- ONGLET 3 : PROCHAINEMENT -->
+      <div class="tabpanel" id="proch_panel" style="display:none">
+        <div class="coming-grid" id="coming_grid" aria-label="Films Ã  venir"></div>
+      </div>
+
+      <!-- ONGLET 4 : ARCHIVES -->
+      <div class="tabpanel" id="archives_panel" style="display:none">
+        <div class="archives-list" id="archives_list"></div>
+      </div>
+
+    </div>
+
+  <div id="calendarOverlay" class="calendar-overlay" aria-hidden="true">
+    <div class="calendar-modal" role="dialog" aria-modal="true" aria-label="Calendrier">
+      <div class="calendar-header">
+        <button class="cal-nav cal-prev" id="calPrev" type="button" aria-label="Mois precedent">
+          <span></span>
+        </button>
+        <div class="cal-title" id="calTitle"></div>
+        <button class="cal-nav cal-next" id="calNext" type="button" aria-label="Mois suivant">
+          <span></span>
+        </button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </div>
+
+  <script src="carousel.js"></script>
+
+
+
 
 </body>
+
 </html>
