@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="carousel.css?v=20260125-5">
+  <style>
+    @font-face {
+      font-family: "KeedyBold";
+      src: local("Keedy Bold"), url("./fonts/Keedy Bold.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "TonduBeta";
+      src: url("./fonts/Tondu-Beta.ttf") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "BarlowSemiCondensedSemiBold";
+      src: url("./fonts/BarlowSemiCondensed-SemiBold.ttf") format("truetype");
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    .hero-nav a,
+    .hero-nav a:visited {
+      color: #0e0f10 !important;
+      text-decoration: none !important;
+      font-family: "BarlowSemiCondensedSemiBold" !important;
+    }
+    .hero-nav a:hover,
+    .hero-nav a:focus-visible {
+      color: #bdbdbd !important;
+      text-decoration: none !important;
+    }
+    .hero .logo {
+      height: 64px !important;
+      width: auto !important;
+      border-radius: 6px !important;
+      object-fit: contain;
+    }
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-17YJ4RMKLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-17YJ4RMKLY');
+  </script>
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/CC-32.png">
+  <meta charset="utf-8" />
+  <title>Cin&eacute; Carbonne &mdash; &Eacute;v&eacute;nements</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body class="evenement-page">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-left">
+        <a href="index.html" class="home-link">
+          <img class="logo" height="64" src="./cinecarbonne-1.png" alt="Cine Carbonne" />
+        </a>
+        <h1 class="siteTitle">
+          <a href="index.html" class="brand-link">Cin&eacute; Carbonne</a>
+        </h1>
+      </div>
+      <nav class="hero-nav" aria-label="Navigation principale">
+        <a href="index.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Programme</a>
+        <span class="hero-sep">&middot;</span>
+        <a href="evenement.html" class="hero-link is-active" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">&Eacute;v&eacute;nements</a>
+        <span class="hero-sep">&middot;</span>
+        <a href="cinema.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Le cin&eacute;ma</a>
+      </nav>
+    </div>
+<main class="event-content" role="main">
+      <h2 class="event-title">Le Festival 2026 approche</h2>
+      <div class="event-wrap">
+        <iframe class="event-pdf" src="festival/Prog-CFSC-2026.pdf#view=FitH" title="Programme du festival Carbonne fait son cin&eacute;ma 2026" loading="lazy"></iframe>
+      </div>
+      <p class="event-fallback">Si le PDF ne s&rsquo;affiche pas, <a href="festival/Prog-CFSC-2026.pdf" target="_blank" rel="noopener">ouvrir le programme</a>.</p>
+      <div class="event-wrap event-poster-wrap">
+        <img class="event-image" src="prochainement/CFSC2026.jpg" alt="Festival Carbonne fait son cin&eacute;ma du 6 au 15 f&eacute;vrier 2026">
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

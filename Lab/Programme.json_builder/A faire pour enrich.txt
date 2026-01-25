@@ -1,0 +1,5 @@
+Améliorer la recherche du lien allocine
+Améliorer la recherche des photos tmdb + autre ?
+Améliorer la recherche des vidéos de ba
+reprendre la gestion des commentaires, etc
+obtenir les recommendations d'age
