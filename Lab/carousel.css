@@ -831,8 +831,8 @@ a.clicked {
 
 @media (max-width: 420px) {
   .hero {
-    height: 58px;
-    padding: 4px 10px;
+    height: auto;
+    padding: 6px 10px 8px;
   }
 
   .hero .logo {
