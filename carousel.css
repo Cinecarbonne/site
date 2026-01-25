@@ -1526,6 +1526,28 @@ body.evenement-page .event-title {
   text-align: center;
 }
 
+body.evenement-page .event-banner {
+  max-width: min(900px, 96%);
+  margin: 0 auto 18px;
+  background: #fff;
+  color: #111;
+  border-radius: 1.5rem;
+  padding: 14px 18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  font-family: "InterTight", "Inter Tight", sans-serif;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  text-align: left;
+}
+
+body.evenement-page .event-banner-title {
+  font-family: "FixelExtraBold";
+  color: var(--brand);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
 body.evenement-page .event-wrap {
   display: flex;
   justify-content: center;
