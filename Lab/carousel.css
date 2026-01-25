@@ -796,6 +796,7 @@ a.clicked {
     gap: 6px;
     row-gap: 3px;
     flex-wrap: wrap;
+    overflow: visible;
   }
 
   .hero-left {
@@ -813,6 +814,9 @@ a.clicked {
     gap: clamp(6px, 2vw, 16px);
     padding: 0 clamp(8px, 2.5vw, 20px);
     line-height: 1;
+    flex-wrap: wrap;
+    white-space: normal;
+    row-gap: 4px;
   }
 
   .hero-link {
@@ -835,6 +839,14 @@ a.clicked {
     height: 45px;
   }
 
+  .hero-nav {
+    gap: 6px;
+    padding: 0 8px;
+  }
+
+  .hero-link {
+    font-size: 20px;
+  }
 }
 
 /* Espace entre le bandeau haut (hero) et les onglets */
