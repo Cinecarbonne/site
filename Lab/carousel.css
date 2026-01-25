@@ -1453,6 +1453,16 @@ body.cinema-page .cinema-grid {
   }
 }
 
+@media (max-width: 860px) {
+  body.cinema-page .cinema-block {
+    padding: 16px 18px;
+  }
+
+  body.cinema-page .cinema-block p {
+    font-size: calc(var(--cinema-body-size) * 0.9);
+  }
+}
+
 body.cinema-page .cinema-tile {
   background: #fff;
   border-radius: 2rem;
