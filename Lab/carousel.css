@@ -34,6 +34,31 @@
   font-display: swap;
 }
 
+/* Police texte de base */
+@font-face {
+  font-family: "InterTight";
+  src: url("./fonts/Inter Tight/regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InterTight";
+  src: url("./fonts/Inter Tight/600.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InterTight";
+  src: url("./fonts/Inter Tight/700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --brandMuted: #d07a79;
   --sienna: #c9a15a;
@@ -171,7 +196,7 @@ a.clicked {
 .hero-nav {
   display: flex;
   align-items: baseline;
-  gap: clamp(10px, 1.6vw, 18px);
+  gap: clamp(8px, 1.3vw, 14px);
   flex-wrap: nowrap;
   margin-left: auto;
   flex: 1 1 auto;
@@ -1198,50 +1223,42 @@ a.clicked {
 }
 
 #features04-e .item-title,
-#features04-e .mbr-text,
-#features04-e .mbr-section-title {
-  color: #111 !important;
-}
-
-#features04-e .mbr-text strong {
-  color: inherit;
-}
-
 /* Cinema page overrides */
 body.cinema-page {
   background: var(--pageBg) !important;
+  --cinema-content-width: 960px;
+  --cinema-programme-width: 1160px;
+  --cinema-heading-size: 28px;
+  --cinema-body-font: "InterTight", "Inter Tight", sans-serif;
+  --cinema-body-size: 1.4rem;
+  --cinema-body-line: 1.3;
+  --cinema-tile-min: 320px;
+  --cinema-tile-title-size: calc(18px * 1.5);
 }
 
 body.cinema-page section {
   background-color: transparent !important;
 }
 
-body.cinema-page #article07-1 {
-  padding-top: 16px !important;
-  margin-top: 0 !important;
-}
-
-body.cinema-page #article07-1 .card,
-body.cinema-page #article07-1 .card-wrapper {
-  margin-top: 0 !important;
-}
-
-body.cinema-page #features04-e .mbr-section-title {
-  color: var(--brand) !important;
-}
-
-body.cinema-page #features04-e .item-title,
-body.cinema-page #features04-e .mbr-text {
-  color: #111 !important;
-}
-
 /* Cinema info panel */
 body.cinema-page .cinema-info {
-  padding: 8px 0 16px;
+  padding: 24px 0 16px;
 }
 
-body.cinema-page .cinema-info-inner {
-  padding: 0;
+body.cinema-page .cinema-container,
+body.cinema-page .cinema-container-wide {
+  margin: 0 auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+body.cinema-page .cinema-container {
+  max-width: var(--cinema-content-width);
+}
+
+body.cinema-page .cinema-container-wide {
+  max-width: var(--cinema-programme-width);
 }
 
 body.cinema-page .cinema-info-card {
@@ -1253,6 +1270,7 @@ body.cinema-page .cinema-info-card {
   gap: 16px;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
   width: 100%;
+  box-sizing: border-box;
 }
 
 body.cinema-page .cinema-map {
@@ -1277,11 +1295,14 @@ body.cinema-page .cinema-contact {
   display: grid;
   gap: 10px;
   color: #111;
-  font-weight: 600;
+  font-weight: 400;
   align-content: center;
   justify-items: center;
   text-align: center;
   padding: 8px 12px;
+  font-family: var(--cinema-body-font);
+  font-size: calc(var(--cinema-body-size) * 0.7);
+  line-height: var(--cinema-body-line);
 }
 
 body.cinema-page .cinema-divider {
@@ -1298,7 +1319,7 @@ body.cinema-page .cinema-contact h3 {
   font-family: "FixelExtraBold";
   color: var(--brand);
   text-transform: uppercase;
-  font-size: 28px;
+  font-size: var(--cinema-heading-size);
   margin-bottom: 6px;
 }
 
@@ -1345,6 +1366,108 @@ body.cinema-page .social-link.instagram .social-icon {
   body.cinema-page .cinema-info-card {
     grid-template-columns: 1fr;
   }
+}
+
+body.cinema-page .cinema-section {
+  padding: 12px 0 20px;
+}
+
+body.cinema-page .cinema-card {
+  background: #fff;
+  border-radius: 2rem;
+  padding: 20px 22px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.cinema-page .cinema-block {
+  padding: 22px 24px;
+}
+
+body.cinema-page .cinema-block + .cinema-block {
+  margin-top: 18px;
+}
+
+body.cinema-page .cinema-block h3 {
+  margin: 0 0 6px;
+  font-family: "FixelExtraBold";
+  color: var(--brand);
+  text-transform: uppercase;
+  font-size: var(--cinema-heading-size);
+}
+
+body.cinema-page .cinema-block p {
+  margin: 0;
+  color: #111;
+  font-weight: 400;
+  line-height: var(--cinema-body-line);
+  font-family: var(--cinema-body-font);
+  font-size: var(--cinema-body-size);
+}
+
+body.cinema-page .cinema-section-title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-family: "FixelExtraBold";
+  color: var(--brand);
+  text-transform: uppercase;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+body.cinema-page .cinema-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1100px) {
+  body.cinema-page .cinema-grid {
+    grid-template-columns: repeat(auto-fit, minmax(var(--cinema-tile-min), 1fr));
+  }
+}
+
+body.cinema-page .cinema-tile {
+  background: #fff;
+  border-radius: 2rem;
+  padding: 0;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+body.cinema-page .cinema-tile img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  display: block;
+  margin: 0;
+}
+
+body.cinema-page .cinema-tile img[src*="programme.webp"] {
+  object-position: center bottom;
+}
+
+body.cinema-page .cinema-tile h4 {
+  margin: 0 0 6px;
+  font-family: "FixelExtraBold";
+  color: #111;
+  font-size: var(--cinema-tile-title-size);
+  padding: 16px 20px 0;
+}
+
+body.cinema-page .cinema-tile p {
+  margin: 0;
+  color: #111;
+  font-weight: 400;
+  line-height: var(--cinema-body-line);
+  font-family: var(--cinema-body-font);
+  font-size: var(--cinema-body-size);
+  padding: 0 20px 20px;
 }
 
 
