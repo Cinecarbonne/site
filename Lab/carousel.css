@@ -827,12 +827,16 @@ a.clicked {
   .hero-sep {
     display: none;
   }
+
+  .siteTitle .brand-link {
+    font-size: clamp(30px, 3.6vw, 50px);
+  }
 }
 
 @media (max-width: 420px) {
   .hero {
     height: auto;
-    padding: 6px 10px 8px;
+    padding: 6px 10px 12px;
   }
 
   .hero .logo {
