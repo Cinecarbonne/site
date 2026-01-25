@@ -792,7 +792,7 @@ a.clicked {
 @media (max-width: 860px) {
   .hero {
     height: auto;
-    padding: 4px 12px !important;
+    padding: 6px 12px 12px !important;
     gap: 6px;
     row-gap: 3px;
     flex-wrap: wrap;
