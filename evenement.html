@@ -3,6 +3,9 @@
 
 <head>
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="cinecarbonne-1.png" as="image" fetchpriority="high">
+  <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="carousel.css?v=20260125-32">
   <style>
     @font-face {
@@ -66,7 +69,7 @@
     <div class="hero">
       <div class="hero-left">
         <a href="index.html" class="home-link">
-          <img class="logo" height="64" src="./cinecarbonne-1.png" alt="Cine Carbonne" />
+          <img class="logo" height="64" src="./cinecarbonne-1.png" alt="Cine Carbonne" loading="eager" fetchpriority="high" decoding="async" />
         </a>
         <h1 class="siteTitle">
           <a href="index.html" class="brand-link">Cin&eacute; Carbonne</a>
@@ -94,3 +97,4 @@
 </body>
 
 </html>
+
