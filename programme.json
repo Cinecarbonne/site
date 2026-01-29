@@ -1445,7 +1445,10 @@
     "synopsis": "Au cœur d’une vallée reculée des Cévennes, des néo-ruraux vivent en autarcie, ne s’interdisant rien et partageant tout. Chacun y trouve sa place, son compte, son but. Chacun, sauf Anja. Enfant insaisissable et perturbée, elle va un jour fuir pour aller vivre à l’état quasi sauvage dans les bois alentour mettant à mal le fragile équilibre de la communauté. Inspiré d’une histoire vraie.",
     "affiche_url": "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/images/sauvage.jpg",
     "backdrops": [
-      "https://fr.web.img4.acsta.net/img/92/bf/92bf0fb31086774f583f545151103a6c.jpg"
+      "https://fr.web.img4.acsta.net/img/92/bf/92bf0fb31086774f583f545151103a6c.jpg",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/images/s1.png",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/images/s2.png",
+      "https://raw.githubusercontent.com/Cinecarbonne/site/refs/heads/main/images/s3.png"
     ],
     "trailer_url": "",
     "tmdb_id": "",
