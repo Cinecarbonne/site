@@ -6,7 +6,7 @@
   <link rel="preload" href="cinecarbonne-1.png" as="image" fetchpriority="high">
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="carousel.css?v=20260125-45">
+  <link rel="stylesheet" href="carousel.css?v=20260125-44">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -46,6 +46,29 @@
       border-radius: 6px !important;
       object-fit: contain;
     }
+    .event-title .festival-le {
+      color: #e0433b;
+    }
+    .event-title .festival-festival {
+      color: #e4578a;
+    }
+    .event-title .festival-2026 {
+      color: #f2c94c;
+    }
+    .event-title .festival-arrive {
+      color: #f2994a;
+    }
+    body.evenement-page .event-video-wrap {
+      margin: 10px 0 22px;
+    }
+    body.evenement-page .event-video {
+      width: min(900px, 96%);
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    }
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -84,10 +107,21 @@
       </nav>
     </div>
 <main class="event-content" role="main">
-      <h2 class="event-title">Le festival 2026 arrive&nbsp;!</h2>
       <div class="event-banner">
-        <div class="event-banner-title">ANNONCE</div>
-        Il reste des places dans le <strong>jury de jeunes</strong>. Il s'agit de participer à un jury qui va regarder tous les films en compétition (13 films), en discuter en groupe, délibérer en fin de festival pour attribuer les prix. Il faut être présent sur deux week-ends complets, avoir plus de 14 ans. Pour plus de renseignements, ou pour candidater, téléphonez-nous au 06&nbsp;31&nbsp;53&nbsp;87&nbsp;95.
+        <div class="event-banner-title">Le cinéma recrute</div>
+        Nous recherchons une/un <strong>caissière/caissier</strong>. Il faut être motivé(e) et disponible, à l'aise avec la gestion d'une caisse informatisée, vous pouvez venir nous voir directement au cinéma avant une séance ou écrire à cinecarbonne@gmail.com
+      </div>
+      <h2 class="event-title">
+        <span class="festival-le">Le</span>
+        <span class="festival-festival">festival</span>
+        <span class="festival-2026">2026</span>
+        <span class="festival-arrive">arrive&nbsp;!</span>
+      </h2>
+      <div class="event-banner">
+        Le festival se tiendra <strong>du 6 au 15 février</strong>, avec trois films d'<strong>avant-festival</strong> accompagnés de conférences ou débats (voir programme ci-dessous). Il y aura <strong>13 films en compétition</strong>, un jury jeune et un jury adulte qui vont regarder tous les films, en débattre et établir chacun un palmarès. Vous pouvez participer à chaque séance de film en compétition en attribuant une note qui participera à établir le prix du public. Nous vous attendons ce Vendredi 6 Février à 20h15 pour le <strong>pot d'ouverture !</strong>
+      </div>
+      <div class="event-wrap event-video-wrap">
+        <iframe class="event-video" src="https://www.youtube.com/embed/PyIsBwPC_hs" title="Vidéo du festival" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="event-wrap">
         <iframe class="event-pdf" src="festival/Prog-CFSC-2026.pdf#view=FitH" title="Programme du festival Carbonne fait son cin&eacute;ma 2026" loading="lazy"></iframe>
