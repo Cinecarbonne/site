@@ -6,7 +6,7 @@ from tkinter.constants import HORIZONTAL
 
 #Local Import
 import normalize
-import enrich
+import enrich_3_0 as enrich
 import excel_to_json
 
 TMDB_API_KEY=os.getenv ("TMDB_API_KEY","4b400d47b0a36eed006040846feebaf5")
@@ -70,14 +70,15 @@ def error_popup(message):
 def convert():
     print(f"Répertoire courant début convert: {os.getcwd()}")
     continu = True
-    if selected_program_file != "":
-        print ("Copy selected file to input/source.xlsx")
-        shutil.copy(selected_program_file,INPUT_PATH)
-    else :
-        error_popup("ATTENTION : pas de fichier d'entrée selectionné \n"
-                    "=> le fichier input/source.xlsx sera utilisé si existant!! ")
+
 
     if options["normalize"].get():
+        if selected_program_file != "":
+            print("Copy selected file to input/source.xlsx")
+            shutil.copy(selected_program_file, INPUT_PATH)
+        else:
+            error_popup("ATTENTION : pas de fichier d'entrée selectionné \n"
+                        "=> le fichier input/source.xlsx sera utilisé si existant!! ")
         print(f"Répertoire courant début normalize: {os.getcwd()}")
         if os.path.isfile("input/source.xlsx"):
             print ("Normalize")
