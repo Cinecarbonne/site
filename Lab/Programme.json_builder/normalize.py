@@ -30,10 +30,9 @@ COL_TITRE   = 4      # E
 COL_VERSION = 5      # F
 COL_CM    = 6      # G
 COL_REAL      = 7      # H
-COL_PRIX    = 8      # I
-COL_CATEG   = 9      # J
-COL_TARIF   = 10     # K
-COL_COMMENT = 11     # L
+COL_CATEG   = 8      # I (anciennement J)
+COL_TARIF   = 9      # J (anciennement K)
+COL_COMMENT = 10     # K (anciennement L)
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
@@ -231,10 +230,10 @@ def main():
             version = normalize_version(norm_str(row.get(COL_VERSION)))
             cm = norm_str(row.get(COL_CM))
             realisateur =  norm_str(row.get(COL_REAL))
-            recompenses = norm_str(row.get(COL_PRIX))
             categorie = norm_str(row.get(COL_CATEG))
             tarif = norm_str(row.get(COL_TARIF))
             commentaire = norm_str(row.get(COL_COMMENT))
+            recompenses = commentaire
 
             # --- Normalisation textuelle du champ Tarif ---
             if tarif:
@@ -243,6 +242,23 @@ def main():
 
                 # Remplacer ADH par Adhérents
                 tarif = re.sub(r"\bADH\b", "Adhérents", tarif, flags=re.IGNORECASE)
+
+            # --- JP => Jeune Public (Catégorie ou Tarif) ---
+            jp_in_categ = bool(categorie and re.search(r"\bJP\b", categorie, flags=re.IGNORECASE))
+            jp_in_tarif = bool(tarif and re.search(r"\bJP\b", tarif, flags=re.IGNORECASE))
+            if jp_in_categ:
+                categorie = re.sub(r"\bJP\b", "", categorie, flags=re.IGNORECASE).strip(" ,;-")
+            if jp_in_tarif:
+                tarif = re.sub(r"\bJP\b", "", tarif, flags=re.IGNORECASE).strip(" ,;-")
+            if jp_in_categ or jp_in_tarif:
+                if not categorie:
+                    categorie = "Jeune Public"
+                elif "jeune public" not in categorie.lower():
+                    categorie = f"{categorie}, Jeune Public"
+
+            # --- DOC => Documentaire (Catégorie) ---
+            if categorie:
+                categorie = re.sub(r"\bDOC\b", "Documentaire", categorie, flags=re.IGNORECASE).strip()
 
             records.append({
                 "Date": current_date.strftime("%Y-%m-%d"),

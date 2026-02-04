@@ -23,6 +23,14 @@ import re
 import requests
 import unicodedata
 
+#for GUI
+import  tkinter as tk
+from tkinter import ttk as ttk
+import name_tools as nt
+from unidecode import unidecode
+
+mode_Gui=False
+window=None
 
 def log_step(text: str) -> None:
     print(f"- {text}", flush=True)
@@ -524,7 +532,6 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     release_date = _allocine_parse_release_date(html_text)
     countries = _allocine_parse_countries(html_text)
     awards = allocine_awards(allocine_url)
-
     return {
         "affiche": affiche,
         "allocine_title": title or alt_title,
@@ -1084,6 +1091,60 @@ def verify_allocine_tmdb(allocine_meta: dict, tmdb_meta: dict) -> dict:
         "allocine_date": allocine_date_raw,
         "tmdb_date": tmdb_date_raw,
     }
+def _gui_prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, match_info: dict) -> str:
+
+    choices={1 : 'Allocine',
+             2 : 'TMDB',
+             3 : 'Merge',
+             4 : 'Skip'
+    }
+    global  window
+    window.attributes("-topmost", True)
+
+    new_window = tk.Toplevel(window)
+    new_window.title(f"selection : {film.get('titre', '')}")
+    hauteur=str(88*len(choices)+30)
+    new_window.geometry("400x%s" %hauteur)
+
+    choice=tk.IntVar(new_window, value = 4  )
+
+    y=10
+    for c in choices.keys():
+        ttk.Radiobutton(new_window, text=choices[c], variable=choice, value=c).place(x=10, y=y)
+        y+=18
+        if c == 1:
+            label = f"  titre: {allocine_meta.get('allocine_title', '')}\n" +\
+                    f"  realisateur: {allocine_meta.get('allocine_directors', '')}\n" +\
+                    f"  date: {match_info.get('allocine_date', '')}"
+            ttk.Label(new_window,text=label,anchor='w').place(x=50, y=y)
+            y+=70
+        elif c == 2 :
+            label = f"  titre: {tmdb_meta.get('tmdb_title', '')}\n" + \
+                    f"  titre original: {tmdb_meta.get('tmdb_original_title', '')}\n"+\
+                    f"  realisateur: {tmdb_meta.get('tmdb_directors', '')}\n" +\
+                    f"  date: {tmdb_meta.get('tmdb_date', '')}"
+            ttk.Label(new_window,text=label,anchor='w').place(x=50, y=y)
+            y+=90
+
+    label= f"Scores: titre={match_info.get('title_score', 0):.2f} \n" +\
+           f"           realisateur={match_info.get('director_score', 0):.2f} \n" +\
+           f"           date_match={match_info.get('date_match')}"
+    ttk.Label(new_window, text=label, anchor='w').place(x=100,y=y)
+    tk.Button(new_window, text="Valider", command=new_window.destroy).pack(side='bottom')
+    #force display
+    window.attributes("-topmost", False)
+    new_window.attributes("-topmost", True)
+    window.update()
+    window.update_idletasks()
+
+    window.wait_window(new_window)
+
+
+    selected =  choice.get()
+    print(selected)
+    print (choices)
+    return choices[selected]
+
 
 
 def _prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, match_info: dict) -> str:
@@ -1110,60 +1171,63 @@ def _prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, matc
             return choice
 
 
-def main() -> int:
-    # Charger l'environnement (.env) pour utiliser les clés API de Google et TMDB
-    env_path = Path(__file__).resolve().parent / ".env"
-    load_env_file(env_path)
+def get_movies_from_tmdb(films):
+    log_step("tmdb: chercher par titre (langue principale puis en-US si besoin)")
 
-    # Charger work/normalized.xlsx
-    in_path = Path("work/normalized.xlsx")
-    df = pd.read_excel(in_path, sheet_name=0, dtype=str).fillna("")
+    def _tmdb_lookup(idx: int, title: str, director: str):
+        if not title:
+            return idx, title, None, None, None, ""
+        try:
+            result = tmdb_find_movie(title, director, TMDB_LANG_DEFAULT)
+            match = result.get("match")
+            used_lang = TMDB_LANG_DEFAULT
+            if not match:
+                result = tmdb_find_movie(title, director, "en-US")
+                match = result.get("match")
+                used_lang = "en-US"
+            return idx, title, result, match, used_lang, ""
+        except Exception as exc:
+            return idx, title, None, None, None, str(exc)
 
-    # Charger les colonnes
-    columns = list(df.columns)
-    if columns:
-        log_step(f"colonnes detectees: {', '.join(columns)}")
+    futures = []
+    max_workers = min(TMDB_MAX_WORKERS, max(1, len(films)))
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for idx, film in enumerate(films):
+            titre = film.get("titre", "")
+            realisateur = film.get("realisateur", "")
+            futures.append(executor.submit(_tmdb_lookup, idx, titre, realisateur))
+        for future in as_completed(futures):
+            idx, titre, result, match, used_lang, error = future.result()
+            film = films[idx]
+            if not titre:
+                continue
+            if error:
+                log_step(f"tmdb: erreur recherche {titre} ({error})")
+                continue
+            if not result:
+                log_step(f"tmdb: erreur recherche {titre} (no result)")
+                continue
+            candidates = result.get("candidates") or []
+            film["tmdb_candidates"] = candidates
+            if match:
+                film["tmdb_id"] = str(match.get("id") or "")
+                film["tmdb_title"] = match.get("title") or ""
+                film["tmdb_original_title"] = match.get("original_title") or ""
+                film["tmdb_release_date"] = match.get("release_date") or ""
+                film["tmdb_score"] = match.get("score", 0.0)
+                film["tmdb_title_score"] = match.get("title_score", 0.0)
+                film["tmdb_director_score"] = match.get("director_score", 0.0)
+                film["tmdb_directors"] = ", ".join(match.get("directors") or [])
+                film["tmdb_lang"] = used_lang
+                log_step(f"tmdb: {titre} -> {film['tmdb_id']} ({film['tmdb_title']})")
+            else:
+                log_step(f"tmdb: no match for {titre} ({len(candidates)} candidats)")
 
-    # 4) Pour chaque film (chaque ligne)
-    films = []
-    for _, row in df.iterrows():
-        row_data = {col: str(row.get(col, "")).strip() for col in columns}
-        date = row_data.get("Date", "")
-        heure = row_data.get("Heure", "")
-        titre = row_data.get("Titre", "")
-        version = row_data.get("Version", "")
-        cm = row_data.get("CM", "")
-        realisateur = row_data.get("Realisateur", "")
-        recompenses = row_data.get("Recompenses", "")
-        categorie = row_data.get("Categorie", "")
-        tarif = row_data.get("Tarif", "")
-        commentaire = row_data.get("Commentaire", "")
 
-        log_step(f"film: {titre}")
-
-        is_cineclub = _has_cineclub_or_patrimoine(categorie, commentaire)
-        is_scolaire = "SCOL" in str(categorie).upper()
-
-        film_info = {
-            "titre": titre,
-            "realisateur": realisateur,
-            "version": version,
-            "categorie": categorie,
-            "commentaire": commentaire,
-            "date": date,
-            "heure": heure,
-            "cm": cm,
-            "recompenses": recompenses,
-            "tarif": tarif,
-            "is_cineclub": is_cineclub,
-            "is_scolaire": is_scolaire,
-            "raw": row_data,
-            "enriched": {},
-        }
-        films.append(film_info)
-
-    # 5) Recherche Allocine par titre + realisateur (scraping)
+def get_movies_from_allociné(films):
+    # 1) Recherche Allocine par titre + realisateur (scraping)
     log_step("allocine: chercher par titre + realisateur (scraping)")
+
     def _allocine_lookup(idx: int, title: str, director: str):
         if not title:
             return idx, title, None, None, ""
@@ -1204,9 +1268,9 @@ def main() -> int:
                 log_step(f"allocine: {titre} -> {film['allocine_url']}")
             else:
                 log_step(f"allocine: no match for {titre} ({len(candidates)} candidats)")
-
-    # 6) Recuperer metadonnees Allocine (affiche, titre, realisateurs, date)
+    # 2) Recuperer metadonnees Allocine (affiche, titre, realisateurs, date)
     log_step("allocine: recuperer metadonnees (scraping)")
+
     def _allocine_meta_lookup(idx: int, allocine_url: str):
         if not allocine_url:
             return idx, allocine_url, {}, ""
@@ -1270,8 +1334,9 @@ def main() -> int:
                 if base_rewards:
                     film["enriched"]["allocine_recompenses"] = _split_list(base_rewards)
 
-    # 7) Recuperer les photos Allocine
+    # 3) Recuperer les photos Allocine
     log_step("allocine: recuperer photos (scraping)")
+
     def _allocine_photos_lookup(idx: int, allocine_url: str, poster_url: str):
         if not allocine_url:
             return idx, allocine_url, [], ""
@@ -1298,59 +1363,80 @@ def main() -> int:
                 continue
             film["enriched"]["backdrops"] = photos
 
-    # 8) Classer et choisir un candidat
-    log_step("tmdb: chercher par titre (langue principale puis en-US si besoin)")
-    def _tmdb_lookup(idx: int, title: str, director: str):
-        if not title:
-            return idx, title, None, None, None, ""
-        try:
-            result = tmdb_find_movie(title, director, TMDB_LANG_DEFAULT)
-            match = result.get("match")
-            used_lang = TMDB_LANG_DEFAULT
-            if not match:
-                result = tmdb_find_movie(title, director, "en-US")
-                match = result.get("match")
-                used_lang = "en-US"
-            return idx, title, result, match, used_lang, ""
-        except Exception as exc:
-            return idx, title, None, None, None, str(exc)
 
-    futures = []
-    max_workers = min(TMDB_MAX_WORKERS, max(1, len(films)))
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        for idx, film in enumerate(films):
-            titre = film.get("titre", "")
-            realisateur = film.get("realisateur", "")
-            futures.append(executor.submit(_tmdb_lookup, idx, titre, realisateur))
-        for future in as_completed(futures):
-            idx, titre, result, match, used_lang, error = future.result()
-            film = films[idx]
-            if not titre:
-                continue
-            if error:
-                log_step(f"tmdb: erreur recherche {titre} ({error})")
-                continue
-            if not result:
-                log_step(f"tmdb: erreur recherche {titre} (no result)")
-                continue
-            candidates = result.get("candidates") or []
-            film["tmdb_candidates"] = candidates
-            if match:
-                film["tmdb_id"] = str(match.get("id") or "")
-                film["tmdb_title"] = match.get("title") or ""
-                film["tmdb_original_title"] = match.get("original_title") or ""
-                film["tmdb_release_date"] = match.get("release_date") or ""
-                film["tmdb_score"] = match.get("score", 0.0)
-                film["tmdb_title_score"] = match.get("title_score", 0.0)
-                film["tmdb_director_score"] = match.get("director_score", 0.0)
-                film["tmdb_directors"] = ", ".join(match.get("directors") or [])
-                film["tmdb_lang"] = used_lang
-                log_step(f"tmdb: {titre} -> {film['tmdb_id']} ({film['tmdb_title']})")
-            else:
-                log_step(f"tmdb: no match for {titre} ({len(candidates)} candidats)")
+def main(main_window=None) -> int:
 
-    # 9) Verifier correspondance Allocine/TMDB
+
+    # positionnement de mode_GUI afin de gérer  la selection des films
+    global mode_Gui, window
+    if (main_window ) :
+        mode_Gui=True
+        window=main_window
+        root=Path(os.getcwd())
+    else:
+        root=Path(__file__).resolve().parent
+
+    # Charger l'environnement (.env) pour utiliser les clés API de Google et TMDB
+    env_path = root/ ".env"
+    load_env_file(env_path)
+
+
+    # Charger work/normalized.xlsx
+    in_path = Path(root/"work/normalized.xlsx")
+    df = pd.read_excel(in_path, sheet_name=0, dtype=str).fillna("")
+
+    # Charger les colonnes
+    columns = list(df.columns)
+    if columns:
+        log_step(f"colonnes detectees: {', '.join(columns)}")
+
+    # 4) Pour chaque film (chaque ligne)
+    films = []
+    for _, row in df.iterrows():
+        row_data = {col: str(row.get(col, "")).strip() for col in columns}
+        date = row_data.get("Date", "")
+        heure = row_data.get("Heure", "")
+        titre = row_data.get("Titre", "")
+        version = row_data.get("Version", "")
+        cm = row_data.get("CM", "")
+        realisateur = row_data.get("Realisateur", "")
+        recompenses = row_data.get("Recompenses", "")
+        categorie = row_data.get("Categorie", "")
+        tarif = row_data.get("Tarif", "")
+        commentaire = row_data.get("Commentaire", "")
+
+        log_step(f"film: {titre}")
+
+        is_cineclub = _has_cineclub_or_patrimoine(categorie, commentaire)
+        is_scolaire = "SCOL" in str(categorie).upper()
+
+        film_info = {
+            "titre": titre,
+            "realisateur": realisateur,
+            "version": version,
+            "categorie": categorie,
+            "commentaire": commentaire,
+            "date": date,
+            "heure": heure,
+            "cm": cm,
+            "recompenses": recompenses,
+            "tarif": tarif,
+            "is_cineclub": is_cineclub,
+            "is_scolaire": is_scolaire,
+            "raw": row_data,
+            "enriched": {},
+        }
+        films.append(film_info)
+
+    # 5) rechercher les films,synopsis,Bande Annonce, etc...  sur allociné
+    get_movies_from_allociné(films)
+
+    # 6) rechercher les films,synopsis,Bande Annonce, etc...  sur TMDB
+    get_movies_from_tmdb(films)
+
+    # 7) Verifier correspondance Allocine/TMDB
     log_step("allocine/tmdb: verifier correspondance")
+
     for film in films:
         allocine_meta = film.get("enriched", {})
         tmdb_meta = {
@@ -1368,6 +1454,7 @@ def main() -> int:
             result.get("title_score", 0) < CROSS_MATCH_TITLE_THRESHOLD
             or result.get("director_score", 0) < CROSS_MATCH_DIRECTOR_THRESHOLD
         )
+
         if mismatch:
             log_step(
                 "allocine/tmdb: mismatch "
@@ -1376,7 +1463,12 @@ def main() -> int:
                 f"director={result.get('director_score', 0):.2f}, "
                 f"date_match={date_match})"
             )
-            choice = _prompt_source_choice(film, allocine_meta, tmdb_meta, result)
+
+            print(f'mode_gui: {mode_Gui}')
+            if mode_Gui:
+                choice = _gui_prompt_source_choice(film, allocine_meta, tmdb_meta, result)
+            else:
+                choice = _prompt_source_choice(film, allocine_meta, tmdb_meta, result)
             film["enriched"]["source_preference"] = choice
 
     # 10) Recuperer details TMDB (synopsis, genres, pays, duree, acteurs, trailers)
@@ -1570,6 +1662,7 @@ def main() -> int:
     out_df.to_excel(out_path, index=False)
 
     return 0
+
 
 
 if __name__ == "__main__":

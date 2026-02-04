@@ -532,7 +532,6 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     release_date = _allocine_parse_release_date(html_text)
     countries = _allocine_parse_countries(html_text)
     awards = allocine_awards(allocine_url)
-
     return {
         "affiche": affiche,
         "allocine_title": title or alt_title,

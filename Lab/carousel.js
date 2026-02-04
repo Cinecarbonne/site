@@ -189,6 +189,7 @@
     var labels = [];
     var txt = ((s.categorie || '') + ' ' + (s.commentaire || '')).toLowerCase();
     var map = [
+      { k: 'jeune public', label: 'Jeune Public' },
       { k: 'ciné goûter', label: 'Ciné Goûter' },
       { k: 'cine gouter', label: 'Ciné Goûter' },
       { k: 'ciné jeunes', label: 'Ciné Jeunes' },
