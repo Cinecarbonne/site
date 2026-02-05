@@ -31,6 +31,7 @@ from unidecode import unidecode
 
 mode_Gui=False
 window=None
+BASE_DIR = Path(__file__).resolve().parent
 
 def log_step(text: str) -> None:
     print(f"- {text}", flush=True)
@@ -1369,12 +1370,10 @@ def main(main_window=None) -> int:
 
     # positionnement de mode_GUI afin de gérer  la selection des films
     global mode_Gui, window
+    root = BASE_DIR
     if (main_window ) :
         mode_Gui=True
         window=main_window
-        root=Path(os.getcwd())
-    else:
-        root=Path(__file__).resolve().parent
 
     # Charger l'environnement (.env) pour utiliser les clés API de Google et TMDB
     env_path = root/ ".env"
@@ -1527,6 +1526,10 @@ def main(main_window=None) -> int:
     for film in films:
         enriched = film.get("enriched", {})
         pref = enriched.get("source_preference", "")
+        allocine_pays = enriched.get("allocine_pays", "")
+        tmdb_pays = enriched.get("tmdb_pays", "")
+        allocine_acteurs = enriched.get("allocine_acteurs", "")
+        tmdb_acteurs = enriched.get("tmdb_acteurs", "")
         if pref == "s":
             synopsis = ""
             genres = []
@@ -1538,15 +1541,11 @@ def main(main_window=None) -> int:
             synopsis = enriched.get("tmdb_synopsis", "")
             genres = enriched.get("tmdb_genres", [])
             duree_min = enriched.get("tmdb_duree_min", "")
-            pays = enriched.get("tmdb_pays", "")
-            acteurs = enriched.get("tmdb_acteurs", "")
             recompenses = enriched.get("tmdb_recompenses", [])
         elif pref == "a":
             synopsis = enriched.get("allocine_synopsis", "")
             genres = enriched.get("allocine_genres", [])
             duree_min = enriched.get("allocine_duree_min", "")
-            pays = enriched.get("allocine_pays", "")
-            acteurs = enriched.get("allocine_acteurs", "")
             recompenses = enriched.get("allocine_recompenses", [])
         elif pref == "m":
             synopsis = enriched.get("allocine_synopsis", "") or enriched.get("tmdb_synopsis", "")
@@ -1555,14 +1554,6 @@ def main(main_window=None) -> int:
                 enriched.get("tmdb_genres", []),
             )
             duree_min = enriched.get("allocine_duree_min", "") or enriched.get("tmdb_duree_min", "")
-            pays = _merge_list_pref_allocine(
-                enriched.get("allocine_pays", ""),
-                enriched.get("tmdb_pays", ""),
-            )
-            acteurs = _merge_list_pref_allocine(
-                enriched.get("allocine_acteurs", ""),
-                enriched.get("tmdb_acteurs", ""),
-            )
             recompenses = _merge_list_pref_allocine(
                 enriched.get("allocine_recompenses", []),
                 enriched.get("tmdb_recompenses", []),
@@ -1571,9 +1562,11 @@ def main(main_window=None) -> int:
             synopsis = enriched.get("allocine_synopsis", "") or enriched.get("tmdb_synopsis", "")
             genres = enriched.get("allocine_genres", []) or enriched.get("tmdb_genres", [])
             duree_min = enriched.get("allocine_duree_min", "") or enriched.get("tmdb_duree_min", "")
-            pays = enriched.get("allocine_pays", "") or enriched.get("tmdb_pays", "")
-            acteurs = enriched.get("allocine_acteurs", "") or enriched.get("tmdb_acteurs", "")
             recompenses = enriched.get("allocine_recompenses", []) or enriched.get("tmdb_recompenses", [])
+
+        if pref != "s":
+            pays = allocine_pays or tmdb_pays or ""
+            acteurs = allocine_acteurs or tmdb_acteurs or ""
 
         enriched["synopsis"] = synopsis
         enriched["genres"] = genres
@@ -1600,6 +1593,8 @@ def main(main_window=None) -> int:
         row_data["acteurs_principaux"] = _join_list(enriched.get("acteurs_principaux", ""))
         row_data["recompenses"] = _join_list(enriched.get("recompenses", ""))
         row_data["date_sortie"] = enriched.get("date_sortie", "")
+        if row_data.get("date_sortie"):
+            row_data["annee"] = row_data.get("date_sortie")
         row_data["trailer_url"] = enriched.get("trailer_url", "")
         row_data["allocine_url"] = film.get("allocine_url", "")
         backdrops = enriched.get("backdrops", [])
@@ -1658,7 +1653,7 @@ def main(main_window=None) -> int:
     extra_cols = [col for col in out_df.columns if col not in ordered]
     out_df = out_df[ordered + extra_cols]
 
-    out_path = Path("work/enriched.xlsx")
+    out_path = root / "work/enriched.xlsx"
     out_df.to_excel(out_path, index=False)
 
     return 0

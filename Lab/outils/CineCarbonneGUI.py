@@ -3,6 +3,7 @@ from tkinter import ttk,filedialog
 import os
 import shutil
 from tkinter.constants import HORIZONTAL
+from pathlib import Path
 
 #Local Import
 import normalize
@@ -14,23 +15,21 @@ TMDB_API_KEY=os.getenv ("TMDB_API_KEY","4b400d47b0a36eed006040846feebaf5")
 print("API_KEY: "+os.environ.get("TMDB_API_KEY", "").strip())
 selected_program_file=""
 
-mode_standalone=os.path.isfile("./CineCarbonneGUI.exe")
+BASE_DIR = Path(__file__).resolve().parent
+INPUT_DIR = BASE_DIR / "input"
+WORK_DIR = BASE_DIR / "work"
+PUBLIC_DIR = BASE_DIR / "public"
+INPUT_PATH = INPUT_DIR / "source.xlsx"
+
+mode_standalone = (BASE_DIR / "CineCarbonneGUI.exe").is_file()
 
 if mode_standalone :
     os.makedirs("CineCarbonne_workdir", exist_ok=True)
     os.chdir("CineCarbonne_workdir")
 
-INPUT_PATH  = "input/source.xlsx"
-
-
-if not os.path.isdir("input") :
-    os.mkdir("input")
-
-if not os.path.isdir("work") :
-    os.mkdir("work")
-
-if not os.path.isdir("public") :
-    os.mkdir("public")
+INPUT_DIR.mkdir(parents=True, exist_ok=True)
+WORK_DIR.mkdir(parents=True, exist_ok=True)
+PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # Function for opening the
@@ -80,7 +79,7 @@ def convert():
             error_popup("ATTENTION : pas de fichier d'entrée selectionné \n"
                         "=> le fichier input/source.xlsx sera utilisé si existant!! ")
         print(f"Répertoire courant début normalize: {os.getcwd()}")
-        if os.path.isfile("input/source.xlsx"):
+        if INPUT_PATH.is_file():
             print ("Normalize")
             normalize.main()
         else :
@@ -92,7 +91,7 @@ def convert():
 
     if continu and options["enrich"].get():
         print(f"Répertoire courant début enrich: {os.getcwd()}")
-        if os.path.isfile("work/normalized.xlsx"):
+        if (WORK_DIR / "normalized.xlsx").is_file():
             print("ajout TMDB data witk key %s __" % input_TMDB.get('1.0', "end"))
             os.environ["TMDB_API_KEY"] = TMDB_API_KEY
             print("API_KEY 2: " + os.environ.get("TMDB_API_KEY", ""))
@@ -104,7 +103,7 @@ def convert():
 
     if continu and options["export"].get():
         print(f"Répertoire courant début export: {os.getcwd()}")
-        if os.path.isfile("work/enriched.xlsx"):
+        if (WORK_DIR / "enriched.xlsx").is_file():
             print ("convert to json")
             excel_to_json.main()
         else:
@@ -154,7 +153,7 @@ options = {"normalize": tkinter.BooleanVar(),
            "export": tkinter.BooleanVar()}
 
 options["normalize"].set(True)
-options["enrich"].set(os.path.isfile('work/normalized.xlsx'))
+options["enrich"].set((WORK_DIR / "normalized.xlsx").is_file())
 options["export"].set(False)
 
 normalizeRB = ttk.Checkbutton(window, text="normalisation du fichier Excell brut ", variable=options["normalize"])

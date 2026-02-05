@@ -21,8 +21,9 @@ import pandas as pd
 import re
 
 # Emplacements
-IN_XLSX  = Path("work/enriched.xlsx")
-OUT_JSON = Path("../Lab/programme.json")
+BASE_DIR = Path(__file__).resolve().parent
+IN_XLSX  = BASE_DIR / "work/enriched.xlsx"
+OUT_JSON = BASE_DIR.parent / "programme.json"
 
 # Champs exportés (garde l’ordre)
 FIELDS_TO_KEEP = [

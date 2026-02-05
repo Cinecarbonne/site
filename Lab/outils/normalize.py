@@ -19,9 +19,10 @@ import pandas as pd
 import openpyxl
 
 # --- chemins ---
-INPUT_PATH          = Path("input/source.xlsx")
-OUTPUT_PATH         = Path("work/normalized.xlsx")
-PROCHAINEMENT_PATH  = Path("work/prochainement.json")
+BASE_DIR            = Path(__file__).resolve().parent
+INPUT_PATH          = BASE_DIR / "input/source.xlsx"
+OUTPUT_PATH         = BASE_DIR / "work/normalized.xlsx"
+PROCHAINEMENT_PATH  = BASE_DIR / "work/prochainement.json"
 SHEET_NAME          = "Feuil1"
 
 # --- colonnes du fichier source (index 0-based pour pandas) ---
@@ -234,6 +235,7 @@ def main():
             tarif = norm_str(row.get(COL_TARIF))
             commentaire = norm_str(row.get(COL_COMMENT))
             recompenses = commentaire
+            commentaire = None
 
             # --- Normalisation textuelle du champ Tarif ---
             if tarif:

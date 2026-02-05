@@ -154,11 +154,18 @@ def render_page_to_jpeg(
 
 
 
+def _resolve_arg_path(value: str, base: Path) -> Path:
+    p = Path(value)
+    if not p.is_absolute():
+        return (base / p).resolve()
+    return p
+
+
 def main() -> int:
 
-    script_dir = Path(__file__).resolve().parent
+    lab_dir = Path(__file__).resolve().parent.parent
 
-    default_pdf_dir = script_dir / "PDFs"
+    default_pdf_dir = lab_dir / "PDFs"
 
     default_out = default_pdf_dir / "programme_page8.jpg"  # nom fixe => remplace l'ancien
 
@@ -166,17 +173,17 @@ def main() -> int:
 
     p = argparse.ArgumentParser(
 
-        description="Exporte la dernière page du dernier PDF (numéro ### le plus élevé) en JPEG dans Programme/PDFs/."
+        description="Exporte la dernière page du dernier PDF (numéro ### le plus élevé) en JPEG dans Lab/PDFs/."
 
     )
 
     p.add_argument("--pdf-dir", type=str, default=str(default_pdf_dir),
 
-                   help="Dossier contenant les PDFs (défaut: Programme/PDFs/)")
+                   help="Dossier contenant les PDFs (défaut: Lab/PDFs/)")
 
     p.add_argument("--out", type=str, default=str(default_out),
 
-                   help="Chemin du JPG de sortie (défaut: Programme/PDFs/programme_page8.jpg)")
+                   help="Chemin du JPG de sortie (défaut: Lab/PDFs/programme_page8.jpg)")
 
     p.add_argument("--page", type=int, default=None, help="Numéro de page (1-index, Par défaut: dernière page)")
 
@@ -190,9 +197,9 @@ def main() -> int:
 
 
 
-    pdf_dir = Path(args.pdf_dir)
+    pdf_dir = _resolve_arg_path(args.pdf_dir, lab_dir)
 
-    out_path = Path(args.out)
+    out_path = _resolve_arg_path(args.out, lab_dir)
 
 
 

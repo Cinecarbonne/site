@@ -169,6 +169,7 @@ def main():
     records = []
     upcoming_blocks = []   # pour "prochainement"
     current_date = None
+    warnings = []
 
     # raw.index est en général un RangeIndex, mais on l'utilise explicitement
     index_list = list(raw.index)
@@ -217,8 +218,13 @@ def main():
         # --------------------------------------------------------
         # 3) Mise à jour du jour courant
         # --------------------------------------------------------
-        if is_weekday_label(a) and parse_date_cell(b):
-            current_date = parse_date_cell(b)
+        parsed_date = parse_date_cell(b)
+        if is_weekday_label(a) and parsed_date:
+            current_date = parsed_date
+        elif is_weekday_label(a) and b is not None:
+            warnings.append(
+                f"[WARN] Date non parseable (ligne {idx + 1}): {b!r}"
+            )
 
         # --------------------------------------------------------
         # 4) Détection séance classique
@@ -234,6 +240,7 @@ def main():
             tarif = norm_str(row.get(COL_TARIF))
             commentaire = norm_str(row.get(COL_COMMENT))
             recompenses = commentaire
+            commentaire = None
 
             # --- Normalisation textuelle du champ Tarif ---
             if tarif:
@@ -272,6 +279,11 @@ def main():
                 "Tarif": tarif,
                 "Commentaire": commentaire,
             })
+        elif t and titre and not current_date:
+            warnings.append(
+                f"[WARN] Séance sans date courante (ligne {idx + 1}) "
+                f"titre={titre!r} heure={row.get(COL_C)!r}"
+            )
 
     # --------------------------------------------------------
     # export des séances
@@ -284,6 +296,11 @@ def main():
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_excel(OUTPUT_PATH, index=False)
     print(f"✅ Écrit : {OUTPUT_PATH} ({len(df)} lignes)")
+
+    if warnings:
+        print("[WARN] Problèmes de dates détectés :")
+        for w in warnings:
+            print(w)
 
     # --------------------------------------------------------
     # export "prochainement"

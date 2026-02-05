@@ -6,7 +6,7 @@ excel_to_json.py — Convertit work/enriched.xlsx vers public/data/programme.jso
 
 - Import incrémental robuste :
   1) Charge le JSON existant et NE GARDE QUE les séances dont la date >= aujourd'hui (heure ignorée).
-  2) Ajoute TOUTES les lignes de l'Excel sans filtrage, en écrasant sur collision de clé.
+  2) Ajoute les lignes de l'Excel en filtrant les dates passées, en écrasant sur collision de clé.
   3) Trie chronologiquement et écrit le JSON final.
 
 - Clé unique : date + heure.
@@ -190,11 +190,22 @@ def main():
         for x in drop_past(existing, mode="date"):
             merged[make_key(x)] = x
 
-    # 2) Ajouter / écraser avec l'Excel (on ne filtre PAS l'Excel)
-    for _, r in df.iterrows():
+    # 2) Ajouter / écraser avec l'Excel (on filtre les dates passées)
+    now = pd.Timestamp.now()
+    today = now.normalize().date()
+    for idx, r in df.iterrows():
         obj = row_to_obj(r)
         categorie = (obj.get("categorie") or "").strip().upper()
         if categorie == "SCOL":
+            continue
+        dt = parse_dt(obj)
+        if dt is None:
+            print(
+                f"[WARN] Date non parseable (Excel) ligne {idx + 2}: "
+                f"date={obj.get('date', '')!r} heure={obj.get('heure', '')!r} "
+                f"titre={obj.get('titre', '')!r}"
+            )
+        if dt is not None and dt.date() < today:
             continue
         merged[make_key(obj)] = obj
 
@@ -212,7 +223,7 @@ def main():
         json.dump(items, f, ensure_ascii=False, indent=2)
 
     print(f"[done] écrit: {OUT_JSON}  ({len(items)} séances)")
-    print("[info] logique: (existant filtré aux >= aujourd'hui) + Excel (écrase sur même clé) ; tri chronologique")
+    print("[info] logique: (existant filtré aux >= aujourd'hui) + Excel filtré aux >= aujourd'hui (écrase sur même clé) ; tri chronologique")
 
 if __name__ == "__main__":
     main()

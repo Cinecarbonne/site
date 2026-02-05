@@ -188,6 +188,13 @@
   function makeSpecialChips(s) {
     var labels = [];
     var txt = ((s.categorie || '') + ' ' + (s.commentaire || '')).toLowerCase();
+    txt = txt.replace(/\u00a0/g, ' ');
+    if (
+      (/\bjp\b/.test(txt) || /jeune\s+public/.test(txt)) &&
+      labels.indexOf('Jeune Public') === -1
+    ) {
+      labels.push('Jeune Public');
+    }
     var map = [
       { k: 'jeune public', label: 'Jeune Public' },
       { k: 'ciné goûter', label: 'Ciné Goûter' },
@@ -287,7 +294,15 @@
 
     var infoParts = [];
     if (s.version) infoParts.push(s.version);
-    if (s.annee) infoParts.push(s.annee);
+    if (s.annee) {
+      var rawAnnee = String(s.annee);
+      var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(rawAnnee);
+      if (m) {
+        infoParts.push(m[3] + '.' + m[2] + '.' + m[1]);
+      } else {
+        infoParts.push(rawAnnee);
+      }
+    }
     if (s.pays) infoParts.push(s.pays);
     if (s.duree_min) {
       var d = parseInt(s.duree_min, 10);
@@ -915,7 +930,7 @@
     // drag scroll + flèches + onglets
   (function () {
     console.log("main functiion");
-    var isDown = false, startX = 0, startScroll = 0;
+    var isDown = false, startX = 0, startY = 0, startScroll = 0;
     var leftBtn = document.getElementById('leftBtn'),
         rightBtn = document.getElementById('rightBtn'),
         jumpStartBtn = document.getElementById('jumpStartBtn');
@@ -938,13 +953,54 @@
     rail.addEventListener('touchstart', function (e) {
       isDown = true;
       startX = e.touches[0].pageX;
+      startY = e.touches[0].pageY;
       startScroll = rail.scrollLeft;
     }, { passive: true });
     rail.addEventListener('touchend', function () { isDown = false; });
     rail.addEventListener('touchmove', function (e) {
       if (!isDown) return;
-      rail.scrollLeft = startScroll - (e.touches[0].pageX - startX);
+      var dx = e.touches[0].pageX - startX;
+      var dy = e.touches[0].pageY - startY;
+      if (Math.abs(dy) > Math.abs(dx)) {
+        isDown = false;
+        return;
+      }
+      rail.scrollLeft = startScroll - dx;
     }, { passive: true });
+
+    // Laisse le scroll vertical de la page fonctionner au-dessus du carousel (avec inertie)
+    var wheelVel = 0;
+    var wheelRaf = null;
+    function wheelDeltaToPixels(e) {
+      var dy = e.deltaY || 0;
+      if (e.deltaMode === 1) dy *= 16; // lignes -> pixels
+      else if (e.deltaMode === 2) dy *= window.innerHeight; // pages -> pixels
+      return dy;
+    }
+    function applyWheel() {
+      var abs = Math.abs(wheelVel);
+      if (abs < 0.2) {
+        wheelVel = 0;
+        wheelRaf = null;
+        return;
+      }
+      var scroller = document.scrollingElement || document.documentElement;
+      scroller.scrollTop += wheelVel;
+      wheelVel *= 0.86;
+      wheelRaf = requestAnimationFrame(applyWheel);
+    }
+    rail.addEventListener('wheel', function (e) {
+      var absY = Math.abs(e.deltaY);
+      var absX = Math.abs(e.deltaX);
+      if (absY > absX && !e.shiftKey) {
+      wheelVel += wheelDeltaToPixels(e) * 0.21;
+        // clamp to avoid huge jumps
+      if (wheelVel > 72) wheelVel = 72;
+      if (wheelVel < -72) wheelVel = -72;
+        if (!wheelRaf) wheelRaf = requestAnimationFrame(applyWheel);
+        e.preventDefault();
+      }
+    }, { passive: false });
 
     var step = function () {
       var colW = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--colW'), 10) || 220;
