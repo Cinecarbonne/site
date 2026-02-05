@@ -10,9 +10,10 @@ from openpyxl import load_workbook
 from openpyxl.styles import Alignment, Font
 
 
-IN_PATH = Path("work/normalized.xlsx")
-SOURCE_PATH = Path("input/source.xlsx")
-OUT_PATH = Path("work/tableau_ingest.xlsx")
+BASE_DIR = Path(__file__).resolve().parent
+IN_PATH = BASE_DIR / "work/normalized.xlsx"
+SOURCE_PATH = BASE_DIR / "input/source.xlsx"
+OUT_PATH = BASE_DIR / "work/tableau_ingest.xlsx"
 
 DOW_MAP = {
     0: "LU",

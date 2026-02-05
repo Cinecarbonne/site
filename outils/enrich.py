@@ -31,6 +31,7 @@ import name_tools as nt
 from unidecode import unidecode
 
 
+BASE_DIR = Path(__file__).resolve().parent
 
 # ---------- Constantes ----------
 TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "").strip()
@@ -489,13 +490,11 @@ def main(main_window=None):
     # positionnement de mode_GUI afin de gérer  la selection des films
     global  mode_Gui,window,TMDB_API_KEY
 
+    root = BASE_DIR
     if (main_window ) :
         mode_Gui=True
         window=main_window
-        root=Path(os.getcwd())
         TMDB_API_KEY = os.environ.get("TMDB_API_KEY", "").strip()
-    else:
-        root = Path(__file__).resolve().parent
     work = root / "work"
     work.mkdir(parents=True, exist_ok=True)
     in_path = work / args.in_xlsx
