@@ -112,6 +112,18 @@
       color: var(--brand);
       font-weight: 800;
     }
+    body.evenement-page .palmares-film-link,
+    body.evenement-page .palmares-film-link:visited {
+      color: inherit;
+      text-decoration: none;
+      border-radius: 4px;
+      padding: 0 2px;
+      transition: background-color 0.16s ease;
+    }
+    body.evenement-page .palmares-film-link:hover,
+    body.evenement-page .palmares-film-link:focus-visible {
+      background-color: rgba(252, 221, 120, 0.45);
+    }
     body.evenement-page .palmares-text {
       flex: 1 1 auto;
       min-width: 0;
@@ -222,40 +234,56 @@
         <div class="palmares-section">
           <div class="palmares-text">
             <p class="palmares-subtitle">Prix du public :</p>
-            <p class="palmares-item"><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
+            <p class="palmares-item"><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Le garçon qui faisait danser les collines"</span></a> de Georgi M. Unkovski</p>
           </div>
           <div class="palmares-posters palmares-posters--single" aria-label="Affiche du prix du public">
-            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            </a>
           </div>
         </div>
 
         <div class="palmares-section">
           <div class="palmares-text">
             <p class="palmares-subtitle">Jury jeune :</p>
-            <p class="palmares-item">Grand Prix :<br><span class="palmares-film">"Urchin"</span> de Harris Dickinson</p>
-            <p class="palmares-item">Prix de la meilleure réalisation :<br><span class="palmares-film">"Un jour avec mon père"</span> de Akinola Davies Jr</p>
-            <p class="palmares-item">Prix du meilleur scénario :<br><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
-            <p class="palmares-item">Mention spéciale à<br><span class="palmares-film">"La danse des renards"</span> de Valéry Carnoy, pour la tension maintenue tout au long du récit</p>
+            <p class="palmares-item">Grand Prix :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019912.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Urchin"</span></a> de Harris Dickinson</p>
+            <p class="palmares-item">Prix de la meilleure réalisation :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019740.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Un jour avec mon père"</span></a> de Akinola Davies Jr</p>
+            <p class="palmares-item">Prix du meilleur scénario :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Le garçon qui faisait danser les collines"</span></a> de Georgi M. Unkovski</p>
+            <p class="palmares-item">Mention spéciale à<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=316780.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"La danse des renards"</span></a> de Valéry Carnoy, pour la tension maintenue tout au long du récit</p>
           </div>
           <div class="palmares-posters palmares-posters--grid" aria-label="Affiches du jury jeune">
-            <img src="https://fr.web.img6.acsta.net/c_310_420/img/e7/82/e782432beca8a04cea3b2dc66459c4a5.jpg" alt="Affiche du film Urchin" loading="lazy" decoding="async">
-            <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
-            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
-            <img src="https://fr.web.img5.acsta.net/img/0b/dc/0bdccf730ab568608d09d272f722d91b.jpg" alt="Affiche du film La danse des renards" loading="lazy" decoding="async">
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019912.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://fr.web.img6.acsta.net/c_310_420/img/e7/82/e782432beca8a04cea3b2dc66459c4a5.jpg" alt="Affiche du film Urchin" loading="lazy" decoding="async">
+            </a>
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019740.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
+            </a>
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            </a>
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=316780.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://fr.web.img5.acsta.net/img/0b/dc/0bdccf730ab568608d09d272f722d91b.jpg" alt="Affiche du film La danse des renards" loading="lazy" decoding="async">
+            </a>
           </div>
         </div>
 
         <div class="palmares-section">
           <div class="palmares-text">
             <p class="palmares-subtitle">Jury adulte :</p>
-            <p class="palmares-item">Grand Prix (réalisation, interprétation et musique) :<br><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
-            <p class="palmares-item">Prix du meilleur scénario :<br><span class="palmares-film">"Un jour avec mon père"</span> de Akinola Davies Jr</p>
-            <p class="palmares-item">Prix pour l'authenticité, le montage et l'interprétation :<br><span class="palmares-film">"I Swear"</span> de Kirk Jones</p>
+            <p class="palmares-item">Grand Prix (réalisation, interprétation et musique) :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Le garçon qui faisait danser les collines"</span></a> de Georgi M. Unkovski</p>
+            <p class="palmares-item">Prix du meilleur scénario :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019740.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"Un jour avec mon père"</span></a> de Akinola Davies Jr</p>
+            <p class="palmares-item">Prix pour l'authenticité, le montage et l'interprétation :<br><a class="palmares-film-link" href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009982.html" target="_blank" rel="noopener noreferrer"><span class="palmares-film">"I Swear"</span></a> de Kirk Jones</p>
           </div>
           <div class="palmares-posters palmares-posters--row" aria-label="Affiches du jury adulte">
-            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
-            <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
-            <img src="https://fr.web.img5.acsta.net/c_310_420/img/1c/f8/1cf8c5c5caa2a19a90d78914da6416f7.jpg" alt="Affiche du film I Swear" loading="lazy" decoding="async">
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000016927.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            </a>
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019740.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
+            </a>
+            <a href="https://www.allocine.fr/film/fichefilm_gen_cfilm=1000009982.html" target="_blank" rel="noopener noreferrer">
+              <img src="https://fr.web.img5.acsta.net/c_310_420/img/1c/f8/1cf8c5c5caa2a19a90d78914da6416f7.jpg" alt="Affiche du film I Swear" loading="lazy" decoding="async">
+            </a>
           </div>
         </div>
       </div>
