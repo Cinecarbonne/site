@@ -46,57 +46,129 @@
       border-radius: 6px !important;
       object-fit: contain;
     }
-    .event-title .festival-le {
-      color: #e0433b;
+    body.evenement-page .recruit-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
-    .event-title .festival-festival {
-      color: #e4578a;
+    body.evenement-page .recruit-text {
+      flex: 1 1 auto;
+      min-width: 0;
     }
-    .event-title .festival-2026 {
-      color: #f2c94c;
+    body.evenement-page .recruit-photo {
+      width: 180px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 14px;
+      flex: 0 0 auto;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
     }
-    .event-title .festival-arrive {
-      color: #f2994a;
+    body.evenement-page .palmares-block p {
+      margin: 0 0 8px;
     }
-    body.evenement-page .event-title {
-      font-size: clamp(26px, 3.6vw, 40px);
+    body.evenement-page .palmares-section {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 12px;
     }
-    body.evenement-page .event-video-wrap {
-      margin: 10px 0 22px;
-    }
-    body.evenement-page .event-video {
-      width: min(900px, 96%);
-      aspect-ratio: 16 / 9;
-      border: 0;
-      border-radius: 10px;
-      display: block;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-    }
-    body.evenement-page .festival-banner {
+    body.evenement-page .palmares-section + .palmares-section {
+      margin-top: 22px;
+      padding-top: 20px;
       position: relative;
     }
-    body.evenement-page .festival-media {
-      float: right;
-      width: min(46%, 420px);
-      margin: 0 0 10px 18px;
-    }
-    body.evenement-page .festival-media img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      display: block;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-    }
-    body.evenement-page .festival-text::after {
+    body.evenement-page .palmares-section + .palmares-section::before {
       content: "";
-      display: table;
-      clear: both;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72%;
+      height: 1px;
+      background: rgba(25, 25, 25, 0.28);
+      border-radius: 99px;
+    }
+    body.evenement-page .palmares-subtitle {
+      margin: 0 0 8px;
+      font-size: 1.52rem;
+      line-height: 1.2;
+      color: #2f2f2f;
+      font-family: "FixelExtraBold";
+    }
+    body.evenement-page .palmares-item {
+      position: relative;
+      padding-left: 14px;
+    }
+    body.evenement-page .palmares-item::before {
+      content: "-";
+      position: absolute;
+      left: 0;
+      color: #3b3b3b;
+      font-weight: 700;
+    }
+    body.evenement-page .palmares-film {
+      color: var(--brand);
+      font-weight: 800;
+    }
+    body.evenement-page .palmares-text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    body.evenement-page .palmares-posters {
+      flex: 0 0 auto;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    body.evenement-page .palmares-posters img {
+      width: 110px;
+      aspect-ratio: 310 / 420;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    }
+    body.evenement-page .palmares-posters--single img {
+      width: 110px;
+    }
+    body.evenement-page .palmares-posters--grid {
+      display: grid;
+      grid-template-columns: repeat(2, 110px);
+      gap: 8px;
+      width: 228px;
+    }
+    body.evenement-page .palmares-posters--grid img {
+      width: 110px;
+    }
+    body.evenement-page .palmares-posters--row {
+      display: grid;
+      grid-template-columns: repeat(2, 110px);
+      gap: 8px;
+      width: 228px;
+    }
+    body.evenement-page .palmares-posters--row img {
+      width: 110px;
     }
     @media (max-width: 820px) {
-      body.evenement-page .festival-media {
-        float: none;
-        width: 100%;
-        margin: 0 0 12px;
+      body.evenement-page .recruit-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      body.evenement-page .recruit-photo {
+        width: 150px;
+      }
+      body.evenement-page .palmares-section {
+        flex-direction: column;
+      }
+      body.evenement-page .palmares-posters,
+      body.evenement-page .palmares-posters--grid,
+      body.evenement-page .palmares-posters--row {
+        width: 228px;
+      }
+      body.evenement-page .palmares-posters--row {
+        max-width: 100%;
       }
     }
   </style>
@@ -137,36 +209,58 @@
       </nav>
     </div>
 <main class="event-content" role="main">
-      <div class="event-banner">
-        <div class="event-banner-title">Le cinéma recrute</div>
-        Nous recherchons une/un <strong>caissière/caissier</strong>. Il faut être motivé(e) et disponible, à l'aise avec la gestion d'une caisse informatisée, vous pouvez venir nous voir directement au cinéma avant une séance ou nous écrire à <strong>cinecarbonne@gmail.com</strong>
-      </div>
-      <h2 class="event-title">
-        <span class="festival-le">Le</span>
-        <span class="festival-festival">festival</span>
-        <span class="festival-2026">2026</span>
-        <span class="festival-arrive">arrive&nbsp;!</span>
-      </h2>
-      <div class="event-banner festival-banner">
-        <div class="festival-media">
-          <img src="images/page-site.jpg" alt="Festival Carbonne fait son cin&eacute;ma 2026">
+      <div class="event-banner recruit-banner">
+        <div class="recruit-text">
+          <div class="event-banner-title">Le cinéma recrute</div>
+          Nous recherchons une/un <strong>caissière/caissier</strong>. Il faut être motivé(e) et disponible, à l'aise avec la gestion d'une caisse informatisée, vous pouvez venir nous voir directement au cinéma avant une séance ou nous écrire à <strong>cinecarbonne@gmail.com</strong>
         </div>
-        <div class="festival-text">
-          Le festival se tiendra <strong>du 6 au 15 février</strong>, avec trois films d'<strong>avant-festival</strong> accompagnés de conférences ou débats (voir programme ci-dessous). Il y aura <strong>13 films en compétition</strong>, un jury jeune et un jury adulte qui vont regarder tous les films, en débattre et établir chacun un palmarès. Vous pouvez participer à chaque séance de film en compétition en attribuant une note qui participera à établir le <strong>prix du public</strong>. Nous vous attendons ce Vendredi 6 Février à 20h15 pour le <strong>pot d'ouverture !</strong>
+        <img class="recruit-photo" src="images/caissier-e.png" alt="Annonce recrutement caissière ou caissier" loading="lazy" decoding="async">
+      </div>
+      <div class="event-banner palmares-block">
+        <div class="event-banner-title">Le palmarès du festival 2026</div>
+
+        <div class="palmares-section">
+          <div class="palmares-text">
+            <p class="palmares-subtitle">Prix du public :</p>
+            <p class="palmares-item"><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
+          </div>
+          <div class="palmares-posters palmares-posters--single" aria-label="Affiche du prix du public">
+            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+          </div>
+        </div>
+
+        <div class="palmares-section">
+          <div class="palmares-text">
+            <p class="palmares-subtitle">Jury jeune :</p>
+            <p class="palmares-item">Grand Prix :<br><span class="palmares-film">"Urchin"</span> de Harris Dickinson</p>
+            <p class="palmares-item">Prix de la meilleure réalisation :<br><span class="palmares-film">"Un jour avec mon père"</span> de Akinola Davies Jr</p>
+            <p class="palmares-item">Prix du meilleur scénario :<br><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
+            <p class="palmares-item">Mention spéciale à<br><span class="palmares-film">"La danse des renards"</span> de Valéry Carnoy, pour la tension maintenue tout au long du récit</p>
+          </div>
+          <div class="palmares-posters palmares-posters--grid" aria-label="Affiches du jury jeune">
+            <img src="https://fr.web.img6.acsta.net/c_310_420/img/e7/82/e782432beca8a04cea3b2dc66459c4a5.jpg" alt="Affiche du film Urchin" loading="lazy" decoding="async">
+            <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
+            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            <img src="https://fr.web.img5.acsta.net/img/0b/dc/0bdccf730ab568608d09d272f722d91b.jpg" alt="Affiche du film La danse des renards" loading="lazy" decoding="async">
+          </div>
+        </div>
+
+        <div class="palmares-section">
+          <div class="palmares-text">
+            <p class="palmares-subtitle">Jury adulte :</p>
+            <p class="palmares-item">Grand Prix (réalisation, interprétation et musique) :<br><span class="palmares-film">"Le garçon qui faisait danser les collines"</span> de Georgi M. Unkovski</p>
+            <p class="palmares-item">Prix du meilleur scénario :<br><span class="palmares-film">"Un jour avec mon père"</span> de Akinola Davies Jr</p>
+            <p class="palmares-item">Prix pour l'authenticité, le montage et l'interprétation :<br><span class="palmares-film">"I Swear"</span> de Kirk Jones</p>
+          </div>
+          <div class="palmares-posters palmares-posters--row" aria-label="Affiches du jury adulte">
+            <img src="https://cineuropa.org/Galleries/471/824/poster_big.jpg" alt="Affiche du film Le garçon qui faisait danser les collines" loading="lazy" decoding="async">
+            <img src="https://media.senscritique.com/media/000023351234/300/un_jour_avec_mon_pere.jpg" alt="Affiche du film Un jour avec mon père" loading="lazy" decoding="async">
+            <img src="https://fr.web.img5.acsta.net/c_310_420/img/1c/f8/1cf8c5c5caa2a19a90d78914da6416f7.jpg" alt="Affiche du film I Swear" loading="lazy" decoding="async">
+          </div>
         </div>
       </div>
-      <div class="event-wrap event-video-wrap">
-        <iframe class="event-video" src="https://www.youtube.com/embed/PyIsBwPC_hs" title="Vidéo du festival" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <div class="event-banner">
-        Pendant la durée du festival, <strong>vente exceptionnelle d'affiches</strong> dans le hall. Nous conservons les affiches des films qui sont passés au cinéma, et les ressortons des cartons pour l'occasion&nbsp;! 5€ la petite 10€ la grande, chèque ou espèces seulement.
-      </div>
-      <div class="event-wrap">
-        <iframe class="event-pdf" src="festival/Prog-CFSC-2026.pdf#view=FitH" title="Programme du festival Carbonne fait son cin&eacute;ma 2026" loading="lazy"></iframe>
-      </div>
-      <p class="event-fallback">Si le PDF ne s&rsquo;affiche pas, <a href="festival/Prog-CFSC-2026.pdf" target="_blank" rel="noopener">ouvrir le programme</a>.</p>
       <div class="event-wrap event-poster-wrap">
-        <img class="event-image" src="prochainement/CFSC2026.jpg" alt="Festival Carbonne fait son cin&eacute;ma du 6 au 15 f&eacute;vrier 2026">
+        <img class="event-image" src="prochainement/CFSC2026.jpg" alt="Affiche du festival Carbonne fait son cinéma 2026" loading="lazy" decoding="async">
       </div>
     </main>
   </div>
