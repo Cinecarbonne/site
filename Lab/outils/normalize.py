@@ -14,6 +14,7 @@ import re
 from datetime import datetime, time
 from dateutil import parser as dtparser
 import json
+import unicodedata
 
 import pandas as pd
 import openpyxl
@@ -31,9 +32,10 @@ COL_TITRE   = 4      # E
 COL_VERSION = 5      # F
 COL_CM    = 6      # G
 COL_REAL      = 7      # H
-COL_CATEG   = 8      # I (anciennement J)
-COL_TARIF   = 9      # J (anciennement K)
-COL_COMMENT = 10     # K (anciennement L)
+COL_PRIX_INVITES = 8  # I
+COL_CATEG        = 9  # J
+COL_TARIF        = 10 # K
+COL_COMMENT      = 11 # L
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
@@ -131,6 +133,55 @@ def clean_label(value):
     return text.strip(" ,;-")
 
 
+def normalize_text_key(value):
+    text = str(value or "").strip().lower()
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def merge_comment_parts(*parts):
+    merged = []
+    seen = set()
+    for part in parts:
+        text = clean_label(part)
+        if not text:
+            continue
+        key = normalize_text_key(text)
+        if key and key not in seen:
+            seen.add(key)
+            merged.append(text)
+    return " / ".join(merged)
+
+
+def is_rewards_text(value):
+    text = normalize_text_key(value)
+    if not text:
+        return False
+    keywords = [
+        "prix",
+        "cesar",
+        "oscar",
+        "golden globe",
+        "golden globes",
+        "festival",
+        "palme",
+        "ours",
+        "gan",
+        "award",
+        "laureat",
+        "meilleur",
+        "meilleure",
+        "jury",
+        "selection officielle",
+        "mostra",
+        "berlinale",
+        "venise",
+    ]
+    return any(keyword in text for keyword in keywords)
+
+
 def split_labels(value):
     text = clean_label(value)
     if not text:
@@ -165,7 +216,7 @@ def normalize_tarif_field(tarif):
     text = re.sub(r"\s*-\s*", " - ", text)
     text = re.sub(r"\s*/\s*", " / ", text)
     text = re.sub(
-        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*ans?\b)\s*(?:€|euros?)?\b",
+        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|/\d)\s*(?:€|euros?)?",
         lambda m: format_money_token(m.group(1)),
         text,
         flags=re.IGNORECASE,
@@ -315,11 +366,17 @@ def main():
             version = normalize_version(norm_str(row.get(COL_VERSION)))
             cm = norm_str(row.get(COL_CM))
             realisateur =  norm_str(row.get(COL_REAL))
+            prix_invites = norm_str(row.get(COL_PRIX_INVITES))
             categorie = norm_str(row.get(COL_CATEG))
             tarif = norm_str(row.get(COL_TARIF))
             commentaire = norm_str(row.get(COL_COMMENT))
-            recompenses = commentaire
-            commentaire = None
+            recompenses = None
+
+            if prix_invites:
+                if is_rewards_text(prix_invites):
+                    recompenses = prix_invites
+                else:
+                    commentaire = merge_comment_parts(prix_invites, commentaire)
 
             # --- Normalisation categorie/tarif ---
             tarif, jp_in_tarif = normalize_tarif_field(tarif)

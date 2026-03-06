@@ -233,7 +233,7 @@
     text = text.replace(/(\d)([A-Za-z])/g, '$1 $2');
     text = text.replace(/\s*-\s*/g, ' - ');
     text = text.replace(/\s*\/\s*/g, ' / ');
-    text = text.replace(/\b(\d+(?:[.,]\d+)?)\b(?!\s*ans?\b)\s*(?:€|euros?)?\b/gi, function (_, num) {
+    text = text.replace(/\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|\/\d)\s*(?:€|euros?)?/gi, function (_, num) {
       return formatMoneyToken(num);
     });
     text = cleanChipText(text);
