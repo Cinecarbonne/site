@@ -194,9 +194,6 @@ def main():
     # 2) Ajouter / écraser avec l'Excel (on ne filtre PAS l'Excel)
     for _, r in df.iterrows():
         obj = row_to_obj(r)
-        categorie = (obj.get("categorie") or "").strip().upper()
-        if categorie == "SCOL":
-            continue
         merged[make_key(obj)] = obj
 
     items = list(merged.values())

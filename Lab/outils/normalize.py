@@ -124,6 +124,90 @@ def normalize_version(v):
     return "VF"
 
 
+def clean_label(value):
+    text = str(value or "")
+    text = text.replace("\u00A0", " ")
+    text = re.sub(r"\s+", " ", text)
+    return text.strip(" ,;-")
+
+
+def split_labels(value):
+    text = clean_label(value)
+    if not text:
+        return []
+    parts = [p.strip() for p in re.split(r"[;,]+", text) if p and p.strip()]
+    return parts if parts else [text]
+
+
+def format_money_token(value):
+    raw = str(value or "").replace(",", ".")
+    try:
+        amount = float(raw)
+    except Exception:
+        return str(value or "")
+    if amount.is_integer():
+        return f"{int(amount)} \u20ac"
+    return f"{amount:.2f}".replace(".", ",") + " \u20ac"
+
+
+def normalize_tarif_field(tarif):
+    text = clean_label(tarif)
+    if not text:
+        return "", False
+
+    jp_in_tarif = bool(re.search(r"\bJP\b", text, flags=re.IGNORECASE))
+    text = re.sub(r"\bJP\b", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bTU\b", "Tarif Unique", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bADH\b|\bADH(?=\d)", "Adh\u00e9rent", text, flags=re.IGNORECASE)
+
+    text = re.sub(r"([A-Za-z])(\d)", r"\1 \2", text)
+    text = re.sub(r"(\d)([A-Za-z])", r"\1 \2", text)
+    text = re.sub(r"\s*-\s*", " - ", text)
+    text = re.sub(r"\s*/\s*", " / ", text)
+    text = re.sub(
+        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*ans?\b)\s*(?:€|euros?)?\b",
+        lambda m: format_money_token(m.group(1)),
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = clean_label(text)
+
+    return text, jp_in_tarif
+
+
+def normalize_categorie_field(categorie, jp_in_tarif=False):
+    labels = []
+    seen = set()
+    jp_found = bool(jp_in_tarif)
+
+    for part in split_labels(categorie):
+        token = clean_label(part)
+        if not token:
+            continue
+
+        if re.search(r"\bJP\b", token, flags=re.IGNORECASE):
+            jp_found = True
+            token = re.sub(r"\bJP\b", "", token, flags=re.IGNORECASE)
+
+        token = re.sub(r"\bDOC\b", "Documentaire", token, flags=re.IGNORECASE)
+        if re.search(r"\bSCOL\b", token, flags=re.IGNORECASE):
+            token = "Scolaire"
+
+        token = clean_label(token)
+        if not token:
+            continue
+
+        key = token.lower()
+        if key not in seen:
+            seen.add(key)
+            labels.append(token)
+
+    if jp_found and "jeune public" not in seen:
+        labels.append("Jeune Public")
+
+    return ", ".join(labels)
+
+
 def is_red_background(cell):
     """Retourne True si la cellule Excel a un fond rouge (#FF0000)."""
     fill = cell.fill
@@ -237,30 +321,9 @@ def main():
             recompenses = commentaire
             commentaire = None
 
-            # --- Normalisation textuelle du champ Tarif ---
-            if tarif:
-                # Remplacer TU par Tarif Unique
-                tarif = re.sub(r"\bTU\b", "Tarif Unique", tarif, flags=re.IGNORECASE)
-
-                # Remplacer ADH par Adhérents
-                tarif = re.sub(r"\bADH\b", "Adhérents", tarif, flags=re.IGNORECASE)
-
-            # --- JP => Jeune Public (Catégorie ou Tarif) ---
-            jp_in_categ = bool(categorie and re.search(r"\bJP\b", categorie, flags=re.IGNORECASE))
-            jp_in_tarif = bool(tarif and re.search(r"\bJP\b", tarif, flags=re.IGNORECASE))
-            if jp_in_categ:
-                categorie = re.sub(r"\bJP\b", "", categorie, flags=re.IGNORECASE).strip(" ,;-")
-            if jp_in_tarif:
-                tarif = re.sub(r"\bJP\b", "", tarif, flags=re.IGNORECASE).strip(" ,;-")
-            if jp_in_categ or jp_in_tarif:
-                if not categorie:
-                    categorie = "Jeune Public"
-                elif "jeune public" not in categorie.lower():
-                    categorie = f"{categorie}, Jeune Public"
-
-            # --- DOC => Documentaire (Catégorie) ---
-            if categorie:
-                categorie = re.sub(r"\bDOC\b", "Documentaire", categorie, flags=re.IGNORECASE).strip()
+            # --- Normalisation categorie/tarif ---
+            tarif, jp_in_tarif = normalize_tarif_field(tarif)
+            categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif)
 
             records.append({
                 "Date": current_date.strftime("%Y-%m-%d"),
