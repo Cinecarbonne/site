@@ -185,32 +185,86 @@
     return '(max-width: 860px) 100vw, 480px';
   }
 
-  function makeSpecialChips(s) {
-    var labels = [];
-    var txt = ((s.categorie || '') + ' ' + (s.commentaire || '')).toLowerCase();
-    txt = txt.replace(/\u00a0/g, ' ');
-    if (
-      (/\bjp\b/.test(txt) || /jeune\s+public/.test(txt)) &&
-      labels.indexOf('Jeune Public') === -1
-    ) {
-      labels.push('Jeune Public');
+  function cleanChipText(value) {
+    return String(value || '').replace(/\u00a0/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function normalizeChipKey(value) {
+    var text = cleanChipText(value).toLowerCase();
+    if (text.normalize) text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return text;
+  }
+
+  function pushUniqueChip(labels, label) {
+    var clean = cleanChipText(label);
+    if (!clean) return;
+    var key = normalizeChipKey(clean);
+    for (var i = 0; i < labels.length; i++) {
+      if (normalizeChipKey(labels[i]) === key) return;
     }
-    var map = [
-      { k: 'jeune public', label: 'Jeune Public' },
-      { k: 'ciné goûter', label: 'Ciné Goûter' },
-      { k: 'cine gouter', label: 'Ciné Goûter' },
-      { k: 'ciné jeunes', label: 'Ciné Jeunes' },
-      { k: 'cine jeunes', label: 'Ciné Jeunes' },
-      { k: 'ephad', label: 'Séance EPHAD HANDI' },
-      { k: 'handi', label: 'Séance EPHAD HANDI' },
-      { k: 'ciné documentaire', label: 'Ciné Documentaire' },
-      { k: 'cine documentaire', label: 'Ciné Documentaire' },
-      { k: 'ciné club', label: 'Ciné Club' },
-      { k: 'cine club', label: 'Ciné Club' },
-      { k: 'ciné discussion', label: 'Ciné Discussion' },
-      { k: 'cine discussion', label: 'Ciné Discussion' }
-    ];
-    map.forEach(function (m) { if (txt.indexOf(m.k) >= 0 && labels.indexOf(m.label) === -1) labels.push(m.label); });
+    labels.push(clean);
+  }
+
+  function normalizeCategoryToken(token) {
+    var text = cleanChipText(token);
+    if (!text) return '';
+    text = text.replace(/\bDOC\b/gi, 'Documentaire');
+    if (/\bSCOL\b/i.test(text)) return 'Scolaire';
+    text = text.replace(/\bJP\b/gi, '');
+    text = cleanChipText(text.replace(/\s*-\s*/g, ' - '));
+    return text;
+  }
+
+  function formatMoneyToken(rawValue) {
+    var raw = String(rawValue || '').replace(',', '.');
+    var n = parseFloat(raw);
+    if (isNaN(n)) return String(rawValue || '');
+    if (Math.abs(n - Math.round(n)) < 0.000001) return String(Math.round(n)) + ' \u20ac';
+    return n.toFixed(2).replace('.', ',') + ' \u20ac';
+  }
+
+  function normalizeTarifText(value) {
+    var text = cleanChipText(value);
+    if (!text) return '';
+    text = text.replace(/\bJP\b/gi, '');
+    text = text.replace(/\bTU\b/gi, 'Tarif Unique');
+    text = text.replace(/\bADH\b|\bADH(?=\d)/gi, 'Adh\u00e9rent');
+    text = text.replace(/([A-Za-z])(\d)/g, '$1 $2');
+    text = text.replace(/(\d)([A-Za-z])/g, '$1 $2');
+    text = text.replace(/\s*-\s*/g, ' - ');
+    text = text.replace(/\s*\/\s*/g, ' / ');
+    text = text.replace(/\b(\d+(?:[.,]\d+)?)\b(?!\s*ans?\b)\s*(?:€|euros?)?\b/gi, function (_, num) {
+      return formatMoneyToken(num);
+    });
+    text = cleanChipText(text);
+    text = text.replace(/^tarif\s*:?\s*/i, '');
+    return text;
+  }
+
+  function makeTopChips(s) {
+    var labels = [];
+    var categorie = cleanChipText(s.categorie || '');
+    var parts = categorie ? categorie.split(/[;,]+/) : [];
+    var jpDetected = /\bjp\b/i.test(categorie) || /jeune\s+public/i.test(categorie) || /\bjp\b/i.test(s.tarif || '');
+
+    parts.forEach(function (part) {
+      var normalized = normalizeCategoryToken(part);
+      if (!normalized) return;
+      if (/^jeune\s+public$/i.test(normalized) || /\bjp\b/i.test(normalized)) {
+        jpDetected = true;
+        return;
+      }
+      pushUniqueChip(labels, normalized);
+    });
+
+    if (jpDetected) pushUniqueChip(labels, 'Jeune Public');
+
+    var commentaire = cleanChipText(s.commentaire || '');
+    if (commentaire) pushUniqueChip(labels, commentaire);
+
+    var tarifText = normalizeTarifText(s.tarif || '');
+    if (tarifText) pushUniqueChip(labels, 'Tarif : ' + tarifText);
+
     return labels;
   }
 
@@ -342,27 +396,13 @@
     // chips
     if (pChipsTop) {
       pChipsTop.innerHTML = '';
-      var labels = makeSpecialChips(s);
+      var labels = makeTopChips(s);
       labels.forEach(function (label) {
         var chip = document.createElement('div');
         chip.className = 'chip';
         chip.textContent = label;
         pChipsTop.appendChild(chip);
       });
-      var c = (s.commentaire || '').trim();
-      if (c) {
-        var com = document.createElement('div');
-        com.className = 'chip';
-        com.textContent = c;
-        pChipsTop.appendChild(com);
-      }
-      var tar = (s.tarif || '').trim();
-      if (tar) {
-        var t = document.createElement('div');
-        t.className = 'chip';
-        t.textContent = tar;
-        pChipsTop.appendChild(t);
-      }
     }
 
     // recompenses
