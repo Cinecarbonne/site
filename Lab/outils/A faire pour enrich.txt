@@ -1,5 +1,3 @@
-Améliorer la recherche du lien allocine
-Améliorer la recherche des photos tmdb + autre ?
-Améliorer la recherche des vidéos de ba
-reprendre la gestion des commentaires, etc
-obtenir les recommendations d'age
+Faire que les noms de pays ne soient pas en anglais
+Intégrer la recherche des recommandations d'âge
+Réorganiser tout ce qui est dans catégorie et commentaire
