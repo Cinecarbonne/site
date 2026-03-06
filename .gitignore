@@ -1,0 +1,13 @@
+# Python virtual environments
+.venv/
+**/.venv/
+
+# Python bytecode/cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Local secrets
+.env
+outils/.env
+Lab/outils/.env

@@ -93,6 +93,12 @@ TMDB_SESSION.headers.update({"User-Agent": "CineCarbonne/1.0"})
 CROSS_MATCH_TITLE_THRESHOLD = 0.85
 CROSS_MATCH_DIRECTOR_THRESHOLD = 0.85
 
+JP_AGE_LABEL_RE = re.compile(
+    r'<[^>]*class="[^"]*kids-label[^"]*"[^>]*>(.*?)</[^>]+>',
+    flags=re.IGNORECASE | re.DOTALL,
+)
+JP_AGE_TEXT_RE = re.compile(r"a\s*partir\s*de\s*(\d{1,2})\s*ans?", flags=re.IGNORECASE)
+
 
 def normalize_for_match(text: str) -> str:
     text = _normalize_text(text)
@@ -108,6 +114,48 @@ def _strip_tags(value: str) -> str:
 def _clean_html_text(value: str) -> str:
     text = html.unescape(_strip_tags(value))
     return re.sub(r"\s+", " ", text).strip()
+
+
+def _extract_jp_age_from_text(value: str) -> Optional[int]:
+    cleaned = normalize_for_match(_clean_html_text(value))
+    match = JP_AGE_TEXT_RE.search(cleaned)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _extract_jp_age_from_allocine_html(html_text: str) -> Optional[int]:
+    for label_html in JP_AGE_LABEL_RE.findall(html_text or ""):
+        age = _extract_jp_age_from_text(label_html)
+        if age is not None:
+            return age
+    return _extract_jp_age_from_text(html_text or "")
+
+
+def _is_jeune_public_category(categorie: str) -> bool:
+    cleaned = normalize_for_match(categorie)
+    return "jeune public" in cleaned or bool(re.search(r"\bjp\b", cleaned))
+
+
+def _merge_comment_with_jp_age(commentaire: str, age: int) -> str:
+    age_text = f"a partir de {age} ans"
+    base = (commentaire or "").strip()
+    if not base:
+        return age_text
+    if base.endswith((".", "!", "?", ";", ":")):
+        return f"{base} {age_text}"
+    return f"{base}, {age_text}"
+
+
+def _build_commentaire_with_jp_age(categorie: str, commentaire: str, age: Optional[int]) -> str:
+    base = (commentaire or "").strip()
+    if not _is_jeune_public_category(categorie):
+        return base
+    if _extract_jp_age_from_text(base) is not None:
+        return base
+    if age is None:
+        return base
+    return _merge_comment_with_jp_age(base, age)
 
 
 def _allocine_decode_obfuscated(token: str) -> str:
@@ -533,6 +581,7 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     release_date = _allocine_parse_release_date(html_text)
     countries = _allocine_parse_countries(html_text)
     awards = allocine_awards(allocine_url)
+    age_min = _extract_jp_age_from_allocine_html(html_text)
     return {
         "affiche": affiche,
         "allocine_title": title or alt_title,
@@ -545,6 +594,7 @@ def allocine_movie_meta(allocine_url: str) -> dict:
         "allocine_pays": countries,
         "allocine_acteurs": ", ".join(actors),
         "allocine_recompenses": awards,
+        "allocine_age_min": age_min,
     }
 
 
@@ -1322,6 +1372,9 @@ def get_movies_from_allociné(films):
                         base_rewards,
                         meta.get("allocine_recompenses", []),
                     )
+                age_min = meta.get("allocine_age_min")
+                if isinstance(age_min, int) and age_min > 0:
+                    film["enriched"]["allocine_age_min"] = age_min
             if not film["enriched"].get("allocine_directors"):
                 fallback_directors = film.get("allocine_directors", "")
                 if fallback_directors:
@@ -1579,12 +1632,42 @@ def main(main_window=None) -> int:
         )
         enriched["trailer_url"] = enriched.get("tmdb_trailer_url", "")
 
-    # 12) Ecriture du fichier enrichi
+    # 12) Ajouter l'age conseille JP dans le commentaire quand disponible
+    log_step("jp: ajouter age conseille dans commentaire")
+    jp_total = 0
+    jp_updated = 0
+    jp_without_age = 0
+    for film in films:
+        categorie = str(film.get("categorie", "") or "")
+        commentaire = str(film.get("commentaire", "") or "")
+        if not _is_jeune_public_category(categorie):
+            film["enriched"]["commentaire"] = commentaire
+            continue
+        jp_total += 1
+
+        age = film.get("enriched", {}).get("allocine_age_min")
+        if not isinstance(age, int):
+            age = None
+        updated_comment = _build_commentaire_with_jp_age(categorie, commentaire, age)
+        if updated_comment != commentaire:
+            jp_updated += 1
+        elif _extract_jp_age_from_text(commentaire) is None:
+            jp_without_age += 1
+        film["commentaire"] = updated_comment
+        film["enriched"]["commentaire"] = updated_comment
+
+    if jp_total:
+        log_step(
+            f"jp: {jp_updated} commentaire(s) enrichi(s), {jp_without_age} film(s) sans age detecte"
+        )
+
+    # 13) Ecriture du fichier enrichi
     log_step("ecrire work/enriched.xlsx")
     out_rows = []
     for film in films:
         row_data = dict(film.get("raw", {}))
         enriched = film.get("enriched", {})
+        row_data["Commentaire"] = enriched.get("commentaire", film.get("commentaire", ""))
         row_data["affiche_url"] = enriched.get("affiche", "")
         row_data["synopsis"] = enriched.get("synopsis", "")
         row_data["genres"] = _join_list(enriched.get("genres", ""))
