@@ -19,7 +19,7 @@ python -m pip install -r requirements.txt
 Execution des scripts:
 
 ```powershell
-python outils/normalize.py
-python outils/enrich_3_0.py
-python outils/excel_to_json.py
+python Lab/outils/normalize.py
+python Lab/outils/enrich_3_0.py
+python Lab/outils/excel_to_json.py
 ```

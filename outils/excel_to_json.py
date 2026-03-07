@@ -30,7 +30,7 @@ FIELDS_TO_KEEP = [
     "datetime_local","date","heure",
     "titre","titre_original","realisateur","acteurs_principaux",
     "genres","duree_min","annee","pays","version",
-    "tarif","recompenses","categorie","commentaire",
+    "tarif","recompenses","categorie","commentaire","age_min",
     "synopsis","affiche_url","backdrops",
     "trailer_url","tmdb_id","imdb_id",
     "allocine_url"
@@ -194,9 +194,6 @@ def main():
     # 2) Ajouter / écraser avec l'Excel (on ne filtre PAS l'Excel)
     for _, r in df.iterrows():
         obj = row_to_obj(r)
-        categorie = (obj.get("categorie") or "").strip().upper()
-        if categorie == "SCOL":
-            continue
         merged[make_key(obj)] = obj
 
     items = list(merged.values())

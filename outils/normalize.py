@@ -14,6 +14,7 @@ import re
 from datetime import datetime, time
 from dateutil import parser as dtparser
 import json
+import unicodedata
 
 import pandas as pd
 import openpyxl
@@ -31,9 +32,10 @@ COL_TITRE   = 4      # E
 COL_VERSION = 5      # F
 COL_CM    = 6      # G
 COL_REAL      = 7      # H
-COL_CATEG   = 8      # I (anciennement J)
-COL_TARIF   = 9      # J (anciennement K)
-COL_COMMENT = 10     # K (anciennement L)
+COL_PRIX_INVITES = 8  # I
+COL_CATEG        = 9  # J
+COL_TARIF        = 10 # K
+COL_COMMENT      = 11 # L
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
@@ -122,6 +124,139 @@ def normalize_version(v):
     if v in ("VO", "VF"):
         return v
     return "VF"
+
+
+def clean_label(value):
+    text = str(value or "")
+    text = text.replace("\u00A0", " ")
+    text = re.sub(r"\s+", " ", text)
+    return text.strip(" ,;-")
+
+
+def normalize_text_key(value):
+    text = str(value or "").strip().lower()
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def merge_comment_parts(*parts):
+    merged = []
+    seen = set()
+    for part in parts:
+        text = clean_label(part)
+        if not text:
+            continue
+        key = normalize_text_key(text)
+        if key and key not in seen:
+            seen.add(key)
+            merged.append(text)
+    return " / ".join(merged)
+
+
+def is_rewards_text(value):
+    text = normalize_text_key(value)
+    if not text:
+        return False
+    keywords = [
+        "prix",
+        "cesar",
+        "oscar",
+        "golden globe",
+        "golden globes",
+        "festival",
+        "palme",
+        "ours",
+        "gan",
+        "award",
+        "laureat",
+        "meilleur",
+        "meilleure",
+        "jury",
+        "selection officielle",
+        "mostra",
+        "berlinale",
+        "venise",
+    ]
+    return any(keyword in text for keyword in keywords)
+
+
+def split_labels(value):
+    text = clean_label(value)
+    if not text:
+        return []
+    parts = [p.strip() for p in re.split(r"[;,]+", text) if p and p.strip()]
+    return parts if parts else [text]
+
+
+def format_money_token(value):
+    raw = str(value or "").replace(",", ".")
+    try:
+        amount = float(raw)
+    except Exception:
+        return str(value or "")
+    if amount.is_integer():
+        return f"{int(amount)} \u20ac"
+    return f"{amount:.2f}".replace(".", ",") + " \u20ac"
+
+
+def normalize_tarif_field(tarif):
+    text = clean_label(tarif)
+    if not text:
+        return "", False
+
+    jp_in_tarif = bool(re.search(r"\bJP\b", text, flags=re.IGNORECASE))
+    text = re.sub(r"\bJP\b", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bTU\b", "Tarif Unique", text, flags=re.IGNORECASE)
+    text = re.sub(r"\bADH\b|\bADH(?=\d)", "Adh\u00e9rent", text, flags=re.IGNORECASE)
+
+    text = re.sub(r"([A-Za-z])(\d)", r"\1 \2", text)
+    text = re.sub(r"(\d)([A-Za-z])", r"\1 \2", text)
+    text = re.sub(r"\s*-\s*", " - ", text)
+    text = re.sub(r"\s*/\s*", " / ", text)
+    text = re.sub(
+        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|/\d)\s*(?:€|euros?)?",
+        lambda m: format_money_token(m.group(1)),
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = clean_label(text)
+
+    return text, jp_in_tarif
+
+
+def normalize_categorie_field(categorie, jp_in_tarif=False):
+    labels = []
+    seen = set()
+    jp_found = bool(jp_in_tarif)
+
+    for part in split_labels(categorie):
+        token = clean_label(part)
+        if not token:
+            continue
+
+        if re.search(r"\bJP\b", token, flags=re.IGNORECASE):
+            jp_found = True
+            token = re.sub(r"\bJP\b", "", token, flags=re.IGNORECASE)
+
+        token = re.sub(r"\bDOC\b", "Documentaire", token, flags=re.IGNORECASE)
+        if re.search(r"\bSCOL\b", token, flags=re.IGNORECASE):
+            token = "Scolaire"
+
+        token = clean_label(token)
+        if not token:
+            continue
+
+        key = token.lower()
+        if key not in seen:
+            seen.add(key)
+            labels.append(token)
+
+    if jp_found and "jeune public" not in seen:
+        labels.append("Jeune Public")
+
+    return ", ".join(labels)
 
 
 def is_red_background(cell):
@@ -231,36 +366,21 @@ def main():
             version = normalize_version(norm_str(row.get(COL_VERSION)))
             cm = norm_str(row.get(COL_CM))
             realisateur =  norm_str(row.get(COL_REAL))
+            prix_invites = norm_str(row.get(COL_PRIX_INVITES))
             categorie = norm_str(row.get(COL_CATEG))
             tarif = norm_str(row.get(COL_TARIF))
             commentaire = norm_str(row.get(COL_COMMENT))
-            recompenses = commentaire
-            commentaire = None
+            recompenses = None
 
-            # --- Normalisation textuelle du champ Tarif ---
-            if tarif:
-                # Remplacer TU par Tarif Unique
-                tarif = re.sub(r"\bTU\b", "Tarif Unique", tarif, flags=re.IGNORECASE)
+            if prix_invites:
+                if is_rewards_text(prix_invites):
+                    recompenses = prix_invites
+                else:
+                    commentaire = merge_comment_parts(prix_invites, commentaire)
 
-                # Remplacer ADH par Adhérents
-                tarif = re.sub(r"\bADH\b", "Adhérents", tarif, flags=re.IGNORECASE)
-
-            # --- JP => Jeune Public (Catégorie ou Tarif) ---
-            jp_in_categ = bool(categorie and re.search(r"\bJP\b", categorie, flags=re.IGNORECASE))
-            jp_in_tarif = bool(tarif and re.search(r"\bJP\b", tarif, flags=re.IGNORECASE))
-            if jp_in_categ:
-                categorie = re.sub(r"\bJP\b", "", categorie, flags=re.IGNORECASE).strip(" ,;-")
-            if jp_in_tarif:
-                tarif = re.sub(r"\bJP\b", "", tarif, flags=re.IGNORECASE).strip(" ,;-")
-            if jp_in_categ or jp_in_tarif:
-                if not categorie:
-                    categorie = "Jeune Public"
-                elif "jeune public" not in categorie.lower():
-                    categorie = f"{categorie}, Jeune Public"
-
-            # --- DOC => Documentaire (Catégorie) ---
-            if categorie:
-                categorie = re.sub(r"\bDOC\b", "Documentaire", categorie, flags=re.IGNORECASE).strip()
+            # --- Normalisation categorie/tarif ---
+            tarif, jp_in_tarif = normalize_tarif_field(tarif)
+            categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif)
 
             records.append({
                 "Date": current_date.strftime("%Y-%m-%d"),
