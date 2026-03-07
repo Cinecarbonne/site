@@ -30,7 +30,7 @@ FIELDS_TO_KEEP = [
     "datetime_local","date","heure",
     "titre","titre_original","realisateur","acteurs_principaux",
     "genres","duree_min","annee","pays","version",
-    "tarif","recompenses","categorie","commentaire",
+    "tarif","recompenses","categorie","commentaire","age_min",
     "synopsis","affiche_url","backdrops",
     "trailer_url","tmdb_id","imdb_id",
     "allocine_url"

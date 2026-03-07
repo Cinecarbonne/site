@@ -106,10 +106,23 @@ JP_AGE_LABEL_RE = re.compile(
     r'<[^>]*class="[^"]*kids-label[^"]*"[^>]*>(.*?)</[^>]+>',
     flags=re.IGNORECASE | re.DOTALL,
 )
-JP_AGE_TEXT_RE = re.compile(r"a\s*partir\s*de\s*(\d{1,2})\s*ans?", flags=re.IGNORECASE)
+JP_AGE_TEXT_RE = re.compile(
+    r"(?:a\s*partir\s*de|des|d\s*e?\s*s)\s*(\d{1,2})\s*ans?",
+    flags=re.IGNORECASE,
+)
 TITLE_NOISE_TOKEN_RE = re.compile(
     r"\b(?:vo|vf|vost|vostf|vostfr|stfr|3d|2d|imax)\b",
     flags=re.IGNORECASE,
+)
+YOUTUBE_SEARCH_URL = "https://www.youtube.com/results"
+YOUTUBE_TIMEOUT = 10
+YOUTUBE_MAX_RESULTS = 12
+YOUTUBE_SESSION = requests.Session()
+YOUTUBE_SESSION.headers.update(
+    {
+        "User-Agent": "CineCarbonne/1.0",
+        "Accept-Language": "fr-FR,fr;q=0.9",
+    }
 )
 
 COUNTRY_NAME_FR_OVERRIDES = {
@@ -659,7 +672,7 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     html_text = resp.text
 
     data = _allocine_parse_json_ld(html_text)
-    title = _clean_html_text(data.get("name") or "")
+    title = _clean_html_text(data.get("name") or _allocine_extract_og_title(html_text) or "")
     alt_title = _clean_html_text(data.get("alternateName") or "")
     directors_raw = data.get("director") or []
     directors = []
@@ -679,6 +692,8 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     directors_str = ", ".join(directors)
 
     synopsis = _clean_html_text(data.get("description") or "")
+    if not synopsis:
+        synopsis = _allocine_parse_synopsis(html_text)
     genres_raw = data.get("genre") or []
     if isinstance(genres_raw, str):
         genres = [genres_raw]
@@ -698,6 +713,8 @@ def allocine_movie_meta(allocine_url: str) -> dict:
             elif isinstance(item, str):
                 actors.append(item)
     actors = [a for a in actors if a][:8]
+    if not actors:
+        actors = _allocine_parse_main_actors(html_text)
 
     thumb_url = _allocine_extract_affiche_thumbnail(html_text)
     og_url = _allocine_extract_og_image(html_text)
@@ -711,7 +728,10 @@ def allocine_movie_meta(allocine_url: str) -> dict:
 
     release_date = _allocine_parse_release_date(html_text)
     countries = _allocine_parse_countries(html_text)
-    awards = allocine_awards(allocine_url)
+    try:
+        awards = allocine_awards(allocine_url)
+    except Exception:
+        awards = []
     age_min = _extract_jp_age_from_allocine_html(html_text)
     trailer_url = _allocine_extract_trailer_url(html_text)
     return {
@@ -775,6 +795,79 @@ def _allocine_movies_section(html_text: str) -> str:
         flags=re.IGNORECASE | re.DOTALL,
     )
     return match.group(1) if match else ""
+
+
+def _allocine_extract_meta_content(html_text: str, attr: str, key: str) -> str:
+    pattern = rf'<meta[^>]+{attr}="{re.escape(key)}"[^>]+content="([^"]*)"'
+    match = re.search(pattern, html_text or "", flags=re.IGNORECASE)
+    return _clean_html_text(match.group(1)) if match else ""
+
+
+def _allocine_extract_og_title(html_text: str) -> str:
+    return (
+        _allocine_extract_meta_content(html_text, "property", "og:title")
+        or _allocine_extract_meta_content(html_text, "name", "twitter:title")
+    )
+
+
+def _allocine_extract_og_description(html_text: str) -> str:
+    return (
+        _allocine_extract_meta_content(html_text, "property", "og:description")
+        or _allocine_extract_meta_content(html_text, "name", "description")
+        or _allocine_extract_meta_content(html_text, "name", "twitter:description")
+    )
+
+
+def _allocine_parse_synopsis(html_text: str) -> str:
+    section = re.search(
+        r'<section[^>]*class="[^"]*ovw-synopsis[^"]*"[^>]*>(.*?)</section>',
+        html_text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if section:
+        block = section.group(1)
+        paragraphs = re.findall(
+            r'<p[^>]*class="[^"]*bo-p[^"]*"[^>]*>(.*?)</p>',
+            block,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        texts = [_clean_html_text(p) for p in paragraphs if _clean_html_text(p)]
+        if texts:
+            return " ".join(texts)
+        content = re.search(
+            r'<div[^>]*class="[^"]*content-txt[^"]*"[^>]*>(.*?)</div>',
+            block,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        if content:
+            parsed = _clean_html_text(content.group(1))
+            if parsed:
+                return parsed
+    return _allocine_extract_og_description(html_text)
+
+
+def _allocine_parse_main_actors(html_text: str) -> list[str]:
+    block = re.search(
+        r'<div[^>]*class="[^"]*meta-body-actor[^"]*"[^>]*>(.*?)</div>',
+        html_text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    if not block:
+        return []
+    names = re.findall(
+        r'<span[^>]*class="[^"]*dark-grey-link[^"]*"[^>]*>(.*?)</span>',
+        block.group(1),
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    cleaned = [_clean_html_text(name) for name in names if _clean_html_text(name)]
+    dedup = []
+    seen = set()
+    for name in cleaned:
+        key = normalize_for_match(name)
+        if key and key not in seen:
+            seen.add(key)
+            dedup.append(name)
+    return dedup[:8]
 
 
 def _allocine_extract_trailer_url(html_text: str) -> str:
@@ -1230,10 +1323,51 @@ def tmdb_pick_best(title: str, director: str, candidates: list[dict], lang: str)
     return best
 
 
+def _tmdb_search_queries(title: str) -> list[str]:
+    raw = str(title or "").strip()
+    if not raw:
+        return []
+    queries = []
+    seen = set()
+
+    def _add_query(value: str) -> None:
+        text = str(value or "").strip()
+        if not text:
+            return
+        key = normalize_for_match(text)
+        if key and key not in seen:
+            seen.add(key)
+            queries.append(text)
+
+    _add_query(raw)
+    normalized = _normalize_title_for_search(raw)
+    _add_query(normalized)
+    no_paren = re.sub(r"\([^)]*\)", " ", normalized or raw)
+    no_paren = re.sub(r"\s+", " ", no_paren).strip(" -:/|")
+    _add_query(no_paren)
+    return queries[:4]
+
+
 def tmdb_find_movie(title: str, director: str, lang: str) -> dict:
-    candidates = tmdb_search_movies(title, lang)
-    match = tmdb_pick_best(title, director, candidates, lang)
-    return {"candidates": candidates, "match": match}
+    all_candidates = []
+    seen = set()
+    match = None
+    for query in _tmdb_search_queries(title):
+        candidates = tmdb_search_movies(query, lang)
+        for cand in candidates:
+            key = str(cand.get("id") or "")
+            if not key:
+                key = (
+                    f"{normalize_for_match(cand.get('title', ''))}"
+                    f"|{normalize_for_match(cand.get('original_title', ''))}"
+                )
+            if key and key not in seen:
+                seen.add(key)
+                all_candidates.append(cand)
+        match = tmdb_pick_best(title, director, all_candidates, lang)
+        if match and match.get("score", 0.0) >= TMDB_MATCH_THRESHOLD:
+            break
+    return {"candidates": all_candidates, "match": match}
 
 
 def tmdb_get_details(movie_id: int, lang: str) -> dict:
@@ -1370,6 +1504,218 @@ def tmdb_pick_trailer(videos: dict, version: str, details: dict) -> str:
     return _tmdb_video_url(best)
 
 
+def _extract_json_object(text: str, start_idx: int) -> str:
+    depth = 0
+    in_string = False
+    escaped = False
+    for idx in range(start_idx, len(text)):
+        char = text[idx]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+            continue
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start_idx : idx + 1]
+    return ""
+
+
+def _youtube_extract_initial_data(html_text: str) -> dict:
+    markers = [
+        "var ytInitialData =",
+        'window["ytInitialData"] =',
+        "ytInitialData =",
+    ]
+    for marker in markers:
+        marker_idx = html_text.find(marker)
+        if marker_idx < 0:
+            continue
+        start = html_text.find("{", marker_idx)
+        if start < 0:
+            continue
+        payload = _extract_json_object(html_text, start)
+        if not payload:
+            continue
+        try:
+            data = json.loads(payload)
+        except Exception:
+            continue
+        if isinstance(data, dict):
+            return data
+    return {}
+
+
+def _youtube_collect_video_renderers(node, output: list[dict]) -> None:
+    if isinstance(node, dict):
+        renderer = node.get("videoRenderer")
+        if isinstance(renderer, dict):
+            video_id = str(renderer.get("videoId") or "").strip()
+            title = ""
+            title_info = renderer.get("title") or {}
+            if isinstance(title_info, dict):
+                if title_info.get("simpleText"):
+                    title = str(title_info.get("simpleText"))
+                elif isinstance(title_info.get("runs"), list):
+                    title = "".join(
+                        str(run.get("text") or "")
+                        for run in title_info.get("runs")
+                        if isinstance(run, dict)
+                    )
+            if video_id:
+                output.append({"video_id": video_id, "title": title.strip()})
+        for value in node.values():
+            _youtube_collect_video_renderers(value, output)
+    elif isinstance(node, list):
+        for item in node:
+            _youtube_collect_video_renderers(item, output)
+
+
+def _youtube_search_candidates(query: str) -> list[dict]:
+    if not query:
+        return []
+    try:
+        resp = YOUTUBE_SESSION.get(
+            YOUTUBE_SEARCH_URL,
+            params={"search_query": query, "hl": "fr", "gl": "FR"},
+            timeout=YOUTUBE_TIMEOUT,
+        )
+    except requests.RequestException:
+        return []
+    if resp.status_code != 200:
+        return []
+
+    html_text = resp.text
+    candidates = []
+    data = _youtube_extract_initial_data(html_text)
+    if data:
+        _youtube_collect_video_renderers(data, candidates)
+
+    if not candidates:
+        video_ids = re.findall(r"watch\?v=([A-Za-z0-9_-]{11})", html_text)
+        seen = set()
+        for video_id in video_ids:
+            if video_id not in seen:
+                seen.add(video_id)
+                candidates.append({"video_id": video_id, "title": ""})
+
+    dedup = []
+    seen = set()
+    for item in candidates:
+        video_id = str(item.get("video_id") or "").strip()
+        if not video_id or video_id in seen:
+            continue
+        seen.add(video_id)
+        dedup.append(
+            {
+                "video_id": video_id,
+                "title": str(item.get("title") or "").strip(),
+                "query": query,
+            }
+        )
+        if len(dedup) >= YOUTUBE_MAX_RESULTS:
+            break
+    return dedup
+
+
+def _year_from_date(value: str) -> str:
+    text = str(value or "").strip()
+    if re.match(r"^\d{4}", text):
+        return text[:4]
+    return ""
+
+
+def _youtube_search_queries(title: str, year: str, director: str, extra_titles: list[str]) -> list[str]:
+    bases = []
+    for value in [title] + list(extra_titles or []):
+        cleaned = _normalize_title_for_search(value)
+        if cleaned:
+            bases.append(cleaned)
+    dedup_bases = []
+    seen_bases = set()
+    for base in bases:
+        key = normalize_for_match(base)
+        if key and key not in seen_bases:
+            seen_bases.add(key)
+            dedup_bases.append(base)
+
+    queries = []
+    seen = set()
+
+    def _add(q: str) -> None:
+        text = str(q or "").strip()
+        if not text:
+            return
+        key = normalize_for_match(text)
+        if key and key not in seen:
+            seen.add(key)
+            queries.append(text)
+
+    for base in dedup_bases[:3]:
+        _add(f"{base} bande annonce officielle")
+        _add(f"{base} trailer officiel")
+        if year:
+            _add(f"{base} {year} bande annonce")
+        if director:
+            _add(f"{base} {director} bande annonce")
+    return queries[:8]
+
+
+def youtube_pick_trailer(title: str, year: str, director: str, extra_titles: list[str]) -> str:
+    queries = _youtube_search_queries(title, year, director, extra_titles)
+    if not queries:
+        return ""
+    variants = []
+    for value in [title] + list(extra_titles or []):
+        variants.extend(_title_variants(value))
+    variants = [v for v in variants if v]
+    if not variants:
+        variants = _title_variants(title)
+
+    best_url = ""
+    best_score = -1.0
+    fallback_url = ""
+    seen_ids = set()
+    for query in queries:
+        for candidate in _youtube_search_candidates(query):
+            video_id = candidate.get("video_id") or ""
+            if not video_id or video_id in seen_ids:
+                continue
+            seen_ids.add(video_id)
+            url = f"https://www.youtube.com/watch?v={video_id}"
+            if not fallback_url:
+                fallback_url = url
+            cand_title = candidate.get("title") or ""
+            if not cand_title:
+                continue
+            score = max((_title_similarity(v, cand_title) for v in variants), default=0.0)
+            cand_norm = normalize_for_match(cand_title)
+            if "bande annonce" in cand_norm or "trailer" in cand_norm or "teaser" in cand_norm:
+                score += 0.15
+            years = re.findall(r"(?:19|20)\d{2}", cand_title)
+            if year:
+                if year in years:
+                    score += 0.10
+                elif years:
+                    score -= 0.20
+            if score > best_score:
+                best_score = score
+                best_url = url
+
+    if best_url and best_score >= 0.45:
+        return best_url
+    return fallback_url
+
+
 def tmdb_release_date_fr(release_dates: dict) -> str:
     results = release_dates.get("results") or []
     for entry in results:
@@ -1433,10 +1779,10 @@ def verify_allocine_tmdb(allocine_meta: dict, tmdb_meta: dict) -> dict:
     }
 def _gui_prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, match_info: dict) -> str:
 
-    choices={1 : 'Allocine',
-             2 : 'TMDB',
-             3 : 'Merge',
-             4 : 'Skip'
+    choices={1 : ("Allocine", "a"),
+             2 : ("TMDB", "t"),
+             3 : ("Both / Merge", "m"),
+             4 : ("Skip", "s")
     }
     global  window
     window.attributes("-topmost", True)
@@ -1450,7 +1796,7 @@ def _gui_prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, 
 
     y=10
     for c in choices.keys():
-        ttk.Radiobutton(new_window, text=choices[c], variable=choice, value=c).place(x=10, y=y)
+        ttk.Radiobutton(new_window, text=choices[c][0], variable=choice, value=c).place(x=10, y=y)
         y+=18
         if c == 1:
             label = f"  titre: {allocine_meta.get('allocine_title', '')}\n" +\
@@ -1481,9 +1827,7 @@ def _gui_prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, 
 
 
     selected =  choice.get()
-    print(selected)
-    print (choices)
-    return choices[selected]
+    return choices[selected][1]
 
 
 
@@ -1506,7 +1850,7 @@ def _prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, matc
         flush=True,
     )
     while True:
-        choice = input("Choisir source (a=allocine, t=tmdb, m=merge, s=skip): ").strip().lower()
+        choice = input("Choisir source (a=allocine, t=tmdb, m=both/merge, s=skip): ").strip().lower()
         if choice in {"a", "t", "m", "s"}:
             return choice
 
@@ -1896,6 +2240,7 @@ def main(main_window=None) -> int:
                 film["tmdb_release_date"] = details.get("release_date") or film.get("tmdb_release_date", "")
     # 11) Choisir la source et fusionner pour les champs principaux
     log_step("fusion: choisir source pour synopsis/genres/duree/pays/acteurs/recompenses")
+    youtube_cache = {}
     for film in films:
         enriched = film.get("enriched", {})
         pref = enriched.get("source_preference", "")
@@ -1903,6 +2248,8 @@ def main(main_window=None) -> int:
         tmdb_pays = enriched.get("tmdb_pays", "")
         allocine_acteurs = enriched.get("allocine_acteurs", "")
         tmdb_acteurs = enriched.get("tmdb_acteurs", "")
+        allocine_trailer = enriched.get("allocine_trailer_url", "")
+        tmdb_trailer = enriched.get("tmdb_trailer_url", "")
         if pref == "s":
             synopsis = ""
             genres = []
@@ -1910,16 +2257,23 @@ def main(main_window=None) -> int:
             pays = []
             acteurs = []
             recompenses = []
+            trailer_url = ""
         elif pref == "t":
             synopsis = enriched.get("tmdb_synopsis", "")
             genres = enriched.get("tmdb_genres", [])
             duree_min = enriched.get("tmdb_duree_min", "")
+            pays = tmdb_pays or ""
+            acteurs = tmdb_acteurs or ""
             recompenses = enriched.get("tmdb_recompenses", [])
+            trailer_url = tmdb_trailer or ""
         elif pref == "a":
             synopsis = enriched.get("allocine_synopsis", "")
             genres = enriched.get("allocine_genres", [])
             duree_min = enriched.get("allocine_duree_min", "")
+            pays = allocine_pays or ""
+            acteurs = allocine_acteurs or ""
             recompenses = enriched.get("allocine_recompenses", [])
+            trailer_url = allocine_trailer or ""
         elif pref == "m":
             synopsis = enriched.get("allocine_synopsis", "") or enriched.get("tmdb_synopsis", "")
             genres = _merge_list_pref_allocine(
@@ -1927,27 +2281,54 @@ def main(main_window=None) -> int:
                 enriched.get("tmdb_genres", []),
             )
             duree_min = enriched.get("allocine_duree_min", "") or enriched.get("tmdb_duree_min", "")
+            pays = ", ".join(_merge_list_pref_allocine(allocine_pays, tmdb_pays))
+            acteurs = ", ".join(_merge_list_pref_allocine(allocine_acteurs, tmdb_acteurs))
             recompenses = _merge_list_pref_allocine(
                 enriched.get("allocine_recompenses", []),
                 enriched.get("tmdb_recompenses", []),
             )
+            trailer_url = allocine_trailer or tmdb_trailer or ""
         else:
             synopsis = enriched.get("allocine_synopsis", "") or enriched.get("tmdb_synopsis", "")
             genres = enriched.get("allocine_genres", []) or enriched.get("tmdb_genres", [])
             duree_min = enriched.get("allocine_duree_min", "") or enriched.get("tmdb_duree_min", "")
-            recompenses = enriched.get("allocine_recompenses", []) or enriched.get("tmdb_recompenses", [])
-
-        if pref != "s":
             pays = allocine_pays or tmdb_pays or ""
             acteurs = allocine_acteurs or tmdb_acteurs or ""
-            trailer_url = enriched.get("tmdb_trailer_url", "") or enriched.get("allocine_trailer_url", "")
-        else:
-            trailer_url = ""
+            recompenses = enriched.get("allocine_recompenses", []) or enriched.get("tmdb_recompenses", [])
+            trailer_url = tmdb_trailer or allocine_trailer or ""
 
         if not enriched.get("affiche") and enriched.get("tmdb_affiche"):
             enriched["affiche"] = enriched.get("tmdb_affiche")
         if not enriched.get("backdrops") and enriched.get("tmdb_backdrops"):
             enriched["backdrops"] = enriched.get("tmdb_backdrops")
+
+        if not trailer_url and pref != "s":
+            release_year = _year_from_date(
+                enriched.get("allocine_release_date") or film.get("tmdb_release_date", "")
+            )
+            title = film.get("titre", "")
+            director = film.get("realisateur", "")
+            extra_titles = [
+                enriched.get("allocine_title", ""),
+                film.get("tmdb_title", ""),
+                film.get("tmdb_original_title", ""),
+            ]
+            cache_key = (
+                normalize_for_match(title),
+                release_year,
+                normalize_for_match(director),
+                normalize_for_match(" ".join(extra_titles)),
+            )
+            if cache_key not in youtube_cache:
+                youtube_cache[cache_key] = youtube_pick_trailer(
+                    title=title,
+                    year=release_year,
+                    director=director,
+                    extra_titles=extra_titles,
+                )
+            trailer_url = youtube_cache.get(cache_key, "")
+            if trailer_url:
+                log_step(f"youtube: trailer fallback {title} -> {trailer_url}")
 
         enriched["synopsis"] = synopsis
         enriched["genres"] = genres
@@ -1961,9 +2342,9 @@ def main(main_window=None) -> int:
         enriched["trailer_url"] = trailer_url
 
     # 12) Ajouter l'age conseille JP dans le commentaire quand disponible
-    log_step("jp: ajouter age conseille dans commentaire")
+    log_step("jp: detecter age conseille")
     jp_total = 0
-    jp_updated = 0
+    jp_with_age = 0
     jp_without_age = 0
     for film in films:
         categorie = str(film.get("categorie", "") or "")
@@ -1975,19 +2356,16 @@ def main(main_window=None) -> int:
 
         age = film.get("enriched", {}).get("allocine_age_min")
         if not isinstance(age, int):
-            age = None
-        updated_comment = _build_commentaire_with_jp_age(categorie, commentaire, age)
-        if updated_comment != commentaire:
-            jp_updated += 1
-        elif _extract_jp_age_from_text(commentaire) is None:
+            age = _extract_jp_age_from_text(commentaire)
+        if isinstance(age, int) and age > 0:
+            film["enriched"]["age_min"] = age
+            jp_with_age += 1
+        else:
             jp_without_age += 1
-        film["commentaire"] = updated_comment
-        film["enriched"]["commentaire"] = updated_comment
+        film["enriched"]["commentaire"] = commentaire
 
     if jp_total:
-        log_step(
-            f"jp: {jp_updated} commentaire(s) enrichi(s), {jp_without_age} film(s) sans age detecte"
-        )
+        log_step(f"jp: {jp_with_age} film(s) avec age, {jp_without_age} film(s) sans age detecte")
 
     # 13) Ecriture du fichier enrichi
     log_step("ecrire work/enriched.xlsx")
@@ -1996,6 +2374,8 @@ def main(main_window=None) -> int:
         row_data = dict(film.get("raw", {}))
         enriched = film.get("enriched", {})
         row_data["Commentaire"] = enriched.get("commentaire", film.get("commentaire", ""))
+        age_min = enriched.get("age_min")
+        row_data["age_min"] = str(age_min) if isinstance(age_min, int) and age_min > 0 else ""
         row_data["affiche_url"] = enriched.get("affiche", "")
         row_data["synopsis"] = enriched.get("synopsis", "")
         row_data["genres"] = _join_list(enriched.get("genres", ""))
@@ -2015,6 +2395,8 @@ def main(main_window=None) -> int:
     out_df = pd.DataFrame(out_rows)
     if "affiche_url" not in out_df.columns:
         out_df["affiche_url"] = ""
+    if "age_min" not in out_df.columns:
+        out_df["age_min"] = ""
     if "synopsis" not in out_df.columns:
         out_df["synopsis"] = ""
     if "genres" not in out_df.columns:
@@ -2038,6 +2420,8 @@ def main(main_window=None) -> int:
     ordered = list(columns)
     if "affiche_url" not in ordered:
         ordered.append("affiche_url")
+    if "age_min" not in ordered:
+        ordered.append("age_min")
     if "synopsis" not in ordered:
         ordered.append("synopsis")
     if "genres" not in ordered:

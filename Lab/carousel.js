@@ -241,6 +241,18 @@
     return text;
   }
 
+  function extractAgeFromText(value) {
+    var text = cleanChipText(value);
+    if (!text) return null;
+    if (text.normalize) {
+      text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    var m = /\b(?:a\s*partir\s*de|des)\s*(\d{1,2})\s*ans?\b/i.exec(text);
+    if (!m) return null;
+    var age = parseInt(m[1], 10);
+    return isNaN(age) ? null : age;
+  }
+
   function makeTopChips(s) {
     var labels = [];
     var categorie = cleanChipText(s.categorie || '');
@@ -258,6 +270,14 @@
     });
 
     if (jpDetected) pushUniqueChip(labels, 'Jeune Public');
+    var ageMin = parseInt(cleanChipText(s.age_min || ''), 10);
+    if (isNaN(ageMin) || ageMin <= 0) {
+      var ageFromComment = extractAgeFromText(s.commentaire || '');
+      if (ageFromComment) ageMin = ageFromComment;
+    }
+    if (jpDetected && !isNaN(ageMin) && ageMin > 0) {
+      pushUniqueChip(labels, '\u00c0 partir de ' + ageMin + ' ans');
+    }
 
     var commentaire = cleanChipText(s.commentaire || '');
     if (commentaire) pushUniqueChip(labels, commentaire);
