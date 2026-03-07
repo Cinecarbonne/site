@@ -1,3 +1,0 @@
-Faire que les noms de pays ne soient pas en anglais
-Intégrer la recherche des recommandations d'âge
-Réorganiser tout ce qui est dans catégorie et commentaire
