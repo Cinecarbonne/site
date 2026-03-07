@@ -130,6 +130,11 @@ TRAILER_ALLOCINE_PLAYER_RE = re.compile(
     r"https?://(?:www\.)?allocine\.fr/video/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html",
     re.IGNORECASE,
 )
+TRAILER_ALLOCINE_EMBED_RE = re.compile(r"https?://player\.allocine\.fr/\d+\.html", re.IGNORECASE)
+TRAILER_DIRECT_VIDEO_RE = re.compile(
+    r"https?://[^\s\"']+\.(?:mp4|m3u8)(?:\?[^\s\"']*)?$",
+    re.IGNORECASE,
+)
 
 COUNTRY_NAME_FR_OVERRIDES = {
     "united states": "Etats-Unis",
@@ -893,6 +898,58 @@ def _allocine_extract_trailer_url(html_text: str) -> str:
     return ""
 
 
+def _decode_js_url(value: str) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    text = html.unescape(text)
+    text = text.replace("\\/", "/")
+    if text.startswith("http://player.allocine.fr/"):
+        text = "https://" + text[len("http://") :]
+    return text.strip()
+
+
+def _resolve_allocine_player_trailer_url(url: str) -> str:
+    trailer_url = str(url or "").strip()
+    if not trailer_url or not _is_allocine_player_trailer_url(trailer_url):
+        return trailer_url
+    try:
+        resp = allocine_get(trailer_url)
+    except Exception:
+        return trailer_url
+    html_text = resp.text or ""
+
+    mp4_urls = []
+    for raw in re.findall(r'"contentUrl"\s*:\s*"([^"]+)"', html_text, flags=re.IGNORECASE):
+        parsed = _decode_js_url(raw)
+        if TRAILER_DIRECT_VIDEO_RE.search(parsed):
+            mp4_urls.append(parsed)
+    if not mp4_urls:
+        for raw in re.findall(r'https?://[^\s"\']+\.mp4(?:\?[^\s"\']*)?', html_text, flags=re.IGNORECASE):
+            parsed = _decode_js_url(raw)
+            if TRAILER_DIRECT_VIDEO_RE.search(parsed):
+                mp4_urls.append(parsed)
+    for value in mp4_urls:
+        if value.lower().endswith(".mp4") or ".mp4?" in value.lower():
+            return value
+    if mp4_urls:
+        return mp4_urls[0]
+
+    embed_urls = []
+    for raw in re.findall(r'"embedUrl"\s*:\s*"([^"]+)"', html_text, flags=re.IGNORECASE):
+        parsed = _decode_js_url(raw)
+        if TRAILER_ALLOCINE_EMBED_RE.search(parsed):
+            embed_urls.append(parsed)
+    if not embed_urls:
+        for raw in re.findall(r"https?://player\.allocine\.fr/\d+\.html", html_text, flags=re.IGNORECASE):
+            parsed = _decode_js_url(raw)
+            if TRAILER_ALLOCINE_EMBED_RE.search(parsed):
+                embed_urls.append(parsed)
+    if embed_urls:
+        return embed_urls[0]
+    return trailer_url
+
+
 def _is_probable_person_name(value: str) -> bool:
     norm = normalize_for_match(value)
     if not norm:
@@ -1648,6 +1705,8 @@ def _is_supported_trailer_url(url: str) -> bool:
         return True
     if TRAILER_VIMEO_RE.search(value):
         return True
+    if TRAILER_DIRECT_VIDEO_RE.search(value):
+        return True
     return False
 
 
@@ -2265,6 +2324,7 @@ def main(main_window=None) -> int:
     # 11) Choisir la source et fusionner pour les champs principaux
     log_step("fusion: choisir source pour synopsis/genres/duree/pays/acteurs/recompenses")
     youtube_cache = {}
+    allocine_trailer_cache = {}
     for film in films:
         enriched = film.get("enriched", {})
         pref = enriched.get("source_preference", "")
@@ -2325,6 +2385,13 @@ def main(main_window=None) -> int:
             enriched["affiche"] = enriched.get("tmdb_affiche")
         if not enriched.get("backdrops") and enriched.get("tmdb_backdrops"):
             enriched["backdrops"] = enriched.get("tmdb_backdrops")
+
+        if _is_allocine_player_trailer_url(trailer_url):
+            if trailer_url not in allocine_trailer_cache:
+                allocine_trailer_cache[trailer_url] = _resolve_allocine_player_trailer_url(trailer_url)
+            resolved_trailer_url = allocine_trailer_cache.get(trailer_url, "")
+            if resolved_trailer_url:
+                trailer_url = resolved_trailer_url
 
         should_try_youtube = pref != "s" and (
             not trailer_url

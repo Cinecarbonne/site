@@ -343,11 +343,10 @@
     return (m && m[1]) ? m[1] : '';
   }
 
-  function _matchAllocinePlayerUrl(url) {
+  function _matchDirectVideoUrl(url) {
     if (!url) return '';
-    var m = /(https?:\/\/(?:www\.)?allocine\.fr\/video\/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html)/i.exec(url);
-    if (!m || !m[1]) return '';
-    return m[1].replace(/&amp;/g, '&');
+    var m = /^(https?:\/\/[^\s"'<>]+\.(?:mp4|m3u8)(?:\?[^\s"'<>]*)?)$/i.exec(String(url).trim());
+    return (m && m[1]) ? m[1] : '';
   }
 
   function buildTrailerHtml(url, title) {
@@ -364,10 +363,10 @@
       var vTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
       return wrapTrailer('<iframe src="' + vSrc + '" title="' + vTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
     }
-    var ac = _matchAllocinePlayerUrl(url);
-    if (ac) {
-      var aTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
-      return wrapTrailer('<iframe src="' + ac + '" title="' + aTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
+    var direct = _matchDirectVideoUrl(url);
+    if (direct) {
+      var mime = /\.m3u8(?:\?|$)/i.test(direct) ? 'application/x-mpegURL' : 'video/mp4';
+      return wrapTrailer('<video controls preload="metadata"><source src="' + direct + '" type="' + mime + '"></video>');
     }
     return '';
   }
