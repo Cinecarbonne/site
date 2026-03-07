@@ -124,6 +124,12 @@ YOUTUBE_SESSION.headers.update(
         "Accept-Language": "fr-FR,fr;q=0.9",
     }
 )
+TRAILER_YOUTUBE_RE = re.compile(r"(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)[A-Za-z0-9_-]{6,}", re.IGNORECASE)
+TRAILER_VIMEO_RE = re.compile(r"(?:vimeo\.com/(?:video/)?)(\d+)", re.IGNORECASE)
+TRAILER_ALLOCINE_PLAYER_RE = re.compile(
+    r"https?://(?:www\.)?allocine\.fr/video/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html",
+    re.IGNORECASE,
+)
 
 COUNTRY_NAME_FR_OVERRIDES = {
     "united states": "Etats-Unis",
@@ -1634,6 +1640,24 @@ def _year_from_date(value: str) -> str:
     return ""
 
 
+def _is_supported_trailer_url(url: str) -> bool:
+    value = str(url or "").strip()
+    if not value:
+        return False
+    if TRAILER_YOUTUBE_RE.search(value):
+        return True
+    if TRAILER_VIMEO_RE.search(value):
+        return True
+    return False
+
+
+def _is_allocine_player_trailer_url(url: str) -> bool:
+    value = str(url or "").strip()
+    if not value:
+        return False
+    return bool(TRAILER_ALLOCINE_PLAYER_RE.search(value))
+
+
 def _youtube_search_queries(title: str, year: str, director: str, extra_titles: list[str]) -> list[str]:
     bases = []
     for value in [title] + list(extra_titles or []):
@@ -2302,7 +2326,15 @@ def main(main_window=None) -> int:
         if not enriched.get("backdrops") and enriched.get("tmdb_backdrops"):
             enriched["backdrops"] = enriched.get("tmdb_backdrops")
 
-        if not trailer_url and pref != "s":
+        should_try_youtube = pref != "s" and (
+            not trailer_url
+            or (
+                trailer_url
+                and not _is_supported_trailer_url(trailer_url)
+                and not _is_allocine_player_trailer_url(trailer_url)
+            )
+        )
+        if should_try_youtube:
             release_year = _year_from_date(
                 enriched.get("allocine_release_date") or film.get("tmdb_release_date", "")
             )
@@ -2326,8 +2358,9 @@ def main(main_window=None) -> int:
                     director=director,
                     extra_titles=extra_titles,
                 )
-            trailer_url = youtube_cache.get(cache_key, "")
-            if trailer_url:
+            youtube_url = youtube_cache.get(cache_key, "")
+            if youtube_url:
+                trailer_url = youtube_url
                 log_step(f"youtube: trailer fallback {title} -> {trailer_url}")
 
         enriched["synopsis"] = synopsis

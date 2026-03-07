@@ -343,6 +343,13 @@
     return (m && m[1]) ? m[1] : '';
   }
 
+  function _matchAllocinePlayerUrl(url) {
+    if (!url) return '';
+    var m = /(https?:\/\/(?:www\.)?allocine\.fr\/video\/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html)/i.exec(url);
+    if (!m || !m[1]) return '';
+    return m[1].replace(/&amp;/g, '&');
+  }
+
   function buildTrailerHtml(url, title) {
     if (!url) return '';
     var yt = _matchYouTubeId(url);
@@ -356,6 +363,11 @@
       var vSrc = 'https://player.vimeo.com/video/' + vm + '?autoplay=0';
       var vTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
       return wrapTrailer('<iframe src="' + vSrc + '" title="' + vTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
+    }
+    var ac = _matchAllocinePlayerUrl(url);
+    if (ac) {
+      var aTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
+      return wrapTrailer('<iframe src="' + ac + '" title="' + aTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
     }
     return '';
   }
