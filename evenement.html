@@ -6,7 +6,7 @@
   <link rel="preload" href="cinecarbonne-1.png" as="image" fetchpriority="high">
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="carousel.css?v=20260125-44">
+  <link rel="stylesheet" href="carousel.css?v=20260320-03">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -28,23 +28,6 @@
       font-weight: 600;
       font-style: normal;
       font-display: swap;
-    }
-    .hero-nav a,
-    .hero-nav a:visited {
-      color: #0e0f10 !important;
-      text-decoration: none !important;
-      font-family: "BarlowSemiCondensedSemiBold" !important;
-    }
-    .hero-nav a:hover,
-    .hero-nav a:focus-visible {
-      color: #bdbdbd !important;
-      text-decoration: none !important;
-    }
-    .hero .logo {
-      height: 64px !important;
-      width: auto !important;
-      border-radius: 6px !important;
-      object-fit: contain;
     }
     body.evenement-page .recruit-banner {
       display: flex;
@@ -209,15 +192,22 @@
           <img class="logo" height="64" src="./cinecarbonne-1.png" alt="Cine Carbonne" loading="eager" fetchpriority="high" decoding="async" />
         </a>
         <h1 class="siteTitle">
-          <a href="index.html" class="brand-link">Cin&eacute; Carbonne</a>
+          <span class="brand-link">Cin&eacute; Carbonne</span>
         </h1>
       </div>
       <nav class="hero-nav" aria-label="Navigation principale">
-        <a href="index.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Programme</a>
-        <span class="hero-sep">&middot;</span>
-        <a href="evenement.html" class="hero-link is-active" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">&Eacute;v&eacute;nements</a>
-        <span class="hero-sep">&middot;</span>
-        <a href="cinema.html" class="hero-link" style="color:#0e0f10;text-decoration:none;font-family:BarlowSemiCondensedSemiBold;">Le cin&eacute;ma</a>
+        <div class="hero-nav-row">
+          <a href="index.html" class="hero-link">Programme</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="evenement.html" class="hero-link is-active">&Eacute;v&eacute;nements</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="cinema.html" class="hero-link">Le cin&eacute;ma</a>
+        </div>
+        <div class="hero-nav-row">
+          <a href="cinejeune.html" class="hero-link">Cin&eacute; Jeune</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="accessibilite.html" class="hero-link">Accessibilit&eacute;</a>
+        </div>
       </nav>
     </div>
 <main class="event-content" role="main">
