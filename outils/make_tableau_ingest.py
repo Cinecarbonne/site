@@ -1,8 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+Generate the monthly ingest workbook used for manual copy/paste.
+
+Output columns:
+- Titre
+- VO
+- Date (ex: "mardi 24 mars")
+- Heure (ex: "21h" / "20h30")
+
+Rules:
+- VO/VOST information is no longer appended to the title; it goes in column B.
+- CM rows remain separate and the feature title keeps its "+ CMx" markers.
+- School screenings keep their title suffix.
+"""
+
 import datetime as dt
 import re
+import unicodedata
 from pathlib import Path
 
 import pandas as pd
@@ -15,14 +31,29 @@ IN_PATH = BASE_DIR / "work/normalized.xlsx"
 SOURCE_PATH = BASE_DIR / "input/source.xlsx"
 OUT_PATH = BASE_DIR / "work/tableau_ingest.xlsx"
 
-DOW_MAP = {
-    0: "LU",
-    1: "MA",
-    2: "ME",
-    3: "JE",
-    4: "VE",
-    5: "SA",
-    6: "DI",
+WEEKDAY_FR = {
+    0: "lundi",
+    1: "mardi",
+    2: "mercredi",
+    3: "jeudi",
+    4: "vendredi",
+    5: "samedi",
+    6: "dimanche",
+}
+
+MONTH_FR = {
+    1: "janvier",
+    2: "fevrier",
+    3: "mars",
+    4: "avril",
+    5: "mai",
+    6: "juin",
+    7: "juillet",
+    8: "aout",
+    9: "septembre",
+    10: "octobre",
+    11: "novembre",
+    12: "decembre",
 }
 
 _ISO_DATE_RE = re.compile(r"^\d{4}([-\/])\d{2}\1\d{2}$")
@@ -83,6 +114,30 @@ def _format_time(value) -> str:
     return f"{hour}h" if minute == 0 else f"{hour}h{minute:02d}"
 
 
+def _format_full_date(date_obj: dt.date | None) -> str:
+    if not date_obj:
+        return ""
+    weekday = WEEKDAY_FR.get(date_obj.weekday(), "")
+    month = MONTH_FR.get(date_obj.month, "")
+    if not weekday or not month:
+        return ""
+    return f"{weekday} {date_obj.day} {month}"
+
+
+def _normalize_text(value: object) -> str:
+    text = str(value or "").strip().lower()
+    text = unicodedata.normalize("NFKD", text)
+    return "".join(ch for ch in text if not unicodedata.combining(ch))
+
+
+def _is_vo(value: object) -> bool:
+    return _normalize_text(value).startswith("vo")
+
+
+def _is_scolaire(categorie: object) -> bool:
+    return bool(re.search(r"\bscol(?:aire)?\b", _normalize_text(categorie)))
+
+
 def _extract_cm_title(text: str) -> str:
     if not text:
         return ""
@@ -115,12 +170,7 @@ def main() -> int:
     for _, row in df.iterrows():
         date_value = row.get("Date", "")
         date_obj = _to_date(date_value)
-        if date_obj:
-            dow = DOW_MAP.get(date_obj.weekday(), "")
-            day_num = date_obj.day
-        else:
-            dow = ""
-            day_num = ""
+        date_label = _format_full_date(date_obj)
         heure = _format_time(row.get("Heure", ""))
 
         cm_cell = str(row.get("CM", "")).upper()
@@ -128,42 +178,53 @@ def main() -> int:
         for key in ("CM1", "CM2"):
             if key in cm_cell and cm_titles.get(key):
                 cm_keys.append(key)
-                rows.append([f"{key} - {cm_titles[key]}", "", dow, day_num, heure])
+                rows.append([f"{key} - {cm_titles[key]}", "", date_label, heure])
 
         titre = str(row.get("Titre", "")).strip()
         vovf = str(row.get("VOVF", "")).strip()
         if not vovf:
             vovf = str(row.get("Version", "")).strip()
-        if vovf.upper().startswith("VO"):
-            titre = f"{titre} - VOST" if titre else titre
+        vo_label = "VO" if _is_vo(vovf) else ""
         categorie = str(row.get("Categorie", "")).strip()
-        if categorie.upper() == "SCOL":
+        if _is_scolaire(categorie):
             titre = f"{titre} - SCOL" if titre else titre
         for key in cm_keys:
             titre = f"{titre} + {key}" if titre else titre
-        rows.append([titre, "", dow, day_num, heure])
+        rows.append([titre, vo_label, date_label, heure])
 
-    out_df = pd.DataFrame(rows, columns=["Titre", "", "Jour", "Date", "Heure"])
-    out_df.to_excel(OUT_PATH, index=False)
+    out_df = pd.DataFrame(rows, columns=["Titre", "VO", "Date", "Heure"])
 
-    wb = load_workbook(OUT_PATH)
-    ws = wb.active
-    align = Alignment(horizontal="center", vertical="center")
-    base_font = Font(name="Merriweather", size=13, bold=False)
-    bold_font = Font(name="Merriweather", size=13, bold=True)
+    try:
+        out_df.to_excel(OUT_PATH, index=False)
 
-    for row in ws.iter_rows():
-        for cell in row:
-            if cell.column == 1:
-                cell.font = bold_font
-            else:
-                cell.font = base_font
-            cell.alignment = align
+        wb = load_workbook(OUT_PATH)
+        ws = wb.active
+        align = Alignment(horizontal="center", vertical="center")
+        base_font = Font(name="Merriweather", size=13, bold=False)
+        bold_font = Font(name="Merriweather", size=13, bold=True)
 
-    for row_idx in range(1, ws.max_row + 1):
-        ws.row_dimensions[row_idx].height = 40
+        for row in ws.iter_rows():
+            for cell in row:
+                if cell.column == 1:
+                    cell.font = bold_font
+                else:
+                    cell.font = base_font
+                cell.alignment = align
 
-    wb.save(OUT_PATH)
+        for row_idx in range(1, ws.max_row + 1):
+            ws.row_dimensions[row_idx].height = 40
+
+        ws.column_dimensions["A"].width = 56
+        ws.column_dimensions["B"].width = 10
+        ws.column_dimensions["C"].width = 24
+        ws.column_dimensions["D"].width = 12
+
+        wb.save(OUT_PATH)
+    except PermissionError as exc:
+        raise SystemExit(
+            f"Impossible d'ecrire {OUT_PATH}. Ferme le fichier Excel s'il est ouvert, puis relance le script."
+        ) from exc
+
     print(f"OK: {OUT_PATH}")
     return 0
 

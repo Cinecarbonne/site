@@ -7,7 +7,14 @@ __pycache__/
 **/__pycache__/
 *.py[cod]
 
+# Office temporary files
+~$*
+**/~$*
+
 # Local secrets
 .env
 outils/.env
 Lab/outils/.env
+
+# Local temporary workspace
+tmp_codex/
