@@ -726,7 +726,7 @@
   }
 
   function loadJSON() {
-    var url = './programme.json';
+    var url = './data/programme.json';
     fetch(url, { cache: 'no-store' })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
       .then(function (t) { return JSON.parse(t); })
@@ -839,7 +839,7 @@
     }
     window._pdfTabLoaded = true;
 
-    fetch('./PDFs.json', { cache: 'no-store' })
+    fetch('./data/PDFs.json', { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
@@ -885,7 +885,7 @@
     if (window._prochLoaded) return;
     window._prochLoaded = true;
 
-    fetch('./prochainement.json', { cache: 'no-store' })
+    fetch('./data/prochainement.json', { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
@@ -949,7 +949,7 @@
       return;
     }
 
-    fetch('./PDFs.json', { cache: 'no-store' })
+    fetch('./data/PDFs.json', { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();

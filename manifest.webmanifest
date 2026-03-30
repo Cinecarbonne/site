@@ -2,7 +2,7 @@
   "name": "Ciné Carbonne",
   "short_name": "Ciné Carbonne",
   "lang": "fr-FR",
-  "start_url": "Programme/carousel.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",

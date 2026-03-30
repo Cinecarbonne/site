@@ -1,17 +1,50 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+"""
+Operation PDF.
+
+- Selectionne le dernier PDF du dossier PDFs/
+- Met a jour data/PDFs.json pour l'archive
+- Genere PDFs/programme_page8.jpg a partir d'une page du PDF
+"""
+
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
-try:
-    import fitz  # PyMuPDF
-except ImportError:
-    print("Erreur: PyMuPDF n'est pas installe. Fais: pip install pymupdf", file=sys.stderr)
-    raise
+
+def _resolve_repo_python() -> Path | None:
+    script_path = Path(__file__).resolve()
+    site_dir = script_path.parent.parent
+    candidates = [
+        site_dir / ".venv" / "Scripts" / "python.exe",
+        site_dir / ".venv" / "bin" / "python",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def _load_fitz():
+    try:
+        import fitz  # PyMuPDF
+    except ModuleNotFoundError:
+        repo_python = _resolve_repo_python()
+        current_python = Path(sys.executable).resolve()
+        if repo_python is not None and repo_python.resolve() != current_python:
+            result = subprocess.run([str(repo_python), str(Path(__file__).resolve()), *sys.argv[1:]])
+            raise SystemExit(result.returncode)
+        print("Erreur: PyMuPDF n'est pas installe. Fais: pip install pymupdf", file=sys.stderr)
+        raise
+    return fitz
+
+
+fitz = _load_fitz()
 
 
 NUM_RE = re.compile(r"\b(\d{3,})_")  # ex: "Abonnes 349_2025..." -> 349
@@ -101,7 +134,7 @@ def build_pdf_reference(pdf_path: Path) -> dict[str, object]:
     match = PDF_REF_RE.search(pdf_path.name)
     if not match:
         raise ValueError(
-            "Nom de PDF invalide pour maj de PDFs.json. "
+            "Nom de PDF invalide pour maj de data/PDFs.json. "
             "Format attendu: '... ###_YYYYMMDD-YYYYMMDD.pdf'. "
             f"Recu: {pdf_path.name}"
         )
@@ -175,12 +208,12 @@ def main() -> int:
     site_dir = Path(__file__).resolve().parent.parent
     default_pdf_dir = site_dir / "PDFs"
     default_out = default_pdf_dir / "programme_page8.jpg"  # nom fixe => remplace l'ancien
-    default_pdfs_json = site_dir / "PDFs.json"
+    default_pdfs_json = site_dir / "data" / "PDFs.json"
 
     parser = argparse.ArgumentParser(
         description=(
-            "Exporte la derniere page du dernier PDF de PDFs/ en JPEG, "
-            "puis met a jour PDFs.json."
+            "Met a jour l'archive PDF et genere l'image du programme a partir "
+            "du dernier PDF de PDFs/."
         )
     )
     parser.add_argument(
@@ -199,7 +232,7 @@ def main() -> int:
         "--pdfs-json",
         type=str,
         default=str(default_pdfs_json),
-        help="Fichier index JSON des PDFs (defaut: PDFs.json a la racine du site)",
+        help="Fichier index JSON des PDFs (defaut: data/PDFs.json a la racine du site)",
     )
     parser.add_argument(
         "--page",

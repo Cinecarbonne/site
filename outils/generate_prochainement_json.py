@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-Generate prochainement.json from upcoming movie titles.
+Generate data/prochainement.json from upcoming movie titles.
 
 Input priority:
 1) extract list from outils/input/source.xlsx (zone "prochainement")
 2) fallback: outils/input/prochainement_titles.json
-3) fallback: existing prochainement.json when it still contains titles
+3) fallback: existing data/prochainement.json when it still contains titles
 
 Output:
-- prochainement.json with poster URLs (no local image files required)
+- data/prochainement.json with poster URLs (no local image files required)
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ import pandas as pd
 TOOLS_DIR = Path(__file__).resolve().parent
 SITE_DIR = TOOLS_DIR.parent
 INPUT_TITLES = TOOLS_DIR / "input" / "prochainement_titles.json"
-OUTPUT_JSON = SITE_DIR / "prochainement.json"
+OUTPUT_JSON = SITE_DIR / "data" / "prochainement.json"
 SOURCE_XLSX = TOOLS_DIR / "input" / "source.xlsx"
 WORK_PROCHAINEMENT = TOOLS_DIR / "work" / "prochainement.json"
 
@@ -199,11 +199,11 @@ def load_titles() -> list[str]:
     if OUTPUT_JSON.exists():
         titles = _extract_titles(_read_json(OUTPUT_JSON))
         if titles:
-            _write_titles_input(titles, "prochainement.json")
+            _write_titles_input(titles, "data/prochainement.json")
             return titles
 
     raise SystemExit(
-        "Aucun titre trouve (source.xlsx / prochainement_titles.json / prochainement.json). Cree d'abord "
+        "Aucun titre trouve (source.xlsx / prochainement_titles.json / data/prochainement.json). Cree d'abord "
         f"{INPUT_TITLES} avec une liste de titres."
     )
 

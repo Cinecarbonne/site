@@ -23,7 +23,7 @@ import re
 # Emplacements
 BASE_DIR = Path(__file__).resolve().parent
 IN_XLSX  = BASE_DIR / "work/enriched.xlsx"
-OUT_JSON = BASE_DIR.parent / "programme.json"
+OUT_JSON = BASE_DIR.parent / "data" / "programme.json"
 
 # Champs exportés (garde l’ordre)
 FIELDS_TO_KEEP = [
