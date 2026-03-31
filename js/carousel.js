@@ -455,6 +455,16 @@
     return (m && m[1]) ? m[1] : '';
   }
 
+  function _matchDailymotionId(url) {
+    if (!url) return '';
+    var m = /dailymotion\.com\/video\/([a-zA-Z0-9]+)/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /dailymotion\.com\/embed\/video\/([a-zA-Z0-9]+)/.exec(url);
+    if (m && m[1]) return m[1];
+    m = /dai\.ly\/([a-zA-Z0-9]+)/.exec(url);
+    return (m && m[1]) ? m[1] : '';
+  }
+
   function _matchDirectVideoUrl(url) {
     if (!url) return '';
     var m = /^(https?:\/\/[^\s"'<>]+\.(?:mp4|m3u8)(?:\?[^\s"'<>]*)?)$/i.exec(String(url).trim());
@@ -474,6 +484,12 @@
       var vSrc = 'https://player.vimeo.com/video/' + vm + '?autoplay=0';
       var vTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
       return wrapTrailer('<iframe src="' + vSrc + '" title="' + vTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
+    }
+    var dm = _matchDailymotionId(url);
+    if (dm) {
+      var dSrc = 'https://www.dailymotion.com/embed/video/' + dm;
+      var dTitle = title ? 'Bande-annonce - ' + title : 'Bande-annonce';
+      return wrapTrailer('<iframe src="' + dSrc + '" title="' + dTitle + '" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>');
     }
     var direct = _matchDirectVideoUrl(url);
     if (direct) {
