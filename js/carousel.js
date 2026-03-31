@@ -146,6 +146,7 @@
     pInfo = document.getElementById('p-info'),
     pGenres = document.getElementById('p-genres'),
     pSynopsis = document.getElementById('p-synopsis'),
+    pShortfilm = document.getElementById('p-shortfilm'),
     pBackdropTop = document.getElementById('p-backdropTop'),
     pTrailer = document.getElementById('p-trailer'),
     todayBtn = document.getElementById('todayBtn'),
@@ -167,12 +168,118 @@
     pInfo.textContent = '';
     pGenres.textContent = '';
     pSynopsis.textContent = '';
+    if (pShortfilm) {
+      pShortfilm.textContent = '';
+      pShortfilm.style.display = 'none';
+    }
     pBackdropTop.removeAttribute('src');
     if (pTrailer) pTrailer.innerHTML = '';
   }
 
   function getAllocineURL(s) {
     return s.allocine_url || s.AllocineURL || s.allocine || s.url_allocine || s.AlloCine || s.allocineUrl || '';
+  }
+
+  function getCourtsMetrages(s) {
+    var value = s && s.courts_metrages;
+    if (!value) return [];
+    if (Array.isArray(value)) return value.filter(Boolean);
+    if (typeof value === 'string') {
+      try {
+        var parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+      } catch (err) {
+        return [];
+      }
+    }
+    return [];
+  }
+
+  function getCourtMetrageParts(item) {
+    if (!item) return { titre: '', genre: '', duree: '', texte: '' };
+
+    var titre = item.titre ? String(item.titre).trim() : '';
+    var genre = item.genre ? String(item.genre).trim() : '';
+    var duree = item.duree ? String(item.duree).trim() : '';
+    var texte = item.texte ? String(item.texte).trim() : '';
+
+    if ((!titre || !genre || !duree) && texte) {
+      var parts = texte.split(/\s+-\s+/);
+      if (!titre && parts[0]) titre = parts[0].trim();
+      if (!genre && parts[1]) genre = parts[1].trim();
+      if (!duree && parts[2]) duree = parts[2].trim();
+    }
+
+    return {
+      titre: titre,
+      genre: genre,
+      duree: duree,
+      texte: texte
+    };
+  }
+
+  function appendCourtMetrageItem(container, item) {
+    var parts = getCourtMetrageParts(item);
+    if (!parts.titre && !parts.genre && !parts.duree && !parts.texte) return false;
+
+    var itemSpan = document.createElement('span');
+    itemSpan.className = 'shortfilmItem';
+
+    if (parts.titre) {
+      var titleSpan = document.createElement('span');
+      titleSpan.className = 'shortfilmTitle';
+      titleSpan.textContent = parts.titre;
+      itemSpan.appendChild(titleSpan);
+    } else if (parts.texte) {
+      var fallbackSpan = document.createElement('span');
+      fallbackSpan.className = 'shortfilmTitle';
+      fallbackSpan.textContent = parts.texte;
+      itemSpan.appendChild(fallbackSpan);
+      container.appendChild(itemSpan);
+      return true;
+    }
+
+    var metaParts = [];
+    if (parts.genre) metaParts.push(parts.genre);
+    if (parts.duree) metaParts.push(parts.duree);
+    if (metaParts.length) {
+      var metaSpan = document.createElement('span');
+      metaSpan.className = 'shortfilmMeta';
+      metaSpan.textContent = ' - ' + metaParts.join(' - ');
+      itemSpan.appendChild(metaSpan);
+    }
+
+    container.appendChild(itemSpan);
+    return true;
+  }
+
+  function renderCourtMetrageLine(container, items) {
+    if (!container) return false;
+    container.textContent = '';
+    if (!items || !items.length) return false;
+
+    var validItems = items.filter(function (item) {
+      var parts = getCourtMetrageParts(item);
+      return !!(parts.titre || parts.genre || parts.duree || parts.texte);
+    });
+    if (!validItems.length) return false;
+
+    var labelSpan = document.createElement('span');
+    labelSpan.className = 'shortfilmLabel';
+    labelSpan.textContent = validItems.length > 1 ? 'Courts métrages avant le film : ' : 'Court métrage avant le film : ';
+    container.appendChild(labelSpan);
+
+    validItems.forEach(function (item, index) {
+      if (index > 0) {
+        var sep = document.createElement('span');
+        sep.className = 'shortfilmItemSeparator';
+        sep.textContent = ' / ';
+        container.appendChild(sep);
+      }
+      appendCourtMetrageItem(container, item);
+    });
+
+    return true;
   }
 
   function backdropSrcset(u) {
@@ -277,6 +384,11 @@
     }
     if (jpDetected && !isNaN(ageMin) && ageMin > 0) {
       pushUniqueChip(labels, '\u00c0 partir de ' + ageMin + ' ans');
+    }
+
+    var courtsMetrages = getCourtsMetrages(s);
+    if (courtsMetrages.length) {
+      pushUniqueChip(labels, courtsMetrages.length > 1 ? 'Courts métrages avant le film' : 'Court métrage avant le film');
     }
 
     var commentaire = cleanChipText(s.commentaire || '');
@@ -422,6 +534,11 @@
       a.rel = 'noopener';
       a.className = 'allocineLink';
       pSynopsis.appendChild(a);
+    }
+
+    if (pShortfilm) {
+      var hasShortfilmLine = renderCourtMetrageLine(pShortfilm, getCourtsMetrages(s));
+      pShortfilm.style.display = hasShortfilmLine ? 'block' : 'none';
     }
 
     // chips

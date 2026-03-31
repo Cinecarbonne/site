@@ -937,6 +937,7 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Professeur à la faculté d’Ankara, Aziz reçoit la « lettre jaune » qui lui signifie arbitrairement sa révocation. Quand sa femme Derya, célèbre comédienne au théâtre national, la reçoit à son tour, c’est le coup de grâce pour le couple. L’un et l’autre, condamnés pour leurs idées, sont obligés de se réfugier à Istanbul chez la mère d’Aziz. Le compromis entre cette précarité nouvelle et leur engagement politique va mettre leur mariage à l’épreuve.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/99/84/99847f650a17daf40f38ca6cd45eb86a.jpg",
     "backdrops": [
@@ -971,6 +972,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Dans le Paris de la Belle Époque, en compagnie d’un jeune livreur en triporteur, la petite kanake Dilili mène une enquête sur des enlèvements mystérieux de fillettes. Elle rencontre des hommes et des femmes extraordinaires, qui lui donnent des indices. Elle découvre sous terre des méchants très particuliers, les Mâles-Maîtres. Les deux amis lutteront avec entrain pour une vie active dans la lumière et le vivre-ensemble…",
     "affiche_url": "https://fr.web.img5.acsta.net/c_310_420/pictures/18/10/17/09/26/4362052.jpg",
     "backdrops": [
@@ -1017,6 +1019,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Angelo, 10 ans, se rêve aventurier et explorateur. Jusqu’au jour où, partant en voiture avec sa famille pour se rendre au chevet de sa Mémé adorée bien malade, il est brusquement mis au défi de prouver son courage : oublié par erreur sur une aire d’autoroute, Angelo décide de couper à travers la forêt pour rejoindre la maison de Mémé. Il s’enfonce alors dans un territoire mystérieux peuplé d’êtres étranges que menace un ennemi pire encore que l’ogre de la région…D'après la bande dessinée DANS LA FORÊT SOMBRE ET MYSTÉRIEUSE de Winshluss.",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/d4/6a/d46a32c7d8df5b7fd5dbfb192dfb08e0.jpg",
     "backdrops": [
@@ -1040,17 +1043,18 @@
     "titre": "Silent friend",
     "titre_original": "",
     "realisateur": "Ildiko Enyedi",
-    "acteurs_principaux": "Tony Leung Chiu-Wai, Léa Seydoux, Luna Wedler",
+    "acteurs_principaux": "Tony Leung Chiu-Wai, Léa Seydoux, Luna Wedler, Enzo Brumm, Sylvester Groth, Yun Huang, Luca Valentini, Marlene Burow",
     "genres": "Drame",
     "duree_min": "147",
     "annee": "2026-04-01",
-    "pays": "Allemagne, Hongrie, France, Chine",
+    "pays": "Allemagne, Hongrie, France, Chine, Hungary, Belgique",
     "version": "VO",
     "tarif": "",
     "recompenses": "Mostra de Venise 2025: Prix Marcello Mastroianni du meilleur jeune espoir",
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Dans un jardin botanique, un arbre veille et observe, témoin patient des siècles. En 1908, il suit Grete, qui lutte pour exister dans un milieu qui l’ignore. Dans les années 70, il voit Hannes s’éveiller à l’amour et au monde des plantes. Aujourd’hui, le vieil arbre parle avec Tony dans son langage secret. Autour de lui, certains se cherchent, d’autres se rencontrent. Lui demeure, ami silencieux, dans un temps plus vaste que le leur.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/42/05/4205010710cd6378d3ec01f929478794.jpg",
     "backdrops": [
@@ -1086,6 +1090,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "En 2075, une petite fille de 10 ans, Iris, voit un mystérieux garçon vêtu d'une combinaison arc-en-ciel tomber du ciel. C'est Arco. Il vient d'un futur lointain et idyllique où voyager dans le temps est possible. Iris le recueille et va l'aider par tous les moyens à rentrer chez lui.",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/4b/b4/4bb40b414c1d86022f4031676a309432.jpg",
     "backdrops": [
@@ -1124,6 +1129,7 @@
     "categorie": "Séance EPHAD HANDI",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Quand Alice et Vincent Gauthier convoquent en urgence leurs trois enfants, la fratrie débarque affolée craignant le pire … mais, bonne nouvelle, leurs parents ont en fait touché le Jackpot ! Le problème : ils ne comptent pas leur donner un centime.",
     "affiche_url": "https://fr.web.img5.acsta.net/c_310_420/img/29/3f/293f877dfb7dcb5672591cba06329a20.jpg",
     "backdrops": [
@@ -1160,6 +1166,7 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Mariano De Santis, Président de la République italienne, est un homme marqué par le deuil de sa femme et la solitude du pouvoir. Alors que son mandat touche à sa fin, il doit faire face à des décisions cruciales qui l’obligent à affronter ses propres dilemmes moraux : deux grâces présidentielles et un projet de loi hautement controversé.Aucune référence à des présidents existants, il est le fruit de l'imagination de l'auteur.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/cc/09/cc093056d1d3096effc536a9905e6d3d.jpg",
     "backdrops": [
@@ -1198,6 +1205,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "3",
+    "courts_metrages": [],
     "synopsis": "Cinq fables où les héros jonglent entre surprises, solidarité, amitié, amour. Racontées et chantées par Philippe Katerine.Programme :- P'tit Hippo : Un hippopotame solitaire envie les fourmis, les abeilles et les lapins, qui vivent en communauté. Jusqu'à ce qu'il rencontre...- Martinko : Un jeune soldat trouve un jeu de cartes magique et s'enrichit jusqu'à parvenir au palais du roi. La princesse en tombe amoureuse, mais enrage en constatant que lui ne l'aime pas. Elle va chercher à se venger...- La Princesse et l'Ogre : Un temps admirable, une princesse insupportable. Une clairière merveilleuse et une grotte affreuse. Un ogre l'y invite à déjeuner, mais devant sa beauté, se sent embarrassé. A moins que ce ne soit l'inverse ?- Il était une fois un chien : Il était une fois un vieux chien, trop fatigué pour effrayer les voleurs. Chassé de son foyer, le pauvre animal trouve refuge dans la forêt, où il fait la connaissance d'un loup sage et plein d'expérience, qui va l'aider à reconquérir le cœur de ses maîtres.- Le Voyage de la fourmi : Par la faute d'une chenille, une fourmi est emportée par le vent. Elle se retrouve perdue à l'autre bout du jardin. Blessée, elle va devoir compter sur la solidarité des autres insectes pour rentrer chez elle avant le coucher du soleil...",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/d4/4f/d44fc9a919162a0bdf8cc6bfa82ece89.jpg",
     "backdrops": [],
@@ -1219,11 +1227,12 @@
     "annee": "2026-03-11",
     "pays": "Japon, U.S.A.",
     "version": "VF",
-    "tarif": "Adh 4 € - Autres 5 €",
+    "tarif": "Adhérent 4 € - Autres 5 €",
     "recompenses": "",
     "categorie": "Ciné Jeunes du samedi 18h - Ados, Jeune Public",
     "commentaire": "",
     "age_min": "12",
+    "courts_metrages": [],
     "synopsis": "Scarlet, une princesse médiévale experte en combat à l'épée se lance dans une périlleuse quête pour venger la mort de son père. Son plan échoue et grièvement blessée elle se retrouve projetée dans un autre monde, le Pays des Morts. Elle va croiser la route d'un jeune homme idéaliste de notre époque, qui non seulement l'aide à guérir mais lui laisse également entrevoir qu'un monde sans rancœur ni colère est possible. Face au meurtrier de son père, Scarlet devra alors mener son plus grand combat : briser le cycle de la haine et donner un sens à sa vie en dépassant son désir de vengeance.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/87/5d/875d587601850e739b6222cabf1aff30.jpg",
     "backdrops": [
@@ -1270,6 +1279,7 @@
     "categorie": "Coup de cœur",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Pendant la Deuxième Guerre mondiale, l’histoire vraie de Jean et Corinne Luchaire, un père et sa fille pris dans l’engrenage de la collaboration.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/c4/47/c447be57bea5db08d582f557727e6a22.jpg",
     "backdrops": [
@@ -1306,6 +1316,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Mabel, une adolescente passionnée par les animaux, saute (littéralement !) sur l’occasion d’essayer une nouvelle technologie révolutionnaire permettant de communiquer avec eux d’une manière totalement inédite… en se glissant dans la peau d’une adorable femelle castor. Conçu par des scientifiques visionnaires, ce dispositif permet de transférer la conscience humaine dans le corps de robots-animaux plus vrais que nature. Mabel se lance alors dans une aventure unique et riche en découvertes au cœur du règne animal.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/0f/fc/0ffc959e65d43de4e4e3a40b80123e9e.jpg",
     "backdrops": [
@@ -1350,17 +1361,18 @@
     "titre": "Derrière les palmiers",
     "titre_original": "",
     "realisateur": "Meryem Benm'Barek",
-    "acteurs_principaux": "Sara Giraudeau, Driss Ramdi, Nadia Kounda",
-    "genres": "Drame",
+    "acteurs_principaux": "Sara Giraudeau, Driss Ramdi, Nadia Kounda, Carole Bouquet, Olivier Rabourdin, Rachel O'Meara, Soumaya Akaaboune, Amine Ennaji",
+    "genres": "Drame, Romance",
     "duree_min": "100",
     "annee": "2026-04-01",
-    "pays": "Maroc, France",
+    "pays": "Maroc, France, Belgique, Royaume-Uni",
     "version": "VF",
     "tarif": "",
     "recompenses": "",
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "A Tanger, Mehdi voit sa relation avec Selma bouleversée lorsqu’il rencontre Marie, une riche Française dont les parents ont acheté une luxueuse villa dans la kasbah. Attiré par sa vie mondaine, il délaisse Selma, feignant d’ignorer que ses choix le rattraperont.",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/20/76/20766787848eeaed1c91bc181d7574ee.jpg",
     "backdrops": [
@@ -1396,6 +1408,15 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [
+      {
+        "code": "CM1",
+        "titre": "Je ne suis pas",
+        "genre": "Film militant",
+        "duree": "04'00",
+        "texte": "Je ne suis pas - Film militant - 04'00"
+      }
+    ],
     "synopsis": "Dans un internat sportif, Camille, un jeune boxeur virtuose, est sauvé in extremis d’un accident mortel par son meilleur ami Matteo. Alors que les médecins le pensent guéri, une douleur inexpliquée l’envahit peu à peu, jusqu’à remettre en question ses rêves de grandeur.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/ef/99/ef99ce4fb6db8b8348ebc254c64ab440.jpg",
     "backdrops": [
@@ -1414,17 +1435,18 @@
     "titre": "Goat- Rêver plus haut",
     "titre_original": "",
     "realisateur": "Tyree Dillihay",
-    "acteurs_principaux": "Caleb McLaughlin, Gabrielle Union, Jenifer Lewis",
-    "genres": "Animation, Comédie, Action",
+    "acteurs_principaux": "Caleb McLaughlin, Gabrielle Union, Jenifer Lewis, Stephen Curry, Aaron Pierre, Nicola Coughlan, David Harbour, Nick Kroll",
+    "genres": "Animation, Comédie, Action, Familial",
     "duree_min": "100",
     "annee": "2026-02-11",
-    "pays": "U.S.A.",
+    "pays": "U.S.A., Etats-Unis",
     "version": "VF",
     "tarif": "",
     "recompenses": "",
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Will est un petit bouc avec de grands rêves. Lorsqu'il décroche une chance inespérée de rejoindre la ligue professionnelle de \"roarball\" - un sport mixte, ultra-intense, réservé aux bêtes les plus rapides et féroces du règne animal - il entend bien saisir sa chance. Problème : ses nouveaux coéquipiers ne sont pas franchement ravis d'avoir un \"petit\" dans l'équipe. Mais Will est prêt à tout pour bousculer les règles du jeu et prouver, une bonne fois pour toutes, que les petits aussi peuvent jouer dans la cour des grands.",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/37/b7/37b765610a647216c6dd6ea52d3170bd.jpg",
     "backdrops": [
@@ -1455,15 +1477,17 @@
     "pays": "Nigéria, Grande-Bretagne",
     "version": "VO",
     "tarif": "",
-    "recompenses": "Meilleur scénario Jury de jeunes et meilleur scénario jury d'adultes 'Carbonne fait son cinéma' Mention Caméra d'or Cannes 2025, BAFTA Awards / Orange British Academy Film Awards 2026: Meilleur réalisateur, producteur ou scénariste britannique pour leur première oeuvre, Festival de Cannes 2025: Caméra d'Or - Mention spéciale",
+    "recompenses": "Meilleur scénario Jury de jeunes et meilleur scénario jury d'adultes FCFC Mention Caméra d'or Cannes 2025, BAFTA Awards / Orange British Academy Film Awards 2026: Meilleur réalisateur, producteur ou scénariste britannique pour leur première oeuvre, Festival de Cannes 2025: Caméra d'Or - Mention spéciale",
     "categorie": "Coup de cœur",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Un Jour avec mon père est un récit semi-autobiographique se déroulant sur une seule journée dans la capitale nigériane, Lagos, pendant la crise électorale de 1993. Un père tente de guider ses deux jeunes fils à travers l'immense ville alors que des troubles politiques menacent.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/42/4a/424afa6c704171e9baaea342d9c0f338.jpg",
     "backdrops": [
       "https://fr.web.img5.acsta.net/img/e8/ca/e8cabc705d09554df825979be96541bb.jpg",
       "https://fr.web.img4.acsta.net/img/30/ab/30ab159187723fb7ccae100658247ee2.jpg",
+      "https://fr.web.img4.acsta.net/img/fc/c2/fcc2c65af7e14662b883a61b7ee9c6a4.jpg",
       "https://fr.web.img2.acsta.net/img/ca/52/ca52952a84d8fae229ed4b2c5bb8aa0d.jpg",
       "https://fr.web.img4.acsta.net/img/67/3f/673fc4a5af6becfa225fa29985237294.jpg",
       "https://fr.web.img5.acsta.net/img/24/cf/24cf7c6dd1dcdfdb2d8c69b311e36f7b.jpg",
@@ -1494,6 +1518,7 @@
     "categorie": "Ados à partir cde 9/10 ans, Jeune Public",
     "commentaire": "",
     "age_min": "12",
+    "courts_metrages": [],
     "synopsis": "Scarlet, une princesse médiévale experte en combat à l'épée se lance dans une périlleuse quête pour venger la mort de son père. Son plan échoue et grièvement blessée elle se retrouve projetée dans un autre monde, le Pays des Morts. Elle va croiser la route d'un jeune homme idéaliste de notre époque, qui non seulement l'aide à guérir mais lui laisse également entrevoir qu'un monde sans rancœur ni colère est possible. Face au meurtrier de son père, Scarlet devra alors mener son plus grand combat : briser le cycle de la haine et donner un sens à sa vie en dépassant son désir de vengeance.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/87/5d/875d587601850e739b6222cabf1aff30.jpg",
     "backdrops": [
@@ -1536,10 +1561,11 @@
     "pays": "Grande-Bretagne",
     "version": "VO",
     "tarif": "",
-    "recompenses": "Prix montage et interpréation Festival 'Carbonne fait son cinéma', BAFTA Awards / Orange British Academy Film Awards 2026: Meilleur acteur, Meilleur directeur de casting",
+    "recompenses": "Prix montage et interpréation FCFC, BAFTA Awards / Orange British Academy Film Awards 2026: Meilleur acteur, Meilleur directeur de casting",
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Dans les années 1980, John Davidson grandit avec le syndrome de Gilles de la Tourette, une pathologie encore largement méconnue. Entre incompréhension, stigmatisation et détermination, son parcours d’abord semé d'embûches se transforme en combat pour être reconnu tel qu’il est, au-delà des préjugés.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/8f/b7/8fb759142fd32992ed10f00b082d92fd.jpg",
     "backdrops": [
@@ -1574,6 +1600,15 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [
+      {
+        "code": "CM2",
+        "titre": "Le futur sera chauve",
+        "genre": "Animation",
+        "duree": "05'36",
+        "texte": "Le futur sera chauve - Animation - 05'36"
+      }
+    ],
     "synopsis": "Voilà Marianne aujourd’hui : femme d’un riche industriel, enviée et admirée, épouse modèle et mère de famille dévouée. Elle va avoir 40 ans et le confort de la vaste demeure familiale a lentement refermé sur elle son piège impitoyable. Prisonnière d’un inextricable réseau d’obligations sociales, familiales et conjugales, complice de son propre effacement, elle a, sans même s’en apercevoir, renoncé à elle-même. Alors, quand resurgit l’ombre de son passé, une brèche s’ouvre. Une autre vie serait-elle possible ? Et à quel prix ?",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/4d/e3/4de3841fc2b8b6f2fa29be5ac5c4f964.jpg",
     "backdrops": [
@@ -1612,6 +1647,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "3",
+    "courts_metrages": [],
     "synopsis": "La forêt d'Edmond et Lucy est un monde à explorer sans fin ! Sentiers secrets, arbres centenaires, habitants mystérieux... À chaque pas, la nature révèle ses richesses et ses mystères. Pour nos deux explorateurs en herbe, l'aventure est partout. Il suffit de se laisser guider par la forêt !",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/c3/f1/c3f1c0f0487600d766398e361cb351bd.jpg",
     "backdrops": [
@@ -1650,6 +1686,7 @@
     "categorie": "Ciné Documentaire du samedi 18h",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "1949. George Orwell termine ce qui sera son dernier mais plus important roman, 1984.ORWELL : 2+2=5 plonge dans les derniers mois de la vie d’Orwell et dans son œuvre visionnaire pour explorer les racines des concepts troublants qu'il a révélés au monde dans son chef-d'œuvre dystopique : le double discours, le crime par la pensée, la novlangue, le spectre omniprésent de Big Brother... des vérités sociopolitiques qui résonnent encore plus puissamment aujourd'hui.",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/0c/2b/0c2bd5a0e4ca0f608888589f81b6a9b2.jpg",
     "backdrops": [
@@ -1681,6 +1718,7 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Ryland Grace, professeur de sciences, se réveille seul à bord d’un vaisseau spatial, à des années-lumière de la Terre, sans aucun souvenir de son identité ni des raisons de sa présence à bord. Peu à peu, sa mémoire lui revient, et il comprend l’enjeu de sa mission : résoudre l'énigme de la mystérieuse substance qui cause l'extinction du Soleil. Pour tenter de sauver l’humanité, il va devoir faire appel à ses connaissances scientifiques et à des idées peu conventionnelles … Mais une amitié inattendue pourrait bien l’aider à ne pas affronter cette mission tout seul.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/99/2a/992abd2d7fd54a1c00db5b43aee847d0.jpg",
     "backdrops": [
@@ -1710,6 +1748,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Lors d’un séjour chez leur grand-père, Suzanne (8 ans) s’improvise conteuse pour illuminer la maison d’histoires imaginaires et merveilleuses qu’elle raconte à ses deux frères, Tom et Derek, afin de combler l’absence de leur grand-mère. D’abord réticent, le grand-père finit par s’associer à leurs jeux et, par un tour de passe-passe, fait de leur week-end un moment de partage et de joyeux souvenirs.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/97/e7/97e726b5f30004d00fdd339b3f0757ce.jpg",
     "backdrops": [
@@ -1740,6 +1779,7 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Rose et Jean n’ont rien en commun. Rose est une force de la nature qui affronte tous ses problèmes avec une désarmante joie de vivre. Elle campe avec ses 3 enfants à l’étage de l’hôtel de famille qui ne leur appartient plus, et non, ils ne sont pas pauvres, ils sont fauchés. C’est temporaire. Jean est un homme solitaire et taciturne qui a fini par enfouir son grand cœur sous des couches de pudeur et de résignation. Quand il arrive malgré lui dans cette famille hors norme, il va très vite devenir indispensable. Qu’attendaient-ils avant de se rencontrer ? Sans doute plus rien. Et pourtant, ensemble, tout va devenir possible.",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/91/c4/91c4697bf2f82f4dba42d64d8188ec45.jpg",
     "backdrops": [
@@ -1782,6 +1822,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Mabel, une adolescente passionnée par les animaux, saute (littéralement !) sur l’occasion d’essayer une nouvelle technologie révolutionnaire permettant de communiquer avec eux d’une manière totalement inédite… en se glissant dans la peau d’une adorable femelle castor. Conçu par des scientifiques visionnaires, ce dispositif permet de transférer la conscience humaine dans le corps de robots-animaux plus vrais que nature. Mabel se lance alors dans une aventure unique et riche en découvertes au cœur du règne animal.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/0f/fc/0ffc959e65d43de4e4e3a40b80123e9e.jpg",
     "backdrops": [
@@ -1837,6 +1878,7 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Afin d’obtenir un document d’état civil pour ses études supérieures, Marina, adoptée depuis l’enfance, doit renouer avec une partie de sa véritable famille. Guidée par le journal intime de sa mère qui ne l’a jamais quittée, elle se rend sur la côte atlantique et rencontre tout un pan de sa famille paternelle qu’elle ne connait pas. L’arrivée de Marina va faire ressurgir le passé. En ravivant le souvenir de ses parents, elle va découvrir les secrets de cette famille, les non-dits et les hontes…",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/7d/71/7d71d5cb3807d32a852e5725c3c91974.jpg",
     "backdrops": [
@@ -1869,6 +1911,7 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Au cœur des Cévennes, Anja décide de vivre à l'écart des autres, au milieu des bois. Insaisissable et sauvage, elle bouleverse peu à peu l'équilibre de la vallée et de ses habitants. Sa mère reste son seul lien avec le monde extérieur... D'après une histoire vraie.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/0b/a9/0ba98ea719f8ea2397edb3c1f62871c2.jpg",
     "backdrops": [
@@ -1900,6 +1943,7 @@
     "categorie": "Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Après SUPER MARIO BROS., l’adaptation cinématographique du célèbre jeu vidéo et forts du succès remporté dans le monde entier avec plus d’un milliard de dollars de recettes, ILLUMINATION et NINTENDO se retrouvent une nouvelle fois, afin de nous offrir un tout nouveau chapitre, cette fois à dimension cosmique, mais tout aussi bourré d’action : SUPER MARIO GALAXY.À peine installés au Royaume Champignon, un mystérieux appel à l'aide va pousser Mario et Luigi à reprendre du service et plonger dans les zones d’ombre du passé de la princesse Peach. Une mission qui va propulser nos héros et leur nouvelle constellation d’amis, très loin de chez eux, à travers un périple intergalactique, à la découverte de nouveaux mondes où se forgeront des alliances pour le moins inattendues.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/92/3c/923c580e3fb2488d308865d6b6a2e381.jpg",
     "backdrops": [
@@ -1938,6 +1982,15 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [
+      {
+        "code": "CM3",
+        "titre": "Super V",
+        "genre": "Comédie",
+        "duree": "02'00",
+        "texte": "Super V - Comédie - 02'00"
+      }
+    ],
     "synopsis": "Un jour, Clémence prend conscience que personne ne l'a jamais admirée. Bercée par les illusions d'une enfance chaotique, elle croise un certain Paul, petit patron autoritaire que rien ni personne n'impressionne. Elle se dit alors qu'il est temps pour elle de se poser la seule question qui vaille : « Et si je valais plus que je ne le crois ? »",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/bb/0f/bb0f9363bd93b115f677849c570d48b4.jpg",
     "backdrops": [
@@ -1973,6 +2026,7 @@
     "categorie": "Séance EPHAD HANDI Famille, Jeune Public",
     "commentaire": "",
     "age_min": "8",
+    "courts_metrages": [],
     "synopsis": "Sur le continent africain, en Éthiopie, il existe une région où la terre s’est soulevée à plus de 3600m d’altitude. Là-haut, il y a des hauts plateaux. Et sur ces hauteurs vit l’espèce de canidé la plus rare du monde : le Loup d’Éthiopie. Dans le sillage d’un photographe engagé pour la préservation de cette espèce nous partons à la rencontre de ce monde d’altitude où les derniers loups vivent. En plus d’être rare, d’avoir évolué loin de ses cousins canidés et dans un environnement isolé, ce loup adopte un comportement inédit et rarement filmé : il butine des fleurs ! Porté par la passion d’Adrien Lesaffre, le photographe, nous découvrons un monde discret, intime et le travail nécessaire de documentation photographique pour la conservation.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/73/3f/733fbc285ffe2e9b9810903708c88353.jpg",
     "backdrops": [
@@ -2008,6 +2062,7 @@
     "categorie": "",
     "commentaire": "avec Empreinte Carbonne",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "1984. Yvon Kastendeuch, flic à l’ancienne et fan de Michel Sardou est propulsé malgré lui à la tête d’une « unité d’élite » : la Police Flash 80. Il doit désormais faire équipe avec Guilaine, maman surmenée et cerveau du groupe, Marfoud, geek du Minitel et Roberto, l’infiltré à la coupe mulet. Ensemble, ils vont tenter de démanteler un trafic de drogue en devenant une brigade si improbable, que même les années 80 n’étaient pas prêtes.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/d2/e0/d2e0fc59aa05b1667b14e7c3987573bc.jpg",
     "backdrops": [
@@ -2047,6 +2102,7 @@
     "categorie": "Ciné goûter, Jeune Public",
     "commentaire": "",
     "age_min": "6",
+    "courts_metrages": [],
     "synopsis": "Walter est le chanceux papa d’une joyeuse bande de petits lapins. Un jour, après un gros choc, il perd la mémoire… et se met à croire qu’il est un véritable super-héros ! Ça tombe bien : sa voisine, une hérissonne intrépide, cherche justement un partenaire pour explorer le monde. Les voilà embarqués dans une incroyable aventure. Mais la bande de petits lapins n’a pas dit son dernier mot : pas question de laisser leur super-papa. Ils vont tout faire pour lui rappeler que, finalement, le plus cool des super-pouvoirs… c’est la famille !",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/img/a2/bd/a2bdae0847360b299016dd772fc85c2b.jpg",
     "backdrops": [
@@ -2082,6 +2138,7 @@
     "categorie": "Ciné Patrimoine du samedi 18h",
     "commentaire": "avec Empreinte Carbonne",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Déposés dans le coffre d’une voiture au Mexique, des bâtons de dynamite explosent quelques centaines de mètres plus loin, aux Etats-Unis, dans la même ville frontalière de Los Robles. Bilan : deux morts, un notable et une strip-teaseuse. Témoin du drame au moment de son voyage de noces, le procureur Mike Vargas dresse les premières constations, bientôt rejoint par l’inspecteur Hank Quinlan, un policier américain dont la solide expérience n’a d’égale que les méthodes pour le moins douteuses. Tant bien que mal, Vargas et Quinlan tentent de s’accorder, le second pressé de faire porter le chapeau au mari de la fille du défunt…",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/d0/aa/d0aa5f30ff04f79c2b6cec9d2186fd4f.jpg",
     "backdrops": [
@@ -2127,6 +2184,7 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Fragilisée par le récent décès de sa mère, la jeune Gwen trouve du réconfort auprès de sa bande d'amis et de son amoureux, Thomas. Mais l'arrivée de Jean-Luc, étudiant au charme magnétique, la plonge dans une confusion des sentiments. Qui choisir? Un jour, comme pour éclairer son choix, Gwen tombe au cinéma sur un film qui semble inexplicablement lui dévoiler sa propre vie...",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/e3/7c/e37c38238df63e2fe38ced2714b1e4f4.jpg",
     "backdrops": [
@@ -2163,6 +2221,7 @@
     "categorie": "Documentaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Edouard Bergeon (« Au Nom de la Terre ») nous plonge dans la vie de Jérôme Bayle, éleveur charismatique du Sud-Ouest et figure nationale de la ruralité. Avec humour et tendresse, il dresse un portrait sensible de l’agriculture familiale française d’aujourd’hui et de ceux qui se battent pour la faire perdurer.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/76/32/76325273dba162d20a31fbc235173f69.jpg",
     "backdrops": [
@@ -2198,6 +2257,7 @@
     "categorie": "Coup de cœur",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Pendant la Deuxième Guerre mondiale, l’histoire vraie de Jean et Corinne Luchaire, un père et sa fille pris dans l’engrenage de la collaboration.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/c4/47/c447be57bea5db08d582f557727e6a22.jpg",
     "backdrops": [
@@ -2234,6 +2294,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Pendant l’occupation allemande durant la Seconde Guerre mondiale, François, Eusèbe et Lisa, trois enfants courageux, se lancent dans une aventure secrète : résister aux nazis en plein cœur de la France. Sabotages, messages cachés et évasions périlleuses, ils mènent des actions clandestines sous le nez de l’ennemi. L’audace et l’amitié sont leurs seules armes pour lutter contre l’injustice.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/0f/58/0f58892693cc868f4c0caf21614954cf.jpg",
     "backdrops": [
@@ -2258,9 +2319,9 @@
     "titre": "Petites casseroles",
     "titre_original": "",
     "realisateur": "Uzi Geffenblad",
-    "acteurs_principaux": "",
-    "genres": "",
-    "duree_min": "",
+    "acteurs_principaux": "Camille Kerdellant, Ingrid Coetzer",
+    "genres": "Animation",
+    "duree_min": "6",
     "annee": "2015-09-23",
     "pays": "France",
     "version": "VF",
@@ -2269,15 +2330,11 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "L'enfance, une aventure au quotidien... Dougal rêve de voler, Aston de fêter son anniversaire et Anatole de se faire des copains mais, pour eux, les choses ne sont pas toujours aussi simples. Avec courage et humour, nos héros vont pourtant trouver le moyen de dépasser leurs peurs ou leurs singularités qu’ils trainaient comme des petites casseroles.",
     "affiche_url": "https://fr.web.img5.acsta.net/c_310_420/pictures/15/06/17/15/48/259306.jpg",
     "backdrops": [
-      "https://fr.web.img6.acsta.net/pictures/15/06/17/15/49/505166.jpg",
-      "https://fr.web.img6.acsta.net/pictures/15/06/17/15/49/504072.jpg",
-      "https://fr.web.img6.acsta.net/pictures/15/06/17/15/49/502041.jpg",
-      "https://fr.web.img3.acsta.net/pictures/15/06/17/15/49/501260.jpg",
-      "https://fr.web.img6.acsta.net/pictures/15/06/17/15/49/500478.jpg",
-      "https://fr.web.img3.acsta.net/pictures/15/06/17/15/49/499541.jpg"
+      "https://image.tmdb.org/t/p/original/dspqxeBMqc9UUR2mAau5I6zuYF6.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jHol1kQM3DY",
     "tmdb_id": "",
@@ -2302,13 +2359,11 @@
     "categorie": "Coup de cœur",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Dans un village du nord de l’Inde, deux amis d’enfance tentent de passer le concours de police d’État, un métier qui pourrait leur offrir la dignité qu’ils n’osent espérer. Alors qu’ils touchent du doigt leur rêve, le lien précieux qui les unit est menacé par leurs désillusions...",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/0a/aa/0aaa63f822e3b7b2ffcd14b12e07a33c.jpg",
     "backdrops": [
-      "https://fr.web.img6.acsta.net/img/c5/0c/c50cfe9b0bd0cbe064dae7f806294e87.jpg",
-      "https://fr.web.img6.acsta.net/img/0a/71/0a719be20ccbf5c0cc6aaca05a1c7eeb.jpg",
-      "https://fr.web.img2.acsta.net/img/d4/f0/d4f09e7c43a09b900269098e6216fcd8.jpg",
-      "https://fr.web.img6.acsta.net/img/3e/ca/3eca2020fb93cd72cb0dde98afc047f9.jpg"
+      "https://image.tmdb.org/t/p/original/v9w0xds8GUzOwHTZRuw2yeObRzD.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=WojNkusud84",
     "tmdb_id": "",
@@ -2333,11 +2388,11 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "De retour en Tunisie pour les funérailles de son oncle, Lilia retrouve une famille qui ignore tout de sa vie à Paris. Déterminée à éclaircir le mystère de cette mort soudaine, Lilia se retrouve confrontée aux secrets d'une maison où cohabitent trois générations de femmes.",
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/img/89/77/8977029863031e2d3ea8b7f679dece65.jpg",
     "backdrops": [
-      "https://fr.web.img3.acsta.net/img/83/a7/83a72b2e2fedbc613c4c444f4e6fe1d4.jpg",
-      "https://fr.web.img6.acsta.net/img/5d/ef/5def5998165141165c6175840a162a2e.jpg"
+      "https://image.tmdb.org/t/p/original/1PSrPsyXJ0XQKkpUpTG7KninVz9.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/26/03/19/13/05/20635411_hd_013.mp4?source=www&platform=graphql",
     "tmdb_id": "",
@@ -2350,7 +2405,7 @@
     "heure": "10:00",
     "titre": "Le peuple loup",
     "titre_original": "",
-    "realisateur": "Tomm Moore, Ross Stewart",
+    "realisateur": "",
     "acteurs_principaux": "Lévanah Solomon, Honor Kneafsey, Lana Ropion",
     "genres": "Animation, Aventure, Famille, Fantastique",
     "duree_min": "103",
@@ -2362,19 +2417,11 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "En Irlande, au temps des superstitions et de la magie, Robyn, une jeune fille de 11 ans, aide son père à chasser la dernière meute de loups. Mais un jour, lors d’une battue en forêt, Robyn rencontre Mebh, petite fille le jour, louve la nuit. Désormais pour Robyn, ayant rejoint elle aussi le peuple des loups, la menace ne vient plus des loups, mais bien des hommes !",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/pictures/20/10/30/14/00/2550303.jpg",
     "backdrops": [
-      "https://fr.web.img3.acsta.net/pictures/20/09/17/10/35/2743528.jpg",
-      "https://fr.web.img6.acsta.net/pictures/20/09/17/10/35/2729488.jpg",
-      "https://fr.web.img2.acsta.net/pictures/20/09/17/10/35/2715447.jpg",
-      "https://fr.web.img4.acsta.net/pictures/20/09/17/10/35/2701406.jpg",
-      "https://fr.web.img6.acsta.net/pictures/20/09/17/10/35/2671765.jpg",
-      "https://fr.web.img5.acsta.net/pictures/20/09/17/10/35/2642124.jpg",
-      "https://fr.web.img3.acsta.net/pictures/20/09/17/10/35/2612482.jpg",
-      "https://fr.web.img5.acsta.net/pictures/20/09/17/10/35/2576601.jpg",
-      "https://fr.web.img2.acsta.net/pictures/20/09/09/09/45/4329776.jpg",
-      "https://fr.web.img6.acsta.net/pictures/20/04/30/15/59/3671092.jpg"
+      "https://image.tmdb.org/t/p/original/3zTbERSBLh7waK9811RTKGAcG86.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=SEhrgA_Y4bo",
     "tmdb_id": "",
@@ -2399,6 +2446,15 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [
+      {
+        "code": "CM4",
+        "titre": "Des filles et des chiens",
+        "genre": "Comédie",
+        "duree": "05'00",
+        "texte": "Des filles et des chiens - Comédie - 05'00"
+      }
+    ],
     "synopsis": "Rémi ne s’est jamais remis de sa dernière séparation. Depuis, il s’est mis en couple avec une poupée, c’est plus simple. Elle s’appelle Audrey. Le jour où Patricia, une nouvelle collègue, arrive dans l’entreprise de Rémi, Audrey va mystérieusement prendre vie.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/09/65/09654c317f423a18cba51456e628839d.jpg",
     "backdrops": [
@@ -2430,6 +2486,7 @@
     "categorie": "Famille, Jeune Public",
     "commentaire": "",
     "age_min": "8",
+    "courts_metrages": [],
     "synopsis": "Sun, âgée de 14 ans, a publié un livre inspiré d'une histoire que son grand-père lui racontait : l'incroyable histoire d'Hadara, un enfant nomade perdu par sa famille à l’âge de 2 ans dans une tempête de sable dans le désert, qui a ensuite été recueilli et élevé par un couple d’autruches. Mais lorsque Sun est invitée à visiter le Sahara, elle se rend compte qu'Hadara est peut-être plus qu'une simple histoire pour s'endormir.",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/9d/15/9d157ac17daf804e350714f1f925c6bb.jpg",
     "backdrops": [
@@ -2472,6 +2529,7 @@
     "categorie": "",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Fred et Adam, un adolescent en rupture, ne se connaissent pas. Pourtant, grâce à une association, ils entreprennent ensemble le pèlerinage de Saint-Jacques-de-Compostelle. Elle cherche à apaiser son passé, il tente de canaliser sa colère et son sentiment d’abandon. Au fil des kilomètres, entre affrontements et instants suspendus, un lien fragile se tisse. Face aux épreuves du chemin, chacun découvre en lui une force insoupçonnée.Inspiré d’une histoire vraie.",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/5b/3d/5b3d2c4e0f58bab97b979611615ea321.jpg",
     "backdrops": [
@@ -2513,6 +2571,7 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Carlobianchi et Doriano, deux cinquantenaires fauchés, errent la nuit en voiture de bar en bar, obsédés par l’idée d’un dernier verre, lorsqu’ils croisent la route de Giulio, un étudiant en architecture aussi timide que naïf. Entre confidences et gueule de bois, cette rencontre inattendue avec ces deux mentors improbables va bouleverser la vision que Giulio porte sur le monde, l’amour… et son avenir.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/66/ea/66eae298970eaae1f708d26f9191e923.jpg",
     "backdrops": [
@@ -2544,6 +2603,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Le film retrace le parcours exceptionnel de Nelson Mandela, de son enfance en milieu rural à son investiture comme premier président de la République d’Afrique du Sud élu démocratiquement. Mandela: Long Walk to Freedom raconte le destin passionnant d’un homme ordinaire qui sut s’insurger contre l’ordre établi et faire triompher ses convictions. Un portrait intime qui célèbre l’édification d’une icône moderne.",
     "affiche_url": "https://image.tmdb.org/t/p/w780/v98GX1HXyZXCL0so1keWAjA8TOo.jpg",
     "backdrops": [
@@ -2572,6 +2632,7 @@
     "categorie": "Scolaire",
     "commentaire": "",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Les vacances, tout le monde le sait, ne sont pas faites pour s'amuser. Tout le monde le sait, sauf Monsieur Hulot qui, pipe en l'air et silhouette en éventail, prend la vie comme elle vient, bouleversant scandaleusement au volant de sa vieille voiture Salmson pétaradante la quiétude estivale des vacanciers qui s'installent avec leurs habitudes de citadins dans cette petite station balnéaire de la côte atlantique. Il promène dans l'ennui balnéaire, le plaisir émerveillé des châteaux de sable. Et, d'un seul coup, l'ennui éclate de rire, tandis que les châteaux de sable s'ouvrent sur la belle au bois dormant et qu'aux cris des enfants, la petite plage pétarade et reluit comme un quatorze juillet... Mais voilà septembre. Monsieur Hulot, inconscient du scandale, rentre... Où rentre-t-il au fait ? Dans les nuages sans doute, dont il n'était, d'ailleurs, jamais sorti. Mais les enfants, après qu'il ait disparu, ont regardé le ciel longtemps.",
     "affiche_url": "https://fr.web.img3.acsta.net/c_310_420/medias/nmedia/18/65/17/29/19116282.jpg",
     "backdrops": [
@@ -2610,6 +2671,7 @@
     "categorie": "Coup de coeur",
     "commentaire": "avec Empreinte Carbonne",
     "age_min": "",
+    "courts_metrages": [],
     "synopsis": "Ceci est l’histoire vraie de Tony Kiritsis, un homme ruiné à cause d’un emprunt. A Indianapolis, le 8 février 1977, il kidnappe le fils du courtier responsable de sa situation. Il réclame 5 millions de dollars et des excuses. La prise d’otage va durer 63 heures, sous les yeux de la télévision locale, puis nationale. L’Amérique se passionne pour cette affaire. Chacun choisit son camp. Tony est-il un criminel, ou simplement une victime qui réclame justice ?",
     "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/img/4f/d3/4fd3dc8b1b50eaa5de068450ee3e120e.jpg",
     "backdrops": [
@@ -2621,7 +2683,7 @@
       "https://fr.web.img2.acsta.net/img/5a/38/5a3850d9e4ac4583736df6a4e6472438.jpg",
       "https://fr.web.img3.acsta.net/img/1b/80/1b80d05b2eb3ae4246c2b74eac47883b.jpg"
     ],
-    "trailer_url": "https://www.youtube.com/watch?v=a63_x6_mM98",
+    "trailer_url": "https://www.youtube.com/watch?v=aHAwgnJL78Y",
     "tmdb_id": "",
     "imdb_id": "",
     "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328280.html"

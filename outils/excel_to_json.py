@@ -31,6 +31,7 @@ FIELDS_TO_KEEP = [
     "titre","titre_original","realisateur","acteurs_principaux",
     "genres","duree_min","annee","pays","version",
     "tarif","recompenses","categorie","commentaire","age_min",
+    "courts_metrages",
     "synopsis","affiche_url","backdrops",
     "trailer_url","tmdb_id","imdb_id",
     "allocine_url"
@@ -134,11 +135,13 @@ def row_to_obj(r: pd.Series) -> dict:
                 pass
 
     obj = {}
+    json_list_fields = {"backdrops", "courts_metrages"}
+
     for k in FIELDS_TO_KEEP:
-        if k == "backdrops":
+        if k in json_list_fields:
             val = r.get(k, "")
             if val == "" and "backdrops" not in r and "backdrops" in raw:
-                val = raw.get("backdrops", "")
+                val = raw.get(k.lower(), "")
             s = safe_str(val)
             if s and s.lstrip().startswith("["):
                 try:

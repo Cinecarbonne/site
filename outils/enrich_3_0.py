@@ -12,6 +12,7 @@ import difflib
 import html
 import json
 import os
+import sys
 import time
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -1932,8 +1933,15 @@ def _prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, matc
         f"date_match={match_info.get('date_match')}",
         flush=True,
     )
+    if not sys.stdin.isatty():
+        print("[info] mode non interactif: choix automatique 'm' (merge).", flush=True)
+        return "m"
     while True:
-        choice = input("Choisir source (a=allocine, t=tmdb, m=both/merge, s=skip): ").strip().lower()
+        try:
+            choice = input("Choisir source (a=allocine, t=tmdb, m=both/merge, s=skip): ").strip().lower()
+        except EOFError:
+            print("[info] entree indisponible: choix automatique 'm' (merge).", flush=True)
+            return "m"
         if choice in {"a", "t", "m", "s"}:
             return choice
 

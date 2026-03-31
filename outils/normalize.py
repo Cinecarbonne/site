@@ -259,6 +259,90 @@ def normalize_categorie_field(categorie, jp_in_tarif=False):
     return ", ".join(labels)
 
 
+CM_REF_RE = re.compile(r"\bCM\s*(\d+)\b", flags=re.IGNORECASE)
+CM_DURATION_RE = re.compile(r"(\d+\s*(?:'|min)\s*\d{0,2})", flags=re.IGNORECASE)
+
+
+def parse_cm_refs(value):
+    refs = []
+    seen = set()
+    for number in CM_REF_RE.findall(str(value or "")):
+        ref = f"CM{number}"
+        if ref not in seen:
+            seen.add(ref)
+            refs.append(ref)
+    return refs
+
+
+def parse_cm_definition(value):
+    text = clean_label(value)
+    if not text:
+        return None
+
+    match = re.match(r"^\s*(CM\s*\d+)\s*:\s*(.+?)\s*$", text, flags=re.IGNORECASE)
+    if not match:
+        return None
+
+    code = match.group(1).upper().replace(" ", "")
+    rest = clean_label(match.group(2))
+    parts = [clean_label(part) for part in re.split(r"\s+-\s+", rest) if clean_label(part)]
+
+    titre = parts[0] if parts else rest
+    genre = parts[1] if len(parts) > 1 else ""
+
+    duration = ""
+    if len(parts) > 2:
+        duration_source = " - ".join(parts[2:])
+        duration_match = CM_DURATION_RE.search(duration_source)
+        if duration_match:
+            duration = clean_label(duration_match.group(1))
+    if not duration and len(parts) > 1:
+        duration_match = CM_DURATION_RE.search(parts[-1])
+        if duration_match:
+            duration = clean_label(duration_match.group(1))
+            if len(parts) == 2 and genre == parts[-1]:
+                genre = ""
+
+    display_parts = [titre, genre, duration]
+    return {
+        "code": code,
+        "titre": titre,
+        "genre": genre,
+        "duree": duration,
+        "texte": " - ".join(part for part in display_parts if part),
+    }
+
+
+def extract_cm_catalog(raw):
+    catalog = {}
+    max_cols = raw.shape[1] if hasattr(raw, "shape") else 0
+    for row_idx in (0, 1):
+        if row_idx not in raw.index:
+            continue
+        row = raw.loc[row_idx]
+        for col_idx in range(max_cols):
+            parsed = parse_cm_definition(row.get(col_idx))
+            if parsed:
+                catalog[parsed["code"]] = parsed
+    return catalog
+
+
+def resolve_courts_metrages(catalog, cm_value):
+    resolved = []
+    for ref in parse_cm_refs(cm_value):
+        payload = dict(catalog.get(ref) or {})
+        if not payload:
+            payload = {
+                "code": ref,
+                "titre": "",
+                "genre": "",
+                "duree": "",
+                "texte": ref,
+            }
+        resolved.append(payload)
+    return resolved
+
+
 def is_red_background(cell):
     """Retourne True si la cellule Excel a un fond rouge (#FF0000)."""
     fill = cell.fill
@@ -293,10 +377,12 @@ def is_red_background(cell):
 
 def main():
     if not INPUT_PATH.exists():
-        raise SystemExit(f"❌ Fichier introuvable : {INPUT_PATH}")
+        raise SystemExit(f"[ERREUR] Fichier introuvable : {INPUT_PATH}")
 
     # pandas : valeurs
     raw = pd.read_excel(INPUT_PATH, sheet_name=SHEET_NAME, header=None, dtype=object)
+
+    cm_catalog = extract_cm_catalog(raw)
 
     # openpyxl : styles (couleurs)
     wb = openpyxl.load_workbook(INPUT_PATH, data_only=True)
@@ -344,68 +430,74 @@ def main():
             # On ne sort pas ici.
 
         # --------------------------------------------------------
-        # 2) Ignorer les lignes dont le titre (col E) a un fond rouge
+        # 2) Mise à jour du jour courant
         # --------------------------------------------------------
+        row_date = parse_date_cell(b)
+        if is_weekday_label(a) and row_date:
+            current_date = row_date
+
+        # --------------------------------------------------------
+        # 3) Détection séance classique
+        #    Règle: on avance d'abord par date, puis on ne s'intéresse
+        #    qu'aux lignes qui portent un horaire en colonne C.
+        # --------------------------------------------------------
+        t = parse_time_cell(row.get(COL_C))
+        if not current_date or not t:
+            continue
+
+        titre = norm_str(row.get(COL_TITRE))
+        if not titre:
+            continue
+
         titre_cell_excel = ws.cell(row=idx + 1, column=COL_TITRE + 1)  # openpyxl = 1-based
         if is_red_background(titre_cell_excel):
             continue
 
-        # --------------------------------------------------------
-        # 3) Mise à jour du jour courant
-        # --------------------------------------------------------
-        if is_weekday_label(a) and parse_date_cell(b):
-            current_date = parse_date_cell(b)
+        version = normalize_version(norm_str(row.get(COL_VERSION)))
+        cm = norm_str(row.get(COL_CM))
+        courts_metrages = resolve_courts_metrages(cm_catalog, cm)
+        realisateur =  norm_str(row.get(COL_REAL))
+        prix_invites = norm_str(row.get(COL_PRIX_INVITES))
+        categorie = norm_str(row.get(COL_CATEG))
+        tarif = norm_str(row.get(COL_TARIF))
+        commentaire = norm_str(row.get(COL_COMMENT))
+        recompenses = None
 
-        # --------------------------------------------------------
-        # 4) Détection séance classique
-        # --------------------------------------------------------
-        t = parse_time_cell(row.get(COL_C))
-        titre = norm_str(row.get(COL_TITRE))
+        if prix_invites:
+            if is_rewards_text(prix_invites):
+                recompenses = prix_invites
+            else:
+                commentaire = merge_comment_parts(prix_invites, commentaire)
 
-        if current_date and t and titre:
-            version = normalize_version(norm_str(row.get(COL_VERSION)))
-            cm = norm_str(row.get(COL_CM))
-            realisateur =  norm_str(row.get(COL_REAL))
-            prix_invites = norm_str(row.get(COL_PRIX_INVITES))
-            categorie = norm_str(row.get(COL_CATEG))
-            tarif = norm_str(row.get(COL_TARIF))
-            commentaire = norm_str(row.get(COL_COMMENT))
-            recompenses = None
+        # --- Normalisation categorie/tarif ---
+        tarif, jp_in_tarif = normalize_tarif_field(tarif)
+        categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif)
 
-            if prix_invites:
-                if is_rewards_text(prix_invites):
-                    recompenses = prix_invites
-                else:
-                    commentaire = merge_comment_parts(prix_invites, commentaire)
-
-            # --- Normalisation categorie/tarif ---
-            tarif, jp_in_tarif = normalize_tarif_field(tarif)
-            categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif)
-
-            records.append({
-                "Date": current_date.strftime("%Y-%m-%d"),
-                "Heure": f"{t.hour:02d}:{t.minute:02d}",
-                "Titre": titre,
-                "Version": version,
-                "CM": cm,
-                "Realisateur" : realisateur,
-                "Recompenses": recompenses,
-                "Categorie": categorie,
-                "Tarif": tarif,
-                "Commentaire": commentaire,
-            })
+        records.append({
+            "Date": current_date.strftime("%Y-%m-%d"),
+            "Heure": f"{t.hour:02d}:{t.minute:02d}",
+            "Titre": titre,
+            "Version": version,
+            "CM": cm,
+            "courts_metrages": json.dumps(courts_metrages, ensure_ascii=False) if courts_metrages else "",
+            "Realisateur" : realisateur,
+            "Recompenses": recompenses,
+            "Categorie": categorie,
+            "Tarif": tarif,
+            "Commentaire": commentaire,
+        })
 
     # --------------------------------------------------------
     # export des séances
     # --------------------------------------------------------
     df = pd.DataFrame(records, columns=[
-        "Date", "Heure", "Titre", "Version", "CM", 'Realisateur',
+        "Date", "Heure", "Titre", "Version", "CM", "courts_metrages", 'Realisateur',
         "Recompenses", "Categorie", "Tarif", "Commentaire"
     ])
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_excel(OUTPUT_PATH, index=False)
-    print(f"✅ Écrit : {OUTPUT_PATH} ({len(df)} lignes)")
+    print(f"[done] Ecrit : {OUTPUT_PATH} ({len(df)} lignes)")
 
     # --------------------------------------------------------
     # export "prochainement"
@@ -415,7 +507,7 @@ def main():
     with PROCHAINEMENT_PATH.open("w", encoding="utf-8") as f:
         json.dump(upcoming_blocks, f, ensure_ascii=False, indent=2)
 
-    print(f"✅ Écrit : {PROCHAINEMENT_PATH} ({len(upcoming_blocks)} bloc(s))")
+    print(f"[done] Ecrit : {PROCHAINEMENT_PATH} ({len(upcoming_blocks)} bloc(s))")
 
 
 if __name__ == "__main__":

@@ -684,6 +684,27 @@ a.clicked {
   line-height: 1.35
 }
 
+.shortfilmLine {
+  margin-top: 10px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.shortfilmLabel {
+  color: #8f8f8f;
+}
+
+.shortfilmTitle {
+  color: var(--brand);
+  text-transform: uppercase;
+}
+
+.shortfilmMeta,
+.shortfilmItemSeparator {
+  color: #ffffff;
+  text-transform: lowercase;
+}
+
 .backdropTop {
   width: 100%;
   aspect-ratio: 16/9;

@@ -142,10 +142,14 @@ def _extract_cm_title(text: str) -> str:
     if not text:
         return ""
     cleaned = str(text).strip()
-    for key in ("CM1", "CM2"):
-        if cleaned.startswith(key):
-            cleaned = cleaned[len(key):].strip()
-            break
+    match = re.match(r"^(CM\d+)\s*:\s*(.+)$", cleaned)
+    if match:
+        cleaned = match.group(2).strip()
+    else:
+        for key in ("CM1", "CM2"):
+            if cleaned.startswith(key):
+                cleaned = cleaned[len(key):].strip(" :")
+                break
     if " - " in cleaned:
         cleaned = cleaned.split(" - ", 1)[0].strip()
     return cleaned
