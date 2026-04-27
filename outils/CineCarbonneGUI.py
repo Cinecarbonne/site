@@ -9,6 +9,8 @@ from pathlib import Path
 import normalize
 import enrich_3_0 as enrich
 import excel_to_json
+import make_tableau_ingest as ingest
+import make_tableau_service as service
 
 TMDB_API_KEY=os.getenv ("TMDB_API_KEY","4b400d47b0a36eed006040846feebaf5")
 
@@ -87,19 +89,26 @@ def convert():
                         "veuillez sélectionner le fichier programme source à l'aide du bouton prévu a cet effet")
             continu=False
 
+    #test normalized.xlsx existance
+    if continu and not (WORK_DIR / "normalized.xlsx").is_file():
+        error_popup("le fichier work/normalized.xlsx n'existe pas\n/"
+                    "veuillez sélectionner  l'option 'normalize' dans l'interface")
+        continu=False
 
+    #create ingest file
+    if continu and options["ingest"].get():
+        ingest.main()
 
+    #create service file
+    if continu and options["service"].get():
+        service.main()
+
+    # create enriched file for site MAJ
     if continu and options["enrich"].get():
-        print(f"Répertoire courant début enrich: {os.getcwd()}")
-        if (WORK_DIR / "normalized.xlsx").is_file():
-            print("ajout TMDB data witk key %s __" % input_TMDB.get('1.0', "end"))
-            os.environ["TMDB_API_KEY"] = TMDB_API_KEY
-            print("API_KEY 2: " + os.environ.get("TMDB_API_KEY", ""))
-            enrich.main(window)
-        else :
-            error_popup("le fichier work/normalized.xlsx n'existe pas\n/"
-                        "veuillez sélectionner  l'option 'normalize' dans l'interface")
-            continu=False
+        print("ajout TMDB data witk key %s __" % input_TMDB.get('1.0', "end"))
+        os.environ["TMDB_API_KEY"] = TMDB_API_KEY
+        print("API_KEY 2: " + os.environ.get("TMDB_API_KEY", ""))
+        enrich.main(window)
 
     if continu and options["export"].get():
         print(f"Répertoire courant début export: {os.getcwd()}")
@@ -149,14 +158,20 @@ input_TMDB.insert(1.0,TMDB_API_KEY)
 
 #checkBoxe pour le  choix des etapes de conversion
 options = {"normalize": tkinter.BooleanVar(),
+           "ingest": tkinter.BooleanVar(),
+           "service": tkinter.BooleanVar(),
            "enrich": tkinter.BooleanVar(),
            "export": tkinter.BooleanVar()}
 
 options["normalize"].set(True)
+options["ingest"].set((WORK_DIR / "normalized.xlsx").is_file())
+options["service"].set((WORK_DIR / "normalized.xlsx").is_file())
 options["enrich"].set((WORK_DIR / "normalized.xlsx").is_file())
 options["export"].set(False)
 
 normalizeRB = ttk.Checkbutton(window, text="normalisation du fichier Excell brut ", variable=options["normalize"])
+ingestRB = ttk.Checkbutton(window, text="création du fichier ingest ", variable=options["ingest"])
+serviceRB = ttk.Checkbutton(window, text="préparation du tableau de service ", variable=options["service"])
 enrichRB = ttk.Checkbutton(window, text="enrichissement auto (synopsis, Lien allociné,..) ", variable=options["enrich"])
 exportRB = ttk.Checkbutton(window, text="export Site CineCarbonne", variable=options["export"])
 
@@ -182,10 +197,13 @@ input_TMDB.grid(column=3,row=3, pady=10,columnspan=2)
 
 normalizeRB.grid(column=2,row=4,sticky="w", pady=5)
 ttk.Separator(window, orient=HORIZONTAL).grid(column=1, row=5, columnspan=5, pady=5, sticky="we"  )
-enrichRB.grid(column=2,row=6,sticky="w")
-exportRB.grid(column=2,row=7,sticky="w")
-button_convert.grid(column=3, row=6, padx=5, pady=10)
-button_quit.grid(column=4, row=6, padx=5, pady=10)
+ingestRB.grid(column=2,row=6,sticky="w")
+serviceRB.grid(column=3,row=6,sticky="w")
+enrichRB.grid(column=4,row=6,sticky="w")
+ttk.Separator(window, orient=HORIZONTAL).grid(column=1, row=7, columnspan=5, pady=5, sticky="we"  )
+exportRB.grid(column=2,row=8,sticky="w")
+button_convert.grid(column=3, row=8, padx=5, pady=10)
+button_quit.grid(column=4, row=8, padx=5, pady=10)
 
 window.attributes("-topmost", True)
 window.mainloop()
