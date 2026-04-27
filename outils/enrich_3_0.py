@@ -29,18 +29,19 @@ import unicodedata
 #for GUI
 import  tkinter as tk
 from tkinter import ttk as ttk
-import name_tools as nt
-from unidecode import unidecode
 
 mode_Gui=False
 window=None
 BASE_DIR = Path(__file__).resolve().parent
+ENRICHMENT_REPORT_PATH = BASE_DIR / "work" / "enrichment_report.json"
 
 def log_step(text: str) -> None:
     print(f"- {text}", flush=True)
 
 
 def load_env_file(path: Path) -> None:
+    if not path.exists():
+        return
     for line in path.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith("#") or "=" not in stripped:
@@ -112,9 +113,30 @@ JP_AGE_TEXT_RE = re.compile(
     flags=re.IGNORECASE,
 )
 TITLE_NOISE_TOKEN_RE = re.compile(
-    r"\b(?:vo|vf|vost|vostf|vostfr|stfr|3d|2d|imax)\b",
+    r"\b(?:vo|vf|vost|vostf|vostfr|stfr|jp|scol|scolaire|3d|2d|imax)\b",
     flags=re.IGNORECASE,
 )
+TITLE_SEARCH_STOPWORDS = {
+    "l",
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "des",
+    "du",
+    "de",
+    "d",
+    "au",
+    "aux",
+    "a",
+    "et",
+}
+TITLE_TOKEN_ALIASES = {
+    "combini": "konbini",
+    "kombini": "konbini",
+    "supers": "super",
+}
 YOUTUBE_SEARCH_URL = "https://www.youtube.com/results"
 YOUTUBE_TIMEOUT = 10
 YOUTUBE_MAX_RESULTS = 12
@@ -680,6 +702,7 @@ def allocine_affiche_url(allocine_url: str) -> str:
 def allocine_movie_meta(allocine_url: str) -> dict:
     if not allocine_url:
         return {}
+    film_id = extract_allocine_film_id(allocine_url)
     resp = allocine_get(allocine_url)
     html_text = resp.text
 
@@ -745,7 +768,7 @@ def allocine_movie_meta(allocine_url: str) -> dict:
     except Exception:
         awards = []
     age_min = _extract_jp_age_from_allocine_html(html_text)
-    trailer_url = _allocine_extract_trailer_url(html_text)
+    trailer_url = _allocine_extract_trailer_url(html_text, film_id)
     return {
         "affiche": affiche,
         "allocine_title": title or alt_title,
@@ -882,17 +905,39 @@ def _allocine_parse_main_actors(html_text: str) -> list[str]:
     return dedup[:8]
 
 
-def _allocine_extract_trailer_url(html_text: str) -> str:
+def _allocine_extract_trailer_url(html_text: str, film_id: str = "") -> str:
     patterns = [
         r'https?://www\.allocine\.fr/video/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html',
         r"/video/player_gen_cmedia=\d+(?:&amp;|&)cfilm=\d+\.html",
         r"/video/player_gen_cmedia=\d+\.html",
     ]
+    candidates = []
     for pattern in patterns:
-        match = re.search(pattern, html_text or "", flags=re.IGNORECASE)
-        if not match:
-            continue
-        url = html.unescape(match.group(0))
+        for match in re.finditer(pattern, html_text or "", flags=re.IGNORECASE):
+            url = html.unescape(match.group(0))
+            if url.startswith("/"):
+                url = f"{ALLOCINE_BASE_URL}{url}"
+            if url not in candidates:
+                candidates.append(url)
+    if not candidates:
+        return ""
+
+    if film_id:
+        film_pattern = re.compile(rf"(?:[?&]|&amp;)cfilm={re.escape(str(film_id))}\.html", re.IGNORECASE)
+        for url in candidates:
+            if film_pattern.search(url):
+                return url
+        no_cfilm_candidates = [
+            url for url in candidates
+            if not re.search(r"(?:[?&]|&amp;)cfilm=\d+\.html", url, re.IGNORECASE)
+        ]
+        if no_cfilm_candidates:
+            return no_cfilm_candidates[0]
+        has_foreign_cfilm = any(re.search(r"(?:[?&]|&amp;)cfilm=\d+\.html", url, re.IGNORECASE) for url in candidates)
+        if has_foreign_cfilm:
+            return ""
+
+    for url in candidates:
         if url.startswith("/"):
             return f"{ALLOCINE_BASE_URL}{url}"
         return url
@@ -1080,6 +1125,71 @@ def _normalize_title_for_search(title: str) -> str:
     return text
 
 
+def _apply_title_token_aliases(value: str) -> str:
+    tokens = normalize_for_match(value).split()
+    mapped = [TITLE_TOKEN_ALIASES.get(token, token) for token in tokens]
+    return " ".join(mapped).strip()
+
+
+def _drop_title_search_stopwords(value: str) -> str:
+    tokens = [
+        token
+        for token in normalize_for_match(value).split()
+        if token not in TITLE_SEARCH_STOPWORDS
+    ]
+    return " ".join(tokens).strip()
+
+
+def _singularize_title_search_tokens(value: str) -> str:
+    tokens = []
+    for token in normalize_for_match(value).split():
+        if len(token) > 4 and token.endswith("s") and token not in {"news", "hors"}:
+            token = token[:-1]
+        tokens.append(token)
+    return " ".join(tokens).strip()
+
+
+def _title_search_variants(title: str) -> list[str]:
+    raw = str(title or "").strip()
+    if not raw:
+        return []
+
+    normalized = _normalize_title_for_search(raw)
+    no_paren = re.sub(r"\([^)]*\)", " ", normalized or raw)
+    no_paren = re.sub(r"\s+", " ", no_paren).strip(" -:/|")
+
+    sources = [raw, normalized, no_paren]
+    for source in list(sources):
+        for match in re.findall(r"\(([^)]+)\)", source):
+            sources.append(match)
+        for sep in (" / ", "/", " - ", " – ", " — ", ":", "|"):
+            if sep in source:
+                sources.extend(part.strip() for part in source.split(sep))
+
+    variants = []
+    seen = set()
+
+    def add(value: str) -> None:
+        norm = normalize_for_match(value)
+        if norm and len(norm) > 1 and norm not in seen:
+            seen.add(norm)
+            variants.append(norm)
+
+    for source in sources:
+        add(source)
+        aliased = _apply_title_token_aliases(source)
+        add(aliased)
+        compact = _drop_title_search_stopwords(source)
+        add(compact)
+        add(_apply_title_token_aliases(compact))
+        singular = _singularize_title_search_tokens(source)
+        add(singular)
+        add(_drop_title_search_stopwords(singular))
+        add(_apply_title_token_aliases(_drop_title_search_stopwords(singular)))
+
+    return variants
+
+
 def _title_variants(title: str) -> list[str]:
     raw = str(title or "")
     normalized = _normalize_title_for_search(raw)
@@ -1104,6 +1214,7 @@ def _title_variants(title: str) -> list[str]:
                     part_norm = normalize_for_match(part)
                     if part_norm and len(part_norm) > 1:
                         variants.add(part_norm)
+    variants.update(_title_search_variants(raw))
     return list(variants)
 
 
@@ -1247,16 +1358,9 @@ def _allocine_search_queries(title: str) -> list[str]:
             seen.add(key)
             queries.append(text)
 
-    _add_query(raw)
-    normalized = _normalize_title_for_search(raw)
-    _add_query(normalized)
-    no_paren = re.sub(r"\([^)]*\)", " ", normalized or raw)
-    no_paren = re.sub(r"\s+", " ", no_paren).strip(" -:/|")
-    _add_query(no_paren)
-    for sep in (" / ", "/", " - ", ":", "|"):
-        if sep in normalized:
-            _add_query(normalized.split(sep)[0])
-    return queries[:4]
+    for variant in _title_search_variants(raw):
+        _add_query(variant)
+    return queries[:8]
 
 
 def allocine_find_movie(title: str, director: str) -> dict:
@@ -1403,13 +1507,9 @@ def _tmdb_search_queries(title: str) -> list[str]:
             seen.add(key)
             queries.append(text)
 
-    _add_query(raw)
-    normalized = _normalize_title_for_search(raw)
-    _add_query(normalized)
-    no_paren = re.sub(r"\([^)]*\)", " ", normalized or raw)
-    no_paren = re.sub(r"\s+", " ", no_paren).strip(" -:/|")
-    _add_query(no_paren)
-    return queries[:4]
+    for variant in _title_search_variants(raw):
+        _add_query(variant)
+    return queries[:8]
 
 
 def tmdb_find_movie(title: str, director: str, lang: str) -> dict:
@@ -1999,7 +2099,106 @@ def get_movies_from_tmdb(films):
                 log_step(f"tmdb: no match for {titre} ({len(candidates)} candidats)")
 
 
-def get_movies_from_allociné(films):
+def _dedupe_nonempty(values: list[str]) -> list[str]:
+    deduped = []
+    seen = set()
+    for value in values:
+        text = str(value or "").strip()
+        key = normalize_for_match(text)
+        if text and key and key not in seen:
+            seen.add(key)
+            deduped.append(text)
+    return deduped
+
+
+def _canonical_title_for_output(film: dict) -> str:
+    enriched = film.get("enriched", {})
+    pref = enriched.get("source_preference", "")
+    if pref == "s":
+        return ""
+    if pref == "t" and film.get("tmdb_title"):
+        return film.get("tmdb_title", "")
+    return (
+        enriched.get("allocine_title", "")
+        or film.get("allocine_title", "")
+        or film.get("tmdb_title", "")
+        or ""
+    )
+
+
+def _canonical_director_for_output(film: dict) -> str:
+    enriched = film.get("enriched", {})
+    pref = enriched.get("source_preference", "")
+    if pref == "s":
+        return ""
+    if pref == "t" and film.get("tmdb_directors"):
+        return film.get("tmdb_directors", "")
+    return (
+        enriched.get("allocine_directors", "")
+        or film.get("allocine_directors", "")
+        or film.get("tmdb_directors", "")
+        or ""
+    )
+
+
+def _build_enrichment_report(films: list[dict]) -> dict:
+    critical_fields = {
+        "synopsis": "synopsis",
+        "affiche_url": "affiche",
+        "genres": "genres",
+        "duree_min": "duree_min",
+        "pays": "pays",
+        "trailer_url": "trailer_url",
+    }
+    items = []
+    for film in films:
+        enriched = film.get("enriched", {})
+        issues = []
+        missing = [
+            label
+            for label, key in critical_fields.items()
+            if not enriched.get(key)
+        ]
+        if missing:
+            issues.append(f"champs manquants: {', '.join(missing)}")
+        if not film.get("allocine_url") and not film.get("tmdb_id"):
+            issues.append("aucune fiche Allocine/TMDB retenue")
+        trailer = enriched.get("trailer_url", "")
+        if trailer and not _is_supported_trailer_url(trailer):
+            issues.append(f"bande-annonce non compatible site: {trailer}")
+        match_info = enriched.get("allocine_tmdb_match") or {}
+        if match_info:
+            title_score = match_info.get("title_score", 1)
+            director_score = match_info.get("director_score", 1)
+            if title_score < CROSS_MATCH_TITLE_THRESHOLD or director_score < CROSS_MATCH_DIRECTOR_THRESHOLD:
+                issues.append(
+                    "ecart Allocine/TMDB: "
+                    f"titre={title_score:.2f}, realisateur={director_score:.2f}"
+                )
+        if not issues:
+            continue
+        items.append(
+            {
+                "date": film.get("date", ""),
+                "heure": film.get("heure", ""),
+                "titre_source": film.get("titre", ""),
+                "titre_sortie": _canonical_title_for_output(film) or film.get("titre", ""),
+                "realisateur_source": film.get("realisateur", ""),
+                "realisateur_sortie": _canonical_director_for_output(film) or film.get("realisateur", ""),
+                "categorie": film.get("categorie", ""),
+                "allocine_url": film.get("allocine_url", ""),
+                "tmdb_id": film.get("tmdb_id", ""),
+                "issues": issues,
+            }
+        )
+    return {
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "issue_count": len(items),
+        "items": items,
+    }
+
+
+def get_movies_from_allociné(films, only_missing: bool = False, include_tmdb_titles: bool = False):
     # 1) Recherche Allocine par titre + realisateur (scraping)
     log_step("allocine: chercher par titre + realisateur (scraping)")
 
@@ -2014,11 +2213,18 @@ def get_movies_from_allociné(films):
             return title, director, None, None, str(exc)
 
     search_groups = {}
+    target_indices = set()
     for idx, film in enumerate(films):
-        titre = film.get("titre", "")
+        if only_missing and film.get("allocine_url"):
+            continue
+        titres = [film.get("titre", "")]
+        if include_tmdb_titles:
+            titres.extend([film.get("tmdb_title", ""), film.get("tmdb_original_title", "")])
         realisateur = film.get("realisateur", "")
-        key = (titre, realisateur)
-        search_groups.setdefault(key, []).append(idx)
+        for titre in _dedupe_nonempty(titres):
+            key = (titre, realisateur)
+            search_groups.setdefault(key, []).append(idx)
+            target_indices.add(idx)
 
     futures = []
     max_workers = min(ALLOCINE_MAX_WORKERS, max(1, len(search_groups)))
@@ -2042,9 +2248,12 @@ def get_movies_from_allociné(films):
                 log_step(f"allocine: no match for {titre} ({len(candidates)} candidats)")
             for idx in search_groups.get((titre, realisateur), []):
                 film = films[idx]
+                if only_missing and film.get("allocine_url"):
+                    continue
                 film["allocine_candidates"] = candidates
                 if match:
                     film["allocine_url"] = match.get("url", "")
+                    film["allocine_match_query"] = titre
                     film["allocine_title"] = match.get("title", "")
                     film["allocine_directors"] = match.get("directors", "")
                     film["allocine_score"] = match.get("score", 0.0)
@@ -2063,7 +2272,11 @@ def get_movies_from_allociné(films):
             return allocine_url, {}, str(exc)
 
     url_groups = {}
-    for idx, film in enumerate(films):
+    if not only_missing:
+        target_indices = set(range(len(films)))
+
+    for idx in sorted(target_indices):
+        film = films[idx]
         allocine_url = film.get("allocine_url", "")
         if allocine_url:
             url_groups.setdefault(allocine_url, []).append(idx)
@@ -2140,7 +2353,8 @@ def get_movies_from_allociné(films):
             return allocine_url, [], str(exc)
 
     photo_targets = {}
-    for film in films:
+    for idx in sorted(target_indices):
+        film = films[idx]
         allocine_url = film.get("allocine_url", "")
         if allocine_url and allocine_url not in photo_targets:
             photo_targets[allocine_url] = film.get("enriched", {}).get("affiche", "")
@@ -2228,6 +2442,11 @@ def main(main_window=None) -> int:
 
     # 6) rechercher les films,synopsis,Bande Annonce, etc...  sur TMDB
     get_movies_from_tmdb(films)
+
+    # 6b) Une recherche Allocine de rattrapage avec les titres TMDB permet de
+    # retrouver les films dont le titre source est approximatif ou en anglais.
+    if any(not film.get("allocine_url") and (film.get("tmdb_title") or film.get("tmdb_original_title")) for film in films):
+        get_movies_from_allociné(films, only_missing=True, include_tmdb_titles=True)
 
     # 7) Verifier correspondance Allocine/TMDB
     log_step("allocine/tmdb: verifier correspondance")
@@ -2403,11 +2622,7 @@ def main(main_window=None) -> int:
 
         should_try_youtube = pref != "s" and (
             not trailer_url
-            or (
-                trailer_url
-                and not _is_supported_trailer_url(trailer_url)
-                and not _is_allocine_player_trailer_url(trailer_url)
-            )
+            or (trailer_url and not _is_supported_trailer_url(trailer_url))
         )
         if should_try_youtube:
             release_year = _year_from_date(
@@ -2481,6 +2696,12 @@ def main(main_window=None) -> int:
     for film in films:
         row_data = dict(film.get("raw", {}))
         enriched = film.get("enriched", {})
+        canonical_title = _canonical_title_for_output(film)
+        if canonical_title:
+            row_data["Titre"] = canonical_title
+        canonical_director = _canonical_director_for_output(film)
+        if canonical_director:
+            row_data["Realisateur"] = canonical_director
         row_data["Commentaire"] = enriched.get("commentaire", film.get("commentaire", ""))
         age_min = enriched.get("age_min")
         row_data["age_min"] = str(age_min) if isinstance(age_min, int) and age_min > 0 else ""
@@ -2558,6 +2779,17 @@ def main(main_window=None) -> int:
 
     out_path = root / "work/enriched.xlsx"
     out_df.to_excel(out_path, index=False)
+
+    report = _build_enrichment_report(films)
+    ENRICHMENT_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    ENRICHMENT_REPORT_PATH.write_text(
+        json.dumps(report, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    if report["issue_count"]:
+        log_step(f"rapport: {report['issue_count']} fiche(s) a verifier dans {ENRICHMENT_REPORT_PATH}")
+    else:
+        log_step(f"rapport: aucun probleme detecte dans {ENRICHMENT_REPORT_PATH}")
 
     return 0
 

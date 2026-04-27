@@ -38,6 +38,14 @@ Execution complete:
 python outils/operations_mensuelles.py
 ```
 
+Controle apres execution:
+
+```text
+Verifier outils/work/enrichment_report.json.
+S'il contient des items, ce sont les seances a relire avant publication
+du programme.
+```
+
 Options utiles:
 
 ```powershell

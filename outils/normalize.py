@@ -259,6 +259,45 @@ def normalize_categorie_field(categorie, jp_in_tarif=False):
     return ", ".join(labels)
 
 
+TITLE_MARKER_RE = re.compile(
+    r"(^|[\s\-/,(])(?P<marker>VOSTFR|VOSTF|VOstFR|VO|VF|JP|SCOL|SCOLAIRE)(?=$|[\s\-/),])",
+    flags=re.IGNORECASE,
+)
+
+
+def append_category_label(categorie, label):
+    labels = split_labels(categorie)
+    key = normalize_text_key(label)
+    if key and all(normalize_text_key(existing) != key for existing in labels):
+        labels.append(label)
+    return ", ".join(labels)
+
+
+def normalize_title_field(title):
+    text = clean_label(title)
+    version = None
+    jp_in_title = False
+    scol_in_title = False
+
+    def replace_marker(match):
+        nonlocal version, jp_in_title, scol_in_title
+        marker = match.group("marker").upper()
+        prefix = match.group(1) or ""
+        if marker in {"VO", "VOSTF", "VOSTFR"}:
+            version = "VOstFR" if marker != "VO" else "VO"
+        elif marker == "VF":
+            version = "VF"
+        elif marker == "JP":
+            jp_in_title = True
+        elif marker in {"SCOL", "SCOLAIRE"}:
+            scol_in_title = True
+        return prefix
+
+    cleaned = TITLE_MARKER_RE.sub(replace_marker, text)
+    cleaned = clean_label(cleaned)
+    return cleaned, version, jp_in_title, scol_in_title
+
+
 CM_REF_RE = re.compile(r"\bCM\s*(\d+)\b", flags=re.IGNORECASE)
 CM_DURATION_RE = re.compile(r"(\d+\s*(?:'|min)\s*\d{0,2})", flags=re.IGNORECASE)
 
@@ -448,12 +487,17 @@ def main():
         titre = norm_str(row.get(COL_TITRE))
         if not titre:
             continue
+        titre, version_in_title, jp_in_title, scol_in_title = normalize_title_field(titre)
+        if not titre:
+            continue
 
         titre_cell_excel = ws.cell(row=idx + 1, column=COL_TITRE + 1)  # openpyxl = 1-based
         if is_red_background(titre_cell_excel):
             continue
 
         version = normalize_version(norm_str(row.get(COL_VERSION)))
+        if version_in_title:
+            version = version_in_title
         cm = norm_str(row.get(COL_CM))
         courts_metrages = resolve_courts_metrages(cm_catalog, cm)
         realisateur =  norm_str(row.get(COL_REAL))
@@ -471,7 +515,9 @@ def main():
 
         # --- Normalisation categorie/tarif ---
         tarif, jp_in_tarif = normalize_tarif_field(tarif)
-        categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif)
+        categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif or jp_in_title)
+        if scol_in_title:
+            categorie = append_category_label(categorie, "Scolaire")
 
         records.append({
             "Date": current_date.strftime("%Y-%m-%d"),
