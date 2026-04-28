@@ -44,6 +44,15 @@ Controle apres execution:
 Verifier outils/work/enrichment_report.json.
 S'il contient des items, ce sont les seances a relire avant publication
 du programme.
+Le fichier est ouvert automatiquement a la fin de l'etape enrich.
+```
+
+Secours Google optionnel:
+
+```text
+Renseigner GOOGLE_API_KEY et GOOGLE_CX dans outils/.env pour activer le
+secours web quand Allocine et TMDB ne trouvent aucun candidat.
+OPEN_ENRICHMENT_REPORT=0 permet de desactiver l'ouverture automatique.
 ```
 
 Options utiles:

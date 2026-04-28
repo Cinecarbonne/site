@@ -132,11 +132,6 @@ TITLE_SEARCH_STOPWORDS = {
     "a",
     "et",
 }
-TITLE_TOKEN_ALIASES = {
-    "combini": "konbini",
-    "kombini": "konbini",
-    "supers": "super",
-}
 YOUTUBE_SEARCH_URL = "https://www.youtube.com/results"
 YOUTUBE_TIMEOUT = 10
 YOUTUBE_MAX_RESULTS = 12
@@ -147,6 +142,11 @@ YOUTUBE_SESSION.headers.update(
         "Accept-Language": "fr-FR,fr;q=0.9",
     }
 )
+GOOGLE_CSE_URL = "https://customsearch.googleapis.com/customsearch/v1"
+GOOGLE_TIMEOUT = 12
+GOOGLE_MAX_RESULTS = 5
+GOOGLE_MATCH_TITLE_THRESHOLD = 0.88
+GOOGLE_MATCH_DIRECTOR_THRESHOLD = 0.75
 TRAILER_YOUTUBE_RE = re.compile(r"(?:youtube\.com/(?:watch\?v=|embed/)|youtu\.be/)[A-Za-z0-9_-]{6,}", re.IGNORECASE)
 TRAILER_VIMEO_RE = re.compile(r"(?:vimeo\.com/(?:video/)?)(\d+)", re.IGNORECASE)
 TRAILER_ALLOCINE_PLAYER_RE = re.compile(
@@ -1125,27 +1125,12 @@ def _normalize_title_for_search(title: str) -> str:
     return text
 
 
-def _apply_title_token_aliases(value: str) -> str:
-    tokens = normalize_for_match(value).split()
-    mapped = [TITLE_TOKEN_ALIASES.get(token, token) for token in tokens]
-    return " ".join(mapped).strip()
-
-
 def _drop_title_search_stopwords(value: str) -> str:
     tokens = [
         token
         for token in normalize_for_match(value).split()
         if token not in TITLE_SEARCH_STOPWORDS
     ]
-    return " ".join(tokens).strip()
-
-
-def _singularize_title_search_tokens(value: str) -> str:
-    tokens = []
-    for token in normalize_for_match(value).split():
-        if len(token) > 4 and token.endswith("s") and token not in {"news", "hors"}:
-            token = token[:-1]
-        tokens.append(token)
     return " ".join(tokens).strip()
 
 
@@ -1177,15 +1162,8 @@ def _title_search_variants(title: str) -> list[str]:
 
     for source in sources:
         add(source)
-        aliased = _apply_title_token_aliases(source)
-        add(aliased)
         compact = _drop_title_search_stopwords(source)
         add(compact)
-        add(_apply_title_token_aliases(compact))
-        singular = _singularize_title_search_tokens(source)
-        add(singular)
-        add(_drop_title_search_stopwords(singular))
-        add(_apply_title_token_aliases(_drop_title_search_stopwords(singular)))
 
     return variants
 
@@ -1900,6 +1878,217 @@ def youtube_pick_trailer(title: str, year: str, director: str, extra_titles: lis
     return fallback_url
 
 
+def _google_api_key() -> str:
+    return os.environ.get("GOOGLE_API_KEY", "").strip()
+
+
+def _google_cx() -> str:
+    return (
+        os.environ.get("GOOGLE_CX", "").strip()
+        or os.environ.get("GOOGLE_CSE_ID", "").strip()
+        or os.environ.get("GOOGLE_SEARCH_ENGINE_ID", "").strip()
+    )
+
+
+def _google_search_enabled() -> bool:
+    return bool(_google_api_key() and _google_cx())
+
+
+def _google_search(query: str, site_search: str = "") -> list[dict]:
+    query = str(query or "").strip()
+    if not query or not _google_search_enabled():
+        return []
+    params = {
+        "key": _google_api_key(),
+        "cx": _google_cx(),
+        "q": query,
+        "num": GOOGLE_MAX_RESULTS,
+        "hl": "fr",
+        "gl": "fr",
+    }
+    if site_search:
+        params["siteSearch"] = site_search
+    try:
+        resp = requests.get(GOOGLE_CSE_URL, params=params, timeout=GOOGLE_TIMEOUT)
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception as exc:
+        log_step(f"google: erreur recherche {query} ({exc})")
+        return []
+    return data.get("items") or []
+
+
+def _google_search_queries(title: str, director: str, year: str = "") -> list[str]:
+    bases = _title_search_variants(title) or [normalize_for_match(title)]
+    queries = []
+    seen = set()
+
+    def add(value: str) -> None:
+        text = re.sub(r"\s+", " ", str(value or "")).strip()
+        key = normalize_for_match(text)
+        if key and key not in seen:
+            seen.add(key)
+            queries.append(text)
+
+    for base in bases[:3]:
+        if director and year:
+            add(f'"{base}" "{director}" {year} film')
+        if director:
+            add(f'"{base}" "{director}" film')
+        add(f'"{base}" allocine film')
+        add(f"{base} {director} allocine film")
+    return queries[:8]
+
+
+def _extract_allocine_movie_urls_from_google_items(items: list[dict]) -> list[str]:
+    urls = []
+    seen = set()
+    for item in items:
+        candidates = [item.get("link", "")]
+        candidates.extend(re.findall(r"https?://www\.allocine\.fr/film/[^\s\"<>]+", json.dumps(item, ensure_ascii=False)))
+        for value in candidates:
+            match = re.search(
+                r"https?://www\.allocine\.fr/film/(?:fichefilm_gen_cfilm=\d+|fichefilm-\d+)[^\"'<>\s]*",
+                str(value or ""),
+                flags=re.IGNORECASE,
+            )
+            if not match:
+                continue
+            url = html.unescape(match.group(0)).split("#", 1)[0]
+            url = re.sub(r"[?&](?:utm_[^=&]+|cmpid)=[^&]+", "", url)
+            if url not in seen:
+                seen.add(url)
+                urls.append(url)
+    return urls
+
+
+def _score_web_allocine_match(title: str, director: str, meta: dict) -> dict:
+    candidate_titles = [
+        meta.get("allocine_title", ""),
+        meta.get("allocine_alt_title", ""),
+    ]
+    title_variants = _title_variants(title)
+    title_score = 0.0
+    for left in title_variants:
+        for right in candidate_titles:
+            title_score = max(title_score, _title_similarity(left, right))
+    director_score = max(
+        _best_director_score(director, meta.get("allocine_directors", "")),
+        _best_director_match(director, meta.get("allocine_directors", "")),
+    )
+    if not _split_director_names(director):
+        director_score = 1.0
+    return {
+        "title_score": title_score,
+        "director_score": director_score,
+        "score": (0.75 * title_score) + (0.25 * director_score),
+    }
+
+
+def google_find_allocine_movie(title: str, director: str, year: str = "") -> dict:
+    if not _google_search_enabled():
+        return {}
+    url_candidates = []
+    seen_urls = set()
+    for query in _google_search_queries(title, director, year):
+        for url in _extract_allocine_movie_urls_from_google_items(
+            _google_search(query, site_search="allocine.fr")
+        ):
+            if url not in seen_urls:
+                seen_urls.add(url)
+                url_candidates.append({"url": url, "query": query})
+
+    best = {}
+    for candidate in url_candidates:
+        url = candidate["url"]
+        try:
+            meta = allocine_movie_meta(url)
+        except Exception as exc:
+            log_step(f"google: erreur validation {url} ({exc})")
+            continue
+        scores = _score_web_allocine_match(title, director, meta)
+        if (
+            scores["title_score"] >= GOOGLE_MATCH_TITLE_THRESHOLD
+            and scores["director_score"] >= GOOGLE_MATCH_DIRECTOR_THRESHOLD
+            and scores["score"] > best.get("score", -1)
+        ):
+            best = {
+                **candidate,
+                **scores,
+                "title": meta.get("allocine_title", ""),
+                "directors": meta.get("allocine_directors", ""),
+                "meta": meta,
+            }
+    return best
+
+
+def get_movies_from_google(films: list[dict]) -> None:
+    missing = [
+        (idx, film)
+        for idx, film in enumerate(films)
+        if not film.get("allocine_url") and not film.get("tmdb_id")
+    ]
+    if not missing:
+        return
+    if not _google_search_enabled():
+        log_step("google: secours web desactive (GOOGLE_API_KEY ou GOOGLE_CX manquant)")
+        return
+
+    log_step("google: secours web pour fiches sans resultat Allocine/TMDB")
+    for idx, film in missing:
+        title = film.get("titre", "")
+        director = film.get("realisateur", "")
+        year = _year_from_date(film.get("date", ""))
+        match = google_find_allocine_movie(title, director, year)
+        if not match:
+            log_step(f"google: no match for {title}")
+            continue
+        film["allocine_url"] = match.get("url", "")
+        film["allocine_match_query"] = match.get("query", "")
+        film["allocine_title"] = match.get("title", "")
+        film["allocine_directors"] = match.get("directors", "")
+        film["allocine_score"] = match.get("score", 0.0)
+        film["allocine_title_score"] = match.get("title_score", 0.0)
+        film["allocine_director_score"] = match.get("director_score", 0.0)
+        meta = match.get("meta") or {}
+        enriched = film.setdefault("enriched", {})
+        if meta.get("affiche"):
+            enriched["affiche"] = meta.get("affiche")
+        for key in (
+            "allocine_title",
+            "allocine_alt_title",
+            "allocine_directors",
+            "allocine_release_date",
+            "allocine_synopsis",
+            "allocine_genres",
+            "allocine_duree_min",
+            "allocine_pays",
+            "allocine_acteurs",
+            "allocine_trailer_url",
+        ):
+            if meta.get(key):
+                enriched[key] = meta.get(key)
+        if meta.get("allocine_recompenses"):
+            enriched["allocine_recompenses"] = _merge_list_pref_allocine(
+                film.get("recompenses", ""),
+                meta.get("allocine_recompenses", []),
+            )
+        age_min = meta.get("allocine_age_min")
+        if isinstance(age_min, int) and age_min > 0:
+            enriched["allocine_age_min"] = age_min
+        try:
+            photos = allocine_photo_urls(film["allocine_url"], enriched.get("affiche", ""))
+        except Exception:
+            photos = []
+        if photos:
+            enriched["backdrops"] = photos
+        log_step(
+            "google: "
+            f"{title} -> {film['allocine_url']} "
+            f"(title={match.get('title_score', 0):.2f}, director={match.get('director_score', 0):.2f})"
+        )
+
+
 def tmdb_release_date_fr(release_dates: dict) -> str:
     results = release_dates.get("results") or []
     for entry in results:
@@ -2198,6 +2387,21 @@ def _build_enrichment_report(films: list[dict]) -> dict:
     }
 
 
+def _open_report_for_reading(path: Path) -> None:
+    if str(os.environ.get("OPEN_ENRICHMENT_REPORT", "1")).strip().lower() in {"0", "false", "no"}:
+        return
+    try:
+        if hasattr(os, "startfile"):
+            os.startfile(str(path))  # type: ignore[attr-defined]
+        else:
+            import webbrowser
+
+            webbrowser.open(path.resolve().as_uri())
+        log_step(f"rapport: ouvert pour lecture ({path})")
+    except Exception as exc:
+        log_step(f"rapport: impossible d'ouvrir automatiquement {path} ({exc})")
+
+
 def get_movies_from_allociné(films, only_missing: bool = False, include_tmdb_titles: bool = False):
     # 1) Recherche Allocine par titre + realisateur (scraping)
     log_step("allocine: chercher par titre + realisateur (scraping)")
@@ -2447,6 +2651,10 @@ def main(main_window=None) -> int:
     # retrouver les films dont le titre source est approximatif ou en anglais.
     if any(not film.get("allocine_url") and (film.get("tmdb_title") or film.get("tmdb_original_title")) for film in films):
         get_movies_from_allociné(films, only_missing=True, include_tmdb_titles=True)
+
+    # 6c) Dernier recours optionnel: Google Custom Search peut retrouver une
+    # fiche Allocine quand le moteur interne Allocine/TMDB ne propose rien.
+    get_movies_from_google(films)
 
     # 7) Verifier correspondance Allocine/TMDB
     log_step("allocine/tmdb: verifier correspondance")
@@ -2790,6 +2998,7 @@ def main(main_window=None) -> int:
         log_step(f"rapport: {report['issue_count']} fiche(s) a verifier dans {ENRICHMENT_REPORT_PATH}")
     else:
         log_step(f"rapport: aucun probleme detecte dans {ENRICHMENT_REPORT_PATH}")
+    _open_report_for_reading(ENRICHMENT_REPORT_PATH)
 
     return 0
 
