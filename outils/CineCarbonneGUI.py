@@ -11,6 +11,7 @@ import enrich_3_0 as enrich
 import excel_to_json
 import make_tableau_ingest as ingest
 import make_tableau_service as service
+import generate_prochainement_json as gen_prochainement
 
 TMDB_API_KEY=os.getenv ("TMDB_API_KEY","4b400d47b0a36eed006040846feebaf5")
 
@@ -115,12 +116,13 @@ def convert():
         if (WORK_DIR / "enriched.xlsx").is_file():
             print ("convert to json")
             excel_to_json.main()
+            gen_prochainement.main()
         else:
             error_popup("le fichier work/enriched.xlsx n'existe pas\n/"
                         "export json Impossible!"
                         "veuillez sélectionner  l'option 'enrich' dans l'interface")
 
-        print (" TBD .. move to site GitHub (and Commit ? )")
+        #print (" TBD .. move to site GitHub (and Commit ? )")
 
 # Create the root window
 window = tkinter.Tk()
