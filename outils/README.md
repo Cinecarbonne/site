@@ -106,7 +106,6 @@ Notes:
 /index.html
 /cinema.html
 /evenement.html
-/cinejeune.html
 /accessibilite.html
 /css/
 /js/

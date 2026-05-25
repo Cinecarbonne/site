@@ -1801,10 +1801,6 @@ body.access-page .info-side {
   background: linear-gradient(135deg, #f1ebe5 0%, #f6dfdf 100%);
 }
 
-body.cinejeune-page .info-side {
-  background: linear-gradient(135deg, #fff4cf 0%, #f7dfcc 100%);
-}
-
 body.info-page .info-side-title {
   margin: 0;
   color: #2a2222;
