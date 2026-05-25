@@ -18,3 +18,10 @@ Lab/outils/.env
 
 # Local temporary workspace
 tmp_codex/
+/outils/input/source.xlsx
+/outils/work/enrichment_report.json
+/outils/input/source.xlsx
+/outils/work/normalized.xlsx
+/outils/work/prochainement.json
+/outils/work/tableau_service.xlsx
+/outils/input/source.xlsx
