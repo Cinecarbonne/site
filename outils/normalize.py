@@ -117,6 +117,51 @@ def norm_str(x):
     return s or None
 
 
+def extract_prochainement_blocks(raw):
+    """Return upcoming text blocks from explicit markers or a trailing title list."""
+    upcoming_blocks = []
+    index_list = list(raw.index)
+    trailing_candidates = []
+
+    for pos, idx in enumerate(index_list):
+        row = raw.loc[idx]
+        a = row.get(COL_A)
+        b = row.get(COL_B)
+        c = row.get(COL_C)
+
+        titre_cell_value = row.get(COL_TITRE)
+        titre_norm = norm_str(titre_cell_value)
+
+        has_weekday = is_weekday_label(a)
+        has_date = parse_date_cell(b) is not None
+        has_time = parse_time_cell(c) is not None
+
+        if not (titre_norm and "prochainement" in titre_norm.lower() and not has_weekday and not has_date):
+            if (
+                titre_norm
+                and not has_weekday
+                and not has_date
+                and not has_time
+                and ("," in titre_norm or ";" in titre_norm or "\n" in titre_norm)
+            ):
+                trailing_candidates.append(titre_norm)
+            continue
+
+        next_pos = pos + 1
+        if next_pos >= len(index_list):
+            continue
+        next_idx = index_list[next_pos]
+        next_row = raw.loc[next_idx]
+        next_title = norm_str(next_row.get(COL_TITRE))
+        if next_title:
+            upcoming_blocks.append(next_title)
+
+    if not upcoming_blocks and trailing_candidates:
+        upcoming_blocks.append(trailing_candidates[-1])
+
+    return upcoming_blocks
+
+
 def normalize_version(v):
     v = (v or "").strip().upper()
     if v == "VOSTFR":
@@ -428,55 +473,21 @@ def main():
     ws = wb[SHEET_NAME]
 
     records = []
-    upcoming_blocks = []   # pour "prochainement"
+    upcoming_blocks = extract_prochainement_blocks(raw)
     current_date = None
-
-    # raw.index est en général un RangeIndex, mais on l'utilise explicitement
-    index_list = list(raw.index)
 
     for idx, row in raw.iterrows():
         # --------------------------------------------------------
-        # 1) Gestion "PROCHAINEMENT"
+        # 1) Mise à jour du jour courant
         # --------------------------------------------------------
         a = row.get(COL_A)
         b = row.get(COL_B)
-
-        titre_cell_value = row.get(COL_TITRE)
-        titre_norm = norm_str(titre_cell_value)
-
-        # "pas de jour / pas de date" à gauche
-        has_weekday = is_weekday_label(a)
-        has_date = parse_date_cell(b) is not None
-
-        if titre_norm and "prochainement" in titre_norm.lower() and not has_weekday and not has_date:
-            # on prend la ligne suivante, colonne E
-            try:
-                next_idx_pos = index_list.index(idx) + 1
-                if next_idx_pos < len(index_list):
-                    next_idx = index_list[next_idx_pos]
-                    next_row = raw.loc[next_idx]
-                    next_title = norm_str(next_row.get(COL_TITRE))
-                    if next_title:
-                        upcoming_blocks.append(next_title)
-            except ValueError:
-                # idx pas trouvé dans index_list (très improbable)
-                pass
-            # on ne fait pas de séance avec cette ligne "prochainement"
-            # mais on CONTINUE la boucle pour passer à la suite
-            # (continue implicite ici, on laisse la suite exécuter,
-            # mais sans date ni heure ça ne créera rien)
-            # pas de "continue" forcé pour ne pas casser une logique éventuelle.
-            # On ne sort pas ici.
-
-        # --------------------------------------------------------
-        # 2) Mise à jour du jour courant
-        # --------------------------------------------------------
         row_date = parse_date_cell(b)
         if is_weekday_label(a) and row_date:
             current_date = row_date
 
         # --------------------------------------------------------
-        # 3) Détection séance classique
+        # 2) Détection séance classique
         #    Règle: on avance d'abord par date, puis on ne s'intéresse
         #    qu'aux lignes qui portent un horaire en colonne C.
         # --------------------------------------------------------

@@ -61,6 +61,8 @@ Options utiles:
 python outils/operations_mensuelles.py --dry-run
 python outils/operations_mensuelles.py --from-step enrich
 python outils/operations_mensuelles.py --to-step tableau
+python outils/operations_mensuelles.py --from-step prochainement --to-step prochainement
+python outils/generate_prochainement_json.py --source outils/input/source.xlsx
 ```
 
 Ordre des etapes:

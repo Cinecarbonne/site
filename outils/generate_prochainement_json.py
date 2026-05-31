@@ -5,9 +5,9 @@
 Generate data/prochainement.json from upcoming movie titles.
 
 Input priority:
-1) extract list from outils/input/source.xlsx (zone "prochainement")
-2) fallback: outils/input/prochainement_titles.json
-3) fallback: existing data/prochainement.json when it still contains titles
+1) extract list from --source / outils/input/source.xlsx (zone "prochainement")
+2) fallback to outils/input/prochainement_titles.json only when source is missing
+3) fallback to existing data/prochainement.json only when source is missing
 
 Output:
 - data/prochainement.json with poster URLs (no local image files required)
@@ -15,6 +15,7 @@ Output:
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import re
@@ -119,12 +120,13 @@ def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _extract_upcoming_blocks_from_source() -> list[str]:
-    if not SOURCE_XLSX.exists():
+def _extract_upcoming_blocks_from_source(source_xlsx: Path | None = None) -> list[str]:
+    source = Path(source_xlsx) if source_xlsx is not None else SOURCE_XLSX
+    if not source.exists():
         return []
     try:
         raw = pd.read_excel(
-            SOURCE_XLSX,
+            source,
             sheet_name=norm.SHEET_NAME,
             header=None,
             dtype=object,
@@ -132,7 +134,7 @@ def _extract_upcoming_blocks_from_source() -> list[str]:
     except Exception:
         try:
             raw = pd.read_excel(
-                SOURCE_XLSX,
+                source,
                 sheet_name=0,
                 header=None,
                 dtype=object,
@@ -140,33 +142,7 @@ def _extract_upcoming_blocks_from_source() -> list[str]:
         except Exception:
             return []
 
-    index_list = list(raw.index)
-    blocks: list[str] = []
-
-    for pos, idx in enumerate(index_list):
-        row = raw.loc[idx]
-        a = row.get(norm.COL_A)
-        b = row.get(norm.COL_B)
-        title_cell = row.get(norm.COL_TITRE)
-        title = norm.norm_str(title_cell)
-        if not title:
-            continue
-
-        has_weekday = norm.is_weekday_label(a)
-        has_date = norm.parse_date_cell(b) is not None
-        if "prochainement" not in title.lower() or has_weekday or has_date:
-            continue
-
-        next_pos = pos + 1
-        if next_pos >= len(index_list):
-            continue
-        next_idx = index_list[next_pos]
-        next_row = raw.loc[next_idx]
-        next_title = norm.norm_str(next_row.get(norm.COL_TITRE))
-        if next_title:
-            blocks.append(_fix_mojibake(next_title))
-
-    return blocks
+    return [_fix_mojibake(block) for block in norm.extract_prochainement_blocks(raw)]
 
 
 def _write_titles_input(titles: list[str], origin: str) -> None:
@@ -178,18 +154,25 @@ def _write_titles_input(titles: list[str], origin: str) -> None:
     print(f"[info] titres mis a jour depuis {origin}: {INPUT_TITLES}")
 
 
-def load_titles() -> list[str]:
-    source_blocks = _extract_upcoming_blocks_from_source()
-    if source_blocks:
-        WORK_PROCHAINEMENT.parent.mkdir(parents=True, exist_ok=True)
-        WORK_PROCHAINEMENT.write_text(
-            json.dumps(source_blocks, ensure_ascii=False, indent=2),
-            encoding="utf-8",
+def load_titles(source_xlsx: Path | None = None) -> list[str]:
+    source = Path(source_xlsx) if source_xlsx is not None else SOURCE_XLSX
+    if source.exists():
+        source_blocks = _extract_upcoming_blocks_from_source(source)
+        if source_blocks:
+            WORK_PROCHAINEMENT.parent.mkdir(parents=True, exist_ok=True)
+            WORK_PROCHAINEMENT.write_text(
+                json.dumps(source_blocks, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            titles = _extract_titles(source_blocks)
+            if titles:
+                _write_titles_input(titles, source.name)
+                return titles
+
+        raise SystemExit(
+            f"Aucun titre prochainement trouve dans {source}. "
+            f"{INPUT_TITLES} n'est pas utilise pour eviter de reprendre les titres d'un mois precedent."
         )
-        titles = _extract_titles(source_blocks)
-        if titles:
-            _write_titles_input(titles, "source.xlsx")
-            return titles
 
     if INPUT_TITLES.exists():
         titles = _extract_titles(_read_json(INPUT_TITLES))
@@ -362,9 +345,9 @@ def build_output_items(titles: list[str]) -> tuple[list[dict[str, Any]], list[st
     return output, missing
 
 
-def main() -> int:
+def main(source_xlsx: Path | None = None) -> int:
     _load_env()
-    titles = load_titles()
+    titles = load_titles(source_xlsx)
     items, missing = build_output_items(titles)
 
     OUTPUT_JSON.write_text(
@@ -378,5 +361,19 @@ def main() -> int:
     return 0
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Genere data/prochainement.json depuis la zone prochainement du fichier Excel source."
+    )
+    parser.add_argument(
+        "--source",
+        type=Path,
+        default=SOURCE_XLSX,
+        help=f"Fichier Excel source a lire (defaut: {SOURCE_XLSX}).",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    args = parse_args()
+    raise SystemExit(main(args.source))
