@@ -8,7 +8,7 @@ Sorties :
     - work/normalized.xlsx
     - work/prochainement.json  (liste de textes "prochainement")
 """
-
+from contextlib import nullcontext
 from pathlib import Path
 import re
 from datetime import datetime, time
@@ -17,7 +17,10 @@ import json
 import unicodedata
 
 import pandas as pd
-import openpyxl
+from openpyxl.styles import numbers
+from openpyxl import load_workbook
+from openpyxl.styles import Border, Side,Font, Alignment
+
 
 # --- chemins ---
 BASE_DIR            = Path(__file__).resolve().parent
@@ -28,14 +31,15 @@ SHEET_NAME          = "Feuil1"
 
 # --- colonnes du fichier source (index 0-based pour pandas) ---
 COL_A, COL_B, COL_C = 0, 1, 2
-COL_TITRE   = 4      # E
-COL_VERSION = 5      # F
-COL_CM    = 6      # G
-COL_REAL      = 7      # H
-COL_PRIX_INVITES = 8  # I
-COL_CATEG        = 9  # J
-COL_TARIF        = 10 # K
-COL_COMMENT      = 11 # L
+COL_URL          = 4   # E
+COL_TITRE        = 5   # F
+COL_VERSION      = 6   # G
+COL_CM           = 7   # H
+COL_REAL         = 8   # I
+COL_PRIX_INVITES = 9   # J
+COL_CATEG        = 10  # K
+COL_TARIF        = 11  # L
+COL_COMMENT      = 12  # M
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
@@ -469,7 +473,7 @@ def main():
     cm_catalog = extract_cm_catalog(raw)
 
     # openpyxl : styles (couleurs)
-    wb = openpyxl.load_workbook(INPUT_PATH, data_only=True)
+    wb = load_workbook(INPUT_PATH, data_only=True)
     ws = wb[SHEET_NAME]
 
     records = []
@@ -516,6 +520,7 @@ def main():
         categorie = norm_str(row.get(COL_CATEG))
         tarif = norm_str(row.get(COL_TARIF))
         commentaire = norm_str(row.get(COL_COMMENT))
+        url_allocine = norm_str(row.get(COL_URL))
         recompenses = None
 
         if prix_invites:
@@ -531,7 +536,8 @@ def main():
             categorie = append_category_label(categorie, "Scolaire")
 
         records.append({
-            "Date": current_date.strftime("%Y-%m-%d"),
+            # "Date": current_date.strftime("%Y-%m-%d"),
+            "Date": current_date,
             "Heure": f"{t.hour:02d}:{t.minute:02d}",
             "Titre": titre,
             "Version": version,
@@ -542,6 +548,7 @@ def main():
             "Categorie": categorie,
             "Tarif": tarif,
             "Commentaire": commentaire,
+            "url_allocine": url_allocine,
         })
 
     # --------------------------------------------------------
@@ -549,11 +556,57 @@ def main():
     # --------------------------------------------------------
     df = pd.DataFrame(records, columns=[
         "Date", "Heure", "Titre", "Version", "CM", "courts_metrages", 'Realisateur',
-        "Recompenses", "Categorie", "Tarif", "Commentaire"
+        "Recompenses", "Categorie", "Tarif", "url_allocine", ""
     ])
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_excel(OUTPUT_PATH, index=False)
+    wb = load_workbook(OUTPUT_PATH)
+    ws = wb.active
+    for c in ws['A:A'] :
+        c.number_format = "DD/MM/YYYY"
+    #ws.column_dimensions["A"].number_format = "DD/MM/YYYY"
+    ws.column_dimensions["A"].auto_size = True
+    ws.column_dimensions["B"].auto_size = True
+    ws.column_dimensions["C"].width = 50
+
+    ws.column_dimensions["H"].witdth = 30
+    ws.column_dimensions["I"].witdth = 30
+
+    # ajout d'une bordure Bleu autour de 3 serie de film pour les  caissiere
+
+    def set_border(ws, cell_range):
+        Large = Side(border_style="double", color="000000FF")
+        rows = ws[cell_range]
+        for row in rows:
+            row[0].border  = Border(left=Large)
+            row[-1].border = Border(right=Large)
+        for c in rows[0]:
+             c.border = Border(top=Large)
+        for c in rows[-1]:
+            c.border = Border(bottom=Large)
+
+    nb_row_per_series=int ((ws.max_row-1)/3)
+    ws.column_dimensions["L"].witdth = 40
+    ws.column_dimensions["L"].alignment = Alignment(horizontal='center', vertical='center')
+    ws.column_dimensions["L"].font  = Font(name='Calibri',
+                size=14,
+                bold=True,
+                color='000000FF')
+    for index in [0,1,2] :
+        label=f'Saisie {index+1}'
+        first_row=1++index+index*nb_row_per_series
+        last_row=first_row+nb_row_per_series
+        try :
+            ws.unmerge_cells(f"L{first_row}:L{last_row}")
+        except:
+            print('')
+        ws.cell(first_row,12).value=label
+        ws.merge_cells(f"L{first_row}:L{last_row}")
+        set_border(ws, f'A{first_row}:L{last_row}')
+
+    wb.save( OUTPUT_PATH)
+
     print(f"[done] Ecrit : {OUTPUT_PATH} ({len(df)} lignes)")
 
     # --------------------------------------------------------

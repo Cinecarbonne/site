@@ -2617,6 +2617,7 @@ def main(main_window=None) -> int:
         categorie = row_data.get("Categorie", "")
         tarif = row_data.get("Tarif", "")
         commentaire = row_data.get("Commentaire", "")
+        url_allocine = row_data.get("url_allocine", "")
 
         log_step(f"film: {titre}")
 
@@ -2638,11 +2639,12 @@ def main(main_window=None) -> int:
             "is_scolaire": is_scolaire,
             "raw": row_data,
             "enriched": {},
+            "allocine_url": url_allocine
         }
         films.append(film_info)
 
     # 5) rechercher les films,synopsis,Bande Annonce, etc...  sur allociné
-    get_movies_from_allociné(films)
+    get_movies_from_allociné(films, only_missing=True)
 
     # 6) rechercher les films,synopsis,Bande Annonce, etc...  sur TMDB
     get_movies_from_tmdb(films)
