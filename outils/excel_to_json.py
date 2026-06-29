@@ -6,8 +6,9 @@ excel_to_json.py — Convertit work/enriched.xlsx vers public/data/programme.jso
 
 - Import incrémental robuste :
   1) Charge le JSON existant et NE GARDE QUE les séances dont la date >= aujourd'hui (heure ignorée).
-  2) Ajoute TOUTES les lignes de l'Excel sans filtrage, en écrasant sur collision de clé.
-  3) Trie chronologiquement et écrit le JSON final.
+  2) Exclut les projections scolaires du JSON public du site.
+  3) Ajoute les lignes publiables de l'Excel, en écrasant sur collision de clé.
+  4) Trie chronologiquement et écrit le JSON final.
 
 - Clé unique : date + heure.
 - Champs exportés : compatibles avec le site (tarif, recompenses, commentaire, backdrops, etc.)
@@ -19,6 +20,7 @@ from pathlib import Path
 from datetime import datetime
 import pandas as pd
 import re
+import unicodedata
 
 # Emplacements
 BASE_DIR = Path(__file__).resolve().parent
@@ -51,6 +53,22 @@ def safe_str(x):
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 ISO_DT   = re.compile(r"^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}(:\d{2})?$")
 EU_DATE  = re.compile(r"^\d{1,2}/\d{1,2}/\d{4}$")
+SCHOOL_RE = re.compile(r"\bscol(?:aire|aires)?\b")
+
+def normalize_filter_text(value) -> str:
+    text = safe_str(value).strip().lower()
+    text = unicodedata.normalize("NFKD", text)
+    return "".join(ch for ch in text if not unicodedata.combining(ch))
+
+def is_school_screening(obj: dict) -> bool:
+    """
+    Les seances scolaires restent dans les fichiers de travail/tableaux, mais
+    ne doivent pas etre publiees dans data/programme.json, utilise par le site.
+    """
+    for key in ("categorie", "Categorie", "titre", "Titre"):
+        if SCHOOL_RE.search(normalize_filter_text(obj.get(key, ""))):
+            return True
+    return False
 
 def parse_dt(obj: dict):
     """
@@ -187,16 +205,24 @@ def main():
     df = pd.read_excel(IN_XLSX, sheet_name=0, dtype=str).fillna("")
 
     merged: dict[str, dict] = {}
+    skipped_existing_school = 0
+    skipped_excel_school = 0
 
     # 1) Charger l'existant et NE GARDER QUE les séances dont la date >= aujourd'hui (heure ignorée)
     existing = load_existing()
     if existing:
         for x in drop_past(existing, mode="date"):
+            if is_school_screening(x):
+                skipped_existing_school += 1
+                continue
             merged[make_key(x)] = x
 
-    # 2) Ajouter / écraser avec l'Excel (on ne filtre PAS l'Excel)
+    # 2) Ajouter / ecraser avec les lignes publiables de l'Excel
     for _, r in df.iterrows():
         obj = row_to_obj(r)
+        if is_school_screening(obj):
+            skipped_excel_school += 1
+            continue
         merged[make_key(obj)] = obj
 
     items = list(merged.values())
@@ -213,7 +239,8 @@ def main():
         json.dump(items, f, ensure_ascii=False, indent=2)
 
     print(f"[done] écrit: {OUT_JSON}  ({len(items)} séances)")
-    print("[info] logique: (existant filtré aux >= aujourd'hui) + Excel (écrase sur même clé) ; tri chronologique")
+    print("[info] logique: (existant filtré aux >= aujourd'hui) + Excel publiable (écrase sur même clé) ; tri chronologique")
+    print(f"[info] scolaires exclus du JSON public: existant={skipped_existing_school}, excel={skipped_excel_school}")
 
 if __name__ == "__main__":
     main()

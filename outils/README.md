@@ -75,6 +75,15 @@ generate_prochainement_json
 make_tableau_ingest
 ```
 
+Publication site:
+
+```text
+- excel_to_json exclut les projections scolaires de data/programme.json.
+- Les projections scolaires restent conservees dans les fichiers de travail
+  et les tableaux internes, notamment normalized.xlsx, enriched.xlsx,
+  tableau_ingest.xlsx et le tableau service genere par l'interface.
+```
+
 ## Operation PDF
 
 Preparation:
