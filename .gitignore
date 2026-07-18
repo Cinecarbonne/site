@@ -25,3 +25,8 @@ tmp_codex/
 /outils/work/prochainement.json
 /outils/work/tableau_service.xlsx
 /outils/input/source.xlsx
+/outils/work/enriched.xlsx
+/outils/work/normalized.xlsx
+/outils/input/source.xlsx
+/outils/work/tableau_ingest.xlsx
+/outils/work/tableau_service.xlsx
