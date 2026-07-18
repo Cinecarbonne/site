@@ -133,7 +133,7 @@ def extract_prochainement_blocks(raw):
         b = row.get(COL_B)
         c = row.get(COL_C)
 
-        titre_cell_value = row.get(COL_TITRE)
+        titre_cell_value = row.get(COL_URL)
         titre_norm = norm_str(titre_cell_value)
 
         has_weekday = is_weekday_label(a)
