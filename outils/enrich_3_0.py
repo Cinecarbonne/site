@@ -2607,6 +2607,7 @@ def main(main_window=None) -> int:
     films = []
     for _, row in df.iterrows():
         row_data = {col: str(row.get(col, "")).strip() for col in columns}
+        row_data['Date']=pd.to_datetime(row_data['Date']).strftime("%Y-%m-%d")
         date = row_data.get("Date", "")
         heure = row_data.get("Heure", "")
         titre = row_data.get("Titre", "")
