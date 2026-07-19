@@ -1,173 +1,92 @@
 [
   {
-    "title": "Jim queen",
-    "poster": "https://fr.web.img4.acsta.net/img/0b/24/0b2475fd5c509b222ed908d2ee8bb3c5.jpg",
-    "alt": "Affiche de Jim queen",
+    "title": "La Pat'Patrouille Le film Mission Dino",
+    "poster": "https://fr.web.img6.acsta.net/img/bb/35/bb358019448f4fcd5c37b0d19c04fd0d.jpg",
+    "alt": "Affiche de La Pat'Patrouille Le film Mission Dino",
     "source": "allocine",
-    "match_title": "Jim Queen",
-    "release_date": "2026-06-17",
+    "match_title": "La Pat' Patrouille : Le film mission Dino",
+    "release_date": "2026-08-05",
     "match_score": 1.0
   },
   {
-    "title": "Shan",
-    "poster": "https://fr.web.img5.acsta.net/pictures/22/05/19/10/08/0697917.jpg",
-    "alt": "Affiche de Shan",
+    "title": "Kyma L'onde mystérieuse",
+    "poster": "https://fr.web.img6.acsta.net/img/c5/38/c53817b82f09f1a3546dd43904cfdaea.jpg",
+    "alt": "Affiche de Kyma L'onde mystérieuse",
     "source": "allocine",
-    "match_title": "Shaan",
-    "release_date": "",
-    "match_score": 0.8889
-  },
-  {
-    "title": "Une année italienne",
-    "poster": "https://fr.web.img4.acsta.net/img/e2/36/e23682f324bb9201bef0499ff4281c1f.jpg",
-    "alt": "Affiche de Une année italienne",
-    "source": "allocine",
-    "match_title": "Une année italienne",
-    "release_date": "2026-06-10",
+    "match_title": "Kyma, l’onde mystérieuse",
+    "release_date": "2026-08-05",
     "match_score": 1.0
   },
   {
-    "title": "Le passage",
-    "poster": "https://fr.web.img6.acsta.net/img/05/40/0540f501d85587116abb51aa2f9f7a91.jpg",
-    "alt": "Affiche de Le passage",
+    "title": "Les silences de Riyad",
+    "poster": "https://fr.web.img6.acsta.net/img/77/4c/774c48b614b0db826e289da924860d6f.jpg",
+    "alt": "Affiche de Les silences de Riyad",
     "source": "allocine",
-    "match_title": "Le Passage",
-    "release_date": "2026-07-08",
+    "match_title": "Les Silences de Riyad",
+    "release_date": "2026-08-05",
     "match_score": 1.0
   },
   {
-    "title": "Vaïana la légende du bout du monde",
-    "poster": "https://image.tmdb.org/t/p/w780/fN4YJFr6d1Zx2fNBlzGLyShO6sc.jpg",
-    "alt": "Affiche de Vaïana la légende du bout du monde",
-    "source": "tmdb",
-    "match_title": "Vaiana, la légende du bout du monde",
-    "release_date": "2026-07-08",
-    "match_score": 1.0
-  },
-  {
-    "title": "Microstar",
-    "poster": "https://fr.web.img5.acsta.net/img/fa/56/fa56c1295d0b5b47de00b53511fd6822.jpg",
-    "alt": "Affiche de Microstar",
+    "title": "Girl",
+    "poster": "https://fr.web.img6.acsta.net/pictures/18/06/04/16/54/2648625.jpg",
+    "alt": "Affiche de Girl",
     "source": "allocine",
-    "match_title": "Microstar",
-    "release_date": "2026-07-08",
+    "match_title": "Girl",
+    "release_date": "2018-10-10",
     "match_score": 1.0
   },
   {
-    "title": "The fin",
-    "poster": "https://fr.web.img6.acsta.net/img/5e/e8/5ee8a105924e6ce13eb7e97f5fbed477.jpg",
-    "alt": "Affiche de The fin",
+    "title": "Tombé du ciel",
+    "poster": "https://fr.web.img5.acsta.net/img/78/a7/78a70db88122966584f6dd674da06a6d.jpg",
+    "alt": "Affiche de Tombé du ciel",
     "source": "allocine",
-    "match_title": "The Fin",
-    "release_date": "2026-07-08",
+    "match_title": "Tombé du ciel",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
-    "title": "L'Odyssée",
-    "poster": "https://fr.web.img6.acsta.net/img/a7/70/a770a3822c90a655af05961cda53f3a1.jpg",
-    "alt": "Affiche de L'Odyssée",
+    "title": "La fin d'Oak street",
+    "poster": "https://fr.web.img5.acsta.net/img/ca/38/ca3828db003e6a83f505d70144d7e112.jpg",
+    "alt": "Affiche de La fin d'Oak street",
     "source": "allocine",
-    "match_title": "L'Odyssée",
-    "release_date": "2026-07-15",
+    "match_title": "La fin d’Oak Street",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
-    "title": "Comète",
-    "poster": "https://fr.web.img6.acsta.net/img/09/60/0960dc167037b0a7db2ab1aa90c4d5be.jpg",
-    "alt": "Affiche de Comète",
+    "title": "Lydia et le vaisseau des tempêtes",
+    "poster": "https://fr.web.img6.acsta.net/img/a9/56/a956b39c861f91bf3252abbe92836765.jpg",
+    "alt": "Affiche de Lydia et le vaisseau des tempêtes",
     "source": "allocine",
-    "match_title": "Comète",
-    "release_date": "2026-07-15",
+    "match_title": "Lydia et le vaisseau des tempêtes",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
-    "title": "L'aventure rêvée",
-    "poster": "https://fr.web.img6.acsta.net/img/8b/d9/8bd9d791f9b684bbe438f8542d0dc3ea.jpg",
-    "alt": "Affiche de L'aventure rêvée",
+    "title": "Une affaire turque",
+    "poster": "https://fr.web.img3.acsta.net/img/af/fb/affbc85d8e3d646b39700d0bd0dc1cfd.jpg",
+    "alt": "Affiche de Une affaire turque",
     "source": "allocine",
-    "match_title": "L'Aventure rêvée",
-    "release_date": "2026-07-15",
+    "match_title": "Une affaire turque",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
-    "title": "La dernière séance",
-    "poster": "https://fr.web.img6.acsta.net/img/b7/c1/b7c16fec6113b99829d9847c0372f1c6.jpg",
-    "alt": "Affiche de La dernière séance",
+    "title": "Une aube nouvelle",
+    "poster": "https://fr.web.img5.acsta.net/img/18/ab/18aba3e0fff8d3a713834677b8b17d83.png",
+    "alt": "Affiche de Une aube nouvelle",
     "source": "allocine",
-    "match_title": "La Dernière séance",
-    "release_date": "2026-07-15",
+    "match_title": "Une aube nouvelle",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
-    "title": "De la comédie française",
-    "poster": "https://fr.web.img2.acsta.net/img/9c/4d/9c4daa6e94f7107c83f7d732700c44a0.jpg",
-    "alt": "Affiche de De la comédie française",
+    "title": "Chicas tristes",
+    "poster": "https://fr.web.img4.acsta.net/img/57/32/5732fc7877b55cb456ac1a47200b74fc.jpg",
+    "alt": "Affiche de Chicas tristes",
     "source": "allocine",
-    "match_title": "De la Comédie-Française",
-    "release_date": "2026-07-22",
-    "match_score": 1.0
-  },
-  {
-    "title": "La fille dans les nuages",
-    "poster": "https://fr.web.img4.acsta.net/img/a6/9e/a69e4b47821ccc84f4ee63d57ffc5124.jpg",
-    "alt": "Affiche de La fille dans les nuages",
-    "source": "allocine",
-    "match_title": "La Fille dans les nuages",
-    "release_date": "2026-07-22",
-    "match_score": 1.0
-  },
-  {
-    "title": "Spider-man Brand new day",
-    "poster": "https://fr.web.img5.acsta.net/img/cd/90/cd90255ae37ff659dab73bd1c422c9b5.jpg",
-    "alt": "Affiche de Spider-man Brand new day",
-    "source": "allocine",
-    "match_title": "Spider-Man: Brand New Day",
-    "release_date": "2026-07-29",
-    "match_score": 1.0
-  },
-  {
-    "title": "I want your sex",
-    "poster": "https://fr.web.img4.acsta.net/img/15/ad/15adab41a1612c7739f12d034a62f712.jpg",
-    "alt": "Affiche de I want your sex",
-    "source": "allocine",
-    "match_title": "I Want Your Sex",
-    "release_date": "2026-07-29",
-    "match_score": 1.0
-  },
-  {
-    "title": "The ugly",
-    "poster": "https://fr.web.img5.acsta.net/img/5f/10/5f10ca3b4fe0f21800490b5d4561c83c.jpg",
-    "alt": "Affiche de The ugly",
-    "source": "allocine",
-    "match_title": "The Ugly",
-    "release_date": "2026-07-29",
-    "match_score": 1.0
-  },
-  {
-    "title": "Le triangle d'or",
-    "poster": "https://image.tmdb.org/t/p/w780/uAsmHlQ4O2wDrDtavvmNlZXP01z.jpg",
-    "alt": "Affiche de Le triangle d'or",
-    "source": "tmdb",
-    "match_title": "Le Triangle d'or",
-    "release_date": "2026-05-19",
-    "match_score": 1.0
-  },
-  {
-    "title": "Tommy guns",
-    "poster": "https://fr.web.img5.acsta.net/pictures/23/03/17/07/14/5930523.jpg",
-    "alt": "Affiche de Tommy guns",
-    "source": "allocine",
-    "match_title": "Tommy Guns",
-    "release_date": "2026-07-29",
-    "match_score": 1.0
-  },
-  {
-    "title": "Soudain",
-    "poster": "https://fr.web.img6.acsta.net/img/86/e4/86e489528e813b6d8a2a8f10228b963f.jpg",
-    "alt": "Affiche de Soudain",
-    "source": "allocine",
-    "match_title": "Soudain",
-    "release_date": "",
+    "match_title": "Chicas tristes",
+    "release_date": "2026-08-12",
     "match_score": 1.0
   },
   {
@@ -177,6 +96,78 @@
     "source": "allocine",
     "match_title": "Fjord",
     "release_date": "2026-08-19",
+    "match_score": 1.0
+  },
+  {
+    "title": "Mutiny",
+    "poster": "https://fr.web.img6.acsta.net/img/f6/c9/f6c9bc96111477a457737412606a7dd7.jpg",
+    "alt": "Affiche de Mutiny",
+    "source": "allocine",
+    "match_title": "Mutiny",
+    "release_date": "2026-08-19",
+    "match_score": 1.0
+  },
+  {
+    "title": "Oklahoma Honey",
+    "poster": "https://fr.web.img6.acsta.net/img/c5/9b/c59b5f11e1d8c447738dd7b4a8a49476.jpg",
+    "alt": "Affiche de Oklahoma Honey",
+    "source": "allocine",
+    "match_title": "Oklahoma Honey",
+    "release_date": "2026-08-19",
+    "match_score": 1.0
+  },
+  {
+    "title": "The dog stars",
+    "poster": "https://fr.web.img2.acsta.net/img/b0/8c/b08c051c092e750fd4db22f2eb9feaaa.jpg",
+    "alt": "Affiche de The dog stars",
+    "source": "allocine",
+    "match_title": "The Dog Stars",
+    "release_date": "2026-08-26",
+    "match_score": 1.0
+  },
+  {
+    "title": "L'inconnue",
+    "poster": "https://fr.web.img3.acsta.net/img/af/a2/afa2a4e9bb49e003bceb86c209f46033.jpg",
+    "alt": "Affiche de L'inconnue",
+    "source": "allocine",
+    "match_title": "L'Inconnue",
+    "release_date": "2026-08-26",
+    "match_score": 1.0
+  },
+  {
+    "title": "Tad l'explorateur et la lampe magique",
+    "poster": "https://fr.web.img2.acsta.net/img/7a/89/7a89c362c3c4180669ce471a947d2f70.jpg",
+    "alt": "Affiche de Tad l'explorateur et la lampe magique",
+    "source": "allocine",
+    "match_title": "Tad l'explorateur et la lampe magique",
+    "release_date": "2026-08-26",
+    "match_score": 1.0
+  },
+  {
+    "title": "Face à la mer",
+    "poster": "https://image.tmdb.org/t/p/w780/ysKCkMMhQZ6VKk4BcwyhlXuRyfA.jpg",
+    "alt": "Affiche de Face à la mer",
+    "source": "tmdb",
+    "match_title": "Face à la mer",
+    "release_date": "2025-08-16",
+    "match_score": 1.0
+  },
+  {
+    "title": "Dégel",
+    "poster": "https://fr.web.img5.acsta.net/img/59/f6/59f64dbaa7f88901fba3c5db67e4995b.jpg",
+    "alt": "Affiche de Dégel",
+    "source": "allocine",
+    "match_title": "Dégel",
+    "release_date": "2026-08-26",
+    "match_score": 1.0
+  },
+  {
+    "title": "Decorado",
+    "poster": "https://fr.web.img3.acsta.net/img/7e/10/7e10d4a081a023065a4529a6691a0011.jpg",
+    "alt": "Affiche de Decorado",
+    "source": "allocine",
+    "match_title": "Decorado",
+    "release_date": "2026-08-26",
     "match_score": 1.0
   }
 ]
