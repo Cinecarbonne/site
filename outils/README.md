@@ -75,6 +75,61 @@ generate_prochainement_json
 make_tableau_ingest
 ```
 
+## Accessibilite du tableau ingest
+
+`make_tableau_ingest.py` ajoute une cinquieme colonne `Accessibilité` au
+classeur `outils/work/tableau_ingest.xlsx`. Les codes sont repetes sur chaque
+seance du meme film, y compris dans les lignes scolaires. Les lignes de courts
+metrages restent conservees.
+
+Legende:
+
+```text
+AD    Audiodescription signalee par Cine-Sens
+SME   Sous-titres sourds et malentendants signales par Cine-Sens
+SR    Son renforce signale par Cine-Sens
+VAST  Film present dans la liste Tout en Parlant
+LB    Film present dans la rubrique La Bavarde de Cine-Sens
+G*    Film present dans la rubrique GRETA de Cine-Sens
+```
+
+`G*` ne signifie pas que GRETA est utilisable a Cine Carbonne. L'application
+spectateur est gratuite, mais le cinema doit souscrire un abonnement
+professionnel commercialise sur devis par CinemaNext. Cine Carbonne n'est pas
+abonne a ce jour.
+
+Sources consultees:
+
+- [Films accessibles de Cine-Sens](https://www.cine-sens.fr/category/actualites/films-accessibles/)
+- [Films en VAST de Tout en Parlant](https://www.toutenparlant.org/vast-cinema/films-en-vast)
+- [Fonctionnement de GRETA](https://www.cine-sens.fr/actualites/solutions-d-adaptation-rendre-les-cinemas-accessibles-au-handicap-sensoriel-2/application-greta/)
+- [Contact CinemaNext](https://www.cinemanext.com/fr/contactus)
+
+La recherche peut aussi etre lancee seule:
+
+```powershell
+python outils/accessibility_lookup.py
+```
+
+Elle genere `outils/work/accessibilite_report.json`, qui conserve les
+rapprochements, leur confiance, les URL, les dates et les cas ambigus. Le
+dernier catalogue valide est conserve dans
+`outils/work/accessibilite_cache.json`.
+
+Mode hors connexion:
+
+```powershell
+python outils/accessibility_lookup.py --offline
+python outils/make_tableau_ingest.py --offline
+```
+
+Si une source est indisponible, le dernier cache de cette source est utilise.
+Sans cache, le classeur est quand meme genere avec `À vérifier`. Cette mention
+signifie seulement qu'aucune information assez fiable n'a ete trouvee; elle ne
+prouve jamais l'absence d'un dispositif. Les indications restent un reperage
+prealable: la presence reelle des pistes sur le DCP doit etre confirmee apres
+l'ingest.
+
 Publication site:
 
 ```text

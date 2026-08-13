@@ -30,3 +30,5 @@ tmp_codex/
 /outils/input/source.xlsx
 /outils/work/tableau_ingest.xlsx
 /outils/work/tableau_service.xlsx
+/outils/work/accessibilite_cache.json
+/outils/work/accessibilite_report.json

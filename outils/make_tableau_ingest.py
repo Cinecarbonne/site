@@ -9,6 +9,7 @@ Output columns:
 - VO
 - Date (ex: "mardi 24 mars")
 - Heure (ex: "21h" / "20h30")
+- Accessibilité (ex: "AD SME SR G*" / "À vérifier")
 
 Rules:
 - VO/VOST information is no longer appended to the title; it goes in column B.
@@ -16,6 +17,7 @@ Rules:
 - School screenings keep their title suffix.
 """
 
+import argparse
 import datetime as dt
 import re
 import unicodedata
@@ -24,6 +26,21 @@ from pathlib import Path
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment, Font
+
+try:
+    from .accessibility_lookup import (
+        DEFAULT_CACHE_PATH,
+        DEFAULT_REPORT_PATH,
+        accessibility_for,
+        lookup_films,
+    )
+except ImportError:
+    from accessibility_lookup import (
+        DEFAULT_CACHE_PATH,
+        DEFAULT_REPORT_PATH,
+        accessibility_for,
+        lookup_films,
+    )
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -155,8 +172,8 @@ def _extract_cm_title(text: str) -> str:
     return cleaned
 
 
-def _load_cm_titles() -> dict:
-    wb = load_workbook(SOURCE_PATH, data_only=True)
+def _load_cm_titles(source_path: Path) -> dict:
+    wb = load_workbook(source_path, data_only=True)
     ws = wb.active
     cm1_raw = ws.cell(row=1, column=5).value or ""
     cm2_raw = ws.cell(row=2, column=5).value or ""
@@ -166,9 +183,46 @@ def _load_cm_titles() -> dict:
     }
 
 
-def main() -> int:
-    df = pd.read_excel(IN_PATH, sheet_name=0, dtype=object).fillna("")
-    cm_titles = _load_cm_titles()
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Génère le tableau mensuel utilisé pour l'ingest."
+    )
+    parser.add_argument("--input", type=Path, default=IN_PATH)
+    parser.add_argument("--source", type=Path, default=SOURCE_PATH)
+    parser.add_argument("--output", type=Path, default=OUT_PATH)
+    parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE_PATH)
+    parser.add_argument("--report", type=Path, default=DEFAULT_REPORT_PATH)
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="Utilise uniquement le dernier cache d'accessibilité.",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
+    df = pd.read_excel(args.input, sheet_name=0, dtype=object).fillna("")
+    cm_titles = _load_cm_titles(args.source)
+
+    films = []
+    for _, row in df.iterrows():
+        films.append(
+            {
+                "title": str(row.get("Titre", "")).strip(),
+                "director": str(row.get("Realisateur", "")).strip(),
+            }
+        )
+    for cm_title in cm_titles.values():
+        if cm_title:
+            films.append({"title": cm_title, "director": ""})
+
+    accessibility, _ = lookup_films(
+        films,
+        offline=args.offline,
+        cache_path=args.cache,
+        report_path=args.report,
+    )
 
     rows = []
     for _, row in df.iterrows():
@@ -182,9 +236,19 @@ def main() -> int:
         for key in ("CM1", "CM2"):
             if key in cm_cell and cm_titles.get(key):
                 cm_keys.append(key)
-                rows.append([f"{key} - {cm_titles[key]}", "", date_label, heure])
+                rows.append(
+                    [
+                        f"{key} - {cm_titles[key]}",
+                        "",
+                        date_label,
+                        heure,
+                        accessibility_for(accessibility, cm_titles[key]),
+                    ]
+                )
 
         titre = str(row.get("Titre", "")).strip()
+        lookup_title = titre
+        director = str(row.get("Realisateur", "")).strip()
         vovf = str(row.get("VOVF", "")).strip()
         if not vovf:
             vovf = str(row.get("Version", "")).strip()
@@ -194,14 +258,25 @@ def main() -> int:
             titre = f"{titre} - SCOL" if titre else titre
         for key in cm_keys:
             titre = f"{titre} + {key}" if titre else titre
-        rows.append([titre, vo_label, date_label, heure])
+        rows.append(
+            [
+                titre,
+                vo_label,
+                date_label,
+                heure,
+                accessibility_for(accessibility, lookup_title, director),
+            ]
+        )
 
-    out_df = pd.DataFrame(rows, columns=["Titre", "VO", "Date", "Heure"])
+    out_df = pd.DataFrame(
+        rows, columns=["Titre", "VO", "Date", "Heure", "Accessibilité"]
+    )
 
     try:
-        out_df.to_excel(OUT_PATH, index=False)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        out_df.to_excel(args.output, index=False)
 
-        wb = load_workbook(OUT_PATH)
+        wb = load_workbook(args.output)
         ws = wb.active
         align = Alignment(horizontal="center", vertical="center")
         base_font = Font(name="Merriweather", size=13, bold=False)
@@ -222,14 +297,16 @@ def main() -> int:
         ws.column_dimensions["B"].width = 10
         ws.column_dimensions["C"].width = 24
         ws.column_dimensions["D"].width = 12
+        ws.column_dimensions["E"].width = 24
 
-        wb.save(OUT_PATH)
+        wb.save(args.output)
     except PermissionError as exc:
         raise SystemExit(
-            f"Impossible d'ecrire {OUT_PATH}. Ferme le fichier Excel s'il est ouvert, puis relance le script."
+            f"Impossible d'ecrire {args.output}. "
+            "Ferme le fichier Excel s'il est ouvert, puis relance le script."
         ) from exc
 
-    print(f"OK: {OUT_PATH}")
+    print(f"OK: {args.output}")
     return 0
 
 
