@@ -2235,6 +2235,26 @@ def _prompt_source_choice(film: dict, allocine_meta: dict, tmdb_meta: dict, matc
             return choice
 
 
+def _choose_mismatch_source(
+    film: dict,
+    allocine_meta: dict,
+    tmdb_meta: dict,
+    match_info: dict,
+) -> str:
+    """Applique la priorite de l'URL Allocine saisie dans le programme."""
+    if film.get("allocine_url_provided"):
+        log_step(
+            "allocine/tmdb: URL Allocine fournie, "
+            f"Allocine retenu automatiquement pour {film.get('titre', '')}"
+        )
+        return "a"
+
+    print(f'mode_gui: {mode_Gui}')
+    if mode_Gui:
+        return _gui_prompt_source_choice(film, allocine_meta, tmdb_meta, match_info)
+    return _prompt_source_choice(film, allocine_meta, tmdb_meta, match_info)
+
+
 def get_movies_from_tmdb(films):
     log_step("tmdb: chercher par titre (langue principale puis en-US si besoin)")
 
@@ -2305,6 +2325,12 @@ def _canonical_title_for_output(film: dict) -> str:
     pref = enriched.get("source_preference", "")
     if pref == "s":
         return ""
+    if pref == "a":
+        return (
+            enriched.get("allocine_title", "")
+            or film.get("allocine_title", "")
+            or film.get("titre", "")
+        )
     if pref == "t" and film.get("tmdb_title"):
         return film.get("tmdb_title", "")
     return (
@@ -2320,6 +2346,12 @@ def _canonical_director_for_output(film: dict) -> str:
     pref = enriched.get("source_preference", "")
     if pref == "s":
         return ""
+    if pref == "a":
+        return (
+            enriched.get("allocine_directors", "")
+            or film.get("allocine_directors", "")
+            or film.get("realisateur", "")
+        )
     if pref == "t" and film.get("tmdb_directors"):
         return film.get("tmdb_directors", "")
     return (
@@ -2328,6 +2360,12 @@ def _canonical_director_for_output(film: dict) -> str:
         or film.get("tmdb_directors", "")
         or ""
     )
+
+
+def _tmdb_resources_allowed(film: dict) -> bool:
+    """TMDB ne doit plus alimenter une fiche explicitement confiee a Allocine."""
+    preference = film.get("enriched", {}).get("source_preference", "")
+    return preference not in {"a", "s"}
 
 
 def _build_enrichment_report(films: list[dict]) -> dict:
@@ -2475,11 +2513,16 @@ def get_movies_from_allociné(films, only_missing: bool = False, include_tmdb_ti
         except Exception as exc:
             return allocine_url, {}, str(exc)
 
+    # Les URL fournies par le tableau sont des references fiables : on evite
+    # leur recherche, mais on doit tout de meme charger directement leurs
+    # metadonnees Allocine. Le regroupement evite de recharger une URL pour
+    # chaque seance d'un meme film.
     url_groups = {}
-    if not only_missing:
-        target_indices = set(range(len(films)))
+    allocine_indices = {
+        idx for idx, film in enumerate(films) if film.get("allocine_url", "")
+    }
 
-    for idx in sorted(target_indices):
+    for idx in sorted(allocine_indices):
         film = films[idx]
         allocine_url = film.get("allocine_url", "")
         if allocine_url:
@@ -2557,7 +2600,7 @@ def get_movies_from_allociné(films, only_missing: bool = False, include_tmdb_ti
             return allocine_url, [], str(exc)
 
     photo_targets = {}
-    for idx in sorted(target_indices):
+    for idx in sorted(allocine_indices):
         film = films[idx]
         allocine_url = film.get("allocine_url", "")
         if allocine_url and allocine_url not in photo_targets:
@@ -2640,7 +2683,10 @@ def main(main_window=None) -> int:
             "is_scolaire": is_scolaire,
             "raw": row_data,
             "enriched": {},
-            "allocine_url": url_allocine
+            "allocine_url": url_allocine,
+            # Cette origine doit rester distincte d'une URL retrouvee ensuite
+            # par le script : une URL saisie dans le programme fait autorite.
+            "allocine_url_provided": bool(url_allocine),
         }
         films.append(film_info)
 
@@ -2689,12 +2735,12 @@ def main(main_window=None) -> int:
                 f"date_match={date_match})"
             )
 
-            print(f'mode_gui: {mode_Gui}')
-            if mode_Gui:
-                choice = _gui_prompt_source_choice(film, allocine_meta, tmdb_meta, result)
-            else:
-                choice = _prompt_source_choice(film, allocine_meta, tmdb_meta, result)
-            film["enriched"]["source_preference"] = choice
+            film["enriched"]["source_preference"] = _choose_mismatch_source(
+                film,
+                allocine_meta,
+                tmdb_meta,
+                result,
+            )
 
     # 10) Recuperer details TMDB (synopsis, genres, pays, duree, acteurs, trailers)
     log_step("tmdb: recuperer details (synopsis, genres, pays, duree, acteurs, trailers)")
@@ -2718,7 +2764,7 @@ def main(main_window=None) -> int:
     max_workers = min(TMDB_MAX_WORKERS, max(1, len(films)))
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for idx, film in enumerate(films):
-            movie_id = film.get("tmdb_id", "")
+            movie_id = film.get("tmdb_id", "") if _tmdb_resources_allowed(film) else ""
             lang = film.get("tmdb_lang", TMDB_LANG_DEFAULT)
             futures.append(executor.submit(_tmdb_details_lookup, idx, movie_id, lang))
         for future in as_completed(futures):
@@ -2819,9 +2865,17 @@ def main(main_window=None) -> int:
             recompenses = enriched.get("allocine_recompenses", []) or enriched.get("tmdb_recompenses", [])
             trailer_url = tmdb_trailer or allocine_trailer or ""
 
-        if not enriched.get("affiche") and enriched.get("tmdb_affiche"):
+        if (
+            _tmdb_resources_allowed(film)
+            and not enriched.get("affiche")
+            and enriched.get("tmdb_affiche")
+        ):
             enriched["affiche"] = enriched.get("tmdb_affiche")
-        if not enriched.get("backdrops") and enriched.get("tmdb_backdrops"):
+        if (
+            _tmdb_resources_allowed(film)
+            and not enriched.get("backdrops")
+            and enriched.get("tmdb_backdrops")
+        ):
             enriched["backdrops"] = enriched.get("tmdb_backdrops")
 
         if _is_allocine_player_trailer_url(trailer_url):
@@ -2836,16 +2890,22 @@ def main(main_window=None) -> int:
             or (trailer_url and not _is_supported_trailer_url(trailer_url))
         )
         if should_try_youtube:
-            release_year = _year_from_date(
-                enriched.get("allocine_release_date") or film.get("tmdb_release_date", "")
-            )
+            release_date_for_search = enriched.get("allocine_release_date", "")
+            if _tmdb_resources_allowed(film):
+                release_date_for_search = (
+                    release_date_for_search or film.get("tmdb_release_date", "")
+                )
+            release_year = _year_from_date(release_date_for_search)
             title = film.get("titre", "")
             director = film.get("realisateur", "")
-            extra_titles = [
-                enriched.get("allocine_title", ""),
-                film.get("tmdb_title", ""),
-                film.get("tmdb_original_title", ""),
-            ]
+            extra_titles = [enriched.get("allocine_title", "")]
+            if _tmdb_resources_allowed(film):
+                extra_titles.extend(
+                    [
+                        film.get("tmdb_title", ""),
+                        film.get("tmdb_original_title", ""),
+                    ]
+                )
             cache_key = (
                 normalize_for_match(title),
                 release_year,
@@ -2870,9 +2930,9 @@ def main(main_window=None) -> int:
         enriched["pays"] = pays
         enriched["acteurs_principaux"] = acteurs
         enriched["recompenses"] = recompenses
-        enriched["date_sortie"] = (
-            enriched.get("allocine_release_date") or film.get("tmdb_release_date", "")
-        )
+        enriched["date_sortie"] = enriched.get("allocine_release_date", "")
+        if _tmdb_resources_allowed(film) and not enriched["date_sortie"]:
+            enriched["date_sortie"] = film.get("tmdb_release_date", "")
         enriched["trailer_url"] = trailer_url
 
     # 12) Ajouter l'age conseille JP dans le commentaire quand disponible

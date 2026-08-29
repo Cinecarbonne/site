@@ -26,16 +26,45 @@ python outils/excel_to_json.py
 
 ## Operations mensuelles
 
-Preparation:
+Source Google Sheet par defaut:
 
 ```text
-1. Copier le tableau Excel du mois dans outils/input/source.xlsx
+Le script telecharge ProgrammeCineCarbonne DG et choisit automatiquement le
+plus grand onglet dont le nom est un nombre. Les onglets comme Template sont
+ignores. Le bloc Prochainement de l'onglet reste traite sans changement.
 ```
 
 Execution complete:
 
 ```powershell
 python outils/operations_mensuelles.py
+```
+
+Pour imposer un programme precis:
+
+```powershell
+python outils/operations_mensuelles.py --programme 359
+```
+
+L'ancien fonctionnement avec un fichier local reste disponible:
+
+```powershell
+python outils/operations_mensuelles.py --source C:\chemin\programme.xlsx
+```
+
+Le Google Sheet peut etre remplace avec `--spreadsheet-url` ou avec la variable
+d'environnement `CINECARBONNE_GOOGLE_SHEET_URL`.
+
+Regle Allocine/TMDB:
+
+```text
+Sans URL Allocine dans le programme, le script recherche le film sur Allocine
+et TMDB et conserve le choix manuel en cas d'ecart.
+
+Avec une URL Allocine fournie, le script consulte encore TMDB. Si les fiches
+correspondent, TMDB peut completer les informations manquantes. En cas d'ecart,
+Allocine est retenu automatiquement, sans question et sans reutiliser de
+ressource TMDB pour cette fiche.
 ```
 
 Controle apres execution:
@@ -59,6 +88,7 @@ Options utiles:
 
 ```powershell
 python outils/operations_mensuelles.py --dry-run
+python outils/operations_mensuelles.py --programme 359 --dry-run
 python outils/operations_mensuelles.py --from-step enrich
 python outils/operations_mensuelles.py --to-step tableau
 python outils/operations_mensuelles.py --from-step prochainement --to-step prochainement
@@ -74,6 +104,22 @@ excel_to_json
 generate_prochainement_json
 make_tableau_ingest
 ```
+
+### Courts metrages
+
+Le normaliseur conserve la compatibilite avec les anciennes definitions placees
+en haut du tableau. Dans le format actuel, il repere automatiquement l'intitule
+`Courts metrages a venir` en colonne N, quelle que soit sa ligne, puis lit les
+definitions `CM1`, `CM2`, etc. en colonne O. Seules les definitions du mois de
+debut du programme (`09/26`, par exemple) sont retenues.
+
+Les references de la colonne CM sont exportees avec leur titre, genre et duree
+dans `data/programme.json`. Le tableau ingest ajoute une ligne distincte pour
+chaque court metrage et conserve le marqueur `+ CM1`, `+ CM2`, etc. sur la ligne
+du long metrage.
+
+La colonne VO historique du tableau ingest est remplacee par `Version` et affiche
+explicitement `VF`, `VO` ou `VOST OCAP`.
 
 ## Accessibilite du tableau ingest
 

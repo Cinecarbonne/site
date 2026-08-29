@@ -6,19 +6,20 @@ Generate the monthly ingest workbook used for manual copy/paste.
 
 Output columns:
 - Titre
-- VO
+- Version (VF, VO ou VOST OCAP)
 - Date (ex: "mardi 24 mars")
 - Heure (ex: "21h" / "20h30")
 - Accessibilité (ex: "AD SME SR G*" / "À vérifier")
 
 Rules:
-- VO/VOST information is no longer appended to the title; it goes in column B.
+- Version information is no longer appended to the title; it goes in column B.
 - CM rows remain separate and the feature title keeps its "+ CMx" markers.
 - School screenings keep their title suffix.
 """
 
 import argparse
 import datetime as dt
+import json
 import re
 import unicodedata
 from pathlib import Path
@@ -34,6 +35,7 @@ try:
         accessibility_for,
         lookup_films,
     )
+    from .normalize import extract_cm_catalog
 except ImportError:
     from accessibility_lookup import (
         DEFAULT_CACHE_PATH,
@@ -41,6 +43,7 @@ except ImportError:
         accessibility_for,
         lookup_films,
     )
+    from normalize import extract_cm_catalog
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -147,8 +150,16 @@ def _normalize_text(value: object) -> str:
     return "".join(ch for ch in text if not unicodedata.combining(ch))
 
 
-def _is_vo(value: object) -> bool:
-    return _normalize_text(value).startswith("vo")
+def _format_version(value: object) -> str:
+    raw = str(value or "").strip()
+    compact = re.sub(r"[^a-z0-9]+", "", _normalize_text(raw))
+    if compact == "vostocap":
+        return "VOST OCAP"
+    if compact.startswith("vo"):
+        return "VO"
+    if compact.startswith("vf"):
+        return "VF"
+    return raw
 
 
 def _is_scolaire(categorie: object) -> bool:
@@ -173,14 +184,54 @@ def _extract_cm_title(text: str) -> str:
 
 
 def _load_cm_titles(source_path: Path) -> dict:
-    wb = load_workbook(source_path, data_only=True)
-    ws = wb.active
-    cm1_raw = ws.cell(row=1, column=5).value or ""
-    cm2_raw = ws.cell(row=2, column=5).value or ""
+    if not source_path.exists():
+        return {}
+    try:
+        raw = pd.read_excel(source_path, sheet_name=0, header=None, dtype=object)
+        catalog = extract_cm_catalog(raw)
+    except Exception:
+        return {}
     return {
-        "CM1": _extract_cm_title(cm1_raw),
-        "CM2": _extract_cm_title(cm2_raw),
+        code: str(payload.get("titre", "")).strip()
+        for code, payload in catalog.items()
+        if str(payload.get("titre", "")).strip()
     }
+
+
+def _parse_courts_metrages(value: object) -> list[dict]:
+    if isinstance(value, list):
+        payload = value
+    else:
+        text = str(value or "").strip()
+        if not text:
+            return []
+        try:
+            payload = json.loads(text)
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return []
+    if not isinstance(payload, list):
+        return []
+    return [item for item in payload if isinstance(item, dict)]
+
+
+def _cm_titles_from_normalized(df: pd.DataFrame) -> dict[str, str]:
+    titles = {}
+    for _, row in df.iterrows():
+        for court in _parse_courts_metrages(row.get("courts_metrages", "")):
+            code = str(court.get("code", "")).strip().upper()
+            title = str(court.get("titre", "")).strip()
+            if re.fullmatch(r"CM\d+", code) and title:
+                titles[code] = title
+    return titles
+
+
+def _cm_refs(value: object) -> list[str]:
+    refs = []
+    for number in re.findall(r"\bCM\s*(\d+)\b", str(value or ""), flags=re.IGNORECASE):
+        code = f"CM{number}"
+        if code not in refs:
+            refs.append(code)
+    return refs
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -203,7 +254,9 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     df = pd.read_excel(args.input, sheet_name=0, dtype=object).fillna("")
-    cm_titles = _load_cm_titles(args.source)
+    cm_titles = _cm_titles_from_normalized(df)
+    for code, title in _load_cm_titles(args.source).items():
+        cm_titles.setdefault(code, title)
 
     films = []
     for _, row in df.iterrows():
@@ -231,11 +284,9 @@ def main(argv: list[str] | None = None) -> int:
         date_label = _format_full_date(date_obj)
         heure = _format_time(row.get("Heure", ""))
 
-        cm_cell = str(row.get("CM", "")).upper()
-        cm_keys = []
-        for key in ("CM1", "CM2"):
-            if key in cm_cell and cm_titles.get(key):
-                cm_keys.append(key)
+        cm_keys = _cm_refs(row.get("CM", ""))
+        for key in cm_keys:
+            if cm_titles.get(key):
                 rows.append(
                     [
                         f"{key} - {cm_titles[key]}",
@@ -252,7 +303,7 @@ def main(argv: list[str] | None = None) -> int:
         vovf = str(row.get("VOVF", "")).strip()
         if not vovf:
             vovf = str(row.get("Version", "")).strip()
-        vo_label = "VO" if _is_vo(vovf) else ""
+        version_label = _format_version(vovf)
         categorie = str(row.get("Categorie", "")).strip()
         if _is_scolaire(categorie):
             titre = f"{titre} - SCOL" if titre else titre
@@ -261,7 +312,7 @@ def main(argv: list[str] | None = None) -> int:
         rows.append(
             [
                 titre,
-                vo_label,
+                version_label,
                 date_label,
                 heure,
                 accessibility_for(accessibility, lookup_title, director),
@@ -269,7 +320,7 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     out_df = pd.DataFrame(
-        rows, columns=["Titre", "VO", "Date", "Heure", "Accessibilité"]
+        rows, columns=["Titre", "Version", "Date", "Heure", "Accessibilité"]
     )
 
     try:
@@ -294,7 +345,7 @@ def main(argv: list[str] | None = None) -> int:
             ws.row_dimensions[row_idx].height = 40
 
         ws.column_dimensions["A"].width = 56
-        ws.column_dimensions["B"].width = 10
+        ws.column_dimensions["B"].width = 16
         ws.column_dimensions["C"].width = 24
         ws.column_dimensions["D"].width = 12
         ws.column_dimensions["E"].width = 24

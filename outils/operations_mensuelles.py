@@ -2,11 +2,20 @@
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
+
+from google_sheet_source import (
+    DEFAULT_SPREADSHEET_URL,
+    PreparedSource,
+    SourcePreparationError,
+    download_and_prepare_source,
+    prepare_source_workbook,
+)
 
 
 TOOLS_DIR = Path(__file__).resolve().parent
@@ -33,6 +42,7 @@ STEPS = [
     Step("tableau", "Generer le tableau ingest", "make_tableau_ingest.py"),
 ]
 STEP_INDEX = {step.id: index for index, step in enumerate(STEPS)}
+SOURCE_STEPS = {"normalize", "prochainement"}
 
 
 def resolve_python() -> Path:
@@ -59,11 +69,60 @@ def build_command(python_exe: Path, step: Step) -> list[str]:
 
 
 def ensure_inputs(selected_steps: list[Step]) -> None:
-    if selected_steps and not SOURCE_XLSX.exists():
+    if any(step.id in SOURCE_STEPS for step in selected_steps) and not SOURCE_XLSX.exists():
         raise SystemExit(
             "Fichier source manquant. Place d'abord ton Excel dans "
             f"{SOURCE_XLSX}."
         )
+
+
+def positive_programme_number(value: str) -> int:
+    try:
+        number = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("Le numero de programme doit etre un entier.") from exc
+    if number <= 0:
+        raise argparse.ArgumentTypeError("Le numero de programme doit etre positif.")
+    return number
+
+
+def source_is_needed(selected_steps: list[Step]) -> bool:
+    return any(step.id in SOURCE_STEPS for step in selected_steps)
+
+
+def prepare_input_source(
+    selected_steps: list[Step],
+    *,
+    programme: int | None,
+    spreadsheet_url: str,
+    local_source: Path | None,
+) -> PreparedSource | None:
+    if not source_is_needed(selected_steps):
+        return None
+
+    try:
+        if local_source is not None:
+            prepared = prepare_source_workbook(
+                local_source,
+                SOURCE_XLSX,
+                programme,
+                allow_legacy_sheet=True,
+            )
+        else:
+            prepared = download_and_prepare_source(
+                spreadsheet_url,
+                SOURCE_XLSX,
+                programme,
+            )
+    except SourcePreparationError as exc:
+        raise SystemExit(f"Preparation de la source impossible : {exc}") from exc
+
+    label = prepared.programme if prepared.programme is not None else prepared.original_sheet_name
+    print(
+        f"Source preparee : programme {label} -> {prepared.path}",
+        flush=True,
+    )
+    return prepared
 
 
 def run_step(
@@ -85,11 +144,11 @@ def run_step(
     print(f"    OK en {elapsed:.1f}s", flush=True)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Enchaine les operations mensuelles du programme cinema a partir de "
-            "outils/input/source.xlsx."
+            "Telecharge le programme depuis Google Sheets puis enchaine les "
+            "operations mensuelles du site."
         )
     )
     parser.add_argument(
@@ -109,20 +168,57 @@ def main() -> int:
         action="store_true",
         help="Affiche les etapes et les commandes sans rien executer.",
     )
-    args = parser.parse_args()
+    parser.add_argument(
+        "--programme",
+        type=positive_programme_number,
+        help=(
+            "Numero de l'onglet a traiter (ex. 359). Sans cette option, "
+            "le plus grand onglet numerique du Google Sheet est selectionne."
+        ),
+    )
+    parser.add_argument(
+        "--spreadsheet-url",
+        default=os.environ.get("CINECARBONNE_GOOGLE_SHEET_URL", DEFAULT_SPREADSHEET_URL),
+        help=(
+            "Adresse du Google Sheet source. Peut aussi etre definie avec "
+            "CINECARBONNE_GOOGLE_SHEET_URL."
+        ),
+    )
+    parser.add_argument(
+        "--source",
+        type=Path,
+        help=(
+            "Classeur Excel local a utiliser a la place du Google Sheet. "
+            "Les anciens fichiers avec une feuille Feuil1 restent acceptes."
+        ),
+    )
+    args = parser.parse_args(argv)
 
     selected_steps = select_steps(args.from_step, args.to_step)
-    ensure_inputs(selected_steps)
-
     python_exe = resolve_python()
     print(f"Python utilise: {python_exe}", flush=True)
 
     if args.dry_run:
         print("Mode dry-run:", flush=True)
+        if source_is_needed(selected_steps):
+            if args.source:
+                source_label = str(args.source)
+            else:
+                source_label = args.spreadsheet_url
+            programme_label = args.programme if args.programme is not None else "dernier onglet numerique"
+            print(f"[source] {source_label} -> {programme_label}", flush=True)
         for index, step in enumerate(selected_steps, start=1):
             command = build_command(python_exe, step)
             print(f"[{index}/{len(selected_steps)}] {step.id}: {' '.join(command)}", flush=True)
         return 0
+
+    prepare_input_source(
+        selected_steps,
+        programme=args.programme,
+        spreadsheet_url=args.spreadsheet_url,
+        local_source=args.source,
+    )
+    ensure_inputs(selected_steps)
 
     for index, step in enumerate(selected_steps, start=1):
         run_step(index, len(selected_steps), python_exe, step)

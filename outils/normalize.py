@@ -40,6 +40,8 @@ COL_PRIX_INVITES = 9   # J
 COL_CATEG        = 10  # K
 COL_TARIF        = 11  # L
 COL_COMMENT      = 12  # M
+COL_CM_MONTH     = 13  # N, dans le catalogue en fin de tableau
+COL_CM_DEFINITION = 14 # O, dans le catalogue en fin de tableau
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
@@ -167,11 +169,14 @@ def extract_prochainement_blocks(raw):
 
 
 def normalize_version(v):
-    v = (v or "").strip().upper()
-    if v == "VOSTFR":
+    v = clean_label(v).upper()
+    compact = re.sub(r"[^A-Z0-9]+", "", v)
+    if compact == "VOSTOCAP":
+        return "VOST OCAP"
+    if compact in {"VOSTFR", "VOSTF"}:
         return "VOstFR"
-    if v in ("VO", "VF"):
-        return v
+    if compact in ("VO", "VF"):
+        return compact
     return "VF"
 
 
@@ -309,7 +314,7 @@ def normalize_categorie_field(categorie, jp_in_tarif=False):
 
 
 TITLE_MARKER_RE = re.compile(
-    r"(^|[\s\-/,(])(?P<marker>VOSTFR|VOSTF|VOstFR|VO|VF|JP|SCOL|SCOLAIRE)(?=$|[\s\-/),])",
+    r"(^|[\s\-/,(])(?P<marker>VOST\s*OCAP|VOSTFR|VOSTF|VOstFR|VO|VF|JP|SCOL|SCOLAIRE)(?=$|[\s\-/),])",
     flags=re.IGNORECASE,
 )
 
@@ -330,9 +335,11 @@ def normalize_title_field(title):
 
     def replace_marker(match):
         nonlocal version, jp_in_title, scol_in_title
-        marker = match.group("marker").upper()
+        marker = re.sub(r"\s+", "", match.group("marker").upper())
         prefix = match.group(1) or ""
-        if marker in {"VO", "VOSTF", "VOSTFR"}:
+        if marker == "VOSTOCAP":
+            version = "VOST OCAP"
+        elif marker in {"VO", "VOSTF", "VOSTFR"}:
             version = "VOstFR" if marker != "VO" else "VO"
         elif marker == "VF":
             version = "VF"
@@ -367,7 +374,11 @@ def parse_cm_definition(value):
     if not text:
         return None
 
-    match = re.match(r"^\s*(CM\s*\d+)\s*:\s*(.+?)\s*$", text, flags=re.IGNORECASE)
+    match = re.match(
+        r"^\s*(CM\s*\d+)\s*(?::\s*|-\s*|\s+)(.+?)\s*$",
+        text,
+        flags=re.IGNORECASE,
+    )
     if not match:
         return None
 
@@ -401,7 +412,38 @@ def parse_cm_definition(value):
     }
 
 
-def extract_cm_catalog(raw):
+def parse_cm_period(value):
+    text = clean_label(value)
+    match = re.fullmatch(r"(\d{1,2})\s*[/.-]\s*(\d{2}|\d{4})", text)
+    if not match:
+        return None
+    month = int(match.group(1))
+    year = int(match.group(2)) % 100
+    if not 1 <= month <= 12:
+        return None
+    return month, year
+
+
+def programme_start_period(raw):
+    """Return the month/year of the first scheduled day in the programme."""
+    for _, row in raw.iterrows():
+        if not is_weekday_label(row.get(COL_A)):
+            continue
+        parsed_date = parse_date_cell(row.get(COL_B))
+        if parsed_date:
+            return parsed_date.month, parsed_date.year % 100
+    return None
+
+
+def is_cm_catalog_anchor(value):
+    text = normalize_text_key(value)
+    return bool(
+        "venir" in text
+        and re.search(r"\bcourts?\s*metrages?\b", text, flags=re.IGNORECASE)
+    )
+
+
+def extract_legacy_cm_catalog(raw):
     catalog = {}
     max_cols = raw.shape[1] if hasattr(raw, "shape") else 0
     for row_idx in (0, 1):
@@ -412,6 +454,47 @@ def extract_cm_catalog(raw):
             parsed = parse_cm_definition(row.get(col_idx))
             if parsed:
                 catalog[parsed["code"]] = parsed
+    return catalog
+
+
+def extract_footer_cm_catalog(raw):
+    """Read the month-scoped CM catalog below 'Courts metrages a venir'."""
+    catalog = {}
+    index_list = list(raw.index)
+    programme_period = programme_start_period(raw)
+
+    for anchor_pos, anchor_idx in enumerate(index_list):
+        anchor_row = raw.loc[anchor_idx]
+        if not is_cm_catalog_anchor(anchor_row.get(COL_CM_MONTH)):
+            continue
+
+        current_period = None
+        for idx in index_list[anchor_pos + 1 :]:
+            row = raw.loc[idx]
+            row_period = parse_cm_period(row.get(COL_CM_MONTH))
+            if row_period:
+                current_period = row_period
+
+            parsed = parse_cm_definition(row.get(COL_CM_DEFINITION))
+            if not parsed:
+                continue
+            if (
+                programme_period
+                and current_period
+                and current_period != programme_period
+            ):
+                continue
+            catalog[parsed["code"]] = parsed
+
+    return catalog
+
+
+def extract_cm_catalog(raw):
+    # Compatibilite avec les anciens tableaux, dont les definitions etaient
+    # placees sur les deux premieres lignes. Le nouveau bloc de pied de tableau
+    # est prioritaire lorsqu'un meme code existe dans les deux formats.
+    catalog = extract_legacy_cm_catalog(raw)
+    catalog.update(extract_footer_cm_catalog(raw))
     return catalog
 
 
