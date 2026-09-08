@@ -132,10 +132,54 @@ body.school-page .wrap {
 }
 
 .school-detail-panel {
+  position: relative;
   overflow: hidden;
   border-radius: 18px;
   background: var(--panelBg);
   color: var(--panelFg);
+}
+
+.school-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(14, 12, 13, 0.72);
+  cursor: pointer;
+}
+
+.school-detail-close::before,
+.school-detail-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25px;
+  height: 3px;
+  border-radius: 999px;
+  background: #e33b36;
+}
+
+.school-detail-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.school-detail-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.school-detail-close:hover {
+  background: rgba(14, 12, 13, 0.92);
+}
+
+.school-detail-close:focus-visible {
+  outline: 3px solid #e33b36;
+  outline-offset: 3px;
 }
 
 .school-detail-layout {
@@ -152,6 +196,7 @@ body.school-page .wrap {
 
 .school-detail-title {
   margin: 0 0 10px;
+  padding-right: 46px;
   color: #f0e9df;
   font-family: "FixelExtraBold", sans-serif;
   font-size: clamp(1.65rem, 3vw, 2.6rem);

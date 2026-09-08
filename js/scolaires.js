@@ -26,6 +26,12 @@
 
     var reveal = createElement('div', 'school-detail-reveal');
     var panel = createElement('div', 'school-detail-panel');
+    var closeButton = createElement('button', 'school-detail-close');
+    closeButton.type = 'button';
+    closeButton.setAttribute('aria-label', 'Fermer la fiche du film');
+    closeButton.addEventListener('click', function () {
+      closeDetail(true);
+    });
     var layout = createElement('div', 'school-detail-layout');
     var copy = createElement('div', 'school-detail-copy');
     var media = createElement('div', 'school-detail-media');
@@ -61,6 +67,7 @@
     media.appendChild(thumbs);
     layout.appendChild(copy);
     layout.appendChild(media);
+    panel.appendChild(closeButton);
     panel.appendChild(layout);
     panel.appendChild(trailer);
     reveal.appendChild(panel);
