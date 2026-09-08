@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="images/cinecarbonne-1.png" as="image" fetchpriority="high">
+  <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="css/carousel.css?v=20260908-01">
+  <link rel="stylesheet" href="css/scolaires.css?v=20260908-01">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-17YJ4RMKLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-17YJ4RMKLY');
+  </script>
+
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/CC-32.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Les films proposés par Ciné Carbonne aux écoles et établissements scolaires du territoire.">
+  <title>Cin&eacute; Carbonne &mdash; Scolaires</title>
+</head>
+
+<body class="school-page">
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-left">
+        <a href="index.html" class="home-link">
+          <img class="logo" height="64" src="./images/cinecarbonne-1.png" alt="Cine Carbonne" loading="eager" fetchpriority="high" decoding="async">
+        </a>
+        <h1 class="siteTitle">
+          <span class="brand-link">Cin&eacute; Carbonne</span>
+        </h1>
+      </div>
+      <nav class="hero-nav" aria-label="Navigation principale">
+        <div class="hero-nav-row">
+          <a href="index.html" class="hero-link">Programme</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="evenement.html" class="hero-link">&Eacute;v&eacute;nements</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="scolaires.html" class="hero-link is-active" aria-current="page">Scolaires</a>
+        </div>
+        <div class="hero-nav-row">
+          <a href="cinema.html" class="hero-link">Le cin&eacute;ma</a>
+          <span class="hero-sep">&middot;</span>
+          <a href="accessibilite.html" class="hero-link">Accessibilit&eacute;</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="school-main" id="main-content">
+      <p class="school-intro">
+        Tout au long de l’année, Ciné Carbonne accueille les classes des écoles et établissements du territoire pour des séances spécialement organisées à leur intention. Les enseignants peuvent choisir un film parmi la sélection ci-dessous et contacter le cinéma pour préparer une projection adaptée à leur groupe.
+      </p>
+
+      <div class="school-grid" id="school-grid" aria-label="Films proposés aux établissements scolaires">
+        <p class="school-status" id="school-status" role="status">Chargement des films…</p>
+      </div>
+
+      <noscript>
+        <p class="school-status">JavaScript doit être activé pour consulter les fiches des films.</p>
+      </noscript>
+    </main>
+  </div>
+
+  <script src="js/scolaires.js?v=20260908-01"></script>
+</body>
+
+</html>
