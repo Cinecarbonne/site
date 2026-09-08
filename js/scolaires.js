@@ -8,6 +8,7 @@
   var activeCard = null;
   var detail = createDetail();
   var resizeFrame = null;
+  var closeTimer = null;
 
   function createElement(tag, className, text) {
     var element = document.createElement(tag);
@@ -242,8 +243,13 @@
     activeCard = null;
     detail.classList.remove('is-open');
     detail.setAttribute('aria-hidden', 'true');
-    window.setTimeout(function () {
-      if (!activeCard) detail.hidden = true;
+    if (closeTimer) window.clearTimeout(closeTimer);
+    closeTimer = window.setTimeout(function () {
+      closeTimer = null;
+      if (!activeCard) {
+        detail.hidden = true;
+        if (detail.parentNode) detail.parentNode.removeChild(detail);
+      }
     }, 330);
     if (returnFocus) previous.focus();
   }
@@ -255,6 +261,10 @@
     }
 
     if (activeCard) activeCard.setAttribute('aria-expanded', 'false');
+    if (closeTimer) {
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    }
     activeCard = card;
     activeCard.setAttribute('aria-expanded', 'true');
     fillDetail(film);

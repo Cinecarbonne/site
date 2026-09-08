@@ -113,6 +113,10 @@ body.school-page .wrap {
   transition: grid-template-rows 320ms ease, opacity 240ms ease;
 }
 
+.school-detail[hidden] {
+  display: none;
+}
+
 .school-detail.is-open {
   grid-template-rows: 1fr;
   opacity: 1;
