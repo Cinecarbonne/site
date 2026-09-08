@@ -2622,7 +2622,13 @@ def get_movies_from_allociné(films, only_missing: bool = False, include_tmdb_ti
                 films[idx]["enriched"]["backdrops"] = photos
 
 
-def main(main_window=None) -> int:
+def main(
+    main_window=None,
+    input_path: Path | str | None = None,
+    output_path: Path | str | None = None,
+    report_path: Path | str | None = None,
+    open_report: bool = True,
+) -> int:
 
 
     # positionnement de mode_GUI afin de gérer  la selection des films
@@ -2638,7 +2644,7 @@ def main(main_window=None) -> int:
 
 
     # Charger work/normalized.xlsx
-    in_path = Path(root/"work/normalized.xlsx")
+    in_path = Path(input_path) if input_path is not None else root / "work/normalized.xlsx"
     df = pd.read_excel(in_path, sheet_name=0, dtype=str).fillna("")
 
     # Charger les colonnes
@@ -3048,20 +3054,23 @@ def main(main_window=None) -> int:
     extra_cols = [col for col in out_df.columns if col not in ordered]
     out_df = out_df[ordered + extra_cols]
 
-    out_path = root / "work/enriched.xlsx"
+    out_path = Path(output_path) if output_path is not None else root / "work/enriched.xlsx"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     out_df.to_excel(out_path, index=False)
 
     report = _build_enrichment_report(films)
-    ENRICHMENT_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    ENRICHMENT_REPORT_PATH.write_text(
+    resolved_report_path = Path(report_path) if report_path is not None else ENRICHMENT_REPORT_PATH
+    resolved_report_path.parent.mkdir(parents=True, exist_ok=True)
+    resolved_report_path.write_text(
         json.dumps(report, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
     if report["issue_count"]:
-        log_step(f"rapport: {report['issue_count']} fiche(s) a verifier dans {ENRICHMENT_REPORT_PATH}")
+        log_step(f"rapport: {report['issue_count']} fiche(s) a verifier dans {resolved_report_path}")
     else:
-        log_step(f"rapport: aucun probleme detecte dans {ENRICHMENT_REPORT_PATH}")
-    _open_report_for_reading(ENRICHMENT_REPORT_PATH)
+        log_step(f"rapport: aucun probleme detecte dans {resolved_report_path}")
+    if open_report:
+        _open_report_for_reading(resolved_report_path)
 
     return 0
 

@@ -297,7 +297,7 @@
   }
 
   function loadFilms() {
-    fetch('data/scolaires.json', { cache: 'no-store' })
+    fetch('/scolaires/films.json', { cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) throw new Error('HTTP ' + response.status);
         return response.json();
