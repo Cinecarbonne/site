@@ -17,10 +17,24 @@ for path in (SITE_DIR, TOOLS_DIR):
         sys.path.insert(0, str(path))
 
 import enrich_3_0 as enrich  # noqa: E402
-from scolaires import ajouter_film  # noqa: E402
+from scolaires import ajouter_film, importer_docx  # noqa: E402
 
 
 class SchoolCatalogTests(unittest.TestCase):
+    def test_docx_importer_normalizes_allocine_links(self):
+        self.assertEqual(
+            importer_docx._direct_allocine_url(
+                "http://www.allocine.fr/film/fichefilm_gen_cfilm=270135.html"
+            ),
+            "https://www.allocine.fr/film/fichefilm_gen_cfilm=270135.html",
+        )
+        self.assertEqual(
+            importer_docx._allocine_search_term(
+                "https://www.allocine.fr/rechercher/?q=Le+Secret+des+Perlims"
+            ),
+            "Le Secret des Perlims",
+        )
+
     def test_catalog_item_matches_the_public_schema(self):
         row = pd.Series(
             {

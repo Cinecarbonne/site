@@ -12,3 +12,11 @@ Si plusieurs films portent un titre proche, relancer l’outil dans un terminal 
 ```
 
 Pour refaire entièrement une fiche déjà présente, ajouter l’option `--remplacer`.
+
+Pour remplacer tout le catalogue à partir d’un document Word contenant une table de titres et de liens Allociné :
+
+```powershell
+& ".\.venv\Scripts\python.exe" ".\scolaires\importer_docx.py" "C:\chemin\liste-films.docx"
+```
+
+L’import est sécurisé : `films.json` n’est remplacé que si toutes les fiches ont été enrichies et disposent d’une affiche.

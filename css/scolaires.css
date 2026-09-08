@@ -119,7 +119,7 @@ body.school-page .wrap {
 }
 
 .school-detail-reveal {
-  width: min(80vw, 100%);
+  width: min(1150px, 100%);
   min-height: 0;
   margin-right: auto;
   margin-left: auto;
