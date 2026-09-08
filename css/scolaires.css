@@ -17,12 +17,13 @@ body.school-page .wrap {
 
 .school-intro {
   width: min(900px, 100%);
-  margin: 0 0 clamp(32px, 4vw, 56px);
+  margin: 0 auto clamp(32px, 4vw, 56px);
   color: #eee8e1;
   font-family: "InterTight", "Inter Tight", sans-serif;
   font-size: clamp(1.08rem, 1.45vw, 1.32rem);
   font-weight: 500;
   line-height: 1.5;
+  text-align: center;
 }
 
 .school-grid {
