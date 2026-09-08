@@ -5,14 +5,14 @@ body.school-page {
   color: var(--fg);
 }
 
-body.school-page .wrap {
-  max-width: none !important;
-  padding-right: var(--school-gap);
-  padding-left: var(--school-gap);
+body.school-page > .wrap {
+  padding-bottom: 0;
 }
 
 .school-main {
-  padding: clamp(24px, 3vw, 44px) 0 48px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: clamp(24px, 3vw, 44px) var(--school-gap) 48px;
 }
 
 .school-intro {
@@ -358,11 +358,6 @@ body.school-page .wrap {
 }
 
 @media (max-width: 560px) {
-  body.school-page .wrap {
-    padding-right: var(--school-gap);
-    padding-left: var(--school-gap);
-  }
-
   .school-main {
     padding-top: 22px;
   }
