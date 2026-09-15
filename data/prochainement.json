@@ -1,236 +1,146 @@
 [
   {
-    "title": "Lettres d'amour de ma grand-mère",
-    "poster": "https://fr.web.img2.acsta.net/img/da/c3/dac3f9a9cb981f0bf677cc1e7ecd14a8.jpg",
-    "alt": "Affiche de Lettres d'amour de ma grand-mère",
-    "source": "allocine",
-    "match_title": "Lettres d'amour de ma grand-mère",
-    "release_date": "2026-09-02",
-    "match_score": 1.0
-  },
-  {
-    "title": "The holy boy",
-    "poster": "https://fr.web.img2.acsta.net/img/67/03/6703b0d1f16def3f1fdae1e720bfaa85.jpg",
-    "alt": "Affiche de The holy boy",
-    "source": "allocine",
-    "match_title": "The Holy Boy",
-    "release_date": "2026-09-02",
-    "match_score": 1.0
-  },
-  {
-    "title": "The good sister",
-    "poster": "https://fr.web.img6.acsta.net/img/cc/6c/cc6c24e65760cf3da4cd7820a9ea4303.jpg",
-    "alt": "Affiche de The good sister",
-    "source": "allocine",
-    "match_title": "The Good Sister",
-    "release_date": "2026-09-02",
-    "match_score": 1.0
-  },
-  {
-    "title": "Pressure",
-    "poster": "https://fr.web.img2.acsta.net/img/92/fb/92fb57911489ab17bfa8ecf0b29712c5.jpg",
-    "alt": "Affiche de Pressure",
-    "source": "allocine",
-    "match_title": "Pressure",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "Adieu monde cruel",
-    "poster": "https://fr.web.img6.acsta.net/img/df/db/dfdb8f83b9bb92e5ba76f43452af06cd.jpg",
-    "alt": "Affiche de Adieu monde cruel",
-    "source": "allocine",
-    "match_title": "Adieu monde cruel",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "Les héros du Louvre",
-    "poster": "https://fr.web.img4.acsta.net/img/5b/2e/5b2e76c638253f412a5deea5a9d849e7.jpg",
-    "alt": "Affiche de Les héros du Louvre",
-    "source": "allocine",
-    "match_title": "Les Héros du Louvre",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "Rose",
-    "poster": "https://fr.web.img2.acsta.net/img/34/89/34896ce3efb274395de7187b29642a8e.jpg",
-    "alt": "Affiche de Rose",
-    "source": "allocine",
-    "match_title": "Rose",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "Billie Melody",
-    "poster": "https://fr.web.img6.acsta.net/img/3b/9c/3b9c127ca28399dad473c4366b38cb60.jpg",
-    "alt": "Affiche de Billie Melody",
-    "source": "allocine",
-    "match_title": "Billie Melody",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "The sea",
-    "poster": "https://fr.web.img2.acsta.net/img/19/2a/192a4fc99992ea0452bf3efeeee0bb36.jpg",
-    "alt": "Affiche de The sea",
-    "source": "allocine",
-    "match_title": "The Sea",
-    "release_date": "2026-09-09",
-    "match_score": 1.0
-  },
-  {
-    "title": "L'invitation",
-    "poster": "https://fr.web.img2.acsta.net/img/31/b1/31b1faa3ca361d78ca82078f8accda1e.jpg",
-    "alt": "Affiche de L'invitation",
-    "source": "allocine",
-    "match_title": "L'Invitation",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Les contrebandiers",
-    "poster": "https://fr.web.img3.acsta.net/img/14/20/142026a9ee3fb83800e19232c9cc0998.jpg",
-    "alt": "Affiche de Les contrebandiers",
-    "source": "allocine",
-    "match_title": "Les Contrebandiers",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Histoires de la nuit",
-    "poster": "https://fr.web.img4.acsta.net/img/e4/05/e4057c680c238cc18211ffc8140eed28.jpg",
-    "alt": "Affiche de Histoires de la nuit",
-    "source": "allocine",
-    "match_title": "Histoires De La Nuit",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Si tu penses bien",
-    "poster": "https://fr.web.img6.acsta.net/img/10/ef/10ef2a762195d43d7ddaebcf19e161d4.jpg",
-    "alt": "Affiche de Si tu penses bien",
-    "source": "allocine",
-    "match_title": "Si tu penses bien",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Sham",
-    "poster": "https://fr.web.img6.acsta.net/img/88/46/8846419356f19f600aed16f253958d89.jpg",
-    "alt": "Affiche de Sham",
-    "source": "allocine",
-    "match_title": "Sham",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Chien bleu",
-    "poster": "https://fr.web.img3.acsta.net/pictures/20/01/03/14/25/0313709.jpg",
-    "alt": "Affiche de Chien bleu",
-    "source": "allocine",
-    "match_title": "Chien bleu",
-    "release_date": "2020-11-30",
-    "match_score": 1.0
-  },
-  {
-    "title": "Ma famille de samouraïs",
-    "poster": "https://fr.web.img5.acsta.net/img/5d/72/5d72af42143f7d2d3ef6b00ac8c23699.jpg",
-    "alt": "Affiche de Ma famille de samouraïs",
-    "source": "allocine",
-    "match_title": "Ma famille de samouraïs",
-    "release_date": "2026-09-16",
-    "match_score": 1.0
-  },
-  {
-    "title": "Heart of the beast",
-    "poster": "https://fr.web.img2.acsta.net/img/69/1d/691d6b4c0e582dd6bb33404496af9d1b.jpg",
-    "alt": "Affiche de Heart of the beast",
-    "source": "allocine",
-    "match_title": "Heart Of The Beast",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Garance",
-    "poster": "https://fr.web.img3.acsta.net/img/22/e4/22e455446c0461e270e5341d9f88f43f.jpg",
-    "alt": "Affiche de Garance",
-    "source": "allocine",
-    "match_title": "Garance",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Raison et sentiments",
-    "poster": "https://fr.web.img5.acsta.net/img/25/06/25065d844cf983b62abba5f0ca2c1a64.jpg",
-    "alt": "Affiche de Raison et sentiments",
-    "source": "allocine",
-    "match_title": "Raison et sentiments",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Primetime",
-    "poster": "https://fr.web.img2.acsta.net/img/b2/33/b2335224732f2a74fd22019277712f13.jpg",
-    "alt": "Affiche de Primetime",
-    "source": "allocine",
-    "match_title": "Primetime",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Her private hell",
-    "poster": "https://fr.web.img5.acsta.net/img/c2/5a/c25a76f0ba687953f0d9afc1c54cf5b0.jpg",
-    "alt": "Affiche de Her private hell",
-    "source": "allocine",
-    "match_title": "Her Private Hell",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Justin le Juste",
-    "poster": "https://fr.web.img6.acsta.net/img/a4/da/a4dac200a65518d1db35e7dba6ddd4e7.jpg",
-    "alt": "Affiche de Justin le Juste",
-    "source": "allocine",
-    "match_title": "Justin le Juste",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Les roches rouges",
-    "poster": "https://fr.web.img6.acsta.net/img/98/2b/982b47b607f4719bc457f81b5ee8c510.jpg",
-    "alt": "Affiche de Les roches rouges",
-    "source": "allocine",
-    "match_title": "Les Roches Rouges",
-    "release_date": "2026-09-23",
-    "match_score": 1.0
-  },
-  {
-    "title": "Où vont les âmes",
-    "poster": "https://fr.web.img5.acsta.net/img/7d/3e/7d3e0aff433be548d4d3e17ee1894742.jpg",
-    "alt": "Affiche de Où vont les âmes",
-    "source": "allocine",
-    "match_title": "Où vont les âmes",
-    "release_date": "2026-10-14",
-    "match_score": 1.0
-  },
-  {
-    "title": "Les éléphants de la brume",
-    "poster": "https://fr.web.img3.acsta.net/img/c6/8b/c68b734900692f28587dbb78cb8c7d31.jpg",
-    "alt": "Affiche de Les éléphants de la brume",
-    "source": "allocine",
-    "match_title": "Les Elephants dans la brume",
-    "release_date": "2026-09-23",
-    "match_score": 0.9231
-  },
-  {
     "title": "Notre salut",
     "poster": "https://fr.web.img4.acsta.net/img/b7/ac/b7acc48dac20e8329866a199e0ff78e8.jpg",
     "alt": "Affiche de Notre salut",
     "source": "allocine",
     "match_title": "Notre salut",
     "release_date": "2026-09-30",
+    "match_score": 1.0
+  },
+  {
+    "title": "Digger",
+    "poster": "https://fr.web.img3.acsta.net/img/ca/46/ca467fa6a145bb9d8fda93417d4374cf.jpg",
+    "alt": "Affiche de Digger",
+    "source": "allocine",
+    "match_title": "Digger",
+    "release_date": "2026-09-30",
+    "match_score": 1.0
+  },
+  {
+    "title": "Le monde à l'endroit",
+    "poster": "https://fr.web.img3.acsta.net/img/9e/ac/9eac1e0f025ec3b45db67212d01a5509.jpg",
+    "alt": "Affiche de Le monde à l'endroit",
+    "source": "allocine",
+    "match_title": "Le Monde à l'endroit",
+    "release_date": "2026-09-30",
+    "match_score": 1.0
+  },
+  {
+    "title": "Ducobu et le fantôme de Saint-Potache",
+    "poster": "https://fr.web.img6.acsta.net/img/54/16/54167f9b523fff67b07b2e80f5f9dd71.jpg",
+    "alt": "Affiche de Ducobu et le fantôme de Saint-Potache",
+    "source": "allocine",
+    "match_title": "Ducobu et le fantôme de Saint-Potache",
+    "release_date": "2026-10-07",
+    "match_score": 1.0
+  },
+  {
+    "title": "Fausse note",
+    "poster": "https://fr.web.img2.acsta.net/img/a5/08/a5081c99da97f696eaf2a157422bac63.jpg",
+    "alt": "Affiche de Fausse note",
+    "source": "allocine",
+    "match_title": "Fausse note",
+    "release_date": "2026-10-07",
+    "match_score": 1.0
+  },
+  {
+    "title": "The social reckoning",
+    "poster": "https://fr.web.img4.acsta.net/img/61/2f/612f076fa82a1f271de91a91c4345f7e.jpg",
+    "alt": "Affiche de The social reckoning",
+    "source": "allocine",
+    "match_title": "The Social Reckoning",
+    "release_date": "2026-10-07",
+    "match_score": 1.0
+  },
+  {
+    "title": "L'espèce explosive",
+    "poster": "https://fr.web.img2.acsta.net/img/45/96/4596f21ac87015ae6a3a4e833db30ba9.jpg",
+    "alt": "Affiche de L'espèce explosive",
+    "source": "allocine",
+    "match_title": "L'Espèce explosive",
+    "release_date": "2026-10-07",
+    "match_score": 1.0
+  },
+  {
+    "title": "Les misérables",
+    "poster": "https://fr.web.img6.acsta.net/pictures/20/03/02/13/58/2855355.jpg",
+    "alt": "Affiche de Les misérables",
+    "source": "allocine",
+    "match_title": "Les Misérables",
+    "release_date": "2019-11-20",
+    "match_score": 1.0
+  },
+  {
+    "title": "Le corset",
+    "poster": "https://fr.web.img3.acsta.net/img/a7/96/a796a67caa5bdab1508d9207abaf5284.jpg",
+    "alt": "Affiche de Le corset",
+    "source": "allocine",
+    "match_title": "Le Corset",
+    "release_date": "2026-10-14",
+    "match_score": 1.0
+  },
+  {
+    "title": "Minotaure",
+    "poster": "https://fr.web.img6.acsta.net/img/f9/db/f9dbbc962b3358af6569ec1739edfa54.jpg",
+    "alt": "Affiche de Minotaure",
+    "source": "allocine",
+    "match_title": "Minotaure",
+    "release_date": "2026-10-14",
+    "match_score": 1.0
+  },
+  {
+    "title": "Mochy",
+    "poster": "https://fr.web.img4.acsta.net/img/2e/29/2e292d36aa0d7fc0efb2e1d08578357d.jpg",
+    "alt": "Affiche de Mochy",
+    "source": "allocine",
+    "match_title": "Mochy",
+    "release_date": "2026-10-14",
+    "match_score": 1.0
+  },
+  {
+    "title": "Petite casbah",
+    "poster": "https://fr.web.img2.acsta.net/img/17/54/17541c911a486e7b1a8a08911805be6e.jpg",
+    "alt": "Affiche de Petite casbah",
+    "source": "allocine",
+    "match_title": "Petite Casbah",
+    "release_date": "2026-10-14",
+    "match_score": 1.0
+  },
+  {
+    "title": "Je veux bien",
+    "poster": "https://fr.web.img5.acsta.net/img/47/94/479430ada5f8429504a7eed28ff81500.jpg",
+    "alt": "Affiche de Je veux bien",
+    "source": "allocine",
+    "match_title": "Je veux bien",
+    "release_date": "",
+    "match_score": 1.0
+  },
+  {
+    "title": "Karma",
+    "poster": "https://fr.web.img3.acsta.net/img/37/68/376899ecafee7d4b20b3e73f1944be34.jpg",
+    "alt": "Affiche de Karma",
+    "source": "allocine",
+    "match_title": "Karma",
+    "release_date": "2026-10-21",
+    "match_score": 1.0
+  },
+  {
+    "title": "L'ile des souvenirs",
+    "poster": "https://fr.web.img6.acsta.net/img/56/7e/567e74d867a1c88b20897c5d7f92d4dd.jpg",
+    "alt": "Affiche de L'ile des souvenirs",
+    "source": "allocine",
+    "match_title": "L'île des souvenirs",
+    "release_date": "2026-10-21",
+    "match_score": 1.0
+  },
+  {
+    "title": "Une femme aujourd'hui",
+    "poster": "https://image.tmdb.org/t/p/w780/vBNsvbJsb9fnSre8TakYNJbU1ey.jpg",
+    "alt": "Affiche de Une femme aujourd'hui",
+    "source": "tmdb",
+    "match_title": "Une femme aujourd’hui",
+    "release_date": "2026-10-21",
     "match_score": 1.0
   }
 ]
