@@ -17,16 +17,15 @@ body.school-page > .wrap {
 
 .school-intro-block {
   display: grid;
-  grid-template-columns: minmax(250px, 340px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
   align-items: center;
-  gap: clamp(24px, 3.5vw, 42px);
-  width: min(1080px, 100%);
+  gap: clamp(24px, 3.5vw, 48px);
+  width: min(1180px, 100%);
   margin: 0 auto clamp(26px, 3vw, 40px);
 }
 
 .school-intro-visual {
-  width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   margin: 0;
   border-radius: 18px;
@@ -453,11 +452,6 @@ body.school-page > .wrap {
     grid-template-columns: 1fr;
     gap: 20px;
     width: min(680px, 100%);
-  }
-
-  .school-intro-visual {
-    width: min(340px, 100%);
-    justify-self: center;
   }
 
   .school-detail-reveal {
