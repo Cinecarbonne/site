@@ -7,6 +7,7 @@
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
+  <link rel="stylesheet" href="css/evenement.css?v=20260930-02">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -210,7 +211,28 @@
         </div>
       </nav>
     </div>
-<main class="event-content" role="main">
+    <main class="event-content" role="main">
+      <section class="cinespana-event" aria-labelledby="cinespana-title">
+        <!-- Visuel officiel : https://www.cinespagnol.com/logos-visuels/ -->
+        <a class="cinespana-banner-link" href="https://www.cinespagnol.com/" target="_blank" rel="noopener noreferrer" aria-label="Découvrir le festival Cinespaña (nouvel onglet)">
+          <img class="cinespana-banner" src="images/cinespana/banniere-2026.png" width="959" height="325" alt="31e Cinespaña — Festival de cinéma espagnol et portugais, octobre 2026" fetchpriority="high" decoding="async">
+        </a>
+        <div class="cinespana-intro">
+          <div>
+            <p class="cinespana-kicker">Les 2, 7 et 14 octobre 2026</p>
+            <h2 id="cinespana-title">Cinespaña à Ciné Carbonne</h2>
+            <p>Trois rendez-vous pour découvrir le cinéma espagnol et portugais dans le cadre de la 31<sup>e</sup> édition du festival Cinespaña.</p>
+          </div>
+          <a class="cinespana-site-link" href="https://www.cinespagnol.com/" target="_blank" rel="noopener noreferrer">Le site du festival <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="cinespana-programme">
+          <p class="cinespana-hint">Cliquez sur une affiche pour découvrir le film.</p>
+          <div class="cinespana-grid" id="cinespana-films" data-start="2026-10-01" data-end="2026-10-31" aria-label="Les projections Cinespaña à Carbonne">
+            <p class="cinespana-status" role="status">Chargement des séances…</p>
+          </div>
+          <noscript><p>Viva : vendredi 2 octobre à 20 h 30. Decorado : mercredi 7 octobre à 21 h. À jamais les premières : mercredi 14 octobre à 21 h. <a href="index.html">Consulter le programme</a>.</p></noscript>
+        </div>
+      </section>
       <div class="event-banner recruit-banner">
         <div class="recruit-text">
           <div class="event-banner-title">Le cinéma recrute</div>
@@ -282,6 +304,7 @@
       </div>
     </main>
   </div>
+  <script src="js/evenement.js?v=20260930-02"></script>
 </body>
 
 </html>
