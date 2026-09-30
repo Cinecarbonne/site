@@ -18,7 +18,7 @@ body.school-page > .wrap {
 .school-intro-block {
   display: grid;
   grid-template-columns: minmax(370px, 412px) minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: clamp(28px, 3vw, 38px);
   width: min(1118px, 100%);
   margin: 0 auto clamp(26px, 3vw, 40px);
