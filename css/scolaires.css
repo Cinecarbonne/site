@@ -17,12 +17,103 @@ body.school-page > .wrap {
 
 .school-intro {
   width: min(900px, 100%);
-  margin: 0 auto clamp(32px, 4vw, 56px);
+  margin: 0 auto clamp(28px, 3.5vw, 48px);
   color: #eee8e1;
   font-family: "InterTight", "Inter Tight", sans-serif;
   font-size: clamp(1.08rem, 1.45vw, 1.32rem);
   font-weight: 500;
   line-height: 1.5;
+  text-align: center;
+}
+
+.school-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px 18px;
+  width: min(760px, 100%);
+  margin: 0 auto clamp(30px, 3vw, 44px);
+  color: #f0e9df;
+  font-family: "InterTight", "Inter Tight", sans-serif;
+}
+
+.school-filter-field {
+  display: grid;
+  gap: 6px;
+  width: min(250px, 100%);
+}
+
+.school-filter-label {
+  padding-left: 15px;
+  color: rgba(240, 233, 223, 0.78);
+  font-size: 0.82rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.school-filter-select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 9px 42px 9px 15px;
+  border: 1px solid rgba(240, 233, 223, 0.3);
+  border-radius: 12px;
+  background: #292627;
+  color: #f0e9df;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.school-filter-select:hover {
+  border-color: rgba(240, 233, 223, 0.62);
+}
+
+.school-filter-select:focus-visible {
+  border-color: var(--brand);
+  outline: 3px solid color-mix(in srgb, var(--brand) 42%, transparent);
+  outline-offset: 2px;
+}
+
+.school-filter-select option {
+  background: #292627;
+  color: #f0e9df;
+}
+
+.school-filter-reset {
+  min-height: 46px;
+  padding: 8px 4px;
+  border: 0;
+  background: transparent;
+  color: #c3b877;
+  font: inherit;
+  font-size: 0.96rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.school-filter-reset:hover,
+.school-filter-reset:focus-visible {
+  color: #e6d990;
+}
+
+.school-filter-reset:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.school-filter-count {
+  flex-basis: 100%;
+  margin: -2px 0 0;
+  color: rgba(240, 233, 223, 0.7);
+  font-size: 0.94rem;
+  font-weight: 650;
   text-align: center;
 }
 
@@ -364,6 +455,38 @@ body.school-page > .wrap {
 
   .school-intro {
     margin-bottom: 30px;
+  }
+
+  .school-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
+    margin-bottom: 28px;
+  }
+
+  .school-filter-field {
+    width: 100%;
+  }
+
+  .school-filter-label {
+    padding-left: 10px;
+    font-size: 0.74rem;
+  }
+
+  .school-filter-select {
+    min-height: 43px;
+    padding: 8px 28px 8px 10px;
+    font-size: 0.91rem;
+  }
+
+  .school-filter-reset,
+  .school-filter-count {
+    grid-column: 1 / -1;
+  }
+
+  .school-filter-reset {
+    justify-self: center;
+    min-height: 36px;
   }
 
   .school-grid {

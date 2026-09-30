@@ -30,7 +30,7 @@
       font-display: swap;
     }
   </style>
-  <link rel="stylesheet" href="css/scolaires.css?v=20260908-09">
+  <link rel="stylesheet" href="css/scolaires.css?v=20260930-01">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-17YJ4RMKLY"></script>
@@ -82,6 +82,34 @@
       Tout au long de l’année, Ciné Carbonne accueille les élèves des écoles et collèges de Carbonne et des communes environnantes pour leur faire découvrir le cinéma pendant le temps scolaire. En 2025-2026, 58 séances ont été organisées pour des classes allant de la petite section de maternelle à la 3e, représentant plus de 5 000 entrées. Cette fréquentation, en constante progression, s’appuie notamment sur les dispositifs Maternelle au cinéma, École et cinéma et Collège au cinéma. Grâce à la filmothèque de Cinéfol31, les classes peuvent découvrir, à un tarif attractif, une sélection variée de films d’animation, de fiction et de documentaires. À partir du collège, le pass Culture facilite également l’accès au cinéma et peut être utilisé individuellement par les jeunes. Les enseignants peuvent choisir un film parmi la sélection ci-dessous et contacter le cinéma afin de préparer une projection adaptée à leur groupe.
     </p>
 
+    <section class="school-filters" aria-label="Filtrer les films scolaires">
+      <label class="school-filter-field" for="school-level-filter">
+        <span class="school-filter-label">Niveau</span>
+        <select class="school-filter-select" id="school-level-filter">
+          <option value="">Tous les niveaux</option>
+          <option value="maternelle">Maternelle</option>
+          <option value="elementaire">Élémentaire</option>
+          <option value="college">Collège</option>
+          <option value="lycee">Lycée</option>
+        </select>
+      </label>
+
+      <label class="school-filter-field" for="school-type-filter">
+        <span class="school-filter-label">Type de film</span>
+        <select class="school-filter-select" id="school-type-filter">
+          <option value="">Tous les types</option>
+          <option value="animation">Animation</option>
+          <option value="fiction">Film (fiction)</option>
+          <option value="documentaire">Film (documentaire)</option>
+        </select>
+      </label>
+
+      <button class="school-filter-reset" id="school-filter-reset" type="button" hidden>
+        Réinitialiser les filtres
+      </button>
+      <p class="school-filter-count" id="school-filter-count" aria-live="polite"></p>
+    </section>
+
     <div class="school-grid" id="school-grid" aria-label="Films proposés aux établissements scolaires">
       <p class="school-status" id="school-status" role="status">Chargement des films…</p>
     </div>
@@ -91,7 +119,7 @@
     </noscript>
   </main>
 
-  <script src="js/scolaires.js?v=20260908-04"></script>
+  <script src="js/scolaires.js?v=20260930-01"></script>
 </body>
 
 </html>

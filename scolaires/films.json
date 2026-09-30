@@ -18,7 +18,13 @@
       "https://fr.web.img4.acsta.net/pictures/22/08/05/11/51/0858497.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=yXQbNgVY9lQ",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=300701.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=300701.html",
+    "niveaux": [
+      "lycee"
+    ],
+    "types": [
+      "documentaire"
+    ]
   },
   {
     "titre": "Amélie et la métaphysique des tubes",
@@ -47,7 +53,13 @@
       "https://fr.web.img4.acsta.net/img/e1/6d/e16d85c33f3d307789d565f332859828.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=nvHxZhO9IKA",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317318.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317318.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Angelo dans la forêt mystérieuse",
@@ -72,7 +84,13 @@
       "https://fr.web.img5.acsta.net/img/7e/cf/7ecf31d9ee9955369889702cdaeec060.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=JKATEFoigjs",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299773.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299773.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Arco",
@@ -101,7 +119,14 @@
       "https://fr.web.img4.acsta.net/img/3d/fa/3dfaf13e2618a1a52801b086f9538bef.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=AD78-oph9wA",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317579.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317579.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Au fil de l'eau",
@@ -129,7 +154,13 @@
       "https://fr.web.img5.acsta.net/img/6e/e7/6ee79f8a0cfc96522bf6af877bf956ef.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=57cVR2jVriU",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318158.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318158.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Aya",
@@ -153,7 +184,13 @@
       "https://fr.web.img6.acsta.net/pictures/21/06/08/11/24/0092266.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=hp_tiRCuRgI",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293461.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293461.html",
+    "niveaux": [
+      "lycee"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Bambi, L’histoire d’une vie dans les bois",
@@ -175,7 +212,13 @@
       "https://fr.web.img2.acsta.net/img/d3/d1/d3d1e17827371ee535a403d851fb4a46.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/07/08/18/32/20605514_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002053.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002053.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Capelito fait son cinéma",
@@ -198,7 +241,13 @@
       "https://fr.web.img2.acsta.net/pictures/23/09/20/12/29/0455512.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/08/03/16/19602015_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318155.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=318155.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Capitaines !",
@@ -223,7 +272,13 @@
       "https://fr.web.img2.acsta.net/pictures/22/10/05/13/27/4466087.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=VpezzsjEYiU",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=308885.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=308885.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Chouette, un jeu d'enfants",
@@ -248,7 +303,13 @@
       "https://fr.web.img5.acsta.net/img/41/a4/41a4328481081d7e1c799870327292d8.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=gLc4mlf62Ko",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326548.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326548.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Comedy Queen",
@@ -272,7 +333,14 @@
       "https://fr.web.img3.acsta.net/pictures/22/05/17/16/11/5189802.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=163tKBmnXLQ",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299546.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299546.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Contes et silhouettes",
@@ -289,7 +357,13 @@
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/pictures/23/07/06/16/22/5660139.jpg",
     "backdrops": [],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/09/06/16/19602372_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=314824.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=314824.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Couleur de peau: Miel",
@@ -317,7 +391,15 @@
       "https://fr.web.img5.acsta.net/medias/nmedia/18/90/05/63/20078905.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/s3/33/18/90/05/63/19342182_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=190926.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=190926.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation",
+      "documentaire"
+    ]
   },
   {
     "titre": "Croquette le chat merveilleux",
@@ -340,7 +422,13 @@
       "https://fr.web.img3.acsta.net/img/9c/c6/9cc61aa264b5a386b8ff15aa81fd1996.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Cwtm7Fc6AJY",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=312871.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=312871.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Elio",
@@ -370,7 +458,13 @@
       "https://fr.web.img6.acsta.net/pictures/23/06/15/16/12/2403158.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=YFf11ls4fPI",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=289168.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=289168.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "En sortant de l'école, à nous le monde !",
@@ -395,7 +489,14 @@
       "https://fr.web.img3.acsta.net/img/39/b4/39b4ba348f224906c15f5a4827516b7d.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/09/26/09/47/20609687_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012206.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000012206.html",
+    "niveaux": [
+      "maternelle",
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Ernest et Célestine : le voyage en Charabie",
@@ -425,7 +526,13 @@
       "https://fr.web.img4.acsta.net/pictures/22/03/10/14/40/2381836.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=T_16I2EIRjI",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293756.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293756.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Fantastic Mr. Fox",
@@ -457,7 +564,14 @@
       "https://fr.web.img6.acsta.net/medias/nmedia/18/71/80/31/19146618.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=_AyJLSef4y4",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=114976.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=114976.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Flee",
@@ -489,7 +603,15 @@
       "https://fr.web.img3.acsta.net/pictures/20/12/27/00/48/4440737.png"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=vGsBrlZBI-8",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=283761.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=283761.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation",
+      "documentaire"
+    ]
   },
   {
     "titre": "Flow, le chat qui n’avait plus peur de l’eau",
@@ -513,7 +635,15 @@
       "https://fr.web.img6.acsta.net/img/51/b6/51b6a4be24553d4b452fd8a8288228a4.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=vob8AGZM4Wc",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=302474.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=302474.html",
+    "niveaux": [
+      "elementaire",
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Géniales !",
@@ -535,7 +665,13 @@
       "https://fr.web.img2.acsta.net/img/69/13/69139306d0a39b28d04059998d782e17.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/11/07/10/43/20611878_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004242.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004242.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Grosse colère et fantaisies",
@@ -567,7 +703,13 @@
       "https://fr.web.img5.acsta.net/pictures/22/05/24/16/32/1200142.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/22/07/19/15/19597476_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304577.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304577.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Hola Frida!",
@@ -586,7 +728,13 @@
       "https://image.tmdb.org/t/p/original/6z9TlQE2HRU1djxoI3e4XNYfcAD.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=F2vDZCHvx6c",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=327346.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=327346.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Icare",
@@ -615,7 +763,14 @@
       "https://fr.web.img4.acsta.net/pictures/22/01/27/16/59/5951461.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/22/02/23/08/19594668_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=296976.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=296976.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Ilo Ilo",
@@ -653,7 +808,13 @@
       "https://fr.web.img2.acsta.net/pictures/210/007/21000795_20130423155627179.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/13/08/30/18/19536318_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=220942.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=220942.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Interdit aux chiens et aux Italiens",
@@ -679,7 +840,14 @@
       "https://fr.web.img4.acsta.net/pictures/22/05/24/16/58/5889883.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=qcHifiW1yWc",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279640.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=279640.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Jack et Nancy - les plus belles histoires de Quentin Blake",
@@ -701,7 +869,13 @@
       "https://fr.web.img4.acsta.net/img/67/b7/67b7fe5901f61470ce5f9abfc162cddc.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=3kYKPYkBkjM",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024997.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024997.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Josep",
@@ -725,7 +899,14 @@
       "https://fr.web.img4.acsta.net/pictures/20/04/21/16/05/0143364.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=1zYYPuOLYS0",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268348.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268348.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Krisha et le Maître de la forêt",
@@ -742,7 +923,14 @@
     "affiche_url": "https://fr.web.img2.acsta.net/c_310_420/pictures/23/12/12/09/33/5587465.jpg",
     "backdrops": [],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/12/12/10/19602801_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321007.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=321007.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "L'Aventure de Mme Muir",
@@ -770,7 +958,13 @@
       "https://fr.web.img4.acsta.net/medias/nmedia/18/65/92/26/19242386.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=n-X00-BoG9o",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=47500.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=47500.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "La Colline aux cailloux",
@@ -801,7 +995,13 @@
       "https://fr.web.img6.acsta.net/pictures/23/07/06/16/19/2483629.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/08/23/12/19602198_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=313072.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=313072.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Petite fabrique de nuages",
@@ -837,7 +1037,13 @@
       "https://fr.web.img5.acsta.net/pictures/19/01/07/16/30/2800443.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=vX5x-Qyjejw",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268872.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268872.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Plus Précieuse Des Marchandises",
@@ -870,7 +1076,13 @@
       "https://fr.web.img2.acsta.net/img/c7/e5/c7e50ea16188c94531a98fef6b2d3701.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jJ7JkqvnXmk",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=274858.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=274858.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Princesse et le rossignol",
@@ -897,7 +1109,13 @@
       "https://fr.web.img6.acsta.net/img/0b/68/0b68ee85aee27ec97f986790af76210d.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/25/06/27/12/21/20622742_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000025839.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000025839.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Sirène",
@@ -934,7 +1152,13 @@
       "https://fr.web.img6.acsta.net/pictures/22/10/19/11/51/2977134.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Na0bWVychFs",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268349.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268349.html",
+    "niveaux": [
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Sorcière et le martien",
@@ -956,7 +1180,14 @@
       "https://fr.web.img2.acsta.net/pictures/23/01/12/16/53/1833502.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/01/12/16/19599571_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=312176.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=312176.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "La Tortue rouge",
@@ -990,7 +1221,13 @@
       "https://fr.web.img6.acsta.net/pictures/16/04/20/17/06/074850.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=e38pQOFMPlU",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=243780.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=243780.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Vie de château, mon enfance à Versailles",
@@ -1021,7 +1258,14 @@
       "https://fr.web.img5.acsta.net/img/bb/80/bb8082447a2f096a00120db09a0f2663.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=tUEbYYhvups",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024731.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000024731.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "La Vie, en gros",
@@ -1045,7 +1289,14 @@
       "https://fr.web.img6.acsta.net/img/2d/84/2d84abe95fd2fc9f8e8d3b8b49bef945.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/25/01/14/16/27/20611463_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002094.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002094.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Château Solitaire dans le Miroir",
@@ -1074,7 +1325,14 @@
       "https://fr.web.img3.acsta.net/pictures/23/04/25/13/03/3026858.png"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/23/08/28/13/19602170_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311559.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=311559.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Grand Noël des animaux",
@@ -1104,7 +1362,13 @@
       "https://fr.web.img4.acsta.net/img/4f/39/4f39d4d0ef17bf1b299b47a56df537a0.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=3BqN_sKJIno",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=298018.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=298018.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Mécano de la Générale",
@@ -1152,7 +1416,13 @@
       "https://fr.web.img6.acsta.net/medias/nmedia/18/35/20/55/18389123.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=ZROzVhuddiI",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=108016.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=108016.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Le Petit Nicolas - Qu’est-ce qu’on attend pour être heureux ?",
@@ -1187,7 +1457,13 @@
       "https://fr.web.img4.acsta.net/pictures/22/06/02/15/41/5470399.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=b5VRoKv_KOQ",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=270135.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=270135.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Pharaon, le Sauvage et la princesse",
@@ -1209,7 +1485,13 @@
       "https://fr.web.img6.acsta.net/pictures/22/05/04/16/07/0144645.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=PtU6vWGdTrM",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=300843.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=300843.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Robot Sauvage",
@@ -1258,7 +1540,14 @@
       "https://fr.web.img6.acsta.net/pictures/24/03/06/19/35/1914768.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=3iHLk8nHX80",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268384.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=268384.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Royaume de Kensuke",
@@ -1280,7 +1569,13 @@
       "https://fr.web.img3.acsta.net/pictures/23/10/06/09/11/1584156.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jWIGEflmALE",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=316881.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=316881.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Secret des Perlims",
@@ -1308,7 +1603,13 @@
       "https://fr.web.img6.acsta.net/pictures/22/07/12/14/08/4357500.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/22/11/16/16/19598851_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304461.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=304461.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Sommet des Dieux",
@@ -1331,7 +1632,13 @@
       "https://fr.web.img3.acsta.net/pictures/21/07/09/13/07/5543945.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=sM_KmxpEaJU",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=269946.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=269946.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Le Tigre qui s'invita pour le thé",
@@ -1362,7 +1669,13 @@
       "https://fr.web.img3.acsta.net/pictures/21/10/05/13/54/4169119.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=f7Cd9IiqhI4",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=296971.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=296971.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Léo, la fabuleuse histoire de Léonard de Vinci",
@@ -1390,7 +1703,13 @@
       "https://fr.web.img2.acsta.net/pictures/23/07/05/15/50/5177556.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=z5My1jT2f1M",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=284744.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=284744.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Les Ours gloutons au Pôle Nord",
@@ -1414,7 +1733,13 @@
       "https://fr.web.img6.acsta.net/img/4b/e1/4be15e5779e5f4e5214e418b6482fa02.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/10/09/10/56/20610365_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002055.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000002055.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Les Rêves dansants, sur les pas de Pina Bausch",
@@ -1441,7 +1766,13 @@
       "https://fr.web.img4.acsta.net/medias/nmedia/18/77/98/36/19442593.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/s3/33/18/77/98/36/19121409_m_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=181245.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=181245.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "documentaire"
+    ]
   },
   {
     "titre": "Linda veut du poulet !",
@@ -1464,7 +1795,13 @@
       "https://fr.web.img2.acsta.net/pictures/23/03/23/12/55/3368927.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=upSKBHcr7JM",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=291771.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=291771.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "MacPat le chat chanteur",
@@ -1487,7 +1824,13 @@
       "https://fr.web.img3.acsta.net/img/ad/c1/adc17f0903e1dc02854bc140fd433414.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/05/29/13/57/20603620_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000001704.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000001704.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Marcel et Monsieur Pagnol",
@@ -1512,7 +1855,15 @@
       "https://fr.web.img3.acsta.net/pictures/22/05/23/14/46/2681355.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=BjhZdM-9drY",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293660.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=293660.html",
+    "niveaux": [
+      "elementaire",
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Mars Express",
@@ -1536,7 +1887,14 @@
       "https://fr.web.img6.acsta.net/pictures/23/05/04/17/06/5513852.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=7iroDVDTPco",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=287760.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=287760.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Mary Anning",
@@ -1565,7 +1923,14 @@
       "https://fr.web.img2.acsta.net/img/71/9f/719f208e1410204202f9c4b8994f60d2.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/25/06/17/16/34/20622290_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000023494.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000023494.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Maya, donne-moi un titre",
@@ -1589,7 +1954,13 @@
       "https://fr.web.img6.acsta.net/pictures/24/03/19/16/31/5614505.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=gIvrcZIf-9g",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328310.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328310.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Mon ami robot",
@@ -1612,7 +1983,15 @@
       "https://fr.web.img6.acsta.net/pictures/23/05/19/15/13/2466233.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=y_EegXszYp4",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=287521.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=287521.html",
+    "niveaux": [
+      "elementaire",
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Mon petit Halloween",
@@ -1640,7 +2019,13 @@
       "https://fr.web.img4.acsta.net/img/c4/aa/c4aa0e61ee31e6519b1a5567257a6c0f.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/10/07/14/18/20610196_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004232.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004232.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Mon voisin Totoro",
@@ -1677,7 +2062,14 @@
       "https://fr.web.img6.acsta.net/medias/nmedia/18/62/93/30/18660089.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=jD-6_0h4KwM",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=14790.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=14790.html",
+    "niveaux": [
+      "maternelle",
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Nausicaä de la vallée du vent",
@@ -1711,7 +2103,13 @@
       "https://fr.web.img4.acsta.net/medias/nmedia/18/62/56/68/18660014.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/22/07/19/15/18636925_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=40132.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=40132.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Nina et le secret du hérisson",
@@ -1742,7 +2140,13 @@
       "https://fr.web.img6.acsta.net/pictures/23/05/17/15/31/1873961.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=InSHWZuA-lQ",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=305625.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=305625.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Nous voilà grands !",
@@ -1770,7 +2174,13 @@
       "https://fr.web.img3.acsta.net/img/49/ae/49ae5edfbed47f477b6e61a92e982fce.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=GzWKBeW0qbU",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019618.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000019618.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Ozi, la voix de la forêt",
@@ -1797,7 +2207,13 @@
       "https://fr.web.img5.acsta.net/img/10/1e/101e504b993fe370cc262343b597eb2c.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/25/01/28/11/48/20615445_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=294847.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=294847.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Paddington au Pérou",
@@ -1839,7 +2255,13 @@
       "https://fr.web.img6.acsta.net/img/50/cc/50cc1be21a53377bc7592fd875fe319a.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=sLTSvGFbWkY",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=269304.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=269304.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "fiction"
+    ]
   },
   {
     "titre": "Pas pareil... et pourtant !",
@@ -1867,7 +2289,13 @@
       "https://fr.web.img3.acsta.net/pictures/22/01/26/11/24/5493845.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=FH9eKMKnJRg",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299394.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299394.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Pat et Mat : un dernier tour de vis",
@@ -1916,7 +2344,13 @@
       "https://fr.web.img3.acsta.net/pictures/24/02/29/17/15/0349475.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/05/22/10/15/20603250_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326547.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=326547.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Persepolis",
@@ -1948,7 +2382,13 @@
       "https://fr.web.img2.acsta.net/medias/nmedia/18/63/80/43/18811107.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=mPEG7rYPhBg",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=110204.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=110204.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Petits contes sous l’océan",
@@ -1976,7 +2416,13 @@
       "https://fr.web.img6.acsta.net/img/95/91/95916dc19e517c6125fcc95770694913.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=Zw7fk7R0pTI",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328195.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=328195.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Piro Piro",
@@ -2006,7 +2452,13 @@
       "https://fr.web.img2.acsta.net/pictures/22/09/09/13/03/3404312.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/22/11/25/15/19598955_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=307792.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=307792.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Renard et Lapine sauvent la forêt",
@@ -2031,7 +2483,13 @@
       "https://fr.web.img6.acsta.net/img/36/07/3607d00a77996c55c0b21e1478feb086.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=MBqgVkhOmGw",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299755.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299755.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Sauvages",
@@ -2055,7 +2513,14 @@
       "https://fr.web.img3.acsta.net/img/0c/de/0cde2ec90cf1e0e427ec21889f47df89.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=dsCqBHL3Xig",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299939.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=299939.html",
+    "niveaux": [
+      "elementaire",
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Shaun le Mouton : la ferme en folie",
@@ -2085,7 +2550,13 @@
       "https://fr.web.img2.acsta.net/img/d3/6c/d36c5d323579da1dc545ee63e4d45eb4.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=5hQnBjU5T_4",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022214.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000022214.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Slocum et moi",
@@ -2114,7 +2585,13 @@
       "https://fr.web.img6.acsta.net/img/74/34/7434e9723b50beacf9241ead14d4e831.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=7S_c9xZ2aj0",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317156.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=317156.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Soundtrack to a Coup d'État",
@@ -2137,7 +2614,13 @@
       "https://fr.web.img2.acsta.net/img/88/6f/886f5892e55390f1d380254331884840.jpg"
     ],
     "trailer_url": "https://vimeo.com/1139268861",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=297231.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=297231.html",
+    "niveaux": [
+      "lycee"
+    ],
+    "types": [
+      "documentaire"
+    ]
   },
   {
     "titre": "Timioche",
@@ -2168,7 +2651,13 @@
       "https://fr.web.img3.acsta.net/img/56/8d/568d1c514d329de6d1ce8fff132d3ff5.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=0aJkvoiacf8",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000023719.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000023719.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Une guitare à la mer",
@@ -2194,7 +2683,13 @@
       "https://fr.web.img3.acsta.net/img/19/f4/19f4a12ccfb5c8e80d6cf16a294112fe.jpg"
     ],
     "trailer_url": "https://fr.vid.web.acsta.net/nmedia/33/24/12/10/17/29/20613438_hd_013.mp4?source=www&platform=graphql",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004599.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=1000004599.html",
+    "niveaux": [
+      "maternelle"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Vanille",
@@ -2222,7 +2717,13 @@
       "https://fr.web.img5.acsta.net/pictures/21/08/04/17/30/5079116.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=gEdSkAgBGDc",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=294157.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=294157.html",
+    "niveaux": [
+      "elementaire"
+    ],
+    "types": [
+      "animation"
+    ]
   },
   {
     "titre": "Vivre avec les loups",
@@ -2250,7 +2751,14 @@
       "https://fr.web.img5.acsta.net/pictures/23/09/06/15/43/1122112.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=usDQS5IdN20",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=254374.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=254374.html",
+    "niveaux": [
+      "college",
+      "lycee"
+    ],
+    "types": [
+      "documentaire"
+    ]
   },
   {
     "titre": "Woman at War",
@@ -2286,6 +2794,12 @@
       "https://fr.web.img6.acsta.net/pictures/18/04/16/14/20/2875889.jpg"
     ],
     "trailer_url": "https://www.youtube.com/watch?v=08OkDVUuybE",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=257385.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=257385.html",
+    "niveaux": [
+      "college"
+    ],
+    "types": [
+      "fiction"
+    ]
   }
 ]

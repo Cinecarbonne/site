@@ -3,6 +3,10 @@
 
   var grid = document.getElementById('school-grid');
   var status = document.getElementById('school-status');
+  var levelFilter = document.getElementById('school-level-filter');
+  var typeFilter = document.getElementById('school-type-filter');
+  var resetFilter = document.getElementById('school-filter-reset');
+  var filterCount = document.getElementById('school-filter-count');
   var films = [];
   var cards = [];
   var activeCard = null;
@@ -284,8 +288,26 @@
   }
 
   function renderCards(list) {
+    if (activeCard) activeCard.setAttribute('aria-expanded', 'false');
+    activeCard = null;
+    if (closeTimer) {
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    }
+    detail.classList.remove('is-open');
+    detail.setAttribute('aria-hidden', 'true');
+    detail.hidden = true;
+    if (detail.parentNode) detail.parentNode.removeChild(detail);
+
     grid.textContent = '';
     cards = [];
+
+    if (!list.length) {
+      var empty = createElement('p', 'school-status', 'Aucun film ne correspond à ces filtres.');
+      empty.setAttribute('role', 'status');
+      grid.appendChild(empty);
+      return;
+    }
 
     list.forEach(function (film) {
       var card = createElement('button', 'school-card');
@@ -313,6 +335,28 @@
     });
   }
 
+  function includesFacet(film, property, value) {
+    if (!value) return true;
+    return Array.isArray(film[property]) && film[property].indexOf(value) !== -1;
+  }
+
+  function updateFilterCount(count) {
+    filterCount.textContent = count + (count > 1 ? ' films' : ' film');
+  }
+
+  function applyFilters() {
+    var selectedLevel = levelFilter.value;
+    var selectedType = typeFilter.value;
+    var filtered = films.filter(function (film) {
+      return includesFacet(film, 'niveaux', selectedLevel)
+        && includesFacet(film, 'types', selectedType);
+    });
+
+    resetFilter.hidden = !selectedLevel && !selectedType;
+    updateFilterCount(filtered.length);
+    renderCards(filtered);
+  }
+
   function loadFilms() {
     fetch('/scolaires/films.json', { cache: 'no-store' })
       .then(function (response) {
@@ -331,12 +375,21 @@
           status.textContent = 'Aucun film scolaire n’est proposé pour le moment.';
           return;
         }
-        renderCards(films);
+        applyFilters();
       })
       .catch(function () {
         status.textContent = 'Impossible de charger les films pour le moment.';
       });
   }
+
+  levelFilter.addEventListener('change', applyFilters);
+  typeFilter.addEventListener('change', applyFilters);
+  resetFilter.addEventListener('click', function () {
+    levelFilter.value = '';
+    typeFilter.value = '';
+    applyFilters();
+    levelFilter.focus();
+  });
 
   window.addEventListener('resize', function () {
     if (!activeCard || resizeFrame) return;
