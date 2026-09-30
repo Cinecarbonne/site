@@ -17,11 +17,11 @@ body.school-page > .wrap {
 
 .school-intro-block {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  grid-template-columns: minmax(340px, 371px) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(24px, 3.5vw, 48px);
-  width: min(1180px, 100%);
-  margin: 0 auto clamp(26px, 3vw, 40px);
+  gap: clamp(28px, 3vw, 38px);
+  width: min(1122px, 100%);
+  margin: 0 0 clamp(26px, 3vw, 40px);
 }
 
 .school-intro-visual {
@@ -44,7 +44,7 @@ body.school-page > .wrap {
   margin: 0;
   color: #eee8e1;
   font-family: "InterTight", "Inter Tight", sans-serif;
-  font-size: clamp(1rem, 1.18vw, 1.16rem);
+  font-size: clamp(1.08rem, 1.55vw, 1.3rem);
   font-weight: 500;
   line-height: 1.4;
   text-align: left;
@@ -447,13 +447,20 @@ body.school-page > .wrap {
   background: #000;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 840px) {
   .school-intro-block {
     grid-template-columns: 1fr;
     gap: 20px;
-    width: min(680px, 100%);
+    width: 100%;
   }
 
+  .school-intro-visual {
+    width: min(640px, 100%);
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
   .school-detail-reveal {
     width: 100%;
   }
@@ -469,8 +476,8 @@ body.school-page > .wrap {
   }
 
   .school-intro {
-    font-size: 1rem;
-    line-height: 1.4;
+    font-size: 1.05rem;
+    line-height: 1.42;
   }
 
   .school-filters {
