@@ -12,7 +12,7 @@ body.school-page > .wrap {
 .school-main {
   box-sizing: border-box;
   width: 100%;
-  padding: clamp(24px, 3vw, 44px) var(--school-gap) 48px;
+  padding: clamp(24px, 3vw, 44px) 16px 48px;
 }
 
 .school-intro-block {
@@ -20,8 +20,8 @@ body.school-page > .wrap {
   grid-template-columns: minmax(340px, 371px) minmax(0, 1fr);
   align-items: center;
   gap: clamp(28px, 3vw, 38px);
-  width: min(1122px, 100%);
-  margin: 0 0 clamp(26px, 3vw, 40px);
+  width: min(1118px, 100%);
+  margin: 0 auto clamp(26px, 3vw, 40px);
 }
 
 .school-intro-visual {
@@ -47,7 +47,12 @@ body.school-page > .wrap {
   font-size: clamp(1.08rem, 1.55vw, 1.3rem);
   font-weight: 500;
   line-height: 1.4;
-  text-align: left;
+  text-align: justify;
+  text-align-last: left;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  overflow-wrap: break-word;
 }
 
 .school-filters {
@@ -131,7 +136,9 @@ body.school-page > .wrap {
   grid-template-columns: repeat(auto-fill, minmax(var(--school-poster-min), 1fr));
   column-gap: var(--school-gap);
   row-gap: clamp(30px, 3vw, 48px);
-  width: 100%;
+  width: calc(100% - 16px);
+  margin-right: 8px;
+  margin-left: 8px;
   align-items: start;
 }
 
@@ -507,6 +514,9 @@ body.school-page > .wrap {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: var(--school-gap);
     row-gap: 30px;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
   }
 
   .school-poster-frame {
