@@ -341,7 +341,7 @@
   }
 
   function updateFilterCount(count) {
-    filterCount.textContent = count + (count > 1 ? ' films' : ' film');
+    filterCount.textContent = count + (count === 1 ? ' film' : ' films');
   }
 
   function applyFilters() {

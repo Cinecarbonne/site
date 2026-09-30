@@ -15,42 +15,51 @@ body.school-page > .wrap {
   padding: clamp(24px, 3vw, 44px) var(--school-gap) 48px;
 }
 
+.school-intro-block {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  align-items: center;
+  gap: clamp(24px, 3.5vw, 48px);
+  width: min(1180px, 100%);
+  margin: 0 auto clamp(26px, 3vw, 40px);
+}
+
+.school-intro-visual {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  margin: 0;
+  border-radius: 18px;
+  background: #f7f5f1;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.22);
+}
+
+.school-intro-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .school-intro {
-  width: min(900px, 100%);
-  margin: 0 auto clamp(28px, 3.5vw, 48px);
+  margin: 0;
   color: #eee8e1;
   font-family: "InterTight", "Inter Tight", sans-serif;
-  font-size: clamp(1.08rem, 1.45vw, 1.32rem);
+  font-size: clamp(1rem, 1.18vw, 1.16rem);
   font-weight: 500;
-  line-height: 1.5;
-  text-align: center;
+  line-height: 1.4;
+  text-align: left;
 }
 
 .school-filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(190px, 240px) auto auto;
+  align-items: center;
   justify-content: center;
-  gap: 14px 18px;
-  width: min(760px, 100%);
-  margin: 0 auto clamp(30px, 3vw, 44px);
+  gap: 10px 14px;
+  width: min(850px, 100%);
+  margin: 0 auto clamp(24px, 2.5vw, 36px);
   color: #f0e9df;
   font-family: "InterTight", "Inter Tight", sans-serif;
-}
-
-.school-filter-field {
-  display: grid;
-  gap: 6px;
-  width: min(250px, 100%);
-}
-
-.school-filter-label {
-  padding-left: 15px;
-  color: rgba(240, 233, 223, 0.78);
-  font-size: 0.82rem;
-  font-weight: 750;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
 .school-filter-select {
@@ -84,8 +93,8 @@ body.school-page > .wrap {
 }
 
 .school-filter-reset {
-  min-height: 46px;
-  padding: 8px 4px;
+  min-height: 42px;
+  padding: 7px 2px;
   border: 0;
   background: transparent;
   color: #c3b877;
@@ -109,12 +118,12 @@ body.school-page > .wrap {
 }
 
 .school-filter-count {
-  flex-basis: 100%;
-  margin: -2px 0 0;
+  margin: 0;
   color: rgba(240, 233, 223, 0.7);
   font-size: 0.94rem;
   font-weight: 650;
-  text-align: center;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .school-grid {
@@ -439,6 +448,12 @@ body.school-page > .wrap {
 }
 
 @media (max-width: 860px) {
+  .school-intro-block {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: min(680px, 100%);
+  }
+
   .school-detail-reveal {
     width: 100%;
   }
@@ -454,23 +469,14 @@ body.school-page > .wrap {
   }
 
   .school-intro {
-    margin-bottom: 30px;
+    font-size: 1rem;
+    line-height: 1.4;
   }
 
   .school-filters {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px 10px;
-    margin-bottom: 28px;
-  }
-
-  .school-filter-field {
-    width: 100%;
-  }
-
-  .school-filter-label {
-    padding-left: 10px;
-    font-size: 0.74rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 24px;
   }
 
   .school-filter-select {
@@ -479,14 +485,15 @@ body.school-page > .wrap {
     font-size: 0.91rem;
   }
 
-  .school-filter-reset,
   .school-filter-count {
-    grid-column: 1 / -1;
+    font-size: 0.86rem;
   }
 
   .school-filter-reset {
-    justify-self: center;
-    min-height: 36px;
+    grid-column: 1 / -1;
+    justify-self: end;
+    min-height: 28px;
+    padding: 0 2px;
   }
 
   .school-grid {
