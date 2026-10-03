@@ -228,3 +228,4 @@ Notes:
 /PDFs/
 /outils/
 ```
+# Mise jour automatique 
