@@ -31,11 +31,11 @@ SHEET_NAME          = "Feuil1"
 
 # --- colonnes du fichier source (index 0-based pour pandas) ---
 COL_A, COL_B, COL_C = 0, 1, 2
-COL_URL          = 4   # E
-COL_TITRE        = 5   # F
-COL_VERSION      = 6   # G
-COL_CM           = 7   # H
-COL_REAL         = 8   # I
+COL_TITRE        = 4   # E
+COL_VERSION      = 5   # F
+COL_CM           = 6   # G
+COL_REAL         = 7   # H
+COL_URL          = 8   # I
 COL_PRIX_INVITES = 9   # J
 COL_CATEG        = 10  # K
 COL_TARIF        = 11  # L
