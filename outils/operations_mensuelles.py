@@ -40,6 +40,7 @@ STEPS = [
     Step("excel_to_json", "Generer programme.json", "excel_to_json.py"),
     Step("prochainement", "Generer prochainement.json", "generate_prochainement_json.py"),
     Step("tableau", "Generer le tableau ingest", "make_tableau_ingest.py"),
+    Step("tableau", "Generer le tableau service", "make_tableau_service.py"),
 ]
 STEP_INDEX = {step.id: index for index, step in enumerate(STEPS)}
 SOURCE_STEPS = {"normalize", "prochainement"}

@@ -78,18 +78,18 @@ def select_programme_sheet(
 
 def validate_programme_sheet(worksheet) -> None:
     """Check the stable sentinels required by normalize.py."""
-    url_header = _normalized_text(worksheet.cell(row=3, column=5).value)
-    title_header = _normalized_text(worksheet.cell(row=3, column=6).value)
-    if "url" not in url_header or "allocine" not in url_header:
+    url_header = _normalized_text(worksheet.cell(row=3, column=9).value)
+    title_header = _normalized_text(worksheet.cell(row=3, column=5).value)
+    if "url" not in url_header:
         raise SourcePreparationError(
-            "La cellule E3 doit contenir l'en-tete URL Allocine."
+            "La cellule I3 doit contenir l'en-tete URL Allocine."
         )
     if title_header != "titre":
         raise SourcePreparationError("La cellule F3 doit contenir l'en-tete Titre.")
 
     session_count = 0
-    for row in worksheet.iter_rows(min_row=4, min_col=3, max_col=6, values_only=True):
-        hour, _, _, title = row
+    for row in worksheet.iter_rows(min_row=4, min_col=3, max_col=5, values_only=True):
+        hour, _, title = row
         if hour not in (None, "") and title not in (None, ""):
             session_count += 1
     if session_count == 0:
