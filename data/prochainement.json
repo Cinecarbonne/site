@@ -1,146 +1,38 @@
 [
   {
-    "title": "Notre salut",
-    "poster": "https://fr.web.img4.acsta.net/img/b7/ac/b7acc48dac20e8329866a199e0ff78e8.jpg",
-    "alt": "Affiche de Notre salut",
+    "title": "19/09 : Entre ciel et terre (sortie 8/07 donc plus de 5 semaines)",
+    "poster": "https://fr.web.img4.acsta.net/img/b4/86/b4866c2f7eebdb5a67dfe51b23f6dee8.jpg",
+    "alt": "Affiche de 19/09 : Entre ciel et terre (sortie 8/07 donc plus de 5 semaines)",
     "source": "allocine",
-    "match_title": "Notre salut",
-    "release_date": "2026-09-30",
+    "match_title": "Entre ciel et terre",
+    "release_date": "2026-07-08",
     "match_score": 1.0
   },
   {
-    "title": "Digger",
-    "poster": "https://fr.web.img3.acsta.net/img/ca/46/ca467fa6a145bb9d8fda93417d4374cf.jpg",
-    "alt": "Affiche de Digger",
+    "title": "17/10 : Chien bleu et autres belles histoires (5e semaine – sortie 16/09)",
+    "poster": "https://fr.web.img6.acsta.net/img/99/a1/99a165c46cfdf1a5e80547d7317e854c.jpg",
+    "alt": "Affiche de 17/10 : Chien bleu et autres belles histoires (5e semaine – sortie 16/09)",
     "source": "allocine",
-    "match_title": "Digger",
-    "release_date": "2026-09-30",
+    "match_title": "Chien bleu et autres belles histoires de l'école des loisirs",
+    "release_date": "2026-09-16",
+    "match_score": 0.95
+  },
+  {
+    "title": "14/11 : Un amour d’épouvantail (sortie 23/09 donc plus de 5 semaines)",
+    "poster": "https://fr.web.img5.acsta.net/img/69/17/6917a9ac903b1fbbc9bfa78aca1d257c.png",
+    "alt": "Affiche de 14/11 : Un amour d’épouvantail (sortie 23/09 donc plus de 5 semaines)",
+    "source": "allocine",
+    "match_title": "Un amour d’épouvantail",
+    "release_date": "2026-09-23",
     "match_score": 1.0
   },
   {
-    "title": "Le monde à l'endroit",
-    "poster": "https://fr.web.img3.acsta.net/img/9e/ac/9eac1e0f025ec3b45db67212d01a5509.jpg",
-    "alt": "Affiche de Le monde à l'endroit",
+    "title": "12/12 : Le merveilleux hiver de Tom le chat (sortie 11/11 donc 5e semaine)",
+    "poster": "https://fr.web.img6.acsta.net/img/6b/d2/6bd2b136aed81bd08e3175d2dd0d5bf5.jpg",
+    "alt": "Affiche de 12/12 : Le merveilleux hiver de Tom le chat (sortie 11/11 donc 5e semaine)",
     "source": "allocine",
-    "match_title": "Le Monde à l'endroit",
-    "release_date": "2026-09-30",
-    "match_score": 1.0
-  },
-  {
-    "title": "Ducobu et le fantôme de Saint-Potache",
-    "poster": "https://fr.web.img6.acsta.net/img/54/16/54167f9b523fff67b07b2e80f5f9dd71.jpg",
-    "alt": "Affiche de Ducobu et le fantôme de Saint-Potache",
-    "source": "allocine",
-    "match_title": "Ducobu et le fantôme de Saint-Potache",
-    "release_date": "2026-10-07",
-    "match_score": 1.0
-  },
-  {
-    "title": "Fausse note",
-    "poster": "https://fr.web.img2.acsta.net/img/a5/08/a5081c99da97f696eaf2a157422bac63.jpg",
-    "alt": "Affiche de Fausse note",
-    "source": "allocine",
-    "match_title": "Fausse note",
-    "release_date": "2026-10-07",
-    "match_score": 1.0
-  },
-  {
-    "title": "The social reckoning",
-    "poster": "https://fr.web.img4.acsta.net/img/61/2f/612f076fa82a1f271de91a91c4345f7e.jpg",
-    "alt": "Affiche de The social reckoning",
-    "source": "allocine",
-    "match_title": "The Social Reckoning",
-    "release_date": "2026-10-07",
-    "match_score": 1.0
-  },
-  {
-    "title": "L'espèce explosive",
-    "poster": "https://fr.web.img2.acsta.net/img/45/96/4596f21ac87015ae6a3a4e833db30ba9.jpg",
-    "alt": "Affiche de L'espèce explosive",
-    "source": "allocine",
-    "match_title": "L'Espèce explosive",
-    "release_date": "2026-10-07",
-    "match_score": 1.0
-  },
-  {
-    "title": "Les misérables",
-    "poster": "https://fr.web.img6.acsta.net/pictures/20/03/02/13/58/2855355.jpg",
-    "alt": "Affiche de Les misérables",
-    "source": "allocine",
-    "match_title": "Les Misérables",
-    "release_date": "2019-11-20",
-    "match_score": 1.0
-  },
-  {
-    "title": "Le corset",
-    "poster": "https://fr.web.img3.acsta.net/img/a7/96/a796a67caa5bdab1508d9207abaf5284.jpg",
-    "alt": "Affiche de Le corset",
-    "source": "allocine",
-    "match_title": "Le Corset",
-    "release_date": "2026-10-14",
-    "match_score": 1.0
-  },
-  {
-    "title": "Minotaure",
-    "poster": "https://fr.web.img6.acsta.net/img/f9/db/f9dbbc962b3358af6569ec1739edfa54.jpg",
-    "alt": "Affiche de Minotaure",
-    "source": "allocine",
-    "match_title": "Minotaure",
-    "release_date": "2026-10-14",
-    "match_score": 1.0
-  },
-  {
-    "title": "Mochy",
-    "poster": "https://fr.web.img4.acsta.net/img/2e/29/2e292d36aa0d7fc0efb2e1d08578357d.jpg",
-    "alt": "Affiche de Mochy",
-    "source": "allocine",
-    "match_title": "Mochy",
-    "release_date": "2026-10-14",
-    "match_score": 1.0
-  },
-  {
-    "title": "Petite casbah",
-    "poster": "https://fr.web.img2.acsta.net/img/17/54/17541c911a486e7b1a8a08911805be6e.jpg",
-    "alt": "Affiche de Petite casbah",
-    "source": "allocine",
-    "match_title": "Petite Casbah",
-    "release_date": "2026-10-14",
-    "match_score": 1.0
-  },
-  {
-    "title": "Je veux bien",
-    "poster": "https://fr.web.img5.acsta.net/img/47/94/479430ada5f8429504a7eed28ff81500.jpg",
-    "alt": "Affiche de Je veux bien",
-    "source": "allocine",
-    "match_title": "Je veux bien",
-    "release_date": "",
-    "match_score": 1.0
-  },
-  {
-    "title": "Karma",
-    "poster": "https://fr.web.img3.acsta.net/img/37/68/376899ecafee7d4b20b3e73f1944be34.jpg",
-    "alt": "Affiche de Karma",
-    "source": "allocine",
-    "match_title": "Karma",
-    "release_date": "2026-10-21",
-    "match_score": 1.0
-  },
-  {
-    "title": "L'ile des souvenirs",
-    "poster": "https://fr.web.img6.acsta.net/img/56/7e/567e74d867a1c88b20897c5d7f92d4dd.jpg",
-    "alt": "Affiche de L'ile des souvenirs",
-    "source": "allocine",
-    "match_title": "L'île des souvenirs",
-    "release_date": "2026-10-21",
-    "match_score": 1.0
-  },
-  {
-    "title": "Une femme aujourd'hui",
-    "poster": "https://image.tmdb.org/t/p/w780/vBNsvbJsb9fnSre8TakYNJbU1ey.jpg",
-    "alt": "Affiche de Une femme aujourd'hui",
-    "source": "tmdb",
-    "match_title": "Une femme aujourd’hui",
-    "release_date": "2026-10-21",
+    "match_title": "Le Merveilleux hiver de Tom le chat",
+    "release_date": "2026-11-11",
     "match_score": 1.0
   }
 ]
