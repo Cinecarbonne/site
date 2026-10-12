@@ -152,11 +152,11 @@
     "age_min": "",
     "courts_metrages": [
       {
-        "code": "CM2",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM2"
+        "code": "CM1",
+        "titre": "Punchline",
+        "genre": "Fiction/Policier",
+        "duree": "8'31",
+        "texte": "Punchline - Fiction/Policier - 8'31"
       }
     ],
     "synopsis": "Lorsque Gil rencontre Jacques, leur amour est évident. Mais l’intensité des débuts laisse place à une relation où elle se sent de plus en plus enfermée, jusqu’à en perdre ses repères. Jacques la rassure : si elle pense bien, il ne lui arrivera que du bien. Peu à peu, Gil comprend le contrôle qu’il exerce sur sa vie…",
@@ -266,7 +266,7 @@
     "tarif": "",
     "recompenses": "",
     "categorie": "Cinespaña",
-    "commentaire": "",
+    "commentaire": "Avant-première",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "1970, le tout premier match de football féminin espagnol organisé par un jeune entraîneur, stupéfait par le talent et la passion d’un groupe de jeunes filles.",
@@ -326,7 +326,7 @@
     "duree_min": "105",
     "annee": "2026-09-09",
     "pays": "France",
-    "version": "VF",
+    "version": "OCAP",
     "tarif": "Tarif Unique 5 €",
     "recompenses": "",
     "categorie": "EPHAD HANDI",
@@ -371,10 +371,10 @@
     "courts_metrages": [
       {
         "code": "CM1",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM1"
+        "titre": "Punchline",
+        "genre": "Fiction/Policier",
+        "duree": "8'31",
+        "texte": "Punchline - Fiction/Policier - 8'31"
       }
     ],
     "synopsis": "Suite à la perte de son père dans un accident aux circonstances troubles, Billie, 14 ans, déménage dans une nouvelle ville avec sa mère et son frère. Alors que ces bouleversements accentuent les tensions familiales, elle fait de nouvelles rencontres et se raccroche à la musique qui la relie encore à son père. Billie se lance alors dans une quête qui pourrait aussi bien la sauver que faire voler sa famille en éclats.",
@@ -690,33 +690,34 @@
     "datetime_local": "",
     "date": "2026-10-22",
     "heure": "16:00",
-    "titre": "La Mouette et le chat",
-    "titre_original": "",
-    "realisateur": "Enzo D'Alo",
-    "acteurs_principaux": "Carlo Verdone, Antonio Albanese, Melba Ruffo, Sofia Baratta, Veronica Puccio, Domitilla D'Amico, Margherita Birri, Luis Sepúlveda",
-    "genres": "Animation, Famille",
-    "duree_min": "80",
-    "annee": "1999-12-22",
-    "pays": "Italie",
+    "titre": "Little Nemo",
+    "titre_original": "Little Nemo in Slumberland",
+    "realisateur": "William Hurtz",
+    "acteurs_principaux": "Gabriel Damon, Mickey Rooney, Rene Auberjonois",
+    "genres": "Animation, Famille, Aventure, Fantastique",
+    "duree_min": "85",
+    "annee": "1994-12-14",
+    "pays": "Japon, U.S.A.",
     "version": "VF",
     "tarif": "",
     "recompenses": "",
     "categorie": "",
     "commentaire": "",
-    "age_min": "",
+    "age_min": "6",
     "courts_metrages": [],
-    "synopsis": "Empoisonnée par une nappe de pétrole, la mouette Kenah est sur le point de mourir. Mais avant d'expirer, elle souhaite confier son oeuf prêt à éclore. Elle a juste le temps de le donner à Zorba, un brave matou qui vit dans le port, et de lui faire promettre qu'il ne mangera pas l'oeuf, qu'il en prendra soin et qu'il apprendra à voler à la petite mouette à naître.",
-    "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/pictures/21/11/30/10/52/1461967.jpg",
+    "synopsis": "Little Nemo est un petit garçon comme les autres : chaque soir, il s'endort tranquillement dans son lit. Mais une nuit, le Roi Morphé, maître des rêves, a décidé de l'accueillir dans son royaume de Slumberland : le voici entraîné sur le lit magique pour une extraordinaire aventure au pays des rêves...",
+    "affiche_url": "https://fr.web.img4.acsta.net/c_310_420/pictures/23/06/13/15/02/1903206.jpg",
     "backdrops": [
-      "https://fr.web.img4.acsta.net/pictures/21/11/04/14/47/2892512.jpg",
-      "https://fr.web.img5.acsta.net/pictures/21/11/04/14/47/2878472.png",
-      "https://fr.web.img2.acsta.net/pictures/21/11/04/14/47/2864432.png",
-      "https://fr.web.img4.acsta.net/pictures/21/11/04/14/47/2850392.jpg"
+      "https://fr.web.img6.acsta.net/pictures/22/10/06/11/42/0587980.jpg",
+      "https://fr.web.img6.acsta.net/pictures/22/10/06/11/42/0572380.jpg",
+      "https://fr.web.img2.acsta.net/pictures/22/10/06/11/40/2335004.jpg",
+      "https://fr.web.img2.acsta.net/pictures/22/10/06/11/40/2319404.jpg",
+      "https://fr.web.img5.acsta.net/pictures/22/10/06/11/40/2303804.jpg"
     ],
-    "trailer_url": "https://www.youtube.com/watch?v=vl60ggCL1KA",
+    "trailer_url": "",
     "tmdb_id": "",
     "imdb_id": "",
-    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=21858.html"
+    "allocine_url": "https://www.allocine.fr/film/fichefilm_gen_cfilm=27299.html"
   },
   {
     "datetime_local": "",
@@ -983,7 +984,15 @@
     "categorie": "Découverte",
     "commentaire": "",
     "age_min": "",
-    "courts_metrages": [],
+    "courts_metrages": [
+      {
+        "code": "CM2",
+        "titre": "Farida et la vigne",
+        "genre": "Animation Biographie",
+        "duree": "3'08",
+        "texte": "Farida et la vigne - Animation Biographie - 3'08"
+      }
+    ],
     "synopsis": "Garance est une jeune actrice mais qui n’est pas une vedette. Elle gère et assure tout de son mieux, vaillante, joyeuse, soldate, et elle trouve dans l’alcool un carburant, un réconfort inconditionnel. Garance change de vie et commence alors un parcours de huit ans de déménagements, de travail, de rencontres, de fêtes et d’angoisses, de joies et de coups durs. Une révolution intime, amicale et sexuelle, mais elle consomme toujours plus. Jusqu’à la potentialité de la mort.",
     "affiche_url": "https://fr.web.img6.acsta.net/c_310_420/img/22/e4/22e455446c0461e270e5341d9f88f43f.jpg",
     "backdrops": [
@@ -1210,7 +1219,7 @@
     "tarif": "",
     "recompenses": "",
     "categorie": "Découverte",
-    "commentaire": "",
+    "commentaire": "Cycle Regards de réalisatrices",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "Dans la campagne du Nord-Est de la France. Les sangliers qui ravagent les cultures provoquent une guerre ouverte entre chasseurs et agriculteurs. Brun, céréalier en faillite, lutte pour maintenir sa ferme à flot. Quand un notable du coin le pousse à bout, il déraille et disparaît. Un an plus tard, Fulda, un gendarme corse muté dans la région pour raisons disciplinaires, mène l’enquête. Entre intuitions fulgurantes et ratés spectaculaires, ses méthodes approximatives le mènent sur la piste des Attilas, des sangliers aux dimensions hors normes. Mais sa récente rupture amoureuse et la vodka dans laquelle flotte son cerveau n’aident pas. Heureusement, il y a Stéphane, la nouvelle psy de la gendarmerie : elle est là pour mettre un peu d’ordre dans son chaos — à moins que ce ne soit l’inverse ?",
@@ -1309,10 +1318,10 @@
     "courts_metrages": [
       {
         "code": "CM1",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM1"
+        "titre": "L'augmentation",
+        "genre": "Comédie dramatique",
+        "duree": "02'20",
+        "texte": "L'augmentation - Comédie dramatique - 02'20"
       }
     ],
     "synopsis": "Anna, 18 ans, demande l’aide médicale à mourir. Elle décide de se laisser quinze jours pour accomplir son souhait de revoir ses demi-sœurs avant de s’éteindre. Séparées par le procès de leur père quatre ans auparavant, les trois sœurs révèlent leurs forces individuelles et collectives à travers ces ultimes moments de sororité où leurs vies s'entremêlent.",
@@ -1493,10 +1502,10 @@
     "annee": "1976-04-14",
     "pays": "Italie, France",
     "version": "VO",
-    "tarif": "1 €film tarif habituel - 2 €films à 4 € Adhérent et 2 €film à 5 € NON Adhérent",
+    "tarif": "4 € adhérent, 5 € autres",
     "recompenses": "",
     "categorie": "Ciné Club",
-    "commentaire": "",
+    "commentaire": "Soirée italienne avec buffet partagé après le film",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "Un délit scandaleux, au sein de la grande bourgeoisie turinoise, stimule un commissaire méridional dans une enquête délicate.",
@@ -1527,10 +1536,10 @@
     "annee": "2026-09-02",
     "pays": "Italie, Slovénie",
     "version": "VO",
-    "tarif": "",
+    "tarif": "4 € adhérent, 5 € autres",
     "recompenses": "",
     "categorie": "",
-    "commentaire": "",
+    "commentaire": "Soirée italienne avec buffet partagé avant le film",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "Lorsque Sergio, un enseignant hanté par son passé, est muté à Remis, un petit village de montagne réputé pour être le plus heureux d'Italie, l'endroit semble idéal pour prendre un nouveau départ. Mais l’apparente quiétude de cette \"vallée des sourires\" cache un étrange secret : chaque semaine, les habitants se rassemblent autour de Matteo, un adolescent que l’on dit capable d'absorber la douleur des autres.",
@@ -1640,10 +1649,10 @@
     "courts_metrages": [
       {
         "code": "CM2",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM2"
+        "titre": "Wild love",
+        "genre": "Comédie",
+        "duree": "06'55",
+        "texte": "Wild love - Comédie - 06'55"
       }
     ],
     "synopsis": "De retour au Costa Rica après des études en Europe, Elsa retrouve sa petite sœur Amalia, seule dans la maison familiale. De plus en plus insaisissable, celle-ci semble enfermée dans des croyances ésotériques. Elsa essaie d’alerter leurs parents, mais ni le père, trop occupé par ses nouvelles conquêtes, ni la mère, absorbée par la réédition des poèmes érotiques de sa jeunesse, ne semblent prendre la mesure de la situation. Le retour d’Elsa engage les trois femmes à interroger leur lien indéfectible.",
@@ -1702,7 +1711,7 @@
     "tarif": "",
     "recompenses": "",
     "categorie": "",
-    "commentaire": "",
+    "commentaire": "Commémoration du 11 novembre",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "1915. La guerre, c’est une terre inconnue où l’on envoie Justin, misérable paysan, à une époque où il doit s’occuper de ses champs. Il doit partir se battre, au nom d’une loi qu’il ignore, contre un ennemi qu’il n’a jamais vu, alors qu’il ne rêve que de rester dans sa ferme. Sa rencontre avec Basile, un tirailleur sénégalais, va lui ouvrir les yeux sur cette guerre qu’il ne comprend pas. C’est avec lui, qu’il va se révolter contre les injustices d’un commandement absurde, et devenir un héros pas comme les autres.Inspiré de Justin-le-Juste ou La charrette de Jean Pompougnac.",
@@ -1941,10 +1950,10 @@
     "courts_metrages": [
       {
         "code": "CM1",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM1"
+        "titre": "L'augmentation",
+        "genre": "Comédie dramatique",
+        "duree": "02'20",
+        "texte": "L'augmentation - Comédie dramatique - 02'20"
       }
     ],
     "synopsis": "Lorsque Gil rencontre Jacques, leur amour est évident. Mais l’intensité des débuts laisse place à une relation où elle se sent de plus en plus enfermée, jusqu’à en perdre ses repères. Jacques la rassure : si elle pense bien, il ne lui arrivera que du bien. Peu à peu, Gil comprend le contrôle qu’il exerce sur sa vie…",
@@ -1976,7 +1985,7 @@
     "tarif": "Adhérent 4 €, AUTRES 5 €",
     "recompenses": "",
     "categorie": "Ciné discussion Documentaire",
-    "commentaire": "",
+    "commentaire": "Rencontre avec les trois réalisateurs et le producteur P. Elusse",
     "age_min": "",
     "courts_metrages": [],
     "synopsis": "France 2026 : vivre sans emploi, ça peut arriver, mais sans aucun revenu… comment dire ? Votée en décembre 2023, la loi Plein emploi conditionne l'allocation du RSA au fait d'exercer 15 heures d'activités hebdomadaires. Fortement troublés par cette idée que puissent être imposées des \"activités obligatoires\" à des millions de personnes précaires, les auteurs du film se lancent dans une enquête et partent à la rencontre de personnes concernées à différents titres par les conséquences humaines de cette loi.",
@@ -2193,10 +2202,10 @@
     "courts_metrages": [
       {
         "code": "CM2",
-        "titre": "",
-        "genre": "",
-        "duree": "",
-        "texte": "CM2"
+        "titre": "Wild love",
+        "genre": "Comédie",
+        "duree": "06'55",
+        "texte": "Wild love - Comédie - 06'55"
       }
     ],
     "synopsis": "Le film s'inspire de l'histoire vraie de Frances Haugen, une jeune ingénieure chez Facebook, qui sollicite l'aide de Jeff Horwitz, journaliste au Wall Street Journal. Ensemble, ils se lancent dans une enquête pleine de dangers qui les mènera à révéler au grand jour les secrets les mieux gardés du puissant réseau social.",
