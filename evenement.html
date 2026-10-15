@@ -6,7 +6,8 @@
   <link rel="preload" href="images/cinecarbonne-1.png" as="image" fetchpriority="high">
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
+  <link rel="stylesheet" href="css/carousel.css?v=20261015-01">
+  <link rel="stylesheet" href="css/soiree-italienne.css?v=20261015-03">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -211,6 +212,55 @@
       </nav>
     </div>
     <main class="event-content" role="main">
+      <section class="italian-event" id="soiree-italienne" aria-labelledby="italian-event-title">
+        <div class="italian-event-shell">
+          <div class="italian-event-layout">
+            <div class="italian-event-main">
+              <p class="italian-event-kicker">Ciné Carbonne vous invite</p>
+              <h2 id="italian-event-title">Soirée <span>Cinéma Italien</span></h2>
+              <p class="italian-event-date"><time datetime="2026-11-07">Samedi 7 novembre 2026</time> · dès 18 h</p>
+              <p class="italian-event-lead">Deux films en version originale sous-titrée et une auberge italienne à partager entre les séances.</p>
+
+              <div class="italian-event-programme" aria-label="Programme de la soirée">
+                <div class="italian-event-entry" data-heure="18:00">
+                  <button class="italian-event-film" id="italian-film-trigger-18" type="button" aria-expanded="false" aria-controls="italian-film-18">
+                    <time datetime="2026-11-07T18:00">18 h</time>
+                    <span class="italian-event-film-copy">
+                      <strong class="italian-event-film-title">La Donna della Domenica</strong>
+                      <span class="italian-event-subtitle">La Femme du dimanche · VOST</span>
+                      <span class="italian-event-meta">De Luigi Comencini · 1 h 45</span>
+                      <span class="italian-event-film-action"><span class="italian-event-film-action-label">Découvrir le film</span> <span class="italian-event-film-chevron" aria-hidden="true">⌄</span></span>
+                    </span>
+                    <img class="italian-event-film-poster" src="https://fr.web.img5.acsta.net/c_310_420/pictures/16/05/20/16/10/288362.jpg" width="70" height="95" alt="" loading="lazy" decoding="async">
+                  </button>
+                  <div class="italian-event-detail" id="italian-film-18" role="region" aria-labelledby="italian-film-trigger-18" hidden></div>
+                </div>
+                <div class="italian-event-pause">
+                  <span aria-hidden="true">✦</span>
+                  <p><strong>Auberge italienne</strong><br>Amenez vos spécialités italiennes entre les deux séances.</p>
+                </div>
+                <div class="italian-event-entry" data-heure="21:00">
+                  <button class="italian-event-film" id="italian-film-trigger-21" type="button" aria-expanded="false" aria-controls="italian-film-21">
+                    <time datetime="2026-11-07T21:00">21 h</time>
+                    <span class="italian-event-film-copy">
+                      <strong class="italian-event-film-title">La Valle dei Sorrisi</strong>
+                      <span class="italian-event-subtitle">The Holy Boy · VOST</span>
+                      <span class="italian-event-meta">De Paolo Strippoli · 2 h 02</span>
+                      <span class="italian-event-film-action"><span class="italian-event-film-action-label">Découvrir le film</span> <span class="italian-event-film-chevron" aria-hidden="true">⌄</span></span>
+                    </span>
+                    <img class="italian-event-film-poster" src="https://fr.web.img6.acsta.net/c_310_420/img/67/03/6703b0d1f16def3f1fdae1e720bfaa85.jpg" width="70" height="95" alt="" loading="lazy" decoding="async">
+                  </button>
+                  <div class="italian-event-detail" id="italian-film-21" role="region" aria-labelledby="italian-film-trigger-21" hidden></div>
+                </div>
+              </div>
+              <p class="italian-event-tarif">Chaque séance : 4 € adhérents · 5 € autres publics</p>
+            </div>
+            <div class="italian-event-poster-wrap">
+              <img class="italian-event-poster" src="images/soiree-cinema-italien.webp" width="1300" height="1838" alt="Affiche de la Soirée Cinéma Italien du 7 novembre, avec les deux films et l'auberge italienne" decoding="async" fetchpriority="high">
+            </div>
+          </div>
+        </div>
+      </section>
       <div class="event-banner recruit-banner">
         <div class="recruit-text">
           <div class="event-banner-title">Le cinéma recrute</div>
@@ -282,6 +332,7 @@
       </div>
     </main>
   </div>
+  <script src="js/soiree-italienne.js?v=20261015-02"></script>
 </body>
 
 </html>

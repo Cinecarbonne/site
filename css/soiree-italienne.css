@@ -1,0 +1,251 @@
+.italian-event {
+  max-width: 936px;
+  margin: 0 auto 32px;
+  font-family: "InterTight", sans-serif;
+  scroll-margin-top: 20px;
+}
+
+.italian-event-shell {
+  overflow: hidden;
+  border-radius: 24px;
+  background: #fffdf8;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 20%);
+}
+
+.italian-event-shell::before {
+  display: block;
+  height: 10px;
+  background: linear-gradient(90deg, #009c49 0 33.33%, #fff 33.33% 66.66%, #d91f2b 66.66% 100%);
+  content: "";
+}
+
+.italian-event-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.82fr);
+  gap: 32px;
+  padding: 30px;
+}
+
+.italian-event-main { min-width: 0; }
+
+.italian-event-kicker {
+  margin: 0 0 6px;
+  color: #00783c;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.italian-event h2 {
+  margin: 0;
+  color: #171717;
+  font-family: "FixelExtraBold", sans-serif;
+  font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+  line-height: 1.03;
+}
+
+.italian-event h2 span { color: #cf1d2a; }
+
+.italian-event-date {
+  margin: 15px 0 0;
+  color: #00783c;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.italian-event-lead {
+  max-width: 55ch;
+  margin: 9px 0 22px;
+  color: #353535;
+  font-size: 1.04rem;
+  line-height: 1.4;
+}
+
+.italian-event-programme {
+  overflow: hidden;
+  border: 1px solid #e8e5df;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.italian-event-film {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) 70px;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.italian-event-film:hover,
+.italian-event-film[aria-expanded="true"] { background: #f4f8f2; }
+
+.italian-event-entry:last-child .italian-event-film:hover,
+.italian-event-entry:last-child .italian-event-film[aria-expanded="true"] { background: #fff5f4; }
+
+.italian-event-film:focus-visible,
+.italian-event-detail button:focus-visible,
+.italian-event-detail a:focus-visible {
+  outline: 3px solid #d39a38;
+  outline-offset: -3px;
+}
+
+.italian-event-film time {
+  color: #009c49;
+  font-family: "FixelExtraBold", sans-serif;
+  font-size: 1.95rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.italian-event-entry:last-child .italian-event-film time { color: #d91f2b; }
+
+.italian-event-film-copy { display: block; min-width: 0; }
+
+.italian-event-film-title {
+  display: block;
+  color: #171717;
+  font-family: "FixelExtraBold", sans-serif;
+  font-size: 1.14rem;
+  line-height: 1.15;
+}
+
+.italian-event-subtitle {
+  display: block;
+  margin-top: 4px;
+  color: #444;
+  font-weight: 700;
+}
+
+.italian-event-meta {
+  display: block;
+  margin-top: 3px;
+  color: #656565;
+  font-size: 0.9rem;
+}
+
+.italian-event-film-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+  color: #00783c;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.italian-event-entry:last-child .italian-event-film-action { color: #bf1d28; }
+.italian-event-film[aria-expanded="true"] .italian-event-film-chevron { transform: rotate(180deg); }
+
+.italian-event-film-poster {
+  display: block;
+  width: 70px;
+  height: 95px;
+  border-radius: 5px;
+  object-fit: cover;
+  background: #eee;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 16%);
+}
+
+.italian-event-detail {
+  padding: 18px;
+  border-top: 1px solid #e8e5df;
+  background: #f8f8f7;
+  color: #262626;
+}
+
+.italian-event-detail[hidden] { display: none; }
+
+.italian-event-detail h3 {
+  margin: 0 0 8px;
+  color: #171717;
+  font-family: "FixelExtraBold", sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.italian-detail-info { margin: 0 0 5px; font-weight: 700; }
+.italian-detail-genres { margin: 0 0 12px; color: #00783c; font-weight: 700; }
+.italian-detail-credits { margin: 0; }
+.italian-detail-credits div { display: grid; grid-template-columns: 70px minmax(0, 1fr); gap: 8px; margin-top: 3px; }
+.italian-detail-credits dt { color: #a21722; font-weight: 700; }
+.italian-detail-credits dd { margin: 0; }
+.italian-detail-synopsis { margin: 14px 0; line-height: 1.45; }
+.italian-detail-link { color: #a21722; font-weight: 700; text-underline-offset: 3px; }
+.italian-detail-gallery { margin-top: 18px; }
+.italian-detail-image { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; object-fit: cover; background: #ddd; }
+.italian-detail-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 7px; }
+.italian-detail-thumbs button { padding: 0; border: 2px solid transparent; border-radius: 5px; background: #eee; cursor: pointer; overflow: hidden; }
+.italian-detail-thumbs button[aria-current="true"] { border-color: #009c49; }
+.italian-detail-thumbs img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.italian-detail-trailer { margin-top: 18px; }
+.italian-detail-trailer h4 { margin: 0 0 7px; font-size: 1rem; }
+.italian-detail-trailer-frame { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; }
+.italian-detail-trailer-frame iframe,
+.italian-detail-trailer-frame video { display: block; width: 100%; height: 100%; border: 0; }
+.italian-detail-trailer-cta { display: block; padding: 16px; border-radius: 8px; background: #efe8df; text-align: center; }
+
+.italian-event-pause {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 1px solid #e9e3d9;
+  border-bottom: 1px solid #e9e3d9;
+  background: #f8f4e9;
+  color: #333;
+  line-height: 1.3;
+}
+
+.italian-event-pause span { color: #cf1d2a; font-size: 1.4rem; }
+.italian-event-pause p { margin: 0; }
+.italian-event-pause strong { color: #00783c; }
+
+.italian-event-tarif {
+  margin: 14px 0 0;
+  color: #4c4c4c;
+  font-size: 0.91rem;
+}
+
+.italian-event-poster-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.italian-event-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #e9e9e9;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 14%);
+}
+
+@media (max-width: 700px) {
+  .italian-event-layout {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 24px;
+  }
+
+  .italian-event-poster-wrap { justify-content: center; }
+  .italian-event-poster { max-width: 420px; }
+}
+
+@media (max-width: 520px) {
+  .italian-event-shell { border-radius: 16px; }
+  .italian-event-layout { padding: 20px; }
+  .italian-event-film { grid-template-columns: 57px minmax(0, 1fr) 58px; gap: 8px; padding: 12px; }
+  .italian-event-film time { font-size: 1.6rem; }
+  .italian-event-film-title { font-size: 1.03rem; }
+  .italian-event-film-poster { width: 58px; height: 79px; }
+  .italian-event-pause { padding: 12px 14px; }
+  .italian-event-detail { padding: 14px; }
+}
