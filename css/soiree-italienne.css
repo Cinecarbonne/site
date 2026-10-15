@@ -180,11 +180,11 @@
 .italian-detail-synopsis { margin: 14px 0; line-height: 1.45; }
 .italian-detail-link { color: #a21722; font-weight: 700; text-underline-offset: 3px; }
 .italian-detail-gallery { margin-top: 18px; }
-.italian-detail-image { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; object-fit: cover; background: #ddd; }
+.italian-detail-image { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; object-fit: contain; background: #eee; }
 .italian-detail-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 7px; }
 .italian-detail-thumbs button { padding: 0; border: 2px solid transparent; border-radius: 5px; background: #eee; cursor: pointer; overflow: hidden; }
 .italian-detail-thumbs button[aria-current="true"] { border-color: #009c49; }
-.italian-detail-thumbs img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.italian-detail-thumbs img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; }
 .italian-detail-trailer { margin-top: 18px; }
 .italian-detail-trailer h4 { margin: 0 0 7px; font-size: 1rem; }
 .italian-detail-trailer-frame { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; }
