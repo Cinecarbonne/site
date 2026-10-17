@@ -1,26 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Normalize Ciné Carbonne Excel (Feuil1) into a clean table (v3: direct column mapping).
+Normalize CinÃ© Carbonne Excel (Feuil1) into a clean table (v3: direct column mapping).
 
-Entrée :  input/source.xlsx  (Feuil1)
+EntrÃ©e :  input/source.xlsx  (Feuil1)
 Sorties :
     - work/normalized.xlsx
     - work/prochainement.json  (liste de textes "prochainement")
 """
-from contextlib import nullcontext
-from pathlib import Path
-import re
-from datetime import datetime, time
-from dateutil import parser as dtparser
 import json
-import unicodedata
+import re
+from copy import copy
+from datetime import datetime, time
+from pathlib import Path
 
 import pandas as pd
-from openpyxl.styles import numbers
+import unicodedata
+from dateutil import parser as dtparser
 from openpyxl import load_workbook
-from openpyxl.styles import Border, Side,Font, Alignment
-
+from openpyxl.styles import Border, Side, Font, Alignment
+from openpyxl.utils import range_boundaries
 
 # --- chemins ---
 BASE_DIR            = Path(__file__).resolve().parent
@@ -45,7 +44,7 @@ COL_CM_DEFINITION = 14 # O, dans le catalogue en fin de tableau
 
 WEEKDAYS_FR = {"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"}
 
-# --- contexte date d'exécution ---
+# --- contexte date d'exÃ©cution ---
 EXEC_DATE   = datetime.today().date()
 IS_DECEMBER = (EXEC_DATE.month == 12)
 
@@ -62,7 +61,7 @@ def is_weekday_label(x):
 
 
 def parse_date_cell(x):
-    """Parse une cellule de date Excel (ou texte) en date, avec correction décembre → janvier N+1."""
+    """Parse une cellule de date Excel (ou texte) en date, avec correction dÃ©cembre â janvier N+1."""
     if pd.isna(x):
         return None
 
@@ -70,19 +69,19 @@ def parse_date_cell(x):
     if isinstance(x, (pd.Timestamp, datetime)):
         d = pd.to_datetime(x).date()
 
-        # Ajustement "décembre → janvier N+1"
+        # Ajustement "dÃ©cembre â janvier N+1"
         if IS_DECEMBER and d.month == 1 and d.year == EXEC_DATE.year:
             d = d.replace(year=EXEC_DATE.year + 1)
 
         return d
 
-    # 2) Cas : texte à parser
+    # 2) Cas : texte Ã  parser
     s = str(x).strip()
     for dayfirst in (True, False):
         try:
             d = dtparser.parse(s, dayfirst=dayfirst, fuzzy=True).date()
 
-            # Même ajustement pour le texte
+            # MÃªme ajustement pour le texte
             if IS_DECEMBER and d.month == 1 and d.year == EXEC_DATE.year:
                 d = d.replace(year=EXEC_DATE.year + 1)
 
@@ -270,7 +269,7 @@ def normalize_tarif_field(tarif):
     text = re.sub(r"\s*-\s*", " - ", text)
     text = re.sub(r"\s*/\s*", " / ", text)
     text = re.sub(
-        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|/\d)\s*(?:€|euros?)?",
+        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|/\d)\s*(?:â¬|euros?)?",
         lambda m: format_money_token(m.group(1)),
         text,
         flags=re.IGNORECASE,
@@ -528,7 +527,7 @@ def is_red_background(cell):
     if rgb is None:
         return False
 
-    # rgb peut être une string ou un objet avec .rgb
+    # rgb peut Ãªtre une string ou un objet avec .rgb
     if not isinstance(rgb, str):
         rgb = getattr(rgb, "rgb", None)
         if rgb is None or not isinstance(rgb, str):
@@ -541,6 +540,90 @@ def is_red_background(cell):
 
     return code == "FF0000"
 
+## --------------------------------------------------------
+# Mise en forme
+#--------------------------------------------------------
+header_style = {"size": 14, "bold": True, "halign": "center", "valign": "center"}
+default_border = Side(border_style="thin", color="000000")
+thick_border = Side(border_style="thick", color="000000")
+default_cell_border = Border(left=default_border, right=default_border,
+                             top=default_border, bottom=default_border)
+
+def set_external_borders(ws, plage):
+    """Applique une bordure extérieure autour d'une plage, ex: 'A1:D10'"""
+    min_col, min_row, max_col, max_row = range_boundaries(plage)
+    for row in ws.iter_rows(min_row=min_row, max_row=max_row,
+                            min_col=min_col, max_col=max_col):
+        for cell in row:
+            b = copy(cell.border)  # préserve les bordures existantes
+            if cell.row == min_row: b.top = thick_border
+            if cell.row == max_row: b.bottom = thick_border
+            if cell.column == min_col: b.left = thick_border
+            if cell.column == max_col: b.right = thick_border
+            cell.border = b
+
+def apply_column_styles(ws):
+        # --------------------------------------------------------
+        # Mise en forme des colonnes pilotÃ©e par un dictionnaire :
+        # largeur, taille de police, gras, centrage (horizontal/vertical)
+        # --------------------------------------------------------
+        styles = {
+            # col : {width, size, bold, halign, valign, color, auto}
+            "A": {"width": 22, "auto": False, "size": 14, "bold": True, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": False},  # Date
+            "B": {"width": 10, "auto": False, "size": 14, "bold": True, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": False},  # Heure
+            "C": {"width": 26, "auto": False, "size": 14, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": True},  # Titre
+            "D": {"width": 6, "auto": False, "size": 14, "bold": True, "halign": "center", "valign": "center",
+                  "hidden": False, "wrap": False},  # Version
+            "E": {"width": 10, "auto": False, "size": 11, "bold": False, "halign": "center", "valign": "center",
+                  "hidden": True, "wrap": False},  # CM
+            "F": {"width": 10, "auto": False, "size": 11, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": True, "wrap": False},  # courts_metrages
+            "G": {"width": 10, "auto": False, "size": 11, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": True, "wrap": False},  # Realisateur
+            "H": {"width": 24, "auto": False, "size": 14, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": True},  # Recompenses
+            "I": {"width": 24, "auto": False, "size": 14, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": True},  # Categorie
+            "J": {"width": 24, "auto": False, "size": 14, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": True},  # Tarif
+            "K": {"width": 30, "auto": False, "size": 11, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": True, "wrap": False},  # url_allocine
+            "L": {"width": 15, "auto": False, "size": 14, "bold": True, "halign": "center", "valign": "center",
+                  "color": "000000FF", "hidden": False, "wrap": False},  # Saisie
+        }
+
+        for col_letter, st in styles.items():
+            dim = ws.column_dimensions[col_letter]
+            if st.get("auto"):
+                dim.bestFit = True
+            elif st.get("width"):
+                dim.width = st["width"]
+
+            # masquage de la colonne
+            dim.hidden = bool(st.get("hidden", False))
+            for row_idx in range(2, ws.max_row + 1):  # ligne 1 = en-tÃªte
+                cell = ws[f"{col_letter}{row_idx}"]
+                cell.font = Font(
+                    name="Calibri",
+                    size=st.get("size", 11),
+                    bold=st.get("bold", False),
+                    color=st.get("color"),
+                )
+                cell.alignment = Alignment(
+                    horizontal=st.get("halign", "left"),
+                    vertical=st.get("valign", "center"),
+                    wrap_text=bool(st.get("wrap", False)),
+                )
+                cell.border = default_cell_border
+
+        # en-tÃªtes : gras et centrÃ©s
+        for cell in ws[1]:
+            hs = header_style
+            cell.font = Font(name="Calibri", size=hs.get("size", 12), bold=hs.get("bold", True))
+            cell.alignment = Alignment(horizontal=hs.get("halign", "center"), vertical=hs.get("valign", "center"))
 
 # ------------------------------------------------------------
 # MAIN
@@ -565,7 +648,7 @@ def main():
 
     for idx, row in raw.iterrows():
         # --------------------------------------------------------
-        # 1) Mise à jour du jour courant
+        # 1) Mise Ã  jour du jour courant
         # --------------------------------------------------------
         a = row.get(COL_A)
         b = row.get(COL_B)
@@ -574,8 +657,8 @@ def main():
             current_date = row_date
 
         # --------------------------------------------------------
-        # 2) Détection séance classique
-        #    Règle: on avance d'abord par date, puis on ne s'intéresse
+        # 2) DÃ©tection sÃ©ance classique
+        #    RÃ¨gle: on avance d'abord par date, puis on ne s'intÃ©resse
         #    qu'aux lignes qui portent un horaire en colonne C.
         # --------------------------------------------------------
         t = parse_time_cell(row.get(COL_C))
@@ -635,7 +718,7 @@ def main():
         })
 
     # --------------------------------------------------------
-    # export des séances
+    # export des sÃ©ances
     # --------------------------------------------------------
     df = pd.DataFrame(records, columns=[
         "Date", "Heure", "Titre", "Version", "CM", "courts_metrages", 'Realisateur',
@@ -646,47 +729,26 @@ def main():
     df.to_excel(OUTPUT_PATH, index=False)
     wb = load_workbook(OUTPUT_PATH)
     ws = wb.active
-    for c in ws['A:A'] :
-        c.number_format = "DD/MM/YYYY"
-    #ws.column_dimensions["A"].number_format = "DD/MM/YYYY"
-    ws.column_dimensions["A"].auto_size = True
-    ws.column_dimensions["B"].auto_size = True
-    ws.column_dimensions["C"].width = 50
 
-    ws.column_dimensions["H"].witdth = 30
-    ws.column_dimensions["I"].witdth = 30
+    for c in ws['A:A']:
+        c.number_format = "NNNN D MMM"
 
-    # ajout d'une bordure Bleu autour de 3 serie de film pour les  caissiere
+    apply_column_styles(ws)
+    set_external_borders(ws,f'A1:L{ws.max_row}')
 
-    def set_border(ws, cell_range):
-        Large = Side(border_style="double", color="000000FF")
-        rows = ws[cell_range]
-        for row in rows:
-            row[0].border  = Border(left=Large)
-            row[-1].border = Border(right=Large)
-        for c in rows[0]:
-             c.border = Border(top=Large)
-        for c in rows[-1]:
-            c.border = Border(bottom=Large)
-
+    # separation en 3 series pour les saisies caissieres
     nb_row_per_series=int ((ws.max_row-1)/3)
-    ws.column_dimensions["L"].witdth = 40
-    ws.column_dimensions["L"].alignment = Alignment(horizontal='center', vertical='center')
-    ws.column_dimensions["L"].font  = Font(name='Calibri',
-                size=14,
-                bold=True,
-                color='000000FF')
     for index in [0,1,2] :
         label=f'Saisie {index+1}'
-        first_row=1++index+index*nb_row_per_series
-        last_row=first_row+nb_row_per_series
+        first_row=2++index+index*nb_row_per_series
+        last_row=min(ws.max_row,first_row+nb_row_per_series)
         try :
             ws.unmerge_cells(f"L{first_row}:L{last_row}")
         except:
             print('')
         ws.cell(first_row,12).value=label
         ws.merge_cells(f"L{first_row}:L{last_row}")
-        set_border(ws, f'A{first_row}:L{last_row}')
+        set_external_borders(ws, f'A{first_row}:L{last_row}')
 
     wb.save( OUTPUT_PATH)
 
@@ -694,7 +756,7 @@ def main():
 
     # --------------------------------------------------------
     # export "prochainement"
-    # on écrit systématiquement un JSON (liste de chaînes)
+    # on Ã©crit systÃ©matiquement un JSON (liste de chaÃ®nes)
     # --------------------------------------------------------
     PROCHAINEMENT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with PROCHAINEMENT_PATH.open("w", encoding="utf-8") as f:
