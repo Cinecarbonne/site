@@ -105,6 +105,18 @@ generate_prochainement_json
 make_tableau_ingest
 ```
 
+### Prochainement
+
+Le bloc est repere par l'intitule `Prochainement` en colonne E (ou en colonne I
+dans l'ancien format), quelle que soit sa ligne. La liste des titres est lue
+en colonne E sur la ligne suivante. Sans ce bloc explicite, la generation
+s'arrete au lieu d'utiliser une autre rubrique comme les Cines gouters.
+
+Les choix manuels sont conserves dans `outils/input/prochainement_overrides.json`.
+Chaque cle correspond a un titre source ; `title` donne le titre corrige et
+`allocine_url`, facultatif, impose la fiche du film a utiliser pour son affiche. Ces choix
+sont reappliques a chaque generation sans modifier le Google Sheet source.
+
 ### Courts metrages
 
 Le normaliseur conserve la compatibilite avec les anciennes definitions placees

@@ -30,6 +30,7 @@ import pandas as pd
 TOOLS_DIR = Path(__file__).resolve().parent
 SITE_DIR = TOOLS_DIR.parent
 INPUT_TITLES = TOOLS_DIR / "input" / "prochainement_titles.json"
+INPUT_OVERRIDES = TOOLS_DIR / "input" / "prochainement_overrides.json"
 OUTPUT_JSON = SITE_DIR / "data" / "prochainement.json"
 SOURCE_XLSX = TOOLS_DIR / "input" / "source.xlsx"
 WORK_PROCHAINEMENT = TOOLS_DIR / "work" / "prochainement.json"
@@ -197,19 +198,23 @@ def _load_env() -> None:
             enrich.load_env_file(env_path)
 
 
-def _allocine_candidate(title: str) -> PosterCandidate | None:
-    try:
-        result = enrich.allocine_find_movie(title, "")
-    except Exception:
-        return None
+def _allocine_candidate(title: str, url: str = "") -> PosterCandidate | None:
+    if url:
+        score = 1.0
+        matched_title = title
+    else:
+        try:
+            result = enrich.allocine_find_movie(title, "")
+        except Exception:
+            return None
 
-    match = (result or {}).get("match") or {}
-    url = str(match.get("url") or "").strip()
-    if not url:
-        return None
+        match = (result or {}).get("match") or {}
+        url = str(match.get("url") or "").strip()
+        if not url:
+            return None
 
-    score = float(match.get("score") or 0.0)
-    matched_title = _fix_mojibake(str(match.get("title") or title).strip())
+        score = float(match.get("score") or 0.0)
+        matched_title = _fix_mojibake(str(match.get("title") or title).strip())
     poster_url = ""
     release_date = ""
 
@@ -229,7 +234,7 @@ def _allocine_candidate(title: str) -> PosterCandidate | None:
         except Exception:
             poster_url = ""
 
-    if not poster_url:
+    if not poster_url or "/common/empty/" in poster_url:
         return None
 
     return PosterCandidate(
@@ -319,12 +324,23 @@ def choose_best(title: str, allocine: PosterCandidate | None, tmdb: PosterCandid
 def build_output_items(titles: list[str]) -> tuple[list[dict[str, Any]], list[str]]:
     output: list[dict[str, Any]] = []
     missing: list[str] = []
+    overrides = {
+        enrich.normalize_for_match(title): values
+        for title, values in (_read_json(INPUT_OVERRIDES) if INPUT_OVERRIDES.exists() else {}).items()
+    }
 
-    for idx, title in enumerate(titles, start=1):
+    for idx, source_title in enumerate(titles, start=1):
+        override = overrides.get(enrich.normalize_for_match(source_title), {})
+        title = override.get("title") or source_title
+        allocine_url = override.get("allocine_url") or ""
         print(f"[{idx}/{len(titles)}] {title}")
-        allocine = _allocine_candidate(title)
-        tmdb = _tmdb_candidate(title)
-        chosen = choose_best(title, allocine, tmdb)
+        if allocine_url:
+            # A manually verified film must not be replaced by a search result.
+            chosen = _allocine_candidate(title, allocine_url)
+        else:
+            allocine = _allocine_candidate(title)
+            tmdb = _tmdb_candidate(title)
+            chosen = choose_best(title, allocine, tmdb)
 
         if not chosen:
             missing.append(title)

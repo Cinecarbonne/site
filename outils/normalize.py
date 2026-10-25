@@ -123,10 +123,9 @@ def norm_str(x):
 
 
 def extract_prochainement_blocks(raw):
-    """Return upcoming text blocks from explicit markers or a trailing title list."""
+    """Read the labelled upcoming block in column E (or legacy column I)."""
     upcoming_blocks = []
     index_list = list(raw.index)
-    trailing_candidates = []
 
     for pos, idx in enumerate(index_list):
         row = raw.loc[idx]
@@ -134,22 +133,18 @@ def extract_prochainement_blocks(raw):
         b = row.get(COL_B)
         c = row.get(COL_C)
 
-        titre_cell_value = row.get(COL_URL)
-        titre_norm = norm_str(titre_cell_value)
-
         has_weekday = is_weekday_label(a)
         has_date = parse_date_cell(b) is not None
         has_time = parse_time_cell(c) is not None
 
-        if not (titre_norm and "prochainement" in titre_norm.lower() and not has_weekday and not has_date):
-            if (
-                titre_norm
-                and not has_weekday
-                and not has_date
-                and not has_time
-                and ("," in titre_norm or ";" in titre_norm or "\n" in titre_norm)
-            ):
-                trailing_candidates.append(titre_norm)
+        if has_weekday or has_date or has_time:
+            continue
+
+        has_marker = any(
+            re.fullmatch(r"prochainement\s*:?", normalize_text_key(norm_str(row.get(column))))
+            for column in (COL_TITRE, COL_URL)
+        )
+        if not has_marker:
             continue
 
         next_pos = pos + 1
@@ -160,9 +155,6 @@ def extract_prochainement_blocks(raw):
         next_title = norm_str(next_row.get(COL_TITRE))
         if next_title:
             upcoming_blocks.append(next_title)
-
-    if not upcoming_blocks and trailing_candidates:
-        upcoming_blocks.append(trailing_candidates[-1])
 
     return upcoming_blocks
 

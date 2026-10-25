@@ -1,38 +1,209 @@
 [
   {
-    "title": "19/09 : Entre ciel et terre (sortie 8/07 donc plus de 5 semaines)",
-    "poster": "https://fr.web.img4.acsta.net/img/b4/86/b4866c2f7eebdb5a67dfe51b23f6dee8.jpg",
-    "alt": "Affiche de 19/09 : Entre ciel et terre (sortie 8/07 donc plus de 5 semaines)",
+    "title": "Kill Bill: The Whole Bloody Affair",
+    "poster": "https://fr.web.img2.acsta.net/img/7f/8a/7f8a6e99aa0e80ebca81fe4231606068.jpg",
+    "alt": "Affiche de Kill Bill: The Whole Bloody Affair",
     "source": "allocine",
-    "match_title": "Entre ciel et terre",
+    "match_title": "Kill Bill: The Whole Bloody Affair",
     "release_date": "2026-07-08",
     "match_score": 1.0
   },
   {
-    "title": "17/10 : Chien bleu et autres belles histoires (5e semaine – sortie 16/09)",
-    "poster": "https://fr.web.img6.acsta.net/img/99/a1/99a165c46cfdf1a5e80547d7317e854c.jpg",
-    "alt": "Affiche de 17/10 : Chien bleu et autres belles histoires (5e semaine – sortie 16/09)",
+    "title": "L'ile des souvenirs",
+    "poster": "https://fr.web.img6.acsta.net/img/56/7e/567e74d867a1c88b20897c5d7f92d4dd.jpg",
+    "alt": "Affiche de L'ile des souvenirs",
     "source": "allocine",
-    "match_title": "Chien bleu et autres belles histoires de l'école des loisirs",
-    "release_date": "2026-09-16",
-    "match_score": 0.95
-  },
-  {
-    "title": "14/11 : Un amour d’épouvantail (sortie 23/09 donc plus de 5 semaines)",
-    "poster": "https://fr.web.img5.acsta.net/img/69/17/6917a9ac903b1fbbc9bfa78aca1d257c.png",
-    "alt": "Affiche de 14/11 : Un amour d’épouvantail (sortie 23/09 donc plus de 5 semaines)",
-    "source": "allocine",
-    "match_title": "Un amour d’épouvantail",
-    "release_date": "2026-09-23",
+    "match_title": "L'île des souvenirs",
+    "release_date": "2026-10-21",
     "match_score": 1.0
   },
   {
-    "title": "12/12 : Le merveilleux hiver de Tom le chat (sortie 11/11 donc 5e semaine)",
-    "poster": "https://fr.web.img6.acsta.net/img/6b/d2/6bd2b136aed81bd08e3175d2dd0d5bf5.jpg",
-    "alt": "Affiche de 12/12 : Le merveilleux hiver de Tom le chat (sortie 11/11 donc 5e semaine)",
+    "title": "Shaun le mouton La bêêête d'Halloween",
+    "poster": "https://fr.web.img6.acsta.net/img/4f/da/4fda4090f417ac9b0e78ccc48f43ea2c.jpg",
+    "alt": "Affiche de Shaun le mouton La bêêête d'Halloween",
     "source": "allocine",
-    "match_title": "Le Merveilleux hiver de Tom le chat",
+    "match_title": "Shaun le Mouton : La Bêêête d'Halloween",
+    "release_date": "2026-10-21",
+    "match_score": 1.0
+  },
+  {
+    "title": "Les recommencements",
+    "poster": "https://fr.web.img4.acsta.net/img/c5/93/c593d18fc84cc17edb521a018bc4a4bf.jpg",
+    "alt": "Affiche de Les recommencements",
+    "source": "allocine",
+    "match_title": "Les Recommencements",
+    "release_date": "2026-10-21",
+    "match_score": 1.0
+  },
+  {
+    "title": "Moulin",
+    "poster": "https://fr.web.img6.acsta.net/img/0f/7f/0f7fb216155bf7bcf7bb69d9e2f65310.jpg",
+    "alt": "Affiche de Moulin",
+    "source": "allocine",
+    "match_title": "Moulin",
+    "release_date": "2026-10-28",
+    "match_score": 1.0
+  },
+  {
+    "title": "Hope",
+    "poster": "https://fr.web.img2.acsta.net/img/37/eb/37eb88a0ce51e0295cac6fca4884a609.jpg",
+    "alt": "Affiche de Hope",
+    "source": "allocine",
+    "match_title": "Hope",
+    "release_date": "2026-10-28",
+    "match_score": 1.0
+  },
+  {
+    "title": "La tentazione",
+    "poster": "https://fr.web.img6.acsta.net/img/83/a0/83a00e4f78bdcbcf16a62ddd2e95d79d.jpg",
+    "alt": "Affiche de La tentazione",
+    "source": "allocine",
+    "match_title": "La Tentazione",
+    "release_date": "2026-10-28",
+    "match_score": 1.0
+  },
+  {
+    "title": "Le monde à l'endroit",
+    "poster": "https://fr.web.img3.acsta.net/img/9e/ac/9eac1e0f025ec3b45db67212d01a5509.jpg",
+    "alt": "Affiche de Le monde à l'endroit",
+    "source": "allocine",
+    "match_title": "Le Monde à l'endroit",
+    "release_date": "2026-09-30",
+    "match_score": 1.0
+  },
+  {
+    "title": "L'affaire Marie-Claire",
+    "poster": "https://fr.web.img2.acsta.net/img/4a/3c/4a3cf95bb345d5d71bdc7acf3430323b.jpg",
+    "alt": "Affiche de L'affaire Marie-Claire",
+    "source": "allocine",
+    "match_title": "L'Affaire Marie-Claire",
+    "release_date": "2026-11-04",
+    "match_score": 1.0
+  },
+  {
+    "title": "Wild horse nine",
+    "poster": "https://fr.web.img5.acsta.net/img/19/2c/192c21b88207a32bb9c1a043c51f053b.jpg",
+    "alt": "Affiche de Wild horse nine",
+    "source": "allocine",
+    "match_title": "Wild Horse Nine",
+    "release_date": "2026-11-04",
+    "match_score": 1.0
+  },
+  {
+    "title": "Il faut brûler maman",
+    "poster": "https://fr.web.img6.acsta.net/img/b7/22/b722617d1263956a4b556c739a49afc3.jpg",
+    "alt": "Affiche de Il faut brûler maman",
+    "source": "allocine",
+    "match_title": "Il faut brûler Maman",
     "release_date": "2026-11-11",
+    "match_score": 1.0
+  },
+  {
+    "title": "Scrooge",
+    "poster": "https://fr.web.img2.acsta.net/img/a1/9a/a19a001d790dac06946fd8302b10b1cc.jpg",
+    "alt": "Affiche de Scrooge",
+    "source": "allocine",
+    "match_title": "Scrooge",
+    "release_date": "2026-11-11",
+    "match_score": 1.0
+  },
+  {
+    "title": "15/18",
+    "poster": "https://image.tmdb.org/t/p/w780/nlqZ62tEobENzeLxNUXANgz8XJa.jpg",
+    "alt": "Affiche de 15/18",
+    "source": "tmdb",
+    "match_title": "15/18",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "The good boy",
+    "poster": "https://fr.web.img6.acsta.net/img/0a/84/0a8485857cf1aa83b1752823760f3284.jpg",
+    "alt": "Affiche de The good boy",
+    "source": "allocine",
+    "match_title": "The Good Boy",
+    "release_date": "2026-11-11",
+    "match_score": 1.0
+  },
+  {
+    "title": "Ce qui nous mène à toi",
+    "poster": "https://fr.web.img2.acsta.net/img/0a/18/0a18acf83e57e18b7826971f3720dfc4.jpg",
+    "alt": "Affiche de Ce qui nous mène à toi",
+    "source": "allocine",
+    "match_title": "Ce qui nous mène à toi",
+    "release_date": "2026-11-11",
+    "match_score": 1.0
+  },
+  {
+    "title": "L'âge d'or",
+    "poster": "https://fr.web.img4.acsta.net/img/71/de/71de9133eec5b0baa90d1b47a127e8ce.jpg",
+    "alt": "Affiche de L'âge d'or",
+    "source": "allocine",
+    "match_title": "L'Âge d'Or",
+    "release_date": "2026-11-11",
+    "match_score": 1.0
+  },
+  {
+    "title": "Taxi driver",
+    "poster": "https://fr.web.img4.acsta.net/pictures/16/08/04/15/27/495536.jpg",
+    "alt": "Affiche de Taxi driver",
+    "source": "allocine",
+    "match_title": "Taxi Driver",
+    "release_date": "1976-06-02",
+    "match_score": 1.0
+  },
+  {
+    "title": "Hunger games Lever de soleil sur la moisson",
+    "poster": "https://fr.web.img5.acsta.net/img/f1/24/f124e39fa139536fceb9005cab53fc04.jpg",
+    "alt": "Affiche de Hunger games Lever de soleil sur la moisson",
+    "source": "allocine",
+    "match_title": "Hunger Games : Lever de soleil sur la moisson",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "Jupiter",
+    "poster": "https://fr.web.img6.acsta.net/img/2f/ab/2fabb861ff01b7c43b24c0cdafb0931a.jpg",
+    "alt": "Affiche de Jupiter",
+    "source": "allocine",
+    "match_title": "Jupiter",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "Les Braves (Coward)",
+    "poster": "https://fr.web.img4.acsta.net/img/f9/87/f9878d8018f1c89eda8fd60351691840.jpg",
+    "alt": "Affiche de Les Braves (Coward)",
+    "source": "allocine",
+    "match_title": "Les Braves (Coward)",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "Malika",
+    "poster": "https://fr.web.img6.acsta.net/img/40/75/40755e7f3312dc2311b37a66bc94fe81.jpg",
+    "alt": "Affiche de Malika",
+    "source": "allocine",
+    "match_title": "Malika",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "Gabin",
+    "poster": "https://fr.web.img3.acsta.net/img/f4/f9/f4f9596241435673ee4b9e67ced5cbac.jpg",
+    "alt": "Affiche de Gabin",
+    "source": "allocine",
+    "match_title": "Gabin",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
+    "title": "Ulya",
+    "poster": "https://fr.web.img3.acsta.net/img/a6/15/a615219c778a4c61d3cd95a7fb4f2271.jpg",
+    "alt": "Affiche de Ulya",
+    "source": "allocine",
+    "match_title": "Ulya",
+    "release_date": "",
     "match_score": 1.0
   }
 ]
