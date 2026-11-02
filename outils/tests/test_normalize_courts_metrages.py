@@ -38,6 +38,21 @@ class VersionNormalizationTests(unittest.TestCase):
 
 
 class CourtMetrageDefinitionTests(unittest.TestCase):
+    def test_header_for_this_programme_wins_over_the_start_month_catalog(self):
+        raw = empty_source()
+        raw.iat[0, 5] = "CM2:"
+        raw.iat[0, 7] = "Un comédien - Fiction - 08'08 réalisé par EASV"
+        raw.iat[4, 0], raw.iat[4, 1] = "Mercredi", datetime(2026, 11, 25)
+        raw.iat[20, 13] = "Courts métrages à venir"
+        raw.iat[21, 13], raw.iat[21, 14] = "11/26", "CM2: Wild love - Comédie - 06'55"
+        court, = normalize.resolve_courts_metrages(normalize.extract_cm_catalog(raw), "CM2")
+        self.assertEqual((court["titre"], court["duree"], court["credit"]),
+                         ("Un comédien", "08'08", "réalisé par EASV"))
+
+    def test_missing_short_title_is_reported_before_export(self):
+        with self.assertRaisesRegex(ValueError, "CM2"):
+            normalize.resolve_courts_metrages({}, "CM2")
+
     def test_definition_accepts_new_format_without_colon(self):
         parsed = normalize.parse_cm_definition(
             "CM1 Je suis une biche - Fiction fantastique - 02'00"
@@ -118,6 +133,19 @@ class FooterCourtMetrageCatalogTests(unittest.TestCase):
             [court["titre"] for court in resolved],
             ["Je suis une biche", "Johnny Express"],
         )
+
+
+class TarifTests(unittest.TestCase):
+    def test_price_in_category_keeps_its_decimal_comma(self):
+        self.assertEqual(normalize.session_category_and_tariff("JP TU 4,50 €", "", False),
+                         ("Jeune Public", "Tarif Unique 4,50 €"))
+
+    def test_tariffs_can_be_formatted_twice(self):
+        for initial, expected in [("ADH 4 €, AUTRES 5 €", "Adhérent 4 €, AUTRES 5 €"),
+                                  ("TU 4,50 €€", "Tarif Unique 4,50 €")]:
+            once, _ = normalize.normalize_tarif_field(initial)
+            twice, _ = normalize.normalize_tarif_field(once)
+            self.assertEqual((once, twice), (expected, expected))
 
 
 if __name__ == "__main__":

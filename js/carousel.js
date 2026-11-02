@@ -214,6 +214,7 @@
       titre: titre,
       genre: genre,
       duree: duree,
+      credit: item.credit || '',
       texte: texte
     };
   }
@@ -242,6 +243,7 @@
     var metaParts = [];
     if (parts.genre) metaParts.push(parts.genre);
     if (parts.duree) metaParts.push(parts.duree);
+    if (parts.credit) metaParts.push(parts.credit);
     if (metaParts.length) {
       var metaSpan = document.createElement('span');
       metaSpan.className = 'shortfilmMeta';
@@ -340,7 +342,7 @@
     text = text.replace(/(\d)([A-Za-z])/g, '$1 $2');
     text = text.replace(/\s*-\s*/g, ' - ');
     text = text.replace(/\s*\/\s*/g, ' / ');
-    text = text.replace(/\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|\/\d)\s*(?:€|euros?)?/gi, function (_, num) {
+    text = text.replace(/\b(\d+(?:[.,]\d+)?)\b(?![.,]\d|\s*(?:ans?\b|h\b|heure?s?\b)|\/\d)(?:\s*(?:€+|euros?\b))?/gi, function (_, num) {
       return formatMoneyToken(num);
     });
     text = cleanChipText(text);
@@ -363,7 +365,7 @@
   function makeTopChips(s) {
     var labels = [];
     var categorie = cleanChipText(s.categorie || '');
-    var parts = categorie ? categorie.split(/[;,]+/) : [];
+    var parts = categorie ? categorie.match(/(?:\d[.,]\d|[^;,])+/g) || [] : [];
     var jpDetected = /\bjp\b/i.test(categorie) || /jeune\s+public/i.test(categorie) || /\bjp\b/i.test(s.tarif || '');
 
     parts.forEach(function (part) {

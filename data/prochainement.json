@@ -36,6 +36,15 @@
     "match_score": 1.0
   },
   {
+    "title": "Peleliu : Guerre au paradis",
+    "poster": "https://fr.web.img5.acsta.net/img/47/bf/47bf36e60737dab0acd99992d6097b0c.jpeg",
+    "alt": "Affiche de Peleliu : Guerre au paradis",
+    "source": "allocine",
+    "match_title": "Peleliu : Guerre au paradis",
+    "release_date": "2026-11-18",
+    "match_score": 1.0
+  },
+  {
     "title": "Paper tiger",
     "poster": "https://fr.web.img6.acsta.net/img/1b/6d/1b6dc1a4bbc7a3ae72b48a29cff63b90.jpg",
     "alt": "Affiche de Paper tiger",
@@ -90,6 +99,15 @@
     "match_score": 1.0
   },
   {
+    "title": "Un peu avant minuit",
+    "poster": "https://fr.web.img2.acsta.net/img/6d/9f/6d9fa130d4f69259a5b7534fb748d186.jpg",
+    "alt": "Affiche de Un peu avant minuit",
+    "source": "allocine",
+    "match_title": "Un peu avant minuit",
+    "release_date": "2026-12-02",
+    "match_score": 1.0
+  },
+  {
     "title": "Changer l'eau des fleurs",
     "poster": "https://fr.web.img6.acsta.net/img/03/32/0332a2d334cbea8daf1ef07ddbe68a6f.jpg",
     "alt": "Affiche de Changer l'eau des fleurs",
@@ -126,6 +144,15 @@
     "match_score": 1.0
   },
   {
+    "title": "Dune : Troisième partie",
+    "poster": "https://fr.web.img2.acsta.net/img/21/29/2129fe829e43bdd836a3219ee3636b3c.jpg",
+    "alt": "Affiche de Dune : Troisième partie",
+    "source": "allocine",
+    "match_title": "Dune : Troisième partie",
+    "release_date": "2026-12-16",
+    "match_score": 1.0
+  },
+  {
     "title": "Avengers Domsday",
     "poster": "https://fr.web.img4.acsta.net/img/d3/5f/d35f9f0615c4f5113709105a3590b362.jpg",
     "alt": "Affiche de Avengers Domsday",
@@ -149,6 +176,15 @@
     "alt": "Affiche de Carmen l'oiseau rebelle",
     "source": "allocine",
     "match_title": "Carmen, l’oiseau rebelle",
+    "release_date": "2026-12-16",
+    "match_score": 1.0
+  },
+  {
+    "title": "Je vois des immeubles tomber comme la foudre",
+    "poster": "https://fr.web.img3.acsta.net/img/0f/72/0f7231618812ecb4ee56717bf781855d.jpg",
+    "alt": "Affiche de Je vois des immeubles tomber comme la foudre",
+    "source": "allocine",
+    "match_title": "Je vois des immeubles tomber comme la foudre",
     "release_date": "2026-12-16",
     "match_score": 1.0
   }

@@ -223,15 +223,16 @@ def is_rewards_text(value):
         "mostra",
         "berlinale",
         "venise",
+        "valois",
     ]
-    return any(keyword in text for keyword in keywords)
+    return any(re.search(r"\b" + keyword + r"s?\b", text) for keyword in keywords)
 
 
 def split_labels(value):
     text = clean_label(value)
     if not text:
         return []
-    parts = [p.strip() for p in re.split(r"[;,]+", text) if p and p.strip()]
+    parts = [p.strip() for p in re.split(r";|(?<!\d),|,(?!\d)", text) if p.strip()]
     return parts if parts else [text]
 
 
@@ -261,7 +262,7 @@ def normalize_tarif_field(tarif):
     text = re.sub(r"\s*-\s*", " - ", text)
     text = re.sub(r"\s*/\s*", " / ", text)
     text = re.sub(
-        r"\b(\d+(?:[.,]\d+)?)\b(?!\s*(?:ans?\b|h\b|heure?s?\b)|/\d)\s*(?:â¬|euros?)?",
+        r"\b(\d+(?:[.,]\d+)?)\b(?![.,]\d|\s*(?:ans?\b|h\b|heure?s?\b)|/\d)(?:\s*(?:€+|euros?\b))?",
         lambda m: format_money_token(m.group(1)),
         text,
         flags=re.IGNORECASE,
@@ -302,6 +303,31 @@ def normalize_categorie_field(categorie, jp_in_tarif=False):
         labels.append("Jeune Public")
 
     return ", ".join(labels)
+
+
+def session_category_and_tariff(category, tariff, jp_in_title):
+    # Didier peut saisir « JP TU 4,50 € » dans une seule cellule.
+    embedded = []
+
+    def take_price(match):
+        embedded.append(match.group())
+        return " "
+
+    category = re.sub(
+        r"\b(?:TU|Tarif\s+unique|ADH|Adhérents?|Autres)\s*\d+(?:[.,]\d+)?(?:\s*(?:€+|euros?\b))?",
+        take_price, clean_label(category), flags=re.IGNORECASE,
+    )
+    tariff, jp_in_tariff = normalize_tarif_field(tariff or ", ".join(embedded))
+    return normalize_categorie_field(category, jp_in_tariff or jp_in_title), tariff
+
+
+def public_comment(value):
+    """Écarter les consignes de mise en page ou marquées internes."""
+    lines = (line.strip() for line in str(value or "").splitlines())
+    return merge_comment_parts(*(line for line in lines if not re.match(
+        r"^(?:note\s+interne\b|interne\s*:|attention\s+[àa]\s+la\s+(?:présentation|mise en page)\b)",
+        line, re.IGNORECASE,
+    )))
 
 
 TITLE_MARKER_RE = re.compile(
@@ -393,14 +419,19 @@ def parse_cm_definition(value):
             if len(parts) == 2 and genre == parts[-1]:
                 genre = ""
 
-    display_parts = [titre, genre, duration]
-    return {
+    credit_match = re.search(r"\bréalisé(?:e)?\s+par\s+.+$", rest, re.IGNORECASE)
+    credit = credit_match.group() if credit_match else ""
+    display_parts = [titre, genre, duration, credit]
+    result = {
         "code": code,
         "titre": titre,
         "genre": genre,
         "duree": duration,
         "texte": " - ".join(part for part in display_parts if part),
     }
+    if credit:
+        result["credit"] = credit
+    return result
 
 
 def parse_cm_period(value):
@@ -434,18 +465,25 @@ def is_cm_catalog_anchor(value):
     )
 
 
-def extract_legacy_cm_catalog(raw):
+def extract_header_cm_catalog(raw):
     catalog = {}
-    max_cols = raw.shape[1] if hasattr(raw, "shape") else 0
-    for row_idx in (0, 1):
-        if row_idx not in raw.index:
-            continue
-        row = raw.loc[row_idx]
-        for col_idx in range(max_cols):
-            parsed = parse_cm_definition(row.get(col_idx))
-            if parsed:
-                catalog[parsed["code"]] = parsed
-    return catalog
+    split_definitions = {}
+    for _, row in raw.head(2).iterrows():
+        cells = [norm_str(value) for value in row]
+        for index, value in enumerate(cells):
+            if not value:
+                continue
+            if re.fullmatch(r"CM\s*\d+\s*:?", value, re.IGNORECASE):
+                # Le descriptif peut être séparé du code par une cellule vide (F et H du 362).
+                description = next(filter(None, cells[index + 1:index + 3]), "")
+                if description and not CM_REF_RE.match(description):
+                    parsed = parse_cm_definition(f"{value.rstrip(':').strip()}: {description}")
+                    split_definitions[parsed["code"]] = parsed
+            else:
+                parsed = parse_cm_definition(value)
+                if parsed:
+                    catalog[parsed["code"]] = parsed
+    return catalog, split_definitions
 
 
 def extract_footer_cm_catalog(raw):
@@ -484,8 +522,10 @@ def extract_cm_catalog(raw):
     # Compatibilite avec les anciens tableaux, dont les definitions etaient
     # placees sur les deux premieres lignes. Le nouveau bloc de pied de tableau
     # est prioritaire lorsqu'un meme code existe dans les deux formats.
-    catalog = extract_legacy_cm_catalog(raw)
+    catalog, split_definitions = extract_header_cm_catalog(raw)
     catalog.update(extract_footer_cm_catalog(raw))
+    # Les définitions explicites en tête désignent le programme, même à cheval sur deux mois.
+    catalog.update(split_definitions)
     return catalog
 
 
@@ -493,14 +533,8 @@ def resolve_courts_metrages(catalog, cm_value):
     resolved = []
     for ref in parse_cm_refs(cm_value):
         payload = dict(catalog.get(ref) or {})
-        if not payload:
-            payload = {
-                "code": ref,
-                "titre": "",
-                "genre": "",
-                "duree": "",
-                "texte": ref,
-            }
+        if not payload.get("titre"):
+            raise ValueError(f"{ref} : titre du court-métrage introuvable dans le programme source.")
         resolved.append(payload)
     return resolved
 
@@ -585,6 +619,8 @@ def apply_column_styles(ws):
                   "hidden": True, "wrap": False},  # url_allocine
             "L": {"width": 15, "auto": False, "size": 14, "bold": True, "halign": "center", "valign": "center",
                   "color": "000000FF", "hidden": False, "wrap": False},  # Saisie
+            "M": {"width": 42, "auto": False, "size": 12, "bold": False, "halign": "left", "valign": "center",
+                  "hidden": False, "wrap": True},  # Commentaire public
         }
 
         for col_letter, st in styles.items():
@@ -677,19 +713,23 @@ def main():
         prix_invites = norm_str(row.get(COL_PRIX_INVITES))
         categorie = norm_str(row.get(COL_CATEG))
         tarif = norm_str(row.get(COL_TARIF))
-        commentaire = norm_str(row.get(COL_COMMENT))
+        commentaire = public_comment(norm_str(row.get(COL_COMMENT)))
         url_allocine = norm_str(row.get(COL_URL))
         recompenses = None
 
         if prix_invites:
-            if is_rewards_text(prix_invites):
-                recompenses = prix_invites
-            else:
-                commentaire = merge_comment_parts(prix_invites, commentaire)
+            awards, events = [], []
+            for part in re.split(r"[\n;]+", prix_invites):
+                part = public_comment(part)
+                if not part:
+                    continue
+                event = re.search(r"\b(?:en présence|en partenariat|rencontre avec|en compagnie)\b", part, re.I)
+                (awards if is_rewards_text(part) and not event else events).append(part)
+            recompenses = ", ".join(awards)
+            commentaire = merge_comment_parts(*events, commentaire)
 
         # --- Normalisation categorie/tarif ---
-        tarif, jp_in_tarif = normalize_tarif_field(tarif)
-        categorie = normalize_categorie_field(categorie, jp_in_tarif=jp_in_tarif or jp_in_title)
+        categorie, tarif = session_category_and_tariff(categorie, tarif, jp_in_title)
         if scol_in_title:
             categorie = append_category_label(categorie, "Scolaire")
 
@@ -714,7 +754,7 @@ def main():
     # --------------------------------------------------------
     df = pd.DataFrame(records, columns=[
         "Date", "Heure", "Titre", "Version", "CM", "courts_metrages", 'Realisateur',
-        "Recompenses", "Categorie", "Tarif", "url_allocine", ""
+        "Recompenses", "Categorie", "Tarif", "url_allocine", "", "Commentaire"
     ])
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)

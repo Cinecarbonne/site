@@ -85,7 +85,7 @@ def validate_programme_sheet(worksheet) -> None:
             "La cellule I3 doit contenir l'en-tete URL Allocine."
         )
     if title_header != "titre":
-        raise SourcePreparationError("La cellule F3 doit contenir l'en-tete Titre.")
+        raise SourcePreparationError("La cellule E3 doit contenir l'en-tete Titre.")
 
     session_count = 0
     for row in worksheet.iter_rows(min_row=4, min_col=3, max_col=5, values_only=True):

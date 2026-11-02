@@ -257,6 +257,10 @@ def main(argv: list[str] | None = None) -> int:
     cm_titles = _cm_titles_from_normalized(df)
     for code, title in _load_cm_titles(args.source).items():
         cm_titles.setdefault(code, title)
+    references = {code for value in df.get("CM", []) for code in _cm_refs(value)}
+    missing = sorted(references.difference(cm_titles))
+    if missing:
+        raise ValueError("Titre de court-métrage manquant : " + ", ".join(missing))
 
     films = []
     for _, row in df.iterrows():
@@ -286,16 +290,15 @@ def main(argv: list[str] | None = None) -> int:
 
         cm_keys = _cm_refs(row.get("CM", ""))
         for key in cm_keys:
-            if cm_titles.get(key):
-                rows.append(
-                    [
-                        f"{key} - {cm_titles[key]}",
-                        "",
-                        date_label,
-                        heure,
-                        accessibility_for(accessibility, cm_titles[key]),
-                    ]
-                )
+            rows.append(
+                [
+                    f"{key} - {cm_titles[key]}",
+                    "",
+                    date_label,
+                    heure,
+                    accessibility_for(accessibility, cm_titles[key]),
+                ]
+            )
 
         titre = str(row.get("Titre", "")).strip()
         lookup_title = titre

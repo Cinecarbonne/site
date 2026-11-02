@@ -22,14 +22,14 @@ from google_sheet_source import (  # noqa: E402
 
 def add_valid_programme_sheet(workbook: Workbook, title: str):
     worksheet = workbook.create_sheet(title)
-    worksheet["E3"] = "URL allocine"
-    worksheet["F3"] = "Titre"
+    worksheet["I3"] = "URL allocine"
+    worksheet["E3"] = "Titre"
     worksheet["A4"] = "Mercredi"
     worksheet["B4"] = "2-sept."
     worksheet["C5"] = "21h"
-    worksheet["E5"] = "https://www.allocine.fr/film/fichefilm_gen_cfilm=1.html"
-    worksheet["F5"] = f"Film {title}"
-    worksheet["F5"].fill = PatternFill(fill_type="solid", fgColor="FF0000")
+    worksheet["I5"] = "https://www.allocine.fr/film/fichefilm_gen_cfilm=1.html"
+    worksheet["E5"] = f"Film {title}"
+    worksheet["E5"].fill = PatternFill(fill_type="solid", fgColor="FF0000")
     worksheet["E8"] = "Prochainement"
     worksheet["E9"] = "Film A, Film B"
     return worksheet
@@ -73,8 +73,8 @@ class SourceWorkbookPreparationTests(unittest.TestCase):
             self.assertEqual(prepared.original_sheet_name, "359")
             output = load_workbook(destination, data_only=True)
             self.assertEqual(output.sheetnames, ["Feuil1"])
-            self.assertEqual(output["Feuil1"]["F5"].value, "Film 359")
-            self.assertEqual(output["Feuil1"]["F5"].fill.fgColor.rgb, "00FF0000")
+            self.assertEqual(output["Feuil1"]["E5"].value, "Film 359")
+            self.assertEqual(output["Feuil1"]["E5"].fill.fgColor.rgb, "00FF0000")
             self.assertEqual(output["Feuil1"]["E8"].value, "Prochainement")
             self.assertEqual(output["Feuil1"]["E9"].value, "Film A, Film B")
 
@@ -96,7 +96,7 @@ class SourceWorkbookPreparationTests(unittest.TestCase):
             workbook.active.title = "359"
             workbook.save(source)
 
-            with self.assertRaisesRegex(SourcePreparationError, "E3"):
+            with self.assertRaisesRegex(SourcePreparationError, "I3"):
                 prepare_source_workbook(source, destination)
 
 

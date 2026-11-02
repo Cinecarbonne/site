@@ -2935,7 +2935,7 @@ def main(
         enriched["duree_min"] = duree_min
         enriched["pays"] = pays
         enriched["acteurs_principaux"] = acteurs
-        enriched["recompenses"] = recompenses
+        enriched["recompenses"] = _merge_list_pref_allocine(film.get("recompenses", ""), recompenses)
         enriched["date_sortie"] = enriched.get("allocine_release_date", "")
         if _tmdb_resources_allowed(film) and not enriched["date_sortie"]:
             enriched["date_sortie"] = film.get("tmdb_release_date", "")
