@@ -7,7 +7,7 @@
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20261015-01">
-  <link rel="stylesheet" href="css/soiree-italienne.css?v=20261015-04">
+  <link rel="stylesheet" href="css/regards-realisatrices.css?v=20261109-01">
   <link rel="stylesheet" href="css/concours-courts-metrages.css?v=20261020-05">
   <style>
     @font-face {
@@ -313,9 +313,9 @@
     <main class="event-content" role="main">
       <nav class="event-jump-nav" aria-label="Choisir un événement">
         <div class="event-jump-list">
-          <a class="event-jump-link" href="#soiree-italienne" aria-current="true">
-            <img src="images/soiree-cinema-italien.webp" width="68" height="78" alt="" decoding="async">
-            <span>La soirée italienne</span>
+          <a class="event-jump-link" href="#regards-de-realisatrices" aria-current="true">
+            <img src="images/regards-realisatrices/regard-2.webp" width="68" height="78" alt="" decoding="async">
+            <span>Regards de réalisatrices</span>
           </a>
           <a class="event-jump-link" href="#concours-courts-metrages-2027">
             <img src="images/concours-courts-metrages-2027-vignette.webp?v=20261020-02" width="68" height="78" alt="" decoding="async">
@@ -331,53 +331,59 @@
           </a>
         </div>
       </nav>
-      <section class="italian-event" id="soiree-italienne" aria-labelledby="italian-event-title">
-        <div class="italian-event-shell">
-          <div class="italian-event-layout">
-            <div class="italian-event-main">
-              <p class="italian-event-kicker">Ciné Carbonne vous invite</p>
-              <h2 id="italian-event-title">Soirée <span>Cinéma Italien</span></h2>
-              <p class="italian-event-date"><time datetime="2026-11-07">Samedi 7 novembre 2026</time> · dès 18 h</p>
-              <p class="italian-event-lead">Deux films en version originale sous-titrée et une auberge italienne à partager entre les séances.</p>
-
-              <div class="italian-event-programme" aria-label="Programme de la soirée">
-                <div class="italian-event-entry" data-heure="18:00">
-                  <button class="italian-event-film" id="italian-film-trigger-18" type="button" aria-expanded="false" aria-controls="italian-film-18">
-                    <time datetime="2026-11-07T18:00">18 h</time>
-                    <span class="italian-event-film-copy">
-                      <strong class="italian-event-film-title">La Donna della Domenica</strong>
-                      <span class="italian-event-subtitle">La Femme du dimanche · VOST</span>
-                      <span class="italian-event-meta">De Luigi Comencini · 1 h 45</span>
-                      <span class="italian-event-film-action"><span class="italian-event-film-action-label">Découvrir le film</span> <span class="italian-event-film-chevron" aria-hidden="true">⌄</span></span>
-                    </span>
-                    <img class="italian-event-film-poster" src="https://fr.web.img5.acsta.net/c_310_420/pictures/16/05/20/16/10/288362.jpg" width="70" height="95" alt="" loading="lazy" decoding="async">
-                  </button>
-                  <div class="italian-event-detail" id="italian-film-18" role="region" aria-labelledby="italian-film-trigger-18" hidden></div>
-                </div>
-                <div class="italian-event-pause">
-                  <span aria-hidden="true">✦</span>
-                  <p><strong>Auberge italienne</strong><br>Amenez vos spécialités italiennes entre les deux séances.</p>
-                </div>
-                <div class="italian-event-entry" data-heure="21:00">
-                  <button class="italian-event-film" id="italian-film-trigger-21" type="button" aria-expanded="false" aria-controls="italian-film-21">
-                    <time datetime="2026-11-07T21:00">21 h</time>
-                    <span class="italian-event-film-copy">
-                      <strong class="italian-event-film-title">La Valle dei Sorrisi</strong>
-                      <span class="italian-event-subtitle">The Holy Boy · VOST</span>
-                      <span class="italian-event-meta">De Paolo Strippoli · 2 h 02</span>
-                      <span class="italian-event-film-action"><span class="italian-event-film-action-label">Découvrir le film</span> <span class="italian-event-film-chevron" aria-hidden="true">⌄</span></span>
-                    </span>
-                    <img class="italian-event-film-poster" src="https://fr.web.img6.acsta.net/c_310_420/img/67/03/6703b0d1f16def3f1fdae1e720bfaa85.jpg" width="70" height="95" alt="" loading="lazy" decoding="async">
-                  </button>
-                  <div class="italian-event-detail" id="italian-film-21" role="region" aria-labelledby="italian-film-trigger-21" hidden></div>
-                </div>
+      <section class="regards-event" id="regards-de-realisatrices" aria-labelledby="regards-event-title">
+        <div class="regards-event-shell">
+          <header class="regards-event-header">
+            <div class="regards-event-intro">
+              <p class="regards-kicker">Cycle</p>
+              <h2 id="regards-event-title">Regards de réalisatrices</h2>
+              <p>Quatre films, quatre regards. En novembre, Ciné Carbonne met à l’honneur quatre réalisatrices et leurs manières de raconter le monde. Ouvert fin octobre avec <em>L’Espèce explosive</em>, le cycle se poursuit avec trois séances.</p>
+            </div>
+            <span class="regards-eyes" aria-hidden="true">
+              <img src="images/regards-realisatrices/regard-1.webp" width="960" height="254" alt="" decoding="async">
+              <img src="images/regards-realisatrices/regard-2.webp" width="960" height="254" alt="" decoding="async">
+              <img src="images/regards-realisatrices/regard-3.webp" width="960" height="254" alt="" decoding="async">
+            </span>
+          </header>
+          <ul class="regards-films" role="list" aria-label="Les quatre films du cycle">
+            <li class="regards-film regards-film-past">
+              <img class="regards-film-poster" src="https://fr.web.img6.acsta.net/c_310_420/img/45/96/4596f21ac87015ae6a3a4e833db30ba9.jpg" width="310" height="420" alt="" loading="lazy" decoding="async">
+              <div class="regards-film-copy">
+                <p class="regards-film-date">Déjà projeté <time datetime="2026-10-31">31 octobre</time></p>
+                <h3>L’Espèce explosive</h3>
+                <p class="regards-film-director">De Sarah Arnold</p>
+                <p class="regards-film-description">Une guerre entre chasseurs et agriculteurs, des sangliers hors normes et un gendarme aux méthodes peu orthodoxes.</p>
               </div>
-              <p class="italian-event-tarif">Chaque séance : 4 € adhérents · 5 € autres publics</p>
-            </div>
-            <div class="italian-event-poster-wrap">
-              <img class="italian-event-poster" src="images/soiree-cinema-italien.webp" width="1300" height="1838" alt="Affiche de la Soirée Cinéma Italien du 7 novembre, avec les deux films et l'auberge italienne" decoding="async" fetchpriority="high">
-            </div>
-          </div>
+            </li>
+            <li class="regards-film">
+              <img class="regards-film-poster" src="https://fr.web.img3.acsta.net/c_310_420/img/f5/49/f549c77401560798e02b0c2d182f8448.jpg" width="310" height="420" alt="" loading="lazy" decoding="async">
+              <div class="regards-film-copy">
+                <p class="regards-film-date"><time datetime="2026-11-10T21:00">Mardi 10 novembre<span>21 h</span></time></p>
+                <h3>Ton animal maternel</h3>
+                <p class="regards-film-director">De Valentina Maurel</p>
+                <p class="regards-film-description">De retour au Costa Rica, Elsa retrouve sa petite sœur Amalia et interroge les liens qui les unissent à leur mère.</p>
+              </div>
+            </li>
+            <li class="regards-film">
+              <img class="regards-film-poster" src="https://fr.web.img2.acsta.net/c_310_420/img/23/a7/23a7c2106f6141b87e1381da3beaf635.jpg" width="310" height="420" alt="" loading="lazy" decoding="async">
+              <div class="regards-film-copy">
+                <p class="regards-film-date"><time datetime="2026-11-13T21:00">Vendredi 13 novembre<span>21 h</span></time></p>
+                <h3>La Gradiva</h3>
+                <p class="regards-film-director">De Marine Atlan</p>
+                <p class="regards-film-description">En voyage scolaire à Naples, des lycéens découvrent les corps pétrifiés de Pompéi. Le vertige les gagne.</p>
+              </div>
+            </li>
+            <li class="regards-film">
+              <img class="regards-film-poster" src="https://fr.web.img4.acsta.net/c_310_420/img/3c/93/3c933da5bda613a5d56df5eedc51278e.jpg" width="310" height="420" alt="" loading="lazy" decoding="async">
+              <div class="regards-film-copy">
+                <p class="regards-film-date"><time datetime="2026-11-19T21:00">Jeudi 19 novembre<span>21 h</span></time></p>
+                <h3>Marie Madeleine</h3>
+                <p class="regards-film-director">De Gessica Généus</p>
+                <p class="regards-film-description">À Jacmel, en Haïti, une femme libre croise la route d’un jeune évangéliste dont la foi vacille.</p>
+              </div>
+            </li>
+          </ul>
+          <p class="regards-event-footer"><a href="index.html">Voir le programme du cinéma <span aria-hidden="true">→</span></a></p>
         </div>
       </section>
       <section class="short-film-contest" id="concours-courts-metrages-2027" aria-labelledby="short-film-contest-title">
@@ -499,7 +505,6 @@
     </div>
     <img src="images/concours-courts-metrages-2027.webp?v=20261020-02" width="1414" height="2000" alt="Affiche du concours « Sans chaise » : films de 2 à 3 minutes, moins de 20 ans, en solo ou en équipe. Remise des films le 20 février 2027. Contact : cinecarbonne.festival@gmail.com ou 06 58 85 74 05." loading="lazy" decoding="async">
   </dialog>
-  <script src="js/soiree-italienne.js?v=20261015-02"></script>
   <script src="js/evenement-menu.js?v=20261016-01"></script>
   <script src="js/concours-courts-metrages.js?v=20261020-01"></script>
 </body>

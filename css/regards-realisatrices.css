@@ -1,0 +1,188 @@
+/* Cycle Regards de réalisatrices : bandeau du programme et présentation. */
+.regards-teaser,
+.regards-event-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  background: #332128;
+  color: #fff8f1;
+}
+
+.regards-teaser,
+.regards-teaser:visited {
+  margin: 8px 0 12px;
+  border: 1px solid #8e6572;
+  border-radius: 15px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff8f1;
+}
+
+.regards-teaser-copy,
+.regards-event-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px clamp(18px, 3.4vw, 38px);
+}
+
+.regards-kicker {
+  margin: 0;
+  color: #f6c4aa;
+  font-size: 0.8rem;
+  font-weight: 750;
+  letter-spacing: 0.22em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.regards-teaser-copy strong,
+.regards-event h2 {
+  margin: 0;
+  font-family: "FixelExtraBold", system-ui, sans-serif;
+  font-size: clamp(1.5rem, 3.1vw, 2.65rem);
+  line-height: 1.08;
+}
+
+.regards-teaser-action {
+  width: fit-content;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.regards-teaser-action span { margin-left: 0.22em; }
+
+.regards-teaser:hover .regards-teaser-action,
+.regards-teaser:focus-visible .regards-teaser-action {
+  text-decoration: underline;
+  text-underline-offset: 0.23em;
+}
+
+.regards-teaser:focus-visible,
+.regards-event-footer a:focus-visible {
+  outline: 3px solid #f6c4aa;
+  outline-offset: 3px;
+}
+
+.regards-eyes {
+  contain: size;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 2px;
+  background: #332128;
+}
+
+.regards-eyes img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.regards-eyes img:last-child { object-position: 50% 57%; }
+
+.regards-event {
+  max-width: 936px;
+  margin: 0 auto 32px;
+  scroll-margin-top: 20px;
+}
+
+.regards-event-shell {
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fff9f3;
+  color: #2c2023;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 20%);
+}
+
+.regards-event-intro { padding-block: 24px; }
+
+.regards-event-intro p:last-child {
+  max-width: 51ch;
+  margin: 6px 0 0;
+  color: #f6e5df;
+  line-height: 1.45;
+}
+
+.regards-films {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 2vw, 19px);
+  padding: clamp(12px, 3vw, 24px);
+  margin: 0;
+  list-style: none;
+}
+
+.regards-film {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #decaca;
+  border-radius: 11px;
+  background: #fffdf9;
+}
+
+.regards-film-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 310 / 420;
+  object-fit: cover;
+  background: #e7d8d6;
+}
+
+.regards-film-copy { padding: 12px; }
+
+.regards-film-date {
+  margin: 0 0 5px;
+  color: #852a4e;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: 750;
+}
+
+.regards-film-date time span,
+.regards-film-past .regards-film-date time { display: block; }
+
+.regards-film-past .regards-film-date { color: #645558; }
+
+.regards-film h3 {
+  margin: 0;
+  font-family: "FixelExtraBold", system-ui, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.18;
+}
+
+.regards-film-director {
+  margin: 4px 0 0;
+  font-size: 0.875rem;
+}
+
+.regards-film-description {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.regards-event-footer {
+  margin: 0;
+  padding: 0 clamp(12px, 3vw, 24px) 20px;
+}
+
+.regards-event-footer a,
+.regards-event-footer a:visited {
+  color: #802643;
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
+.regards-event-footer a:focus-visible { outline-color: #802643; }
+
+@media (max-width: 680px) {
+  .regards-teaser,
+  .regards-event-header { grid-template-columns: minmax(0, 1fr); }
+
+  .regards-eyes { height: clamp(70px, 20vw, 104px); }
+
+  .regards-films { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
