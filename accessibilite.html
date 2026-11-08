@@ -8,6 +8,7 @@
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/FixelText-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
+  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-01">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -34,11 +35,12 @@
   <link rel="icon" href="/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/CC-32.png">
   <meta charset="utf-8" />
-  <title>Cin&eacute; Carbonne &mdash; Accessibilit&eacute;</title>
+  <title>Cin&eacute; Carbonne &mdash; Accessibilit&eacute; des s&eacute;ances</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Informations sur les s&eacute;ances accessibles de Cin&eacute; Carbonne : sous-titres sourds et malentendants, son renforc&eacute;, audiodescription et audio-sous-titrage." />
 </head>
 
-<body class="construction-page">
+<body class="access-page">
   <div class="wrap">
     <div class="hero">
       <div class="hero-left">
@@ -60,18 +62,173 @@
         <div class="hero-nav-row">
           <a href="cinema.html" class="hero-link">Le cin&eacute;ma</a>
           <span class="hero-sep">&middot;</span>
-          <a href="accessibilite.html" class="hero-link is-active">Accessibilit&eacute;</a>
+          <a href="accessibilite.html" class="hero-link is-active" aria-current="page">Accessibilit&eacute;</a>
         </div>
       </nav>
     </div>
 
-    <main class="construction-main" role="main">
-      <section class="construction-shell" aria-label="Page en construction">
-        <p class="construction-kicker">Accessibilit&eacute;</p>
-        <h2 class="construction-title">Page en construction</h2>
+    <main class="access-main" role="main">
+      <div class="access-intro">
+        <section class="access-hero" aria-labelledby="access-title">
+          <div class="access-hero-text">
+            <h2 id="access-title">Accessibilit&eacute; des s&eacute;ances</h2>
+            <div class="access-identity-icons" aria-hidden="true">
+              <img src="icons/accessibilite/audition.svg" width="40" height="40" alt="" decoding="async" />
+              <img src="icons/accessibilite/vision-jaune.svg" width="40" height="40" alt="" decoding="async" />
+              <img src="icons/accessibilite/sous-titres.svg" width="40" height="40" alt="" decoding="async" />
+            </div>
+            <p class="access-lead">
+              Certaines s&eacute;ances proposent des aides pour mieux entendre, mieux voir ou mieux suivre les sous-titres.
+              Elles sont indiqu&eacute;es ici quand l'information est connue.
+            </p>
+          </div>
+          <div class="access-hero-note" aria-label="Information importante">
+            <h3>V&eacute;rifiez r&eacute;guli&egrave;rement</h3>
+            <p>
+              Cette page est mise &agrave; jour r&eacute;guli&egrave;rement. Pensez &agrave; la consulter avant votre venue pour voir les s&eacute;ances accessibles ajout&eacute;es au programme.
+            </p>
+          </div>
+        </section>
+
+        <section class="access-steps" aria-labelledby="steps-title">
+          <div class="access-section-heading">
+            <p class="access-kicker">Mode d'emploi</p>
+            <h2 id="steps-title">Comment &ccedil;a se passe&nbsp;?</h2>
+          </div>
+          <div class="access-step-grid">
+            <article class="access-step-card access-step-card--before">
+              <h3>Avant la s&eacute;ance</h3>
+              <p>Consultez la s&eacute;ance indiqu&eacute;e. Si une application est n&eacute;cessaire, venez avec un t&eacute;l&eacute;phone charg&eacute; et des &eacute;couteurs.</p>
+            </article>
+            <article class="access-step-card access-step-card--arrival">
+              <h3>&Agrave; l'arriv&eacute;e</h3>
+              <p>Demandez l'aide souhait&eacute;e &agrave; l'accueil. Pour une premi&egrave;re utilisation, arrivez un peu en avance.</p>
+            </article>
+            <article class="access-step-card access-step-card--during">
+              <h3>Pendant le film</h3>
+              <p>Utilisez le casque, le t&eacute;l&eacute;phone ou l'aide indiqu&eacute;e. L'&eacute;quipe peut vous accompagner avant le d&eacute;but du film.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <p id="access-choice-title" class="access-entry-prompt">Choisissez l'aide qui vous correspond.</p>
+      <nav class="access-entry-grid" aria-labelledby="access-choice-title">
+        <button class="access-entry-card access-entry-card--hearing" type="button" data-access-topic="hearing" aria-controls="access-help-panel" aria-expanded="false">
+          <span class="access-entry-icon" aria-hidden="true">
+            <img src="icons/accessibilite/audition.svg" width="62" height="62" alt="" decoding="async" />
+          </span>
+          <span>J'ai des difficult&eacute;s &agrave; entendre</span>
+        </button>
+        <button class="access-entry-card access-entry-card--seeing" type="button" data-access-topic="seeing" aria-controls="access-help-panel" aria-expanded="false">
+          <span class="access-entry-icon" aria-hidden="true">
+            <img src="icons/accessibilite/vision-jaune.svg" width="62" height="62" alt="" decoding="async" />
+          </span>
+          <span>J'ai des difficult&eacute;s &agrave; voir</span>
+        </button>
+        <button class="access-entry-card access-entry-card--subtitles" type="button" data-access-topic="subtitles" aria-controls="access-help-panel" aria-expanded="false">
+          <span class="access-entry-icon" aria-hidden="true">
+            <img src="icons/accessibilite/sous-titres.svg" width="62" height="62" alt="" decoding="async" />
+          </span>
+          <span>J'ai du mal avec les sous-titres</span>
+        </button>
+      </nav>
+
+      <section id="access-help-panel" class="access-help-panel" role="region" aria-labelledby="access-help-title" hidden>
+        <div class="access-help-header">
+          <div>
+            <p class="access-kicker">Comprendre les aides</p>
+            <h2 id="access-help-title" tabindex="-1">Les dispositifs possibles</h2>
+          </div>
+          <button class="access-help-close" type="button" data-access-help-close>Fermer</button>
+        </div>
+        <div class="access-help-grid">
+          <article class="access-detail-card access-detail-card--hearing" data-access-help="hearing">
+            <div class="access-detail-heading">
+              <div class="access-card-icon" aria-hidden="true">
+                <img src="icons/accessibilite/audition.svg" width="56" height="56" alt="" decoding="async" />
+              </div>
+              <h3>Sous-titres sourds et malentendants</h3>
+            </div>
+            <p>
+              Ces sous-titres reprennent les dialogues et indiquent certains sons utiles, comme une musique ou un bruit important.
+              Ils peuvent aider les personnes sourdes, malentendantes ou toute personne qui suit mieux avec un texte.
+            </p>
+            <p class="access-limit">Limite pratique&nbsp;: ils ne sont disponibles que si le film les propose pour la s&eacute;ance choisie. Code parfois utilis&eacute;&nbsp;: SME.</p>
+          </article>
+
+          <article class="access-detail-card access-detail-card--hearing" data-access-help="hearing">
+            <div class="access-detail-heading">
+              <div class="access-card-icon" aria-hidden="true">
+                <img src="icons/accessibilite/audition.svg" width="56" height="56" alt="" decoding="async" />
+              </div>
+              <h3>Son renforc&eacute;</h3>
+            </div>
+            <p>
+              Le son renforc&eacute; permet d'&eacute;couter le film avec un casque ou une aide compatible, selon le mat&eacute;riel disponible.
+              Il peut aider si le son de la salle ne suffit pas.
+            </p>
+            <p class="access-limit">Limite pratique&nbsp;: le mat&eacute;riel est &agrave; demander &agrave; l'accueil et peut d&eacute;pendre de la s&eacute;ance. Code parfois utilis&eacute;&nbsp;: HI.</p>
+          </article>
+
+          <article class="access-detail-card access-detail-card--seeing" data-access-help="seeing">
+            <div class="access-detail-heading">
+              <div class="access-card-icon" aria-hidden="true">
+                <img src="icons/accessibilite/vision-jaune.svg" width="56" height="56" alt="" decoding="async" />
+              </div>
+              <h3>Audiodescription</h3>
+            </div>
+            <p>
+              L'audiodescription ajoute une voix qui d&eacute;crit les &eacute;l&eacute;ments importants &agrave; l'&eacute;cran.
+              Elle s'adresse surtout aux personnes aveugles ou malvoyantes.
+            </p>
+            <p class="access-limit">Limite pratique&nbsp;: elle n'est pas disponible sur tous les films et peut n&eacute;cessiter un casque ou une application. Code parfois utilis&eacute;&nbsp;: AD.</p>
+          </article>
+
+          <article class="access-detail-card access-detail-card--subtitles" data-access-help="subtitles">
+            <div class="access-detail-heading">
+              <div class="access-card-icon" aria-hidden="true">
+                <img src="icons/accessibilite/sous-titres.svg" width="56" height="56" alt="" decoding="async" />
+              </div>
+              <h3>Audio-sous-titrage par application</h3>
+            </div>
+            <p>
+              L'audio-sous-titrage lit &agrave; voix haute les sous-titres d'un film en version originale.
+              Il peut aider les personnes qui voient difficilement les sous-titres ou qui lisent trop lentement pour suivre le film.
+            </p>
+            <p class="access-limit">Limite pratique&nbsp;: il d&eacute;pend de l'application et du film. Pensez &agrave; charger votre t&eacute;l&eacute;phone et &agrave; prendre des &eacute;couteurs. Code parfois utilis&eacute;&nbsp;: VAST.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="access-section access-section--sessions" aria-labelledby="sessions-title">
+        <div class="access-section-heading">
+          <h2 id="sessions-title">Prochaines s&eacute;ances accessibles</h2>
+        </div>
+        <div id="access-sessions" class="access-session-grid" aria-live="polite" data-access-feed="/.netlify/functions/accessibilite">
+          <noscript>
+            <p class="access-loading">Aucune s&eacute;ance accessible n'est confirm&eacute;e pour le moment. Revenez bient&ocirc;t ou contactez le cin&eacute;ma.</p>
+          </noscript>
+        </div>
+      </section>
+
+      <section class="access-section access-contact" aria-labelledby="contact-title">
+        <div class="access-section-heading">
+          <h2 id="contact-title">Contactez-nous</h2>
+        </div>
+        <p>
+          Tous les films ne proposent pas ces aides. Cette page est mise &agrave; jour quand des s&eacute;ances accessibles sont ajout&eacute;es au programme.
+          En cas de besoin pr&eacute;cis, contactez le cin&eacute;ma ou demandez conseil &agrave; l'accueil aux horaires des s&eacute;ances.
+        </p>
+        <p>
+          <a class="access-contact-link" href="mailto:cinecarbonne@gmail.com">cinecarbonne@gmail.com</a>
+        </p>
       </section>
     </main>
   </div>
+
+  <script src="js/seances.js?v=20261108-01" defer></script>
+  <script src="js/accessibilite-demo.js?v=20261109-01" defer></script>
 </body>
 
 </html>

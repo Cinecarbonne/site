@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64" width="256" height="256">
+  <title>Sous-titres - Lecture en deux temps</title>
+  <g id="sous-titres" fill="#a64100">
+    <path id="ecran-et-texte" d="M15 10H49Q59 10 59 20V44Q59 54 49 54H15Q5 54 5 44V20Q5 10 15 10ZM15 26H27Q29 26 29 28V31Q29 33 27 33H15Q13 33 13 31V28Q13 26 15 26Z M37 26H49Q51 26 51 28V31Q51 33 49 33H37Q35 33 35 31V28Q35 26 37 26Z M15 40H49Q51 40 51 42V45Q51 47 49 47H15Q13 47 13 45V42Q13 40 15 40Z" fill-rule="evenodd" />
+  </g>
+</svg>

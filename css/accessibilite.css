@@ -1,0 +1,792 @@
+/* Page Accessibilite */
+body.access-page {
+  --access-red: var(--brand);
+  --access-ink: #151515;
+  --access-muted: #57504f;
+  --access-paper: #f8f5f2;
+  --access-soft: #eee7e3;
+  --access-line: #d7cdca;
+  --access-focus: #ffd45a;
+  --access-radius: 2rem;
+  --access-radius-soft: 1.5rem;
+  --access-radius-image: 1.25rem;
+  --access-warm-panel: #c8bdb8;
+  --access-shared-panel-bg: var(--access-warm-panel);
+  --access-sessions-bg: #b5aca8;
+  --access-hearing-bg: #d8eee5;
+  --access-hearing-line: #4f9879;
+  --access-hearing-ink: #173d2f;
+  --access-hearing-solid: #507254;
+  --access-hearing-light: #f0f5ec;
+  --access-seeing-bg: #f1ecd6;
+  --access-seeing-line: #b3a36f;
+  --access-seeing-ink: #514717;
+  --access-seeing-solid: #82721f;
+  --access-seeing-light: #fffbed;
+  --access-subtitles-bg: #f5dcc2;
+  --access-subtitles-line: #b87245;
+  --access-subtitles-ink: #57331f;
+  --access-subtitles-solid: #9c603e;
+  --access-subtitles-light: #fff6ed;
+}
+
+body.access-page .access-main {
+  padding: 22px 0 44px;
+}
+
+body.access-page .access-intro {
+  display: grid;
+  gap: 20px;
+  background: #ffffff;
+  color: var(--access-ink);
+  border-radius: var(--access-radius);
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.access-page .access-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(380px, 0.85fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+body.access-page .access-kicker {
+  margin: 0 0 8px;
+  color: #6d5555;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.access-page .access-hero h2,
+body.access-page .access-steps h2,
+body.access-page .access-section h2,
+body.access-page .access-help-panel h2 {
+  margin: 0;
+  color: var(--access-red);
+  font-family: "FixelExtraBold";
+  font-size: 2.55rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+body.access-page .access-lead,
+body.access-page .access-section-heading p,
+body.access-page .access-hero-note p,
+body.access-page .access-step-card p,
+body.access-page .access-detail-card p,
+body.access-page .access-contact p,
+body.access-page .access-session-note,
+body.access-page .access-session-synopsis {
+  margin: 0;
+  color: var(--access-ink);
+  font-family: "InterTight", "Inter Tight", system-ui, sans-serif;
+  font-size: 1.12rem;
+  line-height: 1.42;
+}
+
+body.access-page .access-lead {
+  margin-top: 14px;
+  max-width: 760px;
+  font-size: 1.26rem;
+  line-height: 1.48;
+}
+
+body.access-page .access-identity-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+body.access-page .access-identity-icons img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+body.access-page .access-hero-note {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--access-line);
+  border-radius: var(--access-radius-soft);
+  background: var(--access-shared-panel-bg);
+}
+
+body.access-page .access-hero-note h3,
+body.access-page .access-step-card h3,
+body.access-page .access-detail-card h3,
+body.access-page .access-session-card h3 {
+  margin: 0;
+  font-family: "FixelExtraBold";
+  line-height: 1.08;
+}
+
+body.access-page .access-hero-note h3 {
+  color: #343030;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+
+body.access-page .access-entry-prompt {
+  margin: 22px 0 12px;
+  color: #ffffff;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1.4rem;
+  line-height: 1.3;
+}
+
+body.access-page .access-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 0;
+}
+
+body.access-page .access-entry-card {
+  appearance: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 112px;
+  padding: 18px;
+  border-radius: var(--access-radius);
+  background: #ffffff;
+  color: var(--access-ink);
+  text-decoration: none;
+  text-align: left;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1.5rem;
+  line-height: 1.04;
+}
+
+body.access-page .access-entry-card--hearing {
+  background: var(--access-hearing-solid);
+  color: var(--access-hearing-light);
+  --access-entry-light: var(--access-hearing-light);
+}
+
+body.access-page .access-entry-card--seeing {
+  background: var(--access-seeing-solid);
+  color: var(--access-seeing-light);
+  --access-entry-light: var(--access-seeing-light);
+}
+
+body.access-page .access-entry-card--subtitles {
+  background: var(--access-subtitles-solid);
+  color: var(--access-subtitles-light);
+  --access-entry-light: var(--access-subtitles-light);
+}
+
+body.access-page .access-entry-card:hover,
+body.access-page .access-entry-card.is-active {
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+body.access-page .access-entry-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
+body.access-page .access-help-panel {
+  margin-top: 18px;
+  padding: 22px;
+  border: 1px solid var(--access-line);
+  border-radius: var(--access-radius);
+  background: var(--access-paper);
+  color: var(--access-ink);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+body.access-page .access-help-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+body.access-page .access-help-header h2 {
+  margin-top: 0;
+}
+
+body.access-page .access-help-panel h2 {
+  font-size: 2.35rem;
+}
+
+body.access-page .access-help-panel h2:focus {
+  outline: none;
+}
+
+body.access-page .access-help-close {
+  appearance: none;
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 2px solid #3b3331;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #171717;
+  cursor: pointer;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1.06rem;
+  line-height: 1;
+}
+
+body.access-page .access-help-close:hover,
+body.access-page .access-help-close:focus-visible {
+  background: #171717;
+  color: #ffffff;
+}
+
+body.access-page .access-help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 14px;
+}
+
+body.access-page .access-entry-icon,
+body.access-page .access-card-icon,
+body.access-page .access-badge-icon {
+  display: inline-grid;
+  place-items: center;
+  color: currentColor;
+}
+
+body.access-page .access-entry-icon {
+  width: 62px;
+  height: 62px;
+  box-sizing: border-box;
+  padding: 9px;
+  border-radius: 50%;
+  background: var(--access-entry-light, #ffffff);
+}
+
+body.access-page .access-entry-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+body.access-page .access-section {
+  margin-top: 22px;
+  padding: 22px;
+  border-radius: var(--access-radius);
+  background: var(--access-paper);
+  color: var(--access-ink);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+body.access-page .access-section--sessions {
+  background: var(--access-sessions-bg);
+}
+
+body.access-page .access-section--sessions h2 {
+  color: #972b2a;
+}
+
+body.access-page .access-section-heading {
+  max-width: 840px;
+  margin-bottom: 16px;
+}
+
+body.access-page .access-section--sessions .access-section-heading {
+  margin-bottom: 18px;
+}
+
+body.access-page .access-section-heading p {
+  margin-top: 10px;
+  color: var(--access-muted);
+}
+
+body.access-page .access-session-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px;
+}
+
+body.access-page .access-session-card {
+  display: block;
+  border: 1px solid var(--access-line);
+  border-radius: var(--access-radius);
+  overflow: hidden;
+  background: #ffffff;
+  padding: 16px;
+}
+
+body.access-page .access-session-main {
+  display: grid;
+  grid-template-columns: minmax(100px, 156px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  min-width: 0;
+}
+
+body.access-page .access-session-poster {
+  width: 100%;
+  aspect-ratio: 31 / 42;
+  align-self: start;
+  background: transparent;
+  color: #3a3434;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-align: center;
+  font-family: "BarlowSemiCondensedSemiBold";
+  line-height: 1.1;
+  border-radius: var(--access-radius-image);
+  border: 0;
+}
+
+body.access-page .access-session-poster.has-image {
+  padding: 0;
+  background: transparent;
+}
+
+body.access-page .access-session-poster.is-placeholder {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--access-radius-image);
+  background: #e7dfdc;
+  color: #3a3434;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 0.96rem;
+  line-height: 1.15;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+body.access-page .access-session-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--access-radius-image);
+}
+
+body.access-page .access-session-body {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+body.access-page .access-session-card h3 {
+  color: #171717;
+  font-size: 1.38rem;
+}
+
+body.access-page .access-session-time {
+  margin: 0;
+  color: var(--access-muted);
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1.08rem;
+  line-height: 1.1;
+}
+
+body.access-page .access-film-meta {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  color: var(--access-ink);
+  font-family: "InterTight", "Inter Tight", system-ui, sans-serif;
+}
+
+body.access-page .access-film-infoLine,
+body.access-page .access-film-credit {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+body.access-page .access-film-infoLine {
+  color: #2b2626;
+  font-weight: 700;
+}
+
+body.access-page .access-film-credit {
+  color: #7a5a4e;
+  font-weight: 600;
+}
+
+body.access-page .access-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+body.access-page .access-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f0ece9;
+  color: #171717;
+  border: 2px solid #d8cecb;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 0.98rem;
+  line-height: 1.05;
+}
+
+body.access-page .access-badge--ad {
+  background: var(--access-seeing-bg);
+  border-color: var(--access-seeing-line);
+  color: var(--access-seeing-ink);
+}
+
+body.access-page .access-badge--hi,
+body.access-page .access-badge--sme {
+  background: #d9ece3;
+  border-color: var(--access-hearing-line);
+  color: var(--access-hearing-ink);
+}
+
+body.access-page .access-badge--vast {
+  background: #f2dcc5;
+  border-color: var(--access-subtitles-line);
+  color: var(--access-subtitles-ink);
+}
+
+body.access-page .access-badge-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+body.access-page .access-badge-icon img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+body.access-page .access-session-note {
+  font-size: 1rem;
+  color: #373130;
+}
+
+body.access-page .access-session-synopsis {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e5dcda;
+}
+
+body.access-page .access-session-summary {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+  border-radius: var(--access-radius-image);
+}
+
+body.access-page .access-session-summary::-webkit-details-marker {
+  display: none;
+}
+
+body.access-page .access-session-summary:focus-visible {
+  outline: 3px solid var(--access-focus);
+  outline-offset: 4px;
+}
+
+body.access-page .access-session-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--access-muted);
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+body.access-page .access-session-toggle::before {
+  content: '\25b8';
+}
+
+body.access-page .access-session-details[open] .access-session-toggle::before {
+  content: '\25be';
+}
+
+body.access-page .access-session-summary:hover .access-session-toggle {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body.access-page .access-step-grid,
+body.access-page .access-detail-grid {
+  display: grid;
+  gap: 14px;
+}
+
+body.access-page .access-step-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.access-page .access-detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.access-page .access-step-card,
+body.access-page .access-detail-card {
+  padding: 18px;
+  border: 1px solid var(--access-line);
+  border-radius: var(--access-radius);
+  background: #ffffff;
+}
+
+body.access-page .access-step-card,
+body.access-page .access-detail-card--subtitles {
+  background: var(--access-subtitles-bg);
+  border-color: var(--access-subtitles-line);
+  color: var(--access-subtitles-ink);
+}
+
+body.access-page .access-detail-card--hearing {
+  background: var(--access-hearing-bg);
+  border-color: var(--access-hearing-line);
+  color: var(--access-hearing-ink);
+}
+
+body.access-page .access-detail-card--seeing {
+  background: var(--access-seeing-bg);
+  border-color: var(--access-seeing-line);
+  color: var(--access-seeing-ink);
+}
+
+body.access-page .access-card-icon {
+  width: 56px;
+  height: 56px;
+}
+
+body.access-page .access-card-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+body.access-page .access-step-card h3 {
+  color: currentColor;
+  margin-bottom: 8px;
+  font-size: 1.45rem;
+}
+
+body.access-page .access-detail-card {
+  scroll-margin-top: 18px;
+}
+
+body.access-page .access-detail-heading {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+body.access-page .access-detail-heading h3 {
+  min-width: 0;
+  margin: 0;
+  color: currentColor;
+  font-size: 1.75rem;
+  line-height: 1.16;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+
+body.access-page .access-detail-card p {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+body.access-page .access-detail-card p + p {
+  margin-top: 10px;
+}
+
+body.access-page .access-detail-card .access-limit {
+  color: var(--access-muted);
+  font-size: 1.15rem;
+}
+
+body.access-page .access-contact {
+  background: var(--access-shared-panel-bg);
+}
+
+body.access-page .access-contact p + p {
+  margin-top: 12px;
+}
+
+body.access-page .access-contact-link {
+  color: #6d1d1d;
+  font-family: "BarlowSemiCondensedSemiBold";
+  font-size: 1.15rem;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+body.access-page .access-loading {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid var(--access-line);
+  border-radius: var(--access-radius-soft);
+  background: #ffffff;
+  color: var(--access-ink);
+  font-weight: 700;
+}
+
+body.access-page .access-loading--error {
+  border-color: #d39b9b;
+  color: #6d1d1d;
+}
+
+body.access-page a:focus,
+body.access-page a:focus-visible,
+body.access-page button:focus,
+body.access-page button:focus-visible {
+  outline: 3px solid var(--access-focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 920px) {
+  body.access-page .access-hero,
+  body.access-page .access-entry-grid,
+  body.access-page .access-step-grid,
+  body.access-page .access-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1100px) {
+  body.access-page .access-session-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  body.access-page .access-session-main {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  body.access-page .access-session-main {
+    grid-template-columns: 1fr;
+  }
+
+  body.access-page .access-session-poster {
+    width: 140px;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  body.access-page .access-main {
+    padding-top: 16px;
+  }
+
+  body.access-page .access-intro,
+  body.access-page .access-section,
+  body.access-page .access-help-panel {
+    padding: 18px;
+  }
+
+  body.access-page .access-hero h2,
+  body.access-page .access-steps h2,
+  body.access-page .access-section h2,
+  body.access-page .access-help-panel h2 {
+    font-size: 2rem;
+  }
+
+  body.access-page .access-lead,
+  body.access-page .access-section-heading p,
+  body.access-page .access-hero-note p,
+  body.access-page .access-step-card p,
+  body.access-page .access-contact p,
+  body.access-page .access-session-synopsis {
+    font-size: 1.04rem;
+  }
+
+  body.access-page .access-entry-card {
+    grid-template-columns: 50px minmax(0, 1fr);
+    min-height: 92px;
+    padding: 14px;
+    font-size: 1.28rem;
+  }
+
+  body.access-page .access-entry-prompt {
+    font-size: 1.25rem;
+  }
+
+  body.access-page .access-detail-card {
+    padding: 16px;
+  }
+
+  body.access-page .access-detail-heading {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  body.access-page .access-card-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  body.access-page .access-detail-heading h3 {
+    font-size: 1.55rem;
+  }
+
+  body.access-page .access-detail-card p {
+    font-size: 1.2rem;
+  }
+
+  body.access-page .access-lead {
+    font-size: 1.14rem;
+    line-height: 1.45;
+  }
+
+  body.access-page .access-entry-icon {
+    width: 50px;
+    height: 50px;
+    padding: 7px;
+  }
+
+  body.access-page .access-help-header {
+    gap: 12px;
+  }
+
+  body.access-page .access-help-close {
+    min-height: 38px;
+    padding: 7px 12px;
+    font-size: 0.98rem;
+  }
+
+  body.access-page .access-session-card {
+    padding: 12px;
+  }
+
+  body.access-page .access-session-card h3 {
+    font-size: 1.36rem;
+  }
+
+  body.access-page .access-badge {
+    font-size: 0.95rem;
+  }
+}
