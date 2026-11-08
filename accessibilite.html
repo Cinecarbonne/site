@@ -8,7 +8,7 @@
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/FixelText-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
-  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-01">
+  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-02">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -227,8 +227,16 @@
     </main>
   </div>
 
+  <dialog id="access-device-dialog" class="access-device-dialog" aria-labelledby="access-device-title">
+    <button class="access-device-close" type="button" aria-label="Fermer" autofocus>&times;</button>
+    <h2 id="access-device-title"></h2>
+    <p class="access-device-description"></p>
+    <h3>Comment s'y prendre&nbsp;?</h3>
+    <p class="access-device-instructions"></p>
+    <a class="access-device-guide" hidden></a>
+  </dialog>
   <script src="js/seances.js?v=20261108-01" defer></script>
-  <script src="js/accessibilite-demo.js?v=20261109-01" defer></script>
+  <script src="js/accessibilite-demo.js?v=20261109-02" defer></script>
 </body>
 
 </html>

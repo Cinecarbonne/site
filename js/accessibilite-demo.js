@@ -4,8 +4,12 @@
   var container = document.getElementById('access-sessions');
   if (!container) return;
   var loadedItems = [];
+  var hasLoaded = false;
   var demo = new URLSearchParams(window.location.search).get('demo') === '1';
   var feedURL = container.getAttribute('data-access-feed') || './data/accessibilite.json';
+  var dialog = document.getElementById('access-device-dialog');
+  var dialogTrigger = null;
+  var renderPending = false;
 
   var DEVICE_LABELS = {
     ad: {
@@ -143,7 +147,7 @@
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && !panel.hidden) {
+      if (event.key === 'Escape' && !dialog.open && !panel.hidden) {
         closeHelp(true);
       }
     });
@@ -184,16 +188,22 @@
       if (!device) return;
 
       var item = document.createElement('li');
-      item.className = 'access-badge access-badge--' + code;
       var application = (applications || {})[code];
       var publicLabel = device.label + (application ? ' avec ' + application : '');
-      item.setAttribute('aria-label', publicLabel);
-
-      item.appendChild(createIcon(device.icon));
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'access-badge access-badge--' + code;
+      button.setAttribute('aria-haspopup', 'dialog');
+      button.dataset.action = code;
+      button.appendChild(createIcon(device.icon));
 
       var label = document.createElement('span');
       label.textContent = publicLabel;
-      item.appendChild(label);
+      button.appendChild(label);
+      button.addEventListener('click', function () {
+        openDeviceDialog(button, code, application, publicLabel);
+      });
+      item.appendChild(button);
 
       list.appendChild(item);
     });
@@ -202,8 +212,9 @@
   }
 
   function appendMeta(parent, item) {
-    var infoParts = [item.version, item.duree, item.genre].filter(Boolean);
-    var hasMeta = infoParts.length || item.realisateur;
+    var infoParts = [item.version, item.duree, item.pays, item.genre].filter(Boolean);
+    var cast = String(item.acteurs_principaux || '').split(/\s*[,;]\s*/).filter(Boolean).slice(0, 3);
+    var hasMeta = infoParts.length || item.realisateur || cast.length;
     if (!hasMeta) return;
 
     var meta = document.createElement('div');
@@ -223,6 +234,12 @@
       meta.appendChild(credit);
     }
 
+    if (cast.length) {
+      var actors = document.createElement('p');
+      actors.className = 'access-film-cast';
+      actors.textContent = 'Avec ' + cast.join(', ');
+      meta.appendChild(actors);
+    }
     parent.appendChild(meta);
   }
 
@@ -238,9 +255,175 @@
     return String(item.synopsis || item.resume || '').trim();
   }
 
+  function openDeviceDialog(button, code, application, label) {
+    if (dialog.open) {
+      if (dialogTrigger === button) dialog.close();
+      return;
+    }
+    var help = {
+      sme: ['Ces sous-titres affichent les dialogues et les sons importants du film.',
+        'Choisissez la s\u00e9ance indiqu\u00e9e : les sous-titres sont visibles \u00e0 l\u2019\u00e9cran, sans mat\u00e9riel \u00e0 demander.'],
+      hi: ['Le son renforc\u00e9 rend les dialogues plus faciles \u00e0 entendre.',
+        '\u00c0 votre arriv\u00e9e, demandez le mat\u00e9riel de son renforc\u00e9 \u00e0 l\u2019accueil. L\u2019\u00e9quipe vous aidera \u00e0 l\u2019utiliser avant le film.'],
+      ad: ['Une voix d\u00e9crit les \u00e9l\u00e9ments importants de l\u2019image entre les dialogues.',
+        '\u00c0 votre arriv\u00e9e, demandez le mat\u00e9riel d\u2019audiodescription \u00e0 l\u2019accueil. L\u2019\u00e9quipe vous aidera \u00e0 l\u2019utiliser avant le film.'],
+      vast: ['Les sous-titres du film en version originale sont lus \u00e0 voix haute.',
+        'Pr\u00e9parez la piste du film dans l\u2019application indiqu\u00e9e et apportez des \u00e9couteurs. Lancez la synchronisation au d\u00e9but du film.']
+    };
+    var copy = help[code].slice();
+    var guide = dialog.querySelector('.access-device-guide');
+    guide.hidden = true;
+    if (code === 'ad' && application === 'La Bavarde') {
+      copy[1] = 'Installez La Bavarde et t\u00e9l\u00e9chargez l\u2019audiodescription du film avant de venir. Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs. Au d\u00e9but du film, lancez la synchronisation dans l\u2019application.';
+      guide.href = 'https://labavarde.fr/accueil-2/';
+      guide.textContent = 'Mode d\u2019emploi de La Bavarde';
+      guide.hidden = false;
+    } else if (code === 'vast' && application === 'Tout en Parlant') {
+      copy[1] = 'Suivez le guide de Tout en Parlant pour installer l\u2019application et t\u00e9l\u00e9charger la piste du film avant la s\u00e9ance. Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs, puis synchronisez la piste au d\u00e9but du film.';
+      guide.href = 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast';
+      guide.textContent = 'Mode d\u2019emploi de Tout en Parlant';
+      guide.hidden = false;
+    }
+    dialog.querySelector('h2').textContent = label;
+    dialog.querySelector('.access-device-description').textContent = copy[0];
+    dialog.querySelector('.access-device-instructions').textContent = copy[1];
+    dialogTrigger = button;
+    dialog.showModal();
+  }
+
+  function publicURL(value) {
+    if (typeof value !== 'string' || !value.trim()) return null;
+    try {
+      var url = new URL(value, document.baseURI);
+      return ['http:', 'https:'].includes(url.protocol) ? url : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function allocineURL(item) {
+    return publicURL(item.allocine_url || item.AllocineURL || item.allocine ||
+      item.url_allocine || item.AlloCine || item.allocineUrl)?.href || '';
+  }
+
+  function photoURLs(item) {
+    var poster = publicURL(item.affiche);
+    return Array.from(new Set((Array.isArray(item.backdrops) ? item.backdrops : [])
+      .map(publicURL).filter(function (url) {
+        return url && (!poster || url.pathname.split('/').pop() !== poster.pathname.split('/').pop());
+      }).map(function (url) { return url.href; }))).slice(0, 5);
+  }
+
+  function trailerSource(value) {
+    var url = publicURL(value);
+    if (!url) return null;
+    var host = url.hostname;
+    var id;
+    if (['www.youtube.com', 'youtube.com', 'youtu.be'].includes(host)) {
+      id = url.searchParams.get('v') || url.pathname.split('/').pop();
+      if (/^[\w-]{11}$/.test(id)) return { embed: 'https://www.youtube.com/embed/' + id + '?rel=0' };
+    }
+    if (['vimeo.com', 'player.vimeo.com'].includes(host)) {
+      id = url.pathname.split('/').pop();
+      if (/^\d+$/.test(id)) return { embed: 'https://player.vimeo.com/video/' + id };
+    }
+    if (['www.dailymotion.com', 'dailymotion.com', 'dai.ly'].includes(host)) {
+      id = url.pathname.split('/').pop();
+      if (/^[a-zA-Z0-9]+$/.test(id)) return { embed: 'https://www.dailymotion.com/embed/video/' + id };
+    }
+    if (/\.(mp4|m3u8)$/i.test(url.pathname)) {
+      return { video: url.href, type: /\.m3u8$/i.test(url.pathname) ? 'application/x-mpegURL' : 'video/mp4' };
+    }
+    return null;
+  }
+
+  function appendFilmDetails(parent, item) {
+    var synopsis = getSynopsis(item);
+    if (synopsis) {
+      var paragraph = document.createElement('p');
+      paragraph.className = 'access-session-synopsis';
+      paragraph.textContent = synopsis;
+      parent.appendChild(paragraph);
+    }
+    var allocine = allocineURL(item);
+    if (allocine) {
+      var link = document.createElement('a');
+      link.className = 'allocineLink';
+      link.href = allocine;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = item.titre + ' sur Allocin\u00e9';
+      parent.appendChild(link);
+    }
+    var photos = photoURLs(item);
+    if (photos.length) {
+      var gallery = document.createElement('div');
+      gallery.className = 'access-film-gallery';
+      var image = document.createElement('img');
+      image.loading = 'lazy';
+      function selectPhoto(index) {
+        image.src = photos[index];
+        image.alt = 'Photo ' + (index + 1) + ' du film ' + item.titre;
+      }
+      selectPhoto(0);
+      gallery.appendChild(image);
+      if (photos.length > 1) {
+        var strip = document.createElement('div');
+        strip.className = 'thumb-strip thumb-strip--' + photos.length;
+        photos.forEach(function (url, index) {
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'thumb';
+          button.setAttribute('aria-label', 'Photo ' + (index + 1) + ' sur ' + photos.length);
+          button.setAttribute('aria-current', String(index === 0));
+          var thumb = document.createElement('img');
+          thumb.src = url.replace('/w780/', '/w300/');
+          thumb.alt = '';
+          thumb.loading = 'lazy';
+          button.appendChild(thumb);
+          button.addEventListener('click', function () {
+            selectPhoto(index);
+            Array.from(strip.children).forEach(function (entry) {
+              entry.setAttribute('aria-current', String(entry === button));
+            });
+          });
+          strip.appendChild(button);
+        });
+        gallery.appendChild(strip);
+      }
+      parent.appendChild(gallery);
+    }
+    var trailer = trailerSource(item.trailer_url);
+    if (trailer) {
+      var player = document.createElement(trailer.embed ? 'iframe' : 'video');
+      var label = 'Bande-annonce : ' + item.titre;
+      if (trailer.embed) {
+        player.src = trailer.embed;
+        player.title = label;
+        player.loading = 'lazy';
+        player.allowFullscreen = true;
+      } else {
+        player.controls = true;
+        player.preload = 'metadata';
+        player.setAttribute('aria-label', label);
+        var source = document.createElement('source');
+        source.src = trailer.video;
+        source.type = trailer.type;
+        player.appendChild(source);
+      }
+      player.className = 'access-film-trailer';
+      parent.appendChild(player);
+    }
+  }
+
+  function pauseTrailers(parent) {
+    parent.querySelectorAll('video').forEach(function (video) { video.pause(); });
+  }
+
   function createSessionCard(item, isOpen) {
     var card = document.createElement('article');
     card.className = 'access-session-card';
+    card.dataset.sessionKey = item.programme_key || programmeKey(item);
 
     var main = document.createElement('div');
     main.className = 'access-session-main';
@@ -271,37 +454,49 @@
     }
 
     main.appendChild(body);
+    card.appendChild(main);
 
-    var synopsisText = getSynopsis(item);
-    if (synopsisText) {
+    if (getSynopsis(item) || allocineURL(item) || photoURLs(item).length || trailerSource(item.trailer_url)) {
       var details = document.createElement('details');
       details.className = 'access-session-details';
-      details.setAttribute('data-session-key', item.programme_key || programmeKey(item));
-      details.open = Boolean(isOpen);
+      details.setAttribute('name', 'access-film');
 
       var summary = document.createElement('summary');
       summary.className = 'access-session-summary';
-
-      var toggle = document.createElement('span');
-      toggle.className = 'access-session-toggle';
-      toggle.textContent = 'Synopsis';
-      body.appendChild(toggle);
-      summary.appendChild(main);
+      summary.dataset.action = 'film';
+      summary.setAttribute('aria-label', 'D\u00e9tails du film : ' + item.titre);
       details.appendChild(summary);
 
-      var synopsis = document.createElement('p');
-      synopsis.className = 'access-session-synopsis';
-      synopsis.textContent = synopsisText;
-      details.appendChild(synopsis);
+      var content = document.createElement('div');
+      content.className = 'access-session-expanded';
+      details.appendChild(content);
+      details.addEventListener('toggle', function () {
+        if (details.open) {
+          container.querySelectorAll('.access-session-details[open]').forEach(function (other) {
+            if (other !== details) other.open = false;
+          });
+          if (!content.hasChildNodes()) appendFilmDetails(content, item);
+        } else {
+          pauseTrailers(content);
+          content.replaceChildren();
+        }
+      });
       card.appendChild(details);
-    } else {
-      card.appendChild(main);
+      main.classList.add('is-expandable');
+      main.addEventListener('click', function (event) {
+        if (!event.target.closest('button')) {
+          summary.focus({ preventScroll: true });
+          summary.click();
+        }
+      });
+      if (isOpen) details.open = true;
     }
 
     return card;
   }
 
   function renderMessage(message, isError) {
+    pauseTrailers(container);
     container.textContent = '';
     var feedback = document.createElement('p');
     feedback.className = 'access-loading' + (isError ? ' access-loading--error' : '');
@@ -310,13 +505,16 @@
   }
 
   function render(items) {
-    var openKeys = new Set(Array.prototype.map.call(
-      container.querySelectorAll('.access-session-details[open]'),
-      function (details) { return details.getAttribute('data-session-key'); }
-    ));
-    var activeDetails = document.activeElement && document.activeElement.closest('.access-session-details');
-    var focusedKey = activeDetails && container.contains(activeDetails)
-      ? activeDetails.getAttribute('data-session-key') : null;
+    if (dialog.open) {
+      renderPending = true;
+      return;
+    }
+    var opened = container.querySelector('.access-session-details[open]');
+    var openKey = opened && opened.closest('.access-session-card').dataset.sessionKey;
+    var active = document.activeElement;
+    var activeCard = active && active.closest('.access-session-card');
+    var focusedKey = activeCard && container.contains(activeCard) ? activeCard.dataset.sessionKey : null;
+    pauseTrailers(container);
     container.textContent = '';
     var sessionItems = window.CineSeances.upcoming(items).filter(function (item) {
       return ['confirme', 'selon_application'].indexOf(item.statut) !== -1
@@ -331,11 +529,13 @@
 
     sessionItems.forEach(function (item) {
       var key = item.programme_key || programmeKey(item);
-      var card = createSessionCard(item, openKeys.has(key));
+      var card = createSessionCard(item, key === openKey);
       container.appendChild(card);
       if (key === focusedKey) {
-        var summary = card.querySelector('summary');
-        if (summary) summary.focus({ preventScroll: true });
+        var action = Array.from(card.querySelectorAll('[data-action]')).find(function (el) {
+          return el.dataset.action === active.dataset.action;
+        });
+        if (action) action.focus({ preventScroll: true });
       }
     });
   }
@@ -375,21 +575,39 @@
               titre: current.titre, date: current.date, heure: current.heure,
               affiche: current.affiche_url, synopsis: current.synopsis,
               realisateur: current.realisateur, genre: current.genres,
-              duree: current.duree_min ? current.duree_min + ' min' : ''
+              duree: current.duree_min ? current.duree_min + ' min' : '',
+              pays: current.pays, acteurs_principaux: current.acteurs_principaux,
+              allocine_url: allocineURL(current), backdrops: current.backdrops,
+              trailer_url: current.trailer_url
             });
           });
         });
     request.then(function (items) {
       if (!Array.isArray(items)) throw new Error('Invalid sessions');
+      if (hasLoaded && JSON.stringify(items) === JSON.stringify(loadedItems)) return;
       loadedItems = items;
+      hasLoaded = true;
       render(loadedItems);
     }).catch(function () {
       // No fallback to fabricated demo data. A failed refresh keeps the last valid list.
-      if (loadedItems.length) render(loadedItems);
-      else renderMessage(EMPTY_MESSAGE, true);
+      if (!hasLoaded) renderMessage(EMPTY_MESSAGE, true);
     });
   }
 
+  dialog.querySelector('button').addEventListener('click', function () { dialog.close(); });
+  dialog.addEventListener('click', function (event) {
+    var rect = dialog.getBoundingClientRect();
+    if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right ||
+        event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
+  });
+  dialog.addEventListener('close', function () {
+    if (dialogTrigger?.isConnected) dialogTrigger.focus({ preventScroll: true });
+    dialogTrigger = null;
+    if (renderPending) {
+      renderPending = false;
+      render(loadedItems);
+    }
+  });
   load();
   window.CineSeances.watchDayChange(function () { render(loadedItems); });
   window.setInterval(load, 5 * 60 * 1000);
