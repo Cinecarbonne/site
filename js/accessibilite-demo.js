@@ -260,30 +260,47 @@
       if (dialogTrigger === button) dialog.close();
       return;
     }
+    var bring = 'Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs. ';
+    var welcome = 'Si besoin, demandez de l\u2019aide \u00e0 l\u2019accueil avant le film.';
+    var prepareRoom = bring + 'Contactez le cin\u00e9ma avant votre venue pour obtenir le bon lien et installer l\u2019application utilis\u00e9e en salle.';
     var help = {
       sme: ['Ces sous-titres affichent les dialogues et les sons importants du film.',
-        'Choisissez la s\u00e9ance indiqu\u00e9e : les sous-titres sont visibles \u00e0 l\u2019\u00e9cran, sans mat\u00e9riel \u00e0 demander.'],
-      hi: ['Le son renforc\u00e9 rend les dialogues plus faciles \u00e0 entendre.',
-        '\u00c0 votre arriv\u00e9e, demandez le mat\u00e9riel de son renforc\u00e9 \u00e0 l\u2019accueil. L\u2019\u00e9quipe vous aidera \u00e0 l\u2019utiliser avant le film.'],
-      ad: ['Une voix d\u00e9crit les \u00e9l\u00e9ments importants de l\u2019image entre les dialogues.',
-        '\u00c0 votre arriv\u00e9e, demandez le mat\u00e9riel d\u2019audiodescription \u00e0 l\u2019accueil. L\u2019\u00e9quipe vous aidera \u00e0 l\u2019utiliser avant le film.'],
+        'Les sous-titres sont projet\u00e9s \u00e0 l\u2019\u00e9cran pendant la s\u00e9ance. Aucune application, aucun t\u00e9l\u00e9phone ni \u00e9couteurs ne sont n\u00e9cessaires.'],
+      hi: ['Le son renforc\u00e9 rend les dialogues plus faciles \u00e0 entendre.', prepareRoom],
+      ad: ['Une voix d\u00e9crit les \u00e9l\u00e9ments visuels du film, comme les gestes, les expressions et les d\u00e9cors, dans les moments o\u00f9 elle ne g\u00eane pas les dialogues.', prepareRoom],
       vast: ['Les sous-titres du film en version originale sont lus \u00e0 voix haute.',
         'Pr\u00e9parez la piste du film dans l\u2019application indiqu\u00e9e et apportez des \u00e9couteurs. Lancez la synchronisation au d\u00e9but du film.']
     };
     var copy = help[code].slice();
     var guide = dialog.querySelector('.access-device-guide');
-    guide.hidden = true;
-    if (code === 'ad' && application === 'La Bavarde') {
-      copy[1] = 'Installez La Bavarde et t\u00e9l\u00e9chargez l\u2019audiodescription du film avant de venir. Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs. Au d\u00e9but du film, lancez la synchronisation dans l\u2019application.';
-      guide.href = 'https://labavarde.fr/accueil-2/';
-      guide.textContent = 'Mode d\u2019emploi de La Bavarde';
-      guide.hidden = false;
-    } else if (code === 'vast' && application === 'Tout en Parlant') {
-      copy[1] = 'Suivez le guide de Tout en Parlant pour installer l\u2019application et t\u00e9l\u00e9charger la piste du film avant la s\u00e9ance. Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs, puis synchronisez la piste au d\u00e9but du film.';
-      guide.href = 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast';
-      guide.textContent = 'Mode d\u2019emploi de Tout en Parlant';
-      guide.hidden = false;
+    var qr = guide.querySelector('img');
+    var room = dialog.querySelector('.access-device-room');
+    var inRoom = code === 'sme' ? '' : welcome;
+    var download = null;
+    if ((code === 'ad' || code === 'hi') && !application) {
+      inRoom = 'Connectez votre t\u00e9l\u00e9phone au Wi-Fi d\u00e9di\u00e9 de la salle. Ouvrez l\u2019application et s\u00e9lectionnez la piste de ' +
+        (code === 'ad' ? 'l\u2019audiodescription' : 'son renforc\u00e9') + '. ' + welcome;
     }
+    if (code === 'ad' && application === 'La Bavarde') {
+      copy[1] = bring + 'Installez La Bavarde et t\u00e9l\u00e9chargez chez vous la piste du film en version cin\u00e9ma.';
+      download = ['la-bavarde', 'https://labavarde.fr/', 'T\u00e9l\u00e9charger La Bavarde'];
+      inRoom = 'Autorisez l\u2019acc\u00e8s au micro pour que l\u2019application puisse se caler sur le son du film. Ouvrez la piste et lancez la synchronisation au d\u00e9but du film. ' + welcome;
+    } else if (code === 'vast' && application === 'Tout en Parlant') {
+      copy[1] = bring + 'Consultez le guide de Tout en Parlant : installez MovieReading ou La Bavarde, selon l\u2019application qui propose la piste du film. T\u00e9l\u00e9chargez cette piste avant de venir.';
+      download = ['tout-en-parlant', 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast', 'Choisir et t\u00e9l\u00e9charger l\u2019application'];
+      inRoom = 'Ouvrez la piste t\u00e9l\u00e9charg\u00e9e et lancez la synchronisation au d\u00e9but du film. ' + welcome;
+    }
+    guide.hidden = !download;
+    if (download) {
+      qr.src = 'icons/accessibilite/qr-' + download[0] + '.svg';
+      guide.href = download[1];
+      guide.querySelector('span').textContent = download[2];
+    } else {
+      qr.removeAttribute('src');
+      guide.removeAttribute('href');
+    }
+    room.hidden = !inRoom;
+    room.querySelector('p').textContent = inRoom;
     dialog.querySelector('h2').textContent = label;
     dialog.querySelector('.access-device-description').textContent = copy[0];
     dialog.querySelector('.access-device-instructions').textContent = copy[1];

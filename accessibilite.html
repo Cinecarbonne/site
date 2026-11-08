@@ -8,7 +8,7 @@
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/FixelText-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
-  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-02">
+  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-03">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -98,15 +98,15 @@
           <div class="access-step-grid">
             <article class="access-step-card access-step-card--before">
               <h3>Avant la s&eacute;ance</h3>
-              <p>Consultez la s&eacute;ance indiqu&eacute;e. Si une application est n&eacute;cessaire, venez avec un t&eacute;l&eacute;phone charg&eacute; et des &eacute;couteurs.</p>
+              <p>Pour une aide audio, installez l'application indiqu&eacute;e avant de venir. Apportez votre t&eacute;l&eacute;phone charg&eacute; et vos &eacute;couteurs. Les sous-titres &agrave; l'&eacute;cran ne demandent aucun appareil.</p>
             </article>
             <article class="access-step-card access-step-card--arrival">
               <h3>&Agrave; l'arriv&eacute;e</h3>
-              <p>Demandez l'aide souhait&eacute;e &agrave; l'accueil. Pour une premi&egrave;re utilisation, arrivez un peu en avance.</p>
+              <p>Si vous avez besoin d'aide pour utiliser l'application, demandez &agrave; l'accueil. Pour une premi&egrave;re utilisation, arrivez un peu en avance.</p>
             </article>
             <article class="access-step-card access-step-card--during">
               <h3>Pendant le film</h3>
-              <p>Utilisez le casque, le t&eacute;l&eacute;phone ou l'aide indiqu&eacute;e. L'&eacute;quipe peut vous accompagner avant le d&eacute;but du film.</p>
+              <p>Pour une aide audio, &eacute;coutez la piste avec votre t&eacute;l&eacute;phone et vos &eacute;couteurs. Suivez les indications de la s&eacute;ance pour la lancer.</p>
             </article>
           </div>
         </section>
@@ -165,10 +165,10 @@
               <h3>Son renforc&eacute;</h3>
             </div>
             <p>
-              Le son renforc&eacute; permet d'&eacute;couter le film avec un casque ou une aide compatible, selon le mat&eacute;riel disponible.
+              Le son renforc&eacute; permet d'&eacute;couter une piste qui met les dialogues en valeur, avec votre t&eacute;l&eacute;phone et vos &eacute;couteurs.
               Il peut aider si le son de la salle ne suffit pas.
             </p>
-            <p class="access-limit">Limite pratique&nbsp;: le mat&eacute;riel est &agrave; demander &agrave; l'accueil et peut d&eacute;pendre de la s&eacute;ance. Code parfois utilis&eacute;&nbsp;: HI.</p>
+            <p class="access-limit">Pr&eacute;parez l'application avant de venir. L'accueil peut vous aider &agrave; l'utiliser. Code parfois utilis&eacute;&nbsp;: HI.</p>
           </article>
 
           <article class="access-detail-card access-detail-card--seeing" data-access-help="seeing">
@@ -182,7 +182,7 @@
               L'audiodescription ajoute une voix qui d&eacute;crit les &eacute;l&eacute;ments importants &agrave; l'&eacute;cran.
               Elle s'adresse surtout aux personnes aveugles ou malvoyantes.
             </p>
-            <p class="access-limit">Limite pratique&nbsp;: elle n'est pas disponible sur tous les films et peut n&eacute;cessiter un casque ou une application. Code parfois utilis&eacute;&nbsp;: AD.</p>
+            <p class="access-limit">Pour &eacute;couter l'audiodescription, pr&eacute;parez l'application indiqu&eacute;e et apportez votre t&eacute;l&eacute;phone et vos &eacute;couteurs. Code parfois utilis&eacute;&nbsp;: AD.</p>
           </article>
 
           <article class="access-detail-card access-detail-card--subtitles" data-access-help="subtitles">
@@ -233,10 +233,17 @@
     <p class="access-device-description"></p>
     <h3>Comment s'y prendre&nbsp;?</h3>
     <p class="access-device-instructions"></p>
-    <a class="access-device-guide" hidden></a>
+    <a class="access-device-guide" hidden>
+      <img width="128" height="128" alt="">
+      <span></span>
+    </a>
+    <div class="access-device-room" hidden>
+      <h3>En salle</h3>
+      <p></p>
+    </div>
   </dialog>
   <script src="js/seances.js?v=20261108-01" defer></script>
-  <script src="js/accessibilite-demo.js?v=20261109-02" defer></script>
+  <script src="js/accessibilite-demo.js?v=20261109-03" defer></script>
 </body>
 
 </html>
