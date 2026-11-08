@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suivi ingest | Cin&eacute; Carbonne</title>
+  <meta name="description" content="Pr&eacute;sentation de l'application locale de suivi ingest utilis&eacute;e par l'&eacute;quipe de Cin&eacute; Carbonne.">
+  <link rel="canonical" href="https://cinecarbonne.fr/suivi-ingest/">
+  <link rel="icon" href="../favicon.ico">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fff; color: #202024; font: 1.125rem/1.65 system-ui, sans-serif; letter-spacing: 0; }
+    .wrap { max-width: 58rem; margin-inline: auto; padding-inline: 1.5rem; }
+    header { border-bottom: 1px solid #d5d5d8; }
+    .brand { display: inline-block; margin-block: 1.5rem 1rem; }
+    .brand img { display: block; width: 108px; height: auto; }
+    nav { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; padding-bottom: 1.25rem; }
+    a { color: #861334; text-underline-offset: .2em; overflow-wrap: anywhere; }
+    nav a { font-weight: 600; }
+    nav a[aria-current="page"] { color: #202024; text-decoration-thickness: 3px; }
+    a:focus-visible { outline: 3px solid #861334; outline-offset: 4px; }
+    .skip { position: absolute; left: 1rem; top: -8rem; padding: .75rem; background: #fff; z-index: 1; }
+    .skip:focus { top: 1rem; }
+    main { padding-block: 2rem 3rem; overflow-wrap: break-word; }
+    h1 { margin: 0 0 1rem; font-size: 2rem; line-height: 1.25; }
+    h2 { margin: 2rem 0 .6rem; font-size: 1.375rem; line-height: 1.35; }
+    p { margin: .75rem 0; }
+    .lead { font-size: 1.25rem; }
+    ul, ol { padding-left: 1.4rem; }
+    li + li { margin-top: .5rem; }
+    .note { margin-block: 1.5rem; padding: 1rem 1.25rem; border-left: 4px solid #861334; background: #f5f5f6; }
+    footer { padding-block: 1.25rem 2rem; border-top: 1px solid #d5d5d8; color: #555860; font-size: 1rem; }
+    @media (max-width: 32rem) { .wrap { padding-inline: 1.25rem; } main { padding-top: 1.5rem; } }
+    @media print { .skip, nav { display: none; } .wrap { max-width: none; padding: 0; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="../index.html"><img src="../images/cinecarbonne-1.png" width="343" height="275" alt="Cin&eacute; Carbonne, accueil du site"></a>
+      <nav aria-label="Documentation Suivi ingest">
+        <a href="index.html" aria-current="page">Pr&eacute;sentation</a>
+        <a href="confidentialite.html">Confidentialit&eacute;</a>
+        <a href="conditions.html">Utilisation</a>
+      </nav>
+    </div>
+  </header>
+  <main id="contenu" class="wrap">
+    <h1>Suivi ingest</h1>
+    <p class="lead">L'application locale de l'&eacute;quipe de Cin&eacute; Carbonne pour rep&eacute;rer les aides &agrave; l'accessibilit&eacute; dans les copies de films pr&eacute;sentes au cin&eacute;ma et compl&eacute;ter son tableau de suivi.</p>
+    <p>Utilis&eacute;e sur le PC de la cabine, elle consulte en lecture seule l'inventaire du serveur de cin&eacute;ma, puis le suivi ingest dans Google Sheets. Elle rapproche les copies des s&eacute;ances du tableau et propose ou renseigne les cases admissibles.</p>
+
+    <h2>Les informations report&eacute;es</h2>
+    <ul>
+      <li><strong>OCAP :</strong> disponibilit&eacute; locale d'une copie avec sous-titres affich&eacute;s &agrave; l'&eacute;cran.</li>
+      <li><strong>HI :</strong> pr&eacute;sence d&eacute;clar&eacute;e d'un canal audio d'aide &agrave; l'audition sur la copie identifi&eacute;e.</li>
+      <li><strong>VI :</strong> pr&eacute;sence d&eacute;clar&eacute;e d'un canal audio d'aide &agrave; la vision sur la copie identifi&eacute;e.</li>
+    </ul>
+    <p>Les cases HI et VI re&ccedil;oivent la mention &laquo; Disponible (CPL) &raquo; lorsqu'une preuve est trouv&eacute;e dans les informations de la composition du film. Une information introuvable ou ambigu&euml; reste &agrave; v&eacute;rifier.</p>
+    <p class="note">Une copie disponible ne confirme pas &agrave; elle seule une s&eacute;ance accessible : le choix de la version, les autorisations de projection et le fonctionnement des &eacute;quipements restent &agrave; contr&ocirc;ler par l'&eacute;quipe.</p>
+
+    <h2>Un usage r&eacute;serv&eacute; &agrave; l'&eacute;quipe autoris&eacute;e</h2>
+    <p>L'application demande au compte Google autoris&eacute; un acc&egrave;s &agrave; Sheets et la v&eacute;rification de son adresse e-mail. Le droit Google accord&eacute; porte sur les feuilles accessibles &agrave; ce compte ; le code limite son intervention au classeur de suivi et &agrave; l'onglet configur&eacute;s.</p>
+    <p>Elle lit les colonnes n&eacute;cessaires au suivi et n'&eacute;crit que dans les cases vides admissibles OCAP, HI et VI. Les valeurs, formules et notes existantes sont conserv&eacute;es. Chaque envoi est relu et accompagn&eacute; d'un rapport local.</p>
+
+    <h2>Apr&egrave;s un ingest</h2>
+    <ol>
+      <li>En dehors d'une projection, ouvrir le raccourci <strong>Suivi ingest - API</strong> sur le bureau du PC du cin&eacute;ma.</li>
+      <li>V&eacute;rifier que personne ne modifie ni ne trie le tableau pendant le traitement, puis confirmer ces conditions dans l'application.</li>
+      <li>Attendre le r&eacute;sultat et examiner les cas restant &agrave; v&eacute;rifier. Le mode automatique doit avoir &eacute;t&eacute; activ&eacute; explicitement apr&egrave;s un premier essai d'&eacute;criture contr&ocirc;l&eacute;.</li>
+    </ol>
+    <p>L'outil ne modifie ni le serveur de projection ni les playlists, ne choisit pas les s&eacute;ances &agrave; annoncer et ne publie pas le tableau sur le site.</p>
+
+    <h2>Contact</h2>
+    <p>Association Cin&eacute; Carbonne : <a href="mailto:cinecarbonne@gmail.com">cinecarbonne@gmail.com</a>.</p>
+  </main>
+  <footer><div class="wrap">Documentation de Cin&eacute; Carbonne. Mise &agrave; jour : <time datetime="2026-11-08">8 novembre 2026</time>.</div></footer>
+</body>
+</html>

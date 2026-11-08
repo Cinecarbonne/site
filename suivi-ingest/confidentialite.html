@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confidentialit&eacute; de Suivi ingest | Cin&eacute; Carbonne</title>
+  <meta name="description" content="Donn&eacute;es utilis&eacute;es, stockage local et autorisation Google de l'application Suivi ingest de Cin&eacute; Carbonne.">
+  <link rel="canonical" href="https://cinecarbonne.fr/suivi-ingest/confidentialite.html">
+  <link rel="icon" href="../favicon.ico">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fff; color: #202024; font: 1.125rem/1.65 system-ui, sans-serif; letter-spacing: 0; }
+    .wrap { max-width: 58rem; margin-inline: auto; padding-inline: 1.5rem; }
+    header { border-bottom: 1px solid #d5d5d8; }
+    .brand { display: inline-block; margin-block: 1.5rem 1rem; }
+    .brand img { display: block; width: 108px; height: auto; }
+    nav { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; padding-bottom: 1.25rem; }
+    a { color: #861334; text-underline-offset: .2em; overflow-wrap: anywhere; }
+    nav a { font-weight: 600; }
+    nav a[aria-current="page"] { color: #202024; text-decoration-thickness: 3px; }
+    a:focus-visible { outline: 3px solid #861334; outline-offset: 4px; }
+    .skip { position: absolute; left: 1rem; top: -8rem; padding: .75rem; background: #fff; z-index: 1; }
+    .skip:focus { top: 1rem; }
+    main { padding-block: 2rem 3rem; overflow-wrap: break-word; }
+    h1 { margin: 0 0 1rem; font-size: 2rem; line-height: 1.25; }
+    h2 { margin: 2rem 0 .6rem; font-size: 1.375rem; line-height: 1.35; }
+    p { margin: .75rem 0; }
+    .lead { font-size: 1.25rem; }
+    ul, ol { padding-left: 1.4rem; }
+    li + li { margin-top: .5rem; }
+    .note { margin-block: 1.5rem; padding: 1rem 1.25rem; border-left: 4px solid #861334; background: #f5f5f6; }
+    footer { padding-block: 1.25rem 2rem; border-top: 1px solid #d5d5d8; color: #555860; font-size: 1rem; }
+    @media (max-width: 32rem) { .wrap { padding-inline: 1.25rem; } main { padding-top: 1.5rem; } }
+    @media print { .skip, nav { display: none; } .wrap { max-width: none; padding: 0; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="../index.html"><img src="../images/cinecarbonne-1.png" width="343" height="275" alt="Cin&eacute; Carbonne, accueil du site"></a>
+      <nav aria-label="Documentation Suivi ingest">
+        <a href="index.html">Pr&eacute;sentation</a>
+        <a href="confidentialite.html" aria-current="page">Confidentialit&eacute;</a>
+        <a href="conditions.html">Utilisation</a>
+      </nav>
+    </div>
+  </header>
+  <main id="contenu" class="wrap">
+    <h1>Confidentialit&eacute; de Suivi ingest</h1>
+    <p class="lead">Cette page d&eacute;crit les donn&eacute;es utilis&eacute;es par l'application Windows de suivi ingest de l'association Cin&eacute; Carbonne.</p>
+
+    <h2>Les donn&eacute;es consult&eacute;es</h2>
+    <ul>
+      <li><strong>Compte Google autoris&eacute; :</strong> son adresse e-mail et sa v&eacute;rification par Google, pour s'assurer que l'application utilise le compte pr&eacute;vu.</li>
+      <li><strong>Suivi Google Sheets :</strong> titres des films, versions, dates, heures et informations OCAP, HI et VI, ainsi que les notes, formules et r&egrave;gles de cellule n&eacute;cessaires aux contr&ocirc;les de non-&eacute;crasement.</li>
+      <li><strong>Serveur du cin&eacute;ma :</strong> noms et identifiants des copies locales, informations de version et d&eacute;clarations des canaux audio ou sous-titres dans les compositions des films.</li>
+    </ul>
+    <p>L'outil n'est pas destin&eacute; &agrave; recueillir des donn&eacute;es sur les spectateurs, leur sant&eacute;, leurs achats ou leurs habitudes de fr&eacute;quentation. Il ne lit ni les e-mails ni les mots de passe du compte Google.</p>
+
+    <h2>Finalit&eacute; et acc&egrave;s Google</h2>
+    <p>Ces informations servent uniquement &agrave; rapprocher les copies des films des lignes du suivi, &agrave; compl&eacute;ter les cases admissibles OCAP, HI et VI, puis &agrave; v&eacute;rifier et documenter le r&eacute;sultat.</p>
+    <p>Le droit OAuth Sheets demand&eacute; autorise l'acc&egrave;s aux feuilles accessibles au compte Google. Le code limite toutefois les lectures au classeur et &agrave; l'onglet configur&eacute;s, dans les colonnes A &agrave; D et O &agrave; Q. Les &eacute;critures sont limit&eacute;es aux cases vides admissibles O &agrave; Q.</p>
+    <p>Les donn&eacute;es ne sont pas utilis&eacute;es pour la publicit&eacute;, la revente ou l'entra&icirc;nement d'une intelligence artificielle. Aucune donn&eacute;e n'est envoy&eacute;e par l'application &agrave; un service d'IA.</p>
+
+    <h2>&Eacute;changes et destinataires</h2>
+    <p>L'application consulte le serveur de cin&eacute;ma sur son r&eacute;seau local et les services officiels Google pour l'authentification et Google Sheets. Elle n'envoie pas &agrave; Google l'inventaire d&eacute;taill&eacute; du serveur : seuls les textes d'aide &agrave; inscrire sont transmis lors des mises &agrave; jour du tableau.</p>
+    <p>Les valeurs enregistr&eacute;es dans le suivi sont visibles selon les droits de partage d&eacute;j&agrave; d&eacute;finis sur ce classeur. L'application ne modifie pas ces droits et ne rend pas le tableau public.</p>
+
+    <h2>Stockage et conservation</h2>
+    <p>L'autorisation Google persistante est conserv&eacute;e sur le PC du cin&eacute;ma, chiffr&eacute;e par la protection Windows de la session utilis&eacute;e. Ce chiffrement ne prot&egrave;ge pas contre une autre personne utilisant la m&ecirc;me session Windows.</p>
+    <p>La configuration, les correspondances de titres valid&eacute;es et les rapports de contr&ocirc;le ou d'envoi sont &eacute;galement stock&eacute;s localement. Les rapports peuvent contenir les titres, s&eacute;ances, noms techniques et identifiants des copies ainsi que les cellules concern&eacute;es. Ils n'incluent pas les jetons d'authentification.</p>
+    <p>Ces fichiers restent sur le PC jusqu'&agrave; leur suppression par une personne habilit&eacute;e ; le script ne pr&eacute;voit pas leur effacement automatique. Les valeurs du suivi Google Sheets conservent, de leur c&ocirc;t&eacute;, le cycle de vie d&eacute;cid&eacute; par les gestionnaires du classeur.</p>
+
+    <h2>Retirer l'acc&egrave;s et poser une question</h2>
+    <p>Le titulaire du compte peut retirer l'autorisation de l'application dans les param&egrave;tres de son compte Google, parmi les connexions aux applications et services tiers. Une personne habilit&eacute;e peut &eacute;galement retirer les fichiers d'autorisation de la session Windows de cabine. Le mode automatique peut &ecirc;tre d&eacute;coch&eacute; dans l'application.</p>
+    <p>Retirer l'acc&egrave;s ne supprime pas les informations d&eacute;j&agrave; inscrites dans le tableau. Pour une question d'acc&egrave;s, de rectification, de suppression ou de fonctionnement, contacter l'association : <a href="mailto:cinecarbonne@gmail.com">cinecarbonne@gmail.com</a>.</p>
+
+    <h2>Consultation de cette documentation</h2>
+    <p>Ces trois pages ne lancent pas l'application et ne consultent pas le suivi. Elles ne comportent ni formulaire, ni script de suivi d'audience, ni cookie ajout&eacute; par ces pages. L'h&eacute;bergeur du site re&ccedil;oit les requ&ecirc;tes techniques n&eacute;cessaires &agrave; leur consultation.</p>
+  </main>
+  <footer><div class="wrap">Documentation de Cin&eacute; Carbonne. Mise &agrave; jour : <time datetime="2026-11-08">8 novembre 2026</time>.</div></footer>
+</body>
+</html>
