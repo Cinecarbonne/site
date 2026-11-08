@@ -579,8 +579,15 @@ body.access-page .access-device-dialog h3 { margin-bottom: 4px; font-size: 1.15r
 body.access-page .access-device-dialog p { margin: 0 0 14px; }
 body.access-page .access-device-guide { color: #6d1d1d; }
 
+body.access-page .access-device-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+}
+
 body.access-page .access-device-guide:not([hidden]) {
   display: flex;
+  flex: 1 1 128px;
   align-items: center;
   flex-wrap: wrap;
   gap: 8px 12px;

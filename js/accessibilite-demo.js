@@ -262,7 +262,7 @@
     }
     var bring = 'Apportez votre t\u00e9l\u00e9phone charg\u00e9 et vos \u00e9couteurs. ';
     var welcome = 'Si besoin, demandez de l\u2019aide \u00e0 l\u2019accueil avant le film.';
-    var prepareRoom = bring + 'Contactez le cin\u00e9ma avant votre venue pour obtenir le bon lien et installer l\u2019application utilis\u00e9e en salle.';
+    var prepareRoom = bring + 'Installez AppAudio avant de venir. La piste est diffus\u00e9e par la salle : il n\u2019y a pas de fichier du film \u00e0 t\u00e9l\u00e9charger.';
     var help = {
       sme: ['Ces sous-titres affichent les dialogues et les sons importants du film.',
         'Les sous-titres sont projet\u00e9s \u00e0 l\u2019\u00e9cran pendant la s\u00e9ance. Aucune application, aucun t\u00e9l\u00e9phone ni \u00e9couteurs ne sont n\u00e9cessaires.'],
@@ -272,33 +272,39 @@
         'Pr\u00e9parez la piste du film dans l\u2019application indiqu\u00e9e et apportez des \u00e9couteurs. Lancez la synchronisation au d\u00e9but du film.']
     };
     var copy = help[code].slice();
-    var guide = dialog.querySelector('.access-device-guide');
-    var qr = guide.querySelector('img');
     var room = dialog.querySelector('.access-device-room');
     var inRoom = code === 'sme' ? '' : welcome;
-    var download = null;
+    var downloads = [];
     if ((code === 'ad' || code === 'hi') && !application) {
-      inRoom = 'Connectez votre t\u00e9l\u00e9phone au Wi-Fi d\u00e9di\u00e9 de la salle. Ouvrez l\u2019application et s\u00e9lectionnez la piste de ' +
-        (code === 'ad' ? 'l\u2019audiodescription' : 'son renforc\u00e9') + '. ' + welcome;
+      downloads = [
+        ['appaudio-iphone', 'https://apps.apple.com/fr/app/appaudio/id835237447', 'AppAudio pour iPhone'],
+        ['appaudio-android', 'https://play.google.com/store/apps/details?hl=fr&id=com.myeentertainment.appaudio', 'AppAudio pour Android']
+      ];
+      inRoom = 'Connectez votre t\u00e9l\u00e9phone au Wi-Fi d\u00e9di\u00e9 de la salle. Ouvrez AppAudio, puis choisissez et validez la piste ' +
+        (code === 'ad' ? '\u00ab Audiodescription \u00bb (VI)' : '\u00ab Son renforc\u00e9 \u00bb (HI)') + '. ' + welcome;
     }
     if (code === 'ad' && application === 'La Bavarde') {
       copy[1] = bring + 'Installez La Bavarde et t\u00e9l\u00e9chargez chez vous la piste du film en version cin\u00e9ma.';
-      download = ['la-bavarde', 'https://labavarde.fr/', 'T\u00e9l\u00e9charger La Bavarde'];
+      downloads = [['la-bavarde', 'https://labavarde.fr/', 'T\u00e9l\u00e9charger La Bavarde']];
       inRoom = 'Autorisez l\u2019acc\u00e8s au micro pour que l\u2019application puisse se caler sur le son du film. Ouvrez la piste et lancez la synchronisation au d\u00e9but du film. ' + welcome;
     } else if (code === 'vast' && application === 'Tout en Parlant') {
       copy[1] = bring + 'Consultez le guide de Tout en Parlant : installez MovieReading ou La Bavarde, selon l\u2019application qui propose la piste du film. T\u00e9l\u00e9chargez cette piste avant de venir.';
-      download = ['tout-en-parlant', 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast', 'Choisir et t\u00e9l\u00e9charger l\u2019application'];
+      downloads = [['tout-en-parlant', 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast', 'Choisir et t\u00e9l\u00e9charger l\u2019application']];
       inRoom = 'Ouvrez la piste t\u00e9l\u00e9charg\u00e9e et lancez la synchronisation au d\u00e9but du film. ' + welcome;
     }
-    guide.hidden = !download;
-    if (download) {
-      qr.src = 'icons/accessibilite/qr-' + download[0] + '.svg';
-      guide.href = download[1];
-      guide.querySelector('span').textContent = download[2];
-    } else {
-      qr.removeAttribute('src');
-      guide.removeAttribute('href');
-    }
+    dialog.querySelectorAll('.access-device-guide').forEach(function (guide, index) {
+      var download = downloads[index];
+      var qr = guide.querySelector('img');
+      guide.hidden = !download;
+      if (download) {
+        qr.src = 'icons/accessibilite/qr-' + download[0] + '.svg';
+        guide.href = download[1];
+        guide.querySelector('span').textContent = download[2];
+      } else {
+        qr.removeAttribute('src');
+        guide.removeAttribute('href');
+      }
+    });
     room.hidden = !inRoom;
     room.querySelector('p').textContent = inRoom;
     dialog.querySelector('h2').textContent = label;
