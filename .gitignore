@@ -32,3 +32,7 @@ tmp_codex/
 /outils/work/tableau_service.xlsx
 /outils/work/accessibilite_cache.json
 /outils/work/accessibilite_report.json
+/outils/work/site-accessibilite/
+node_modules/
+.netlify/
+/outils/work/livraison-accessibilite/

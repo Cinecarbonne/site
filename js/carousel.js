@@ -828,19 +828,7 @@
   // RENDER LIST filtré + trié
   function renderList(list) {
     var items = Array.isArray(list) ? list : [];
-    var now = Date.now();
-    var margeMs = 2 * 60 * 60 * 1000; // 2h
-
-    var futurs = items.filter(function (s) {
-      if (!s.heure || String(s.heure).trim() === "") return false;
-      var ts = seanceTimestamp(s);
-      if (isNaN(ts)) return false;
-      return ts >= (now - margeMs);
-    });
-
-    futurs.sort(function (a, b) {
-      return seanceTimestamp(a) - seanceTimestamp(b);
-    });
+    var futurs = window.CineSeances.upcoming(items);
 
     updateCalendarData(futurs);
     if (calendarOverlay && calendarOverlay.classList.contains('open')) {
@@ -872,6 +860,9 @@
       .catch(function (e) { console.warn('Échec chargement JSON:', e.message); });
   }
   window.addEventListener('load', loadJSON);
+  window.CineSeances.watchDayChange(function () {
+    renderList(window.films);
+  });
   requestFitCapsAfterFonts();
   // auto-refresh toutes les 30 minutes
   setInterval(function () {
