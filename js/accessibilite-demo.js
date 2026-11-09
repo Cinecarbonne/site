@@ -5,6 +5,8 @@
   if (!container) return;
   var loadedItems = [];
   var hasLoaded = false;
+  var activeFilter = '';
+  var filterDevices = { hearing: ['hi', 'sme'], seeing: ['ad'], subtitles: ['vast'] };
   var demo = new URLSearchParams(window.location.search).get('demo') === '1';
   var feedURL = container.getAttribute('data-access-feed') || './data/accessibilite.json';
   var dialog = document.getElementById('access-device-dialog');
@@ -37,9 +39,8 @@
   var EMPTY_MESSAGE = 'Aucune s\u00e9ance accessible n\u2019est confirm\u00e9e pour le moment. Revenez bient\u00f4t ou contactez le cin\u00e9ma.';
 
   var dateFormatter = new Intl.DateTimeFormat('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
+    day: '2-digit',
+    month: '2-digit'
   });
 
   var HELP_TITLES = {
@@ -53,6 +54,34 @@
     seeing: 'icons/accessibilite/vision-jaune.svg',
     subtitles: 'icons/accessibilite/sous-titres.svg'
   };
+
+  var APP_DOWNLOADS = {
+    appaudio: [
+      ['appaudio-iphone', 'https://apps.apple.com/fr/app/appaudio/id835237447', 'AppAudio pour iPhone'],
+      ['appaudio-android', 'https://play.google.com/store/apps/details?hl=fr&id=com.myeentertainment.appaudio', 'AppAudio pour Android']
+    ],
+    'la-bavarde': [['la-bavarde', 'https://labavarde.fr/', 'T\u00e9l\u00e9charger La Bavarde']],
+    'tout-en-parlant': [['tout-en-parlant', 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast', 'Guide et applications de Tout en Parlant']]
+  };
+
+  function renderDownloads(target, downloads) {
+    target.replaceChildren();
+    downloads.forEach(function (download) {
+      var guide = document.createElement('a');
+      guide.className = 'access-device-guide';
+      guide.href = download[1];
+      var qr = document.createElement('img');
+      qr.src = 'icons/accessibilite/qr-' + download[0] + '.svg';
+      qr.width = 128;
+      qr.height = 128;
+      qr.alt = '';
+      qr.loading = 'lazy';
+      var label = document.createElement('span');
+      label.textContent = download[2];
+      guide.append(qr, label);
+      target.appendChild(guide);
+    });
+  }
 
   function formatDate(dateValue) {
     if (!dateValue) return '';
@@ -86,6 +115,13 @@
     var activeButton = null;
 
     if (!title || !closeButton || !buttons.length || !cards.length) return;
+
+    panel.querySelectorAll('[data-access-downloads]').forEach(function (target) {
+      var downloads = target.dataset.accessDownloads.split(' ').flatMap(function (app) {
+        return APP_DOWNLOADS[app] || [];
+      });
+      renderDownloads(target, downloads);
+    });
 
     function setButtonStates(topic) {
       buttons.forEach(function (button) {
@@ -138,7 +174,8 @@
 
     buttons.forEach(function (button) {
       button.addEventListener('click', function () {
-        openHelp(button.getAttribute('data-access-topic'), button);
+        if (activeButton === button && !panel.hidden) closeHelp(true);
+        else openHelp(button.getAttribute('data-access-topic'), button);
       });
     });
 
@@ -147,7 +184,7 @@
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && !dialog.open && !panel.hidden) {
+      if (event.key === 'Escape' && !dialog.open && !panel.hidden && panel.closest('details').open) {
         closeHelp(true);
       }
     });
@@ -276,35 +313,20 @@
     var inRoom = code === 'sme' ? '' : welcome;
     var downloads = [];
     if ((code === 'ad' || code === 'hi') && !application) {
-      downloads = [
-        ['appaudio-iphone', 'https://apps.apple.com/fr/app/appaudio/id835237447', 'AppAudio pour iPhone'],
-        ['appaudio-android', 'https://play.google.com/store/apps/details?hl=fr&id=com.myeentertainment.appaudio', 'AppAudio pour Android']
-      ];
+      downloads = APP_DOWNLOADS.appaudio;
       inRoom = 'Connectez votre t\u00e9l\u00e9phone au Wi-Fi d\u00e9di\u00e9 de la salle. Ouvrez AppAudio, puis choisissez et validez la piste ' +
         (code === 'ad' ? '\u00ab Audiodescription \u00bb (VI)' : '\u00ab Son renforc\u00e9 \u00bb (HI)') + '. ' + welcome;
     }
     if (code === 'ad' && application === 'La Bavarde') {
       copy[1] = bring + 'Installez La Bavarde et t\u00e9l\u00e9chargez chez vous la piste du film en version cin\u00e9ma.';
-      downloads = [['la-bavarde', 'https://labavarde.fr/', 'T\u00e9l\u00e9charger La Bavarde']];
+      downloads = APP_DOWNLOADS['la-bavarde'];
       inRoom = 'Autorisez l\u2019acc\u00e8s au micro pour que l\u2019application puisse se caler sur le son du film. Ouvrez la piste et lancez la synchronisation au d\u00e9but du film. ' + welcome;
     } else if (code === 'vast' && application === 'Tout en Parlant') {
       copy[1] = bring + 'Consultez le guide de Tout en Parlant : installez MovieReading ou La Bavarde, selon l\u2019application qui propose la piste du film. T\u00e9l\u00e9chargez cette piste avant de venir.';
-      downloads = [['tout-en-parlant', 'https://www.toutenparlant.org/vast-cinema/acceder-a-la-vast', 'Choisir et t\u00e9l\u00e9charger l\u2019application']];
+      downloads = APP_DOWNLOADS['tout-en-parlant'];
       inRoom = 'Ouvrez la piste t\u00e9l\u00e9charg\u00e9e et lancez la synchronisation au d\u00e9but du film. ' + welcome;
     }
-    dialog.querySelectorAll('.access-device-guide').forEach(function (guide, index) {
-      var download = downloads[index];
-      var qr = guide.querySelector('img');
-      guide.hidden = !download;
-      if (download) {
-        qr.src = 'icons/accessibilite/qr-' + download[0] + '.svg';
-        guide.href = download[1];
-        guide.querySelector('span').textContent = download[2];
-      } else {
-        qr.removeAttribute('src');
-        guide.removeAttribute('href');
-      }
-    });
+    renderDownloads(dialog.querySelector('.access-device-downloads'), downloads);
     room.hidden = !inRoom;
     room.querySelector('p').textContent = inRoom;
     dialog.querySelector('h2').textContent = label;
@@ -443,7 +465,21 @@
     parent.querySelectorAll('video').forEach(function (video) { video.pause(); });
   }
 
-  function createSessionCard(item, isOpen) {
+  function positionFilmPanel() {
+    var panel = container.querySelector(':scope > .access-session-expanded');
+    if (!panel) return;
+    var cards = Array.from(container.querySelectorAll(':scope > .access-session-card'));
+    var columns = getComputedStyle(container).gridTemplateColumns.split(/\s+/).length;
+    var index = cards.indexOf(panel.previousElementSibling);
+    if (index < 0) return;
+    var column = index % columns;
+    // Reserve the full row beneath the selected card without changing tab order.
+    panel.style.gridRow = Math.floor(index / columns) + 2;
+    panel.classList.toggle('is-first-column', column === 0);
+    panel.classList.toggle('is-last-column', column === columns - 1);
+  }
+
+  function createSessionCard(item, isOpen, index) {
     var card = document.createElement('article');
     card.className = 'access-session-card';
     card.dataset.sessionKey = item.programme_key || programmeKey(item);
@@ -459,9 +495,10 @@
     title.textContent = item.titre || 'S\u00e9ance';
     body.appendChild(title);
 
-    var time = document.createElement('p');
+    var time = document.createElement('time');
     time.className = 'access-session-time';
-    time.textContent = [formatDate(item.date), item.heure].filter(Boolean).join(' - ');
+    time.dateTime = item.date + 'T' + item.heure;
+    time.textContent = [formatDate(item.date), item.heure].filter(Boolean).join(' \u00b7 ');
     body.appendChild(time);
 
     appendMeta(body, item);
@@ -492,16 +529,30 @@
 
       var content = document.createElement('div');
       content.className = 'access-session-expanded';
+      content.id = 'access-film-panel-' + index;
+      summary.id = 'access-film-toggle-' + index;
+      summary.setAttribute('aria-controls', content.id);
+      content.setAttribute('role', 'region');
+      content.setAttribute('aria-labelledby', summary.id);
       details.appendChild(content);
       details.addEventListener('toggle', function () {
         if (details.open) {
           container.querySelectorAll('.access-session-details[open]').forEach(function (other) {
             if (other !== details) other.open = false;
           });
+          if (!card.isConnected) return;
+          var previousPanel = container.querySelector(':scope > .access-session-expanded');
+          if (previousPanel && previousPanel !== content) {
+            pauseTrailers(previousPanel);
+            previousPanel.remove();
+          }
           if (!content.hasChildNodes()) appendFilmDetails(content, item);
+          card.after(content);
+          positionFilmPanel();
         } else {
           pauseTrailers(content);
           content.replaceChildren();
+          details.appendChild(content);
         }
       });
       card.appendChild(details);
@@ -550,9 +601,19 @@
       return;
     }
 
-    sessionItems.forEach(function (item) {
+    if (activeFilter) {
+      sessionItems = sessionItems.filter(function (item) {
+        return filterDevices[activeFilter].some(function (device) { return item.dispositifs.includes(device); });
+      });
+      if (!sessionItems.length) {
+        renderMessage('Aucune s\u00e9ance ne correspond \u00e0 ce filtre pour le moment.', false);
+        return;
+      }
+    }
+
+    sessionItems.forEach(function (item, index) {
       var key = item.programme_key || programmeKey(item);
-      var card = createSessionCard(item, key === openKey);
+      var card = createSessionCard(item, key === openKey, index);
       container.appendChild(card);
       if (key === focusedKey) {
         var action = Array.from(card.querySelectorAll('[data-action]')).find(function (el) {
@@ -564,6 +625,18 @@
   }
 
   setupHelpPanel();
+  new ResizeObserver(positionFilmPanel).observe(container);
+  var filterButtons = document.querySelectorAll('[data-access-filter]');
+  filterButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var filter = button.dataset.accessFilter;
+      activeFilter = activeFilter === filter ? '' : filter;
+      filterButtons.forEach(function (entry) {
+        entry.setAttribute('aria-pressed', String(entry.dataset.accessFilter === activeFilter));
+      });
+      if (hasLoaded) render(loadedItems);
+    });
+  });
   function readJSON(url) {
     return fetch(url, { cache: 'no-store' }).then(function (response) {
       if (!response.ok) throw new Error('HTTP ' + response.status);

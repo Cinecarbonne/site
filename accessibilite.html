@@ -8,7 +8,7 @@
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/FixelText-ExtraBold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/carousel.css?v=20260331-03">
-  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-04">
+  <link rel="stylesheet" href="css/accessibilite.css?v=20261109-05">
   <style>
     @font-face {
       font-family: "KeedyBold";
@@ -68,51 +68,51 @@
     </div>
 
     <main class="access-main" role="main">
-      <div class="access-intro">
-        <section class="access-hero" aria-labelledby="access-title">
-          <div class="access-hero-text">
-            <h2 id="access-title">Accessibilit&eacute; des s&eacute;ances</h2>
-            <div class="access-identity-icons" aria-hidden="true">
-              <img src="icons/accessibilite/audition.svg" width="40" height="40" alt="" decoding="async" />
-              <img src="icons/accessibilite/vision-jaune.svg" width="40" height="40" alt="" decoding="async" />
-              <img src="icons/accessibilite/sous-titres.svg" width="40" height="40" alt="" decoding="async" />
-            </div>
+      <h2 id="access-title" class="access-page-title">
+        <span>Accessibilit&eacute; des s&eacute;ances</span>
+        <span class="access-identity-icons" aria-hidden="true">
+          <span>&ndash;</span>
+          <img src="icons/accessibilite/audition.svg" width="32" height="32" alt="">
+          <img src="icons/accessibilite/vision-jaune.svg" width="32" height="32" alt="">
+          <img src="icons/accessibilite/sous-titres.svg" width="32" height="32" alt="">
+        </span>
+      </h2>
+      <details class="access-intro">
+        <summary class="access-intro-summary"><h3>Explications</h3></summary>
+        <div class="access-intro-content">
             <p class="access-lead">
               Certaines s&eacute;ances proposent des aides pour mieux entendre, mieux voir ou mieux suivre les sous-titres.
               Elles sont indiqu&eacute;es ici quand l'information est connue.
             </p>
-          </div>
-          <div class="access-hero-note" aria-label="Information importante">
-            <h3>V&eacute;rifiez r&eacute;guli&egrave;rement</h3>
-            <p>
-              Cette page est mise &agrave; jour r&eacute;guli&egrave;rement. Pensez &agrave; la consulter avant votre venue pour voir les s&eacute;ances accessibles ajout&eacute;es au programme.
+            <p class="access-lead">
+              Cette page est mise &agrave; jour r&eacute;guli&egrave;rement. Pensez &agrave; la consulter avant votre venue pour v&eacute;rifier l'accessibilit&eacute; de votre s&eacute;ance : certaines informations nous parviennent quelques jours seulement avant la projection.
             </p>
-          </div>
-        </section>
+            <aside class="access-hero-note" aria-labelledby="access-friday-title">
+              <h4 id="access-friday-title">La s&eacute;ance du vendredi &agrave; 15 h</h4>
+              <p>En g&eacute;n&eacute;ral, cette s&eacute;ance est propos&eacute;e avec des sous-titres sourds et malentendants (OCAP). Projet&eacute;s &agrave; l'&eacute;cran pour tout le monde, ils indiquent les dialogues et les sons importants. V&eacute;rifiez l'aide indiqu&eacute;e pour la s&eacute;ance choisie.</p>
+            </aside>
 
         <section class="access-steps" aria-labelledby="steps-title">
           <div class="access-section-heading">
-            <p class="access-kicker">Mode d'emploi</p>
-            <h2 id="steps-title">Comment &ccedil;a se passe&nbsp;?</h2>
+            <h3 id="steps-title" class="access-intro-heading">Comment &ccedil;a se passe&nbsp;?</h3>
           </div>
           <div class="access-step-grid">
             <article class="access-step-card access-step-card--before">
-              <h3>Avant la s&eacute;ance</h3>
+              <h4>Avant la s&eacute;ance</h4>
               <p>Pour une aide audio, installez l'application indiqu&eacute;e avant de venir. Apportez votre t&eacute;l&eacute;phone charg&eacute; et vos &eacute;couteurs. Les sous-titres &agrave; l'&eacute;cran ne demandent aucun appareil.</p>
             </article>
             <article class="access-step-card access-step-card--arrival">
-              <h3>&Agrave; l'arriv&eacute;e</h3>
+              <h4>&Agrave; l'arriv&eacute;e</h4>
               <p>Si vous avez besoin d'aide pour utiliser l'application, demandez &agrave; l'accueil. Pour une premi&egrave;re utilisation, arrivez un peu en avance.</p>
             </article>
             <article class="access-step-card access-step-card--during">
-              <h3>Pendant le film</h3>
+              <h4>Pendant le film</h4>
               <p>Pour une aide audio, &eacute;coutez la piste avec votre t&eacute;l&eacute;phone et vos &eacute;couteurs. Suivez les indications de la s&eacute;ance pour la lancer.</p>
             </article>
           </div>
         </section>
-      </div>
 
-      <p id="access-choice-title" class="access-entry-prompt">Choisissez l'aide qui vous correspond.</p>
+      <h3 id="access-choice-title" class="access-intro-heading">Choisissez l'aide qui vous correspond</h3>
       <nav class="access-entry-grid" aria-labelledby="access-choice-title">
         <button class="access-entry-card access-entry-card--hearing" type="button" data-access-topic="hearing" aria-controls="access-help-panel" aria-expanded="false">
           <span class="access-entry-icon" aria-hidden="true">
@@ -137,8 +137,7 @@
       <section id="access-help-panel" class="access-help-panel" role="region" aria-labelledby="access-help-title" hidden>
         <div class="access-help-header">
           <div>
-            <p class="access-kicker">Comprendre les aides</p>
-            <h2 id="access-help-title" tabindex="-1">Les dispositifs possibles</h2>
+            <h4 id="access-help-title" tabindex="-1">Les dispositifs possibles</h4>
           </div>
           <button class="access-help-close" type="button" data-access-help-close>Fermer</button>
         </div>
@@ -169,6 +168,7 @@
               Il peut aider si le son de la salle ne suffit pas.
             </p>
             <p class="access-limit">Installez AppAudio avant de venir. L'accueil peut vous aider &agrave; l'utiliser. Code parfois utilis&eacute;&nbsp;: HI.</p>
+            <div class="access-device-downloads" data-access-downloads="appaudio"></div>
           </article>
 
           <article class="access-detail-card access-detail-card--seeing" data-access-help="seeing">
@@ -183,6 +183,7 @@
               Elle s'adresse surtout aux personnes aveugles ou malvoyantes.
             </p>
             <p class="access-limit">Installez AppAudio pour l'audiodescription diffus&eacute;e par la salle, ou La Bavarde si elle est indiqu&eacute;e pour la s&eacute;ance. Apportez votre t&eacute;l&eacute;phone et vos &eacute;couteurs. Code parfois utilis&eacute;&nbsp;: AD.</p>
+            <div class="access-device-downloads" data-access-downloads="appaudio la-bavarde"></div>
           </article>
 
           <article class="access-detail-card access-detail-card--subtitles" data-access-help="subtitles">
@@ -197,13 +198,27 @@
               Il peut aider les personnes qui voient difficilement les sous-titres ou qui lisent trop lentement pour suivre le film.
             </p>
             <p class="access-limit">Limite pratique&nbsp;: il d&eacute;pend de l'application et du film. Pensez &agrave; charger votre t&eacute;l&eacute;phone et &agrave; prendre des &eacute;couteurs. Code parfois utilis&eacute;&nbsp;: VAST.</p>
+            <div class="access-device-downloads" data-access-downloads="tout-en-parlant"></div>
           </article>
         </div>
       </section>
+        </div>
+      </details>
 
       <section class="access-section access-section--sessions" aria-labelledby="sessions-title">
-        <div class="access-section-heading">
+        <div class="access-section-heading access-sessions-heading">
           <h2 id="sessions-title">Prochaines s&eacute;ances accessibles</h2>
+          <div class="access-filters" role="group" aria-label="Filtrer les s&eacute;ances par type d'aide">
+            <button type="button" data-access-filter="hearing" aria-pressed="false" aria-controls="access-sessions" aria-label="Aides pour mieux entendre" title="Son renforc&eacute; et sous-titres sourds et malentendants">
+              <img src="icons/accessibilite/audition.svg" width="26" height="26" alt="">
+            </button>
+            <button type="button" data-access-filter="seeing" aria-pressed="false" aria-controls="access-sessions" aria-label="Audiodescription" title="Audiodescription">
+              <img src="icons/accessibilite/vision-jaune.svg" width="26" height="26" alt="">
+            </button>
+            <button type="button" data-access-filter="subtitles" aria-pressed="false" aria-controls="access-sessions" aria-label="Audio-sous-titrage" title="Audio-sous-titrage">
+              <img src="icons/accessibilite/sous-titres.svg" width="26" height="26" alt="">
+            </button>
+          </div>
         </div>
         <div id="access-sessions" class="access-session-grid" aria-live="polite" data-access-feed="/.netlify/functions/accessibilite">
           <noscript>
@@ -233,23 +248,14 @@
     <p class="access-device-description"></p>
     <h3>Comment s'y prendre&nbsp;?</h3>
     <p class="access-device-instructions"></p>
-    <div class="access-device-downloads">
-      <a class="access-device-guide" hidden>
-        <img width="128" height="128" alt="">
-        <span></span>
-      </a>
-      <a class="access-device-guide" hidden>
-        <img width="128" height="128" alt="">
-        <span></span>
-      </a>
-    </div>
+    <div class="access-device-downloads"></div>
     <div class="access-device-room" hidden>
       <h3>En salle</h3>
       <p></p>
     </div>
   </dialog>
   <script src="js/seances.js?v=20261108-01" defer></script>
-  <script src="js/accessibilite-demo.js?v=20261109-04" defer></script>
+  <script src="js/accessibilite-demo.js?v=20261109-05" defer></script>
 </body>
 
 </html>
