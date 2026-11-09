@@ -85,10 +85,10 @@
   --panelMuted: #89877b;
   --panelLine: #141518;
 
-  --stripH: 400px;
-  --vignetteH: 265px;
-  --posterH: 225px;
-  --colW: 150px;
+  --stripH: clamp(270px, 210px + 19vw, 440px);
+  --vignetteH: calc((var(--stripH) + 20px) * 23 / 35);
+  --posterH: calc(var(--vignetteH) - var(--capH));
+  --colW: calc(var(--posterH) * 2 / 3);
   --capH: 40px;
   --gap: 18px;
   --vBias: 6px;
@@ -392,6 +392,11 @@ a.clicked {
   display: none
 }
 
+.rail[aria-busy="true"] {
+  overflow-x: hidden;
+  cursor: default;
+}
+
 .strip {
   display: flex;
   gap: var(--gap);
@@ -413,6 +418,11 @@ a.clicked {
   outline: 0
 }
 
+.col:focus-visible .card {
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
 .card {
   border-radius: 4px;
   overflow: hidden;
@@ -423,12 +433,101 @@ a.clicked {
   animation: fadeIn .2s ease forwards
 }
 
-.poster {
-  width: 100%;
+.poster-frame {
+  position: relative;
   height: var(--posterH);
+  display: grid;
+  place-items: center;
+  background: #29282c;
+  color: #f5eeee;
+  overflow: hidden;
+}
+
+.poster-frame.is-loading::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #918387;
+  border-top-color: #fff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: poster-spin .9s linear infinite;
+}
+
+@keyframes poster-spin {
+  to { transform: rotate(360deg); }
+}
+
+.poster-label {
+  padding: 30px 6px 10px;
+  font: 600 0.875rem/1.2 system-ui, sans-serif;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: block;
   object-fit: cover;
-  background: #000
+  opacity: 0;
+}
+
+.poster-frame.is-loaded .poster {
+  opacity: 1;
+}
+
+.poster-frame.is-loaded .poster-label {
+  visibility: hidden;
+}
+
+.programme-placeholder {
+  border-radius: 4px;
+  overflow: hidden;
+  border-top: var(--capH) solid #3c373c;
+}
+
+.programme-placeholder .poster-frame::after {
+  top: calc(50% - 8px);
+}
+
+.programme-feedback {
+  position: absolute;
+  bottom: 8px;
+  left: 48px;
+  right: 48px;
+  text-align: center;
+  color: #fff;
+  font-size: 0.875rem;
+}
+
+#programme-status:not(:empty) {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #29282c;
+}
+
+#programme-retry {
+  margin-inline: 4px;
+  padding: 4px 10px;
+  border: 1px solid #f5eeee;
+  border-radius: 4px;
+  background: #29282c;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-frame.is-loading::after {
+    animation: none;
+  }
 }
 
 .cap {

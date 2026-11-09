@@ -3,10 +3,11 @@
 
 <head>
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preload" href="./data/programme.json" as="fetch" crossorigin fetchpriority="high">
   <link rel="preload" href="images/cinecarbonne-1.png" as="image" fetchpriority="high">
   <link rel="preload" href="fonts/Keedy Bold.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="fonts/BarlowSemiCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="css/carousel.css?v=20261015-01">
+  <link rel="stylesheet" href="css/carousel.css?v=20261109-02">
   <link rel="stylesheet" href="css/regards-realisatrices.css?v=20261109-01">
   <style>
     @font-face {
@@ -128,9 +129,20 @@
               </div>
             <div class="filmStrip">
               <div class="railViewport">
-                <div id="rail" class="rail" aria-live="polite">
-                  <div id="strip" class="strip"></div>
+                <div id="rail" class="rail" aria-live="polite" aria-busy="true">
+                  <div id="strip" class="strip">
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                    <div class="col programme-placeholder" aria-hidden="true"><span class="poster-frame is-loading"></span></div>
+                  </div>
                 </div>
+              </div>
+              <div class="programme-feedback">
+                <span id="programme-status" role="status" tabindex="-1">Chargement des séances…</span>
+                <button type="button" id="programme-retry" hidden>Réessayer</button>
               </div>
             </div>
             <button class="arrow right" id="rightBtn" aria-label="DÃ©filer vers la droite"><span></span></button>
@@ -198,7 +210,7 @@
   </div>
 
   <script src="js/seances.js?v=20261108-01"></script>
-  <script src="js/carousel.js?v=20261108-01"></script>
+  <script src="js/carousel.js?v=20261109-02"></script>
 
 
 

@@ -662,24 +662,76 @@
     requestAnimationFrame(function () { panel.classList.add('visible'); });
   }
 
+  var programmeStatus = document.getElementById('programme-status');
+  var programmeRetry = document.getElementById('programme-retry');
+  var programmePlaceholders = Array.from(strip.children);
+  var programmeRequestPending = false;
+  var posterObserver = typeof IntersectionObserver === 'function'
+    ? new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var poster = entry.target;
+        observer.unobserve(poster);
+        poster.src = poster.dataset.src;
+        delete poster.dataset.src;
+      });
+    }, { root: rail, rootMargin: '0px 48px' })
+    : null;
+
+  function renderPoster(s) {
+    var frame = document.createElement('span');
+    frame.className = 'poster-frame';
+    frame.setAttribute('aria-hidden', 'true');
+
+    var label = document.createElement('span');
+    label.className = 'poster-label';
+    label.textContent = s.titre || 'Séance';
+    frame.appendChild(label);
+
+    if (!s.affiche_url) return frame;
+
+    var poster = document.createElement('img');
+    poster.className = 'poster';
+    poster.alt = '';
+    poster.decoding = 'async';
+    frame.classList.add('is-loading');
+    poster.addEventListener('load', function () {
+      frame.classList.remove('is-loading');
+      frame.classList.add('is-loaded');
+    }, { once: true });
+    poster.addEventListener('error', function () {
+      frame.classList.remove('is-loading');
+      poster.remove();
+    }, { once: true });
+    frame.appendChild(poster);
+
+    if (posterObserver) {
+      poster.dataset.src = s.affiche_url;
+      posterObserver.observe(poster);
+    } else {
+      poster.loading = 'lazy';
+      poster.src = s.affiche_url;
+    }
+    return frame;
+  }
+
   function renderColumn(s) {
     var col = document.createElement('button');
-    col.type = 'button'; col.className = 'col'; col.setAttribute('aria-label', s.titre || 'Séance');
+    col.type = 'button'; col.className = 'col';
     var card = document.createElement('span'); card.className = 'card';
 
-    var cap = document.createElement('div'); cap.className = 'cap';
-    var dayWrap = document.createElement('div'); dayWrap.className = 'day';
+    var cap = document.createElement('span'); cap.className = 'cap';
+    var dayWrap = document.createElement('span'); dayWrap.className = 'day';
     var parts = formatDayParts(s.date);
+    col.setAttribute('aria-label', [s.titre || 'Séance', parts.abbr, parts.date, s.heure].filter(Boolean).join(' '));
     var abbr = document.createElement('span'); abbr.className = 'abbr'; abbr.textContent = parts.abbr;
     var date = document.createElement('span'); date.className = 'date'; date.textContent = parts.date;
     dayWrap.appendChild(abbr); dayWrap.appendChild(date);
     cap.appendChild(dayWrap);
 
-    var time = document.createElement('div'); time.className = 'time'; time.textContent = s.heure || ''; cap.appendChild(time);
+    var time = document.createElement('span'); time.className = 'time'; time.textContent = s.heure || ''; cap.appendChild(time);
 
-    var poster = document.createElement('img'); poster.className = 'poster'; poster.src = s.affiche_url || ''; poster.alt = 'Affiche — ' + (s.titre || ''); poster.loading = 'lazy';
-
-    card.appendChild(cap); card.appendChild(poster); col.appendChild(card);
+    card.appendChild(cap); card.appendChild(renderPoster(s)); col.appendChild(card);
     col.addEventListener('click', function () { openPanel(s); });
     return col;
   }
@@ -835,12 +887,15 @@
       renderCalendar();
     }
 
-    strip.innerHTML = '';
     hidePanel();
+    if (posterObserver) posterObserver.disconnect();
 
+    var cards = document.createDocumentFragment();
     futurs.forEach(function (s) {
-      strip.appendChild(renderColumn(s));
+      cards.appendChild(renderColumn(s));
     });
+    strip.replaceChildren(cards);
+    programmeStatus.textContent = futurs.length ? '' : 'Aucune séance à venir.';
     requestFitCaps();
 
     if (futurs.length > 0) {
@@ -848,20 +903,53 @@
     }
   }
 
-  function loadJSON() {
-    var url = './data/programme.json';
-    fetch(url, { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
-      .then(function (t) { return JSON.parse(t); })
-      .then(function (list) {
-        window.films = list;
-        renderList(window.films);
-      })
-      .catch(function (e) { console.warn('Échec chargement JSON:', e.message); });
+  async function loadJSON(usePreload) {
+    if (programmeRequestPending) return;
+    programmeRequestPending = true;
+    var firstDisplay = !Array.isArray(window.films);
+    var controller = new AbortController();
+    var timeout = setTimeout(function () { controller.abort(); }, 15000);
+
+    if (firstDisplay) {
+      rail.setAttribute('aria-busy', 'true');
+      programmeStatus.textContent = 'Chargement des séances…';
+      programmeRetry.setAttribute('aria-disabled', 'true');
+      strip.replaceChildren(...programmePlaceholders);
+    }
+
+    try {
+      var response = await fetch('./data/programme.json', {
+        cache: usePreload ? 'default' : 'no-store',
+        signal: controller.signal
+      });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      var list = await response.json();
+      if (!Array.isArray(list)) throw new Error('Programme invalide');
+
+      if (firstDisplay) rail.scrollLeft = 0;
+      renderList(list);
+      window.films = list;
+      var restoreFocus = document.activeElement === programmeRetry;
+      programmeRetry.hidden = true;
+      if (restoreFocus) (strip.firstElementChild || programmeStatus).focus({ preventScroll: true });
+    } catch (e) {
+      console.warn('Échec chargement JSON:', e.message);
+      if (firstDisplay) {
+        strip.replaceChildren();
+        programmeStatus.textContent = 'Impossible de charger les séances.';
+        programmeRetry.hidden = false;
+      }
+    } finally {
+      clearTimeout(timeout);
+      rail.removeAttribute('aria-busy');
+      programmeRetry.removeAttribute('aria-disabled');
+      programmeRequestPending = false;
+    }
   }
-  window.addEventListener('load', loadJSON);
+  programmeRetry.addEventListener('click', function () { loadJSON(); });
+  loadJSON(true);
   window.CineSeances.watchDayChange(function () {
-    renderList(window.films);
+    if (Array.isArray(window.films)) renderList(window.films);
   });
   requestFitCapsAfterFonts();
   // auto-refresh toutes les 30 minutes

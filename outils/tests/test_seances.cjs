@@ -64,10 +64,12 @@ test('open/background pages recheck midnight without fetching JSON', () => {
 
 test('actual programme renderer uses the shared rule', () => {
   const source = fs.readFileSync(path.join(root, 'js/carousel.js'), 'utf8');
-  const fn = source.slice(source.indexOf('  function renderList(list) {'), source.indexOf('  function loadJSON()'));
+  const fn = source.slice(source.indexOf('  function renderList(list) {'), source.indexOf('  async function loadJSON('));
   const rendered = [];
   const context = { window: { CineSeances: { upcoming: items => helper.upcoming(items, '2026-11-08T22:00:00Z') } },
-    strip: { innerHTML: '', appendChild(s) { rendered.push(s); } },
+    document: { createDocumentFragment: () => ({ items: [], appendChild(s) { this.items.push(s); } }) },
+    strip: { replaceChildren(fragment) { rendered.push(...fragment.items); } },
+    posterObserver: null, programmeStatus: {},
     updateCalendarData() {}, calendarOverlay: null, hidePanel() {}, renderColumn: s => s,
     requestFitCaps() {}, openPanel() {} };
   vm.runInNewContext(fn + '\nrenderList(input);', { ...context,
