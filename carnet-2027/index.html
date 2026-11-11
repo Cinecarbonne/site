@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Carnet de repérage des avant-premières pour Carbonne fait son cinéma, du 26 février au 7 mars 2027.">
+  <meta name="color-scheme" content="light">
+  <title>Festival 2027 · Carnet de programmation · Ciné Carbonne</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=20261101-public">
+  <script defer src="data/catalog.js?v=20261111"></script>
+  <script defer src="data/palmares.js?v=20261111"></script>
+  <script defer src="core.js"></script>
+  <script defer src="collective-notes.js?v=1"></script>
+  <script defer src="app.js?v=20261111"></script>
+<link rel="stylesheet" href="vote.css?v=1"><script defer src="collective-catalogue.js?v=1"></script></head>
+<body>
+  <a class="skip-link" href="#catalogue">Aller aux films</a>
+  <header class="masthead">
+    <div class="shell masthead-line">
+      <a class="brand" href="./index.html" aria-label="Ciné Carbonne, accueil du carnet"><img class="brand-logo" src="assets/logo-cine-carbonne.png" alt="Ciné Carbonne" width="333" height="245"></a>
+      <div class="masthead-title"><p class="eyebrow">Carbonne fait son cinéma</p><h1>Carnet de programmation <span class="year">2027</span></h1></div>
+      <div class="festival-ticket"><span>Le festival</span><strong>26 fév. <em>—</em> 7 mars</strong></div>
+    </div>
+    <div class="shell ledger"><p id="inventory">Recherche en cours de chargement…</p><p class="checked-date">Dernier scan des sorties · <strong>11 novembre 2026</strong></p><button id="method-button" class="quiet-button">À propos de la recherche <span aria-hidden="true">↗</span></button></div>
+  </header>
+  <main class="shell" id="catalogue"><p><a class="vote-link" href="vote.html">Vote collectif · Mon bulletin →</a></p>
+    <div class="workspace-nav"><nav class="view-tabs" aria-label="Vues du catalogue">
+      <button data-view="calendar" aria-pressed="true">Les sorties françaises <span id="calendar-count">0</span></button>
+      <button data-view="watch" aria-pressed="false">Pistes & dates à vérifier <span id="watch-count">0</span></button>
+      <button hidden data-view="rated" aria-pressed="false"><span id="rated-view-label">Films notés</span> <span id="rated-count">0</span></button>
+    </nav><span id="sync-status" class="sync-status" role="status"></span><div class="backup-actions" hidden><a href="https://cpasgrave.github.io/carnet-cine-carbonne-2027/" target="_blank" rel="noopener noreferrer">Voir le carnet public ↗</a><button id="export-button" title="Sauvegarder les notes dans un fichier JSON">↓ Sauvegarder mes notes</button><button id="import-button" title="Fusionner les notes d’une sauvegarde">↑ Restaurer</button><input id="import-file" type="file" accept="application/json,.json" hidden></div></div>
+    <details id="palmares" class="award-register">
+      <summary><span>✦ &nbsp;Palmarès des festivals</span><small id="award-counts"></small></summary>
+      <div class="register-body"><p>Registre des longs métrages primés, complété le <strong>11 novembre 2026</strong>. Un même film peut avoir reçu des prix dans plusieurs festivals. Les sorties restent susceptibles d’être déplacées.</p>
+      <div class="register-filters"><label>Festival <select id="award-festival"><option value="">Tous les festivals</option></select></label><label>Sortie française <select id="award-status"><option value="eligible">Dans nos 18 mercredis</option><option value="no-date">Date non établie</option><option value="outside">Hors période</option><option value="conflict">À vérifier</option><option value="">Tous les lauréats</option></select></label><label>Rechercher <input id="award-search" type="search" placeholder="Titre ou cinéaste…"></label></div>
+      <p id="award-result-count" aria-live="polite"></p><div id="award-results"></div></div>
+    </details>
+    <section class="calendar-panel" id="calendar-panel" aria-label="Choisir un mercredi de sortie">
+      <div class="calendar-top"><p class="eyebrow">Mercredis de sortie · France</p><nav id="months" aria-label="Mois de sortie"></nav></div>
+      <div class="weeks-wrap"><button id="previous-week" class="arrow-button" aria-label="Mercredi précédent">←</button><div id="weeks" class="weeks"></div><button id="next-week" class="arrow-button" aria-label="Mercredi suivant">→</button></div>
+    </section>
+    <div class="result-tools">
+      <div class="result-heading">
+        <p id="view-kicker" class="sr-only">Le mercredi à explorer</p>
+        <h2 id="result-title">3 mars 2027</h2> <span id="result-count"></span>
+        <div class="result-caption"><p id="result-subtitle"></p><span class="sort-hint" title="Les films non notés viennent ensuite, par date puis par titre.">Titres par ordre alphabétique</span></div>
+      </div>
+      <div class="filters"><label class="search-field"><span aria-hidden="true">⌕</span><input type="search" id="search" placeholder="Rechercher dans tous les films…" aria-label="Rechercher un film, un réalisateur ou un distributeur"><kbd>/</kbd></label><label class="genre-label"><span class="sr-only">Filtrer par genre</span><select id="genre"><option value="">Tous les genres</option></select></label></div>
+    </div>
+    <div id="context-note" class="context-note"></div>
+    <div id="film-grid" class="film-grid"></div>
+    <p id="live-status" class="sr-only" role="status" aria-live="polite"></p>
+    <section id="methodology" class="methodology" hidden>
+      <div class="section-heading"><div><p class="eyebrow">UNE BASE POUR LES PROCHAINS REPÉRAGES</p><h2>Ce que contient ce carnet</h2></div><button id="close-method" class="outline-button">Fermer ×</button></div>
+      <div class="method-grid"><div><h3>Une photographie des annonces</h3><p>Cette première recherche porte sur les sorties françaises du 3 mars au 30 juin 2027. Les calendriers évoluent : une semaine vide signifie qu’aucune annonce suffisamment vérifiée n’a été retenue, pas qu’aucun film ne sortira.</p><p>Les dates et les informations sont accompagnées de leurs sources dans chaque fiche. Un conflit non résolu reste dans les pistes à vérifier. Une sélection en festival n’est jamais présentée comme un prix.</p></div><div><h3>Préparer les demandes d’avant-première</h3><p>Les films du 3 mars peuvent être projetés avant leur sortie, du 26 février au 2 mars. Les sorties du 10 mars et suivantes sont postérieures au festival. Toute séance dépend de l’accord du distributeur et de la disponibilité du film.</p><p>Les films sans date française constituent des pistes : leur éligibilité en février 2027 reste à confirmer. Les reprises identifiées sont signalées et ne sont pas des premières sorties.</p></div><div><h3>Notes de programmation</h3><p>Les notes attribuées sur le PC de préparation déterminent le classement des films. L’édition en ligne permet de consulter les notes de 1 à 10 et les films retenus, en lecture seule.</p><p>Les textes, données et composants de l’interface sont séparés et modifiables. Les affiches et photos sont des images aplaties conservées à part.</p></div></div>
+      <div id="research-coverage"></div>
+    </section>
+  </main>
+  <footer class="shell footer"><p><strong>Ciné Carbonne</strong> · Carnet de repérage 2027<br><span>Affiches et photographies : ayants droit respectifs. Sources dans les fiches.</span></p><p>Palmarès · 11.11.2026<br><span>Sélection collective · Ciné Carbonne.</span></p></footer>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="photo-dialog"><button id="close-photo" class="photo-close" aria-label="Fermer la photo">×</button><img id="large-photo" alt=""><p id="photo-caption"></p></dialog>
+  <noscript><p>Activez JavaScript pour utiliser le calendrier et les notes. Les données restent consultables dans data/catalog.json.</p></noscript>
+</body>
+</html>
