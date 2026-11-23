@@ -220,7 +220,7 @@ python outils/operation_pdf.py --page 8
 Notes:
 
 ```text
-- L'operation PDF met a jour data/PDFs.json et genere PDFs/programme_page8.jpg
+- L'operation PDF met a jour data/PDFs.json et associe a chaque nouveau programme son JPG dans PDFs/.
 - Sans --page, l'image exportee prend la derniere page du dernier PDF
 ```
 

@@ -1016,6 +1016,7 @@
 
     function bloc(p, titre) {
       if (!p) return '';
+      var apercu = 'PDFs/' + encodeURIComponent(p.apercu || 'programme_page8.jpg');
       var label = 'Programme n°' + (p.numero || '') +
         (p.debut && p.fin ? ' — du ' + formatDateFR(p.debut) + ' au ' + formatDateFR(p.fin) : '');
 
@@ -1028,8 +1029,8 @@
             '</a>' +
           '</div>' +
           '<div class="pdf-viewer">' +
-            '<a class="pdf-img-link" href="PDFs/programme_page8.jpg" target="_blank" rel="noopener">' +
-              '<img class="pdf-img" src="PDFs/programme_page8.jpg" alt="Dernière page du programme (image)" loading="lazy" decoding="async">' +
+            '<a class="pdf-img-link" href="' + apercu + '" target="_blank" rel="noopener">' +
+              '<img class="pdf-img" src="' + apercu + '" alt="Dernière page du programme (image)" loading="lazy" decoding="async">' +
             '</a>' +
           '</div>' +
           '<p class="pdf-caption">' + label + '</p>' +

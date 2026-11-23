@@ -6,7 +6,7 @@ Operation PDF.
 
 - Selectionne le dernier PDF du dossier PDFs/
 - Met a jour data/PDFs.json pour l'archive
-- Genere PDFs/programme_page8.jpg a partir d'une page du PDF
+- Genere un apercu JPG propre au programme a partir d'une page du PDF
 """
 
 import argparse
@@ -173,8 +173,12 @@ def _numero_key(entry: dict[str, object]) -> int:
         return -1
 
 
-def upsert_pdf_reference(json_path: Path, pdf_path: Path) -> tuple[bool, dict[str, object]]:
+def upsert_pdf_reference(
+    json_path: Path, pdf_path: Path, apercu: str | None = None
+) -> tuple[bool, dict[str, object]]:
     new_ref = build_pdf_reference(pdf_path)
+    if apercu is not None:
+        new_ref["apercu"] = apercu
     existing = _load_pdfs_index(json_path)
     updated = [dict(entry) for entry in existing]
 
@@ -189,6 +193,9 @@ def upsert_pdf_reference(json_path: Path, pdf_path: Path) -> tuple[bool, dict[st
     if target_index is None:
         updated.append(new_ref)
     else:
+        previous_ref = updated[target_index]
+        if apercu is None and previous_ref.get("fichier") == new_ref["fichier"] and "apercu" in previous_ref:
+            new_ref["apercu"] = previous_ref["apercu"]
         updated[target_index] = new_ref
 
     updated.sort(key=_numero_key, reverse=True)
@@ -207,7 +214,6 @@ def upsert_pdf_reference(json_path: Path, pdf_path: Path) -> tuple[bool, dict[st
 def main() -> int:
     site_dir = Path(__file__).resolve().parent.parent
     default_pdf_dir = site_dir / "PDFs"
-    default_out = default_pdf_dir / "programme_page8.jpg"  # nom fixe => remplace l'ancien
     default_pdfs_json = site_dir / "data" / "PDFs.json"
 
     parser = argparse.ArgumentParser(
@@ -225,8 +231,7 @@ def main() -> int:
     parser.add_argument(
         "--out",
         type=str,
-        default=str(default_out),
-        help="Chemin du JPG de sortie (defaut: PDFs/programme_page8.jpg)",
+        help="Chemin du JPG de sortie (defaut: PDFs/<nom du PDF>-page8.jpg)",
     )
     parser.add_argument(
         "--pdfs-json",
@@ -246,11 +251,16 @@ def main() -> int:
     args = parser.parse_args()
 
     pdf_dir = _resolve_arg_path(args.pdf_dir, site_dir)
-    out_path = _resolve_arg_path(args.out, site_dir)
     pdfs_json_path = _resolve_arg_path(args.pdfs_json, site_dir)
 
     try:
         latest_pdf = pick_latest_pdf(pdf_dir)
+        build_pdf_reference(latest_pdf)
+        out_path = (
+            _resolve_arg_path(args.out, site_dir)
+            if args.out
+            else default_pdf_dir / f"{latest_pdf.stem}-page8.jpg"
+        )
         render_page_to_jpeg(
             pdf_path=latest_pdf,
             out_path=out_path,
@@ -258,7 +268,8 @@ def main() -> int:
             target_width_px=args.width,
             quality=args.quality,
         )
-        json_changed, new_ref = upsert_pdf_reference(pdfs_json_path, latest_pdf)
+        apercu = out_path.name if out_path.parent.resolve() == default_pdf_dir.resolve() else None
+        json_changed, new_ref = upsert_pdf_reference(pdfs_json_path, latest_pdf, apercu)
     except Exception as exc:
         print(f"Erreur: {exc}", file=sys.stderr)
         return 1
