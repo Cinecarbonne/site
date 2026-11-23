@@ -1,5 +1,1 @@
-import { getStore } from '@netlify/blobs';
-import { handler } from '../lib/carnet-vote/vote-handler.mjs';
-import catalog from '../../carnet-2027/data/catalog.json' with { type:'json' };
-import activation from '../lib/carnet-vote/bootstrap.json' with { type:'json' };
-export default handler({store:()=>getStore({name:'carnet-vote-2027',region:'eu-central-1',consistency:'strong'}),films:catalog.films,bootstrapHash:()=>activation.sha256});
+export default async () => new Response(JSON.stringify({error:"Le vote collectif a été arrêté. Le carnet personnel est disponible sur https://cpasgrave.github.io/carnet-cine-carbonne-2027/"}), {status:410,headers:{"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"}});

@@ -2,8 +2,7 @@
   "name": "cinecarbonne-site",
   "private": true,
   "scripts": {
-    "test:site": "node --test outils/tests/test_seances.cjs outils/tests/test_publication_site.mjs",
-    "test:vote": "node --test outils/tests/test_carnet_vote.mjs"
+    "test:site": "node --test outils/tests/test_seances.cjs outils/tests/test_publication_site.mjs"
   },
   "engines": {
     "node": ">=22"
